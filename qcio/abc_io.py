@@ -24,7 +24,7 @@ class InputBase(QCIOBaseModel):
         molecule: The Molecule for the computation.
     """
 
-    spec: SpecificationBase
+    specification: SpecificationBase
 
 
 class QCIOInputBase(InputBase):

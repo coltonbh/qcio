@@ -10,9 +10,9 @@ def test_from_directory(test_data_dir):
         extras={"my_extra": "123"},
     )
 
-    assert generic_inp.spec.program == "terachem"
+    assert generic_inp.specification.program == "terachem"
     assert generic_inp.extras == {"my_extra": "123"}
-    for filename, file in generic_inp.spec.files.items():
+    for filename, file in generic_inp.specification.files.items():
         data = (test_data_dir / "generic_inputs" / filename).read_bytes()
         try:
             str_data = data.decode("utf-8")
@@ -29,7 +29,7 @@ def test_to_directory(test_data_dir, tmp_path):
         extras={"my_extra": "123"},
     )
     generic_inp.to_directory(tmp_path)
-    for filename in generic_inp.spec.files:
+    for filename in generic_inp.specification.files:
         # Ensure files were written
         assert (tmp_path / filename).exists()
         # Ensure files are identical to input files
@@ -45,12 +45,12 @@ def test_to_from_file_with_binary_data(test_data_dir, tmp_path):
         extras={"my_extra": "123"},
     )
     # Ensure that we have binary data
-    assert isinstance(generic_inp.spec.files["c0"].data, bytes)
+    assert isinstance(generic_inp.specification.files["c0"].data, bytes)
     # Write GenericInput to disk using .json() serialization
     generic_inp.to_file(tmp_path / "generic_input.json")
     # Ensure data was properly json serialized
     data = json.loads((tmp_path / "generic_input.json").read_text())
-    assert data["spec"]["files"]["c0"]["data"].startswith("base64:")
+    assert data["specification"]["files"]["c0"]["data"].startswith("base64:")
     # Parse GenericInput from disk using deserialization
     generic_inp_reloaded = GenericFileInput.from_file(tmp_path / "generic_input.json")
     # Assure all data returned to correct bytes or str representation

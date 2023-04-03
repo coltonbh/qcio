@@ -33,13 +33,15 @@ class GenericFileInput(InputBase):
                     file = File(data=data)
                 files[filepath.name] = file
 
-        return cls(spec=SpecificationBase(program=program, files=files), extras=extras)
+        return cls(
+            specification=SpecificationBase(program=program, files=files), extras=extras
+        )
 
     def to_directory(self, directory: Union[str, Path] = Path(".")) -> None:
         """Write files to a directory."""
         directory = Path(directory)
         directory.mkdir(exist_ok=True)
-        for filename, file in self.spec.files.items():
+        for filename, file in self.specification.files.items():
             file.to_disk(directory / filename)
 
 
