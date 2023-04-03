@@ -1,0 +1,7 @@
+run                   gradient
+coordinates           water.xyz
+charge                0
+spinmult              1
+basis                 6-31g
+method                b3lyp
+purify                no
