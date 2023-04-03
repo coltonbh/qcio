@@ -1,0 +1,2 @@
+This file just tests that when loading a GenericInput from the "generic_input" test 
+data it has no problems ignoring files nested further in the directory.

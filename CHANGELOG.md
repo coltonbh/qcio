@@ -8,5 +8,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
+- Core models for Single Point calculations:
+  - `FileArgs`
+  - `FileInput`
+  - `FileSuccessfulOutput`
+  - `FileFailedOutput`
+  - `Provenance`
+  - `Model`
+  - `SPCalcType`
+  - `SinglePointProgramArgs`
+  - `SinglePointInput`
+  - `SinglePointSuccessfulOutput`
+  - `SinglePointFailedOutput`
+  - `SinglePointComputedProperties`
+  - `Wavefunction`
+
 [unreleased]: https://github.com/coltonbh/qcio/compare/0.1.0...HEAD
 [0.1.0]: https://github.com/coltonbh/qcio/releases/tag/0.1.0

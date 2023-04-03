@@ -18,9 +18,22 @@ def test_from_xyz(test_data_dir):
 
 
 def test_to_file_xyz(test_data_dir, tmp_path):
-    caffeine = Molecule.from_file(test_data_dir / "caffeine.xyz")
-    caffeine.to_file(tmp_path / "caffeine_copy.xyz")
+    caffeine = Molecule.open(test_data_dir / "caffeine.xyz")
+    caffeine.save(tmp_path / "caffeine_copy.xyz")
     caffeine_copy = Molecule._from_xyz(tmp_path / "caffeine_copy.xyz")
+    assert caffeine_copy.symbols == caffeine.symbols
+    for i in range(len(caffeine.geometry)):
+        assert caffeine_copy.geometry[i] == pytest.approx(
+            caffeine.geometry[i], rel=1e-9
+        )
+    assert caffeine_copy.multiplicity == caffeine.multiplicity
+    assert caffeine_copy.charge == caffeine.charge
+
+
+def test_to_from_file_json(test_data_dir, tmp_path):
+    caffeine = Molecule.open(test_data_dir / "caffeine.xyz")
+    caffeine.save(tmp_path / "caffeine_copy.json")
+    caffeine_copy = Molecule.open(tmp_path / "caffeine_copy.json")
     assert caffeine_copy.symbols == caffeine.symbols
     for i in range(len(caffeine.geometry)):
         assert caffeine_copy.geometry[i] == pytest.approx(
