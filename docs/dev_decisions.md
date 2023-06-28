@@ -18,3 +18,9 @@
 - `Files` is really the parent class of `Specification`. A `Specification` is an extraction from generic input files of various unstructured values and the placing of those values into structured format.
   - So it could make sense to have `FileInput` have a `.specification` but then I have doubly nested the only object that matters, `Files`, at `FileInput.specification.files` rather than just using the `Files` object directly as a way to maintain a design pattern. I think for now it's better to just keep it flat and allow using `Files` as an input object to `compute`.
 - Maybe rename `Specification` to something more helpful. It is technically the program inputs.
+
+## Publishing Checklist
+
+- Update `CHANGELOG.md`
+- Bump version in `pyproject.toml`
+- Tag commit with a version and GitHub Actions will publish it to pypi if tag is on `master` branch.
