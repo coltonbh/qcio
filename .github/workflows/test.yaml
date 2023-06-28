@@ -16,4 +16,9 @@ jobs:
       - name: Install repo
         run: poetry install --no-interaction --no-ansi
       - name: Run tests
-        run: bash scripts/test.sh
+        run: bash scripts/tests.sh
+      - name: Upload coverage HTML
+        uses: actions/upload-artifact@v3
+        with:
+          name: htmlcov
+          path: htmlcov

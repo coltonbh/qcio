@@ -5,7 +5,7 @@ build-backend = "poetry.core.masonry.api"
 [tool.poetry]
 name = "qcio"
 version = "0.0.2"
-description = "A package for structured Quantum Chemistry data."
+description = "Beautiful and user friendly data structures for quantum chemistry."
 authors = ["Colton Hicks <github@coltonhicks.com>"]
 license = "MIT"
 readme = "README.md"
@@ -13,9 +13,10 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.8"
 pydantic = "^1.10.7"
+numpy = ">=1.20"
 
 [tool.poetry.group.dev.dependencies]
-black = "^23.1.0"
+black = "^23.3.0"
 mypy = "^1.1.1"
 pytest = "^7.2.2"
 pre-commit = "^3.2.1"
@@ -26,6 +27,13 @@ typing-extensions = "^4.5.0"
 
 [tool.black]
 line-length = 88
+
+[tool.isort]
+force_grid_wrap = 0
+include_trailing_comma = true
+line_length = 88
+multi_line_output = 3
+use_parentheses = true
 
 [tool.ruff]
 line-length = 88

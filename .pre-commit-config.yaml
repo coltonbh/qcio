@@ -25,7 +25,7 @@ repos:
     hooks:
       - id: isort
   - repo: https://github.com/psf/black
-    rev: 23.1.0
+    rev: 23.3.0
     hooks:
       - id: black
   - repo: https://github.com/pre-commit/mirrors-mypy
@@ -40,6 +40,6 @@ repos:
         name: tests
         stages: [push]
         language: system
-        entry: poetry run pytest --cov-report html:htmlcov --cov -v
+        entry: poetry run pytest
         types: [python]
         pass_filenames: false

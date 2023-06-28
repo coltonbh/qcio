@@ -2,6 +2,6 @@
 
 set -x
 
-black .
-isort .
-ruff check --fix .
+poetry run black .
+poetry run isort .
+poetry run ruff check --fix .

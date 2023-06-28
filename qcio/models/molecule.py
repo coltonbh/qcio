@@ -1,13 +1,22 @@
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Optional, Union
 
+import numpy as np
+from pydantic import validator
 from typing_extensions import Self
 
-from .abc_base import QCIOBaseModel
-from .constants import BOHR_TO_ANGSTROM
+from qcio.constants import BOHR_TO_ANGSTROM
+from qcio.helper_types import ArrayLike2D
+
+from .base_model import QCIOModelBase
+
+if TYPE_CHECKING:
+    from pydantic.typing import ReprArgs
+
+__all__ = ["Molecule", "Identifiers"]
 
 
-class Identifiers(QCIOBaseModel):
+class Identifiers(QCIOModelBase):
     """Molecule identifiers.
 
     Attributes:
@@ -42,24 +51,24 @@ class Identifiers(QCIOBaseModel):
     canonical_isomeric_explicit_hydrogen_smiles: Optional[str] = None
     canonical_isomeric_smiles: Optional[str] = None
     canonical_smiles: Optional[str] = None
-    pubchem_cid: Optional[str]
-    pubchem_sid: Optional[str]
-    pubchem_conformerid: Optional[str]
+    pubchem_cid: Optional[str] = None
+    pubchem_sid: Optional[str] = None
+    pubchem_conformerid: Optional[str] = None
 
 
-class Bond(QCIOBaseModel):
-    """A bond object.
+# class Bond(QCIOModelBase):
+#     """A bond object.
 
-    Attributes:
-        indices: The indices of the atoms in the bond.
-        order: The order of the bond.
-    """
+#     Attributes:
+#         indices: The indices of the atoms in the bond.
+#         order: The order of the bond.
+#     """
 
-    indices: Tuple[int, int]
-    order: Optional[float]
+#     indices: Tuple[int, int]
+#     order: Optional[float]
 
 
-class Molecule(QCIOBaseModel):
+class Molecule(QCIOModelBase):
     """A molecule object.
 
     Attributes:
@@ -68,32 +77,66 @@ class Molecule(QCIOBaseModel):
             Bohr.
         identifiers: Identifiers for the molecule such as name, smiles, etc.
         charge: The molecular charge.
-        multiplicity: The molecular multiplicity.
         connectivity: Explicit description of the bonds between atoms.
+        multiplicity: The molecular multiplicity.
         masses: Explicit masses for the atoms. If not set, default isotopic masses are
             used.
     """
 
     symbols: List[str]
-    geometry: List[List[float]]
+    geometry: ArrayLike2D
     charge: int = 0
     multiplicity: int = 1
-    masses: Optional[List[float]] = None
-    connectivity: Optional[List[Bond]] = None
     identifiers: Identifiers = Identifiers()
+    # masses: Optional[List[float]] = None
+    # connectivity: Optional[List[Bond]] = None
+
+    def __repr_args__(self) -> "ReprArgs":
+        """A helper for __repr__ that returns a list of tuples of the form
+        (name, value).
+        """
+        return [("name", self.identifiers.name_common), ("symbols", self.symbols)]
+
+    @validator("geometry")
+    def shape_n_by_3(cls, v, values, **kwargs):
+        """Ensure there is an x, y, and z coordinate for each atom."""
+        n_atoms = len(values["symbols"])
+        return np.array(v).reshape(n_atoms, 3)
 
     @classmethod
-    def from_file(cls, filepath: Union[Path, str]) -> Self:
+    def open(cls, filepath: Union[Path, str]) -> Self:
+        """Open a molecule from a file.
+
+        Args:
+            filepath: The path to the file to open. Maybe a path to a JSON file or an
+                XYZ file.
+        """
+
         filepath = Path(filepath)
         if filepath.suffix == ".xyz":
             return cls._from_xyz(filepath)
-        return super().from_file(filepath)
+        return super().open(filepath)
 
-    def to_file(self, filepath: Union[Path, str]) -> None:
+    def save(
+        self, filepath: Union[Path, str], exclude_none: bool = True, **kwargs
+    ) -> None:
+        """Save a molecule to a file.
+
+        Args:
+            filepath: The path to save the molecule to.
+            exclude_none: If True, attributes with a value of None will not be written
+                to the file.
+            **kwargs: Additional keyword arguments to pass to the json serializer.
+
+        Notes:
+            If the filepath has a .xyz extension, the molecule will be saved to an XYZ
+            file.
+        """
         filepath = Path(filepath)
         if filepath.suffix == ".xyz":
-            return self._to_xyz(filepath)
-        return super().to_file(filepath)
+            self._to_xyz(filepath)
+            return
+        super().save(filepath, **kwargs)
 
     def _to_xyz(self, filepath: Union[Path, str]) -> None:
         """Write a molecule to an XYZ file.
@@ -107,9 +150,9 @@ class Molecule(QCIOBaseModel):
             "qcio_charge": self.charge,
             "qcio_multiplicity": self.multiplicity,
         }
-        geometry_angstrom = [
-            [val * BOHR_TO_ANGSTROM for val in row] for row in self.geometry
-        ]
+        assert isinstance(self.geometry, np.ndarray)  # For mypy
+        geometry_angstrom = self.geometry * BOHR_TO_ANGSTROM
+
         with open(filepath, "w") as f:
             f.write(f"{len(self.symbols)}\n")
             f.write(f"{' '.join([f'{k}={v}' for k, v in qcio_kwargs.items()])}\n")
