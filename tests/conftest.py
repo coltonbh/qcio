@@ -3,7 +3,8 @@ from pathlib import Path
 import numpy as np
 import pytest
 
-from qcio import Molecule, SinglePointInput, SinglePointSuccessfulOutput
+from qcio import SinglePointInput, SinglePointSuccessfulOutput
+from qcio.utils import water as water_mol
 
 
 @pytest.fixture
@@ -15,12 +16,7 @@ def test_data_dir():
 @pytest.fixture
 def water():
     """Water molecule fixture"""
-    return Molecule(
-        symbols=["O", "H", "H"],
-        geometry=[0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0, 1.0, 0.0],
-        charge=0,
-        multiplicity=1,
-    )
+    return water_mol
 
 
 @pytest.fixture
@@ -64,6 +60,6 @@ def sp_successful_output(sp_input):
             "gradient": gradient,
             "hessian": hessian,
         },
-        provenance={"program": "qcio-test-suite"},
+        provenance={"program": "qcio-test-suite", "working_dir": "/tmp/qcio"},
         extras={"some_extra": 1},
     )

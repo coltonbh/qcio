@@ -24,3 +24,5 @@
 - Update `CHANGELOG.md`
 - Bump version in `pyproject.toml`
 - Tag commit with a version and GitHub Actions will publish it to pypi if tag is on `master` branch.
+- `git push`
+- `git push --tags`

@@ -7,6 +7,8 @@
         "conformerid",
         "dtype",
         "Hartrees",
+        "hostcpus",
+        "hostmem",
         "htmlcov",
         "inchi",
         "inchikey",
@@ -16,12 +18,18 @@
         "natoms",
         "nbasis",
         "nbeta",
+        "ncpus",
         "ndarray",
+        "pstdout",
+        "ptraceback",
         "pubchem",
         "pypa",
         "pypi",
+        "qcel",
         "QCIO",
+        "stdoutp",
         "strfile",
-        "terachem"
+        "terachem",
+        "tracebackp"
     ]
 }

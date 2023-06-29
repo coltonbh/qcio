@@ -30,12 +30,13 @@ class Files(BaseModel):
     def dict(self, *args, **kwargs):
         """Return a dict representation of the object encoding bytes as b64 strings."""
         dict = super().dict(*args, **kwargs)
-        files = {}
-        for filename, data in self.files.items():
-            if isinstance(data, bytes):
-                data = f"base64:{b64encode(data).decode('utf-8')}"
-            files[filename] = data
-        dict["files"] = files
+        if self.files:  # clause so that empty files dict is not included in dict
+            files = {}
+            for filename, data in self.files.items():
+                if isinstance(data, bytes):
+                    data = f"base64:{b64encode(data).decode('utf-8')}"
+                files[filename] = data
+            dict["files"] = files
         return dict
 
     def json(self, *args, **kwargs):
