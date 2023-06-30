@@ -1,6 +1,6 @@
 import json
 
-from qcio.mixins import Files
+from qcio.models import Files
 
 
 def test_binary_file(test_data_dir, tmp_path):

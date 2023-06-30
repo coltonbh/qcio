@@ -119,8 +119,13 @@ class QCIOModelBase(BaseModel, ABC):
         # filepath.write(self.model_dump())
 
     def __repr_args__(self):
+        """Only show non empty fields in repr."""
+
+        def exists(value):
+            if isinstance(value, np.ndarray):
+                return value.size > 0
+            return bool(value)
+
         return [  # pragma: no cover
-            (name, value)
-            for name, value in self.__dict__.items()
-            if name != "extras"  # Ignore "extras" field
+            (name, value) for name, value in self.__dict__.items() if exists(value)
         ]
