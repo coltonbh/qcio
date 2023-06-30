@@ -16,6 +16,7 @@
   - Anything that doesn't directly control the program--like keywords or other settings for the external program--shouldn't be passes as part of the input data. Rather it should be thought of as control parameters for the executing wrapper (`qcop`). E.g., to collect stdout or not should not be an "input" field, that is a question of whether `qcopt` collects and returns stdout, it's not an "input" to the program.
 - Where to place `program`?
   - Should it be part of the `Specification`?
+  - Should it be in the input data? No. Does a TeraChem input file have the program "terachem" stated in it? No. Running TeraChem is a command line argument specified at runtime, not a data input.
 - `Files` is really the parent class of `Specification`. A `Specification` is an extraction from generic input files of various unstructured values and the placing of those values into structured format.
   - So it could make sense to have `FileInput` have a `.specification` but then I have doubly nested the only object that matters, `Files`, at `FileInput.specification.files` rather than just using the `Files` object directly as a way to maintain a design pattern. I think for now it's better to just keep it flat and allow using `Files` as an input object to `compute`.
 - Maybe rename `Specification` to something more helpful. It is technically the program inputs.

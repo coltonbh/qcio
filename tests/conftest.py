@@ -3,7 +3,7 @@ from pathlib import Path
 import numpy as np
 import pytest
 
-from qcio import SinglePointInput, SinglePointResult
+from qcio import ProgramInput, SinglePointOutput
 from qcio.utils import water as water_mol
 
 
@@ -25,7 +25,7 @@ def sp_input(water):
     calculation type."""
 
     def _create_sp_input(calctype):
-        return SinglePointInput(
+        return ProgramInput(
             molecule=water,
             calctype=calctype,
             model={"method": "hf", "basis": "sto-3g"},
@@ -50,10 +50,10 @@ def sp_result(sp_input):
     gradient = np.arange(n_atoms * 3).reshape(n_atoms, 3)
     hessian = np.arange(n_atoms**2 * 3**2).reshape(n_atoms * 3, n_atoms * 3)
 
-    return SinglePointResult(
+    return SinglePointOutput(
         input_data=sp_inp_energy,
         stdout="program standard out...",
-        computed={
+        results={
             "energy": energy,
             "gradient": gradient,
             "hessian": hessian,

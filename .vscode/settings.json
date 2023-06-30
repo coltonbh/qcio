@@ -7,6 +7,7 @@
         "classmethod",
         "conformerid",
         "dtype",
+        "freqs",
         "Hartrees",
         "hostcpus",
         "hostmem",
@@ -28,10 +29,12 @@
         "pypi",
         "qcel",
         "QCIO",
+        "qcop",
         "rargs",
         "stdoutp",
         "strfile",
         "terachem",
-        "tracebackp"
+        "tracebackp",
+        "wavenumber"
     ]
 }

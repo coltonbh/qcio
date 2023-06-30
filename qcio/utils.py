@@ -1,4 +1,12 @@
-from .models import Molecule
+from typing import Optional
+
+from .models import (
+    CalcType,
+    FileOutput,
+    Molecule,
+    OptimizationOutput,
+    SinglePointOutput,
+)
 
 # Helper Molecules
 water = Molecule(
@@ -7,3 +15,16 @@ water = Molecule(
     charge=0,
     multiplicity=1,
 )
+
+
+def calctype_to_output(calctype: Optional[CalcType]):
+    """Return the output object for the given calculation type."""
+    calctype_to_output = {
+        None: FileOutput,  # Covers FileInput case
+        CalcType.energy: SinglePointOutput,
+        CalcType.gradient: SinglePointOutput,
+        CalcType.hessian: SinglePointOutput,
+        CalcType.optimization: OptimizationOutput,
+        CalcType.transition_state: OptimizationOutput,
+    }
+    return calctype_to_output[calctype]

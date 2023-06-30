@@ -9,7 +9,7 @@ from typing_extensions import Self
 from qcio.constants import BOHR_TO_ANGSTROM
 from qcio.helper_types import ArrayLike2D
 
-from .base_model import QCIOModelBase
+from .base_models import QCIOModelBase
 
 if TYPE_CHECKING:
     from pydantic.typing import ReprArgs
