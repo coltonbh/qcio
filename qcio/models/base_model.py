@@ -51,7 +51,6 @@ class QCIOModelBase(BaseModel, ABC):
         """
         model_dict = super().dict(**kwargs)
         to_pop = []
-        print(self.__class__.__name__)
         for key, value in model_dict.items():
             # Custom serialization for numpy arrays, enums, and pathlib Paths
             if isinstance(value, np.ndarray):

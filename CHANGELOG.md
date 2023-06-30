@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+## [0.2.1]
+
+### Fixed
+
+- Removed mistaken call to `print()` leftover from debugging.
+
 ## [0.2.0]
 
 ### Added
@@ -39,5 +45,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `SinglePointComputedProperties`
   - `Wavefunction`
 
-[unreleased]: https://github.com/coltonbh/qcio/compare/0.1.0...HEAD
+[unreleased]: https://github.com/coltonbh/qcio/compare/0.2.1...HEAD
+[0.2.1]: https://github.com/coltonbh/qcio/releases/tag/0.2.1
+[0.2.0]: https://github.com/coltonbh/qcio/releases/tag/0.2.0
 [0.1.0]: https://github.com/coltonbh/qcio/releases/tag/0.1.0
