@@ -87,8 +87,8 @@ class Molecule(QCIOModelBase):
     charge: int = 0
     multiplicity: int = 1
     identifiers: Identifiers = Identifiers()
-    # masses: Optional[List[float]] = None
-    # connectivity: Optional[List[Bond]] = None
+    # masses: List[float] = []
+    # connectivity: List[Bond] = []
 
     def __repr_args__(self) -> "ReprArgs":
         """A helper for __repr__ that returns a list of tuples of the form

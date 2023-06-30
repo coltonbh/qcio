@@ -4,6 +4,7 @@
 
 - In keeping with [pydantic-v2](https://docs.pydantic.dev/blog/pydantic-v2/) I will just support `.json` for now to keep things maximally simple. I don't see any reason to support more formats at this time.
 - All units are Atomic Units (AU). E.g., this means geometries in `Molecule` are defined in `Bohr`.
+- All container objects that may be empty (e.g., `keywords`)--dicts, lists, sets, etc.--will be set to an empty object by default rather than `Optional[container] = None`. This makes accessing the attributes for end users more routine because they can run `obj.extras.get()` without having to do `if obj.extras is not None` check first. Or `len(obj.some_list)` while avoiding `not None` checks.
 
 ## Road Map
 

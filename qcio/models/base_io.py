@@ -1,14 +1,26 @@
 """Base classes for qcio input and output objects."""
+
+import json
 from abc import abstractmethod
+from base64 import b64decode, b64encode
 from pathlib import Path
 from traceback import format_exception
-from typing import TYPE_CHECKING, Any, Dict, Literal, Optional, Type
+from typing import TYPE_CHECKING, Any, Dict, List, Literal, Optional, Type, Union
 
-from ..mixins import Files
+from pydantic import BaseModel, validator
+
+from ..helper_types import StrOrPath
 from .base_model import QCIOModelBase
 from .molecule import Molecule
 
-__all__ = ["Provenance"]
+__all__ = [
+    "Provenance",
+    "ProgramArgs",
+    "Files",
+    "InputBase",
+    "ComputedPropsBase",
+    "OutputBase",
+]
 
 
 if TYPE_CHECKING:  # pragma: no cover
@@ -40,14 +52,124 @@ class Provenance(QCIOModelBase):
     hostmem: Optional[int] = None
 
 
-class ComputedPropertiesBase(QCIOModelBase):
+class ComputedPropsBase(QCIOModelBase):
     """Base class for all properties computed by a program"""
 
     pass
 
 
-class ProgramArgsBase(QCIOModelBase, Files):
-    """Arguments for a QC program.
+class Files(BaseModel):
+    """File model for handling string and binary data.
+
+    Attributes:
+        files: A dict mapping filename to str or bytes data.
+    """
+
+    files: Dict[str, Union[str, bytes]] = {}
+
+    @validator("files", pre=True)
+    def convert_base64_to_bytes(cls, value):
+        """Convert base64 encoded data to bytes."""
+        for filename, data in value.items():
+            if isinstance(data, str) and data.startswith("base64:"):
+                value[filename] = b64decode(data[7:])
+        return value
+
+    def dict(self, *args, **kwargs):
+        """Return a dict representation of the object encoding bytes as b64 strings."""
+        dict = super().dict(*args, **kwargs)
+        if self.files:  # clause so that empty files dict is not included in dict
+            files = {}
+            for filename, data in self.files.items():
+                if isinstance(data, bytes):
+                    data = f"base64:{b64encode(data).decode('utf-8')}"
+                files[filename] = data
+            dict["files"] = files
+        return dict
+
+    def json(self, *args, **kwargs):
+        """Return a JSON representation of the object."""
+        return json.dumps(self.dict(*args, **kwargs))
+
+    def add_file(
+        self, filepath: Union[Path, str], relative_dir: Optional[Path] = None
+    ) -> None:
+        """Create a File object from a file on disk.
+
+        Args:
+            filepath: The path to the file.
+            relative_dir: The directory to make the file relative to. Helpful when
+                adding files from a subdirectory.
+        """
+        filepath = Path(filepath)
+        raw_bytes = filepath.read_bytes()
+        try:
+            data: Union[str, bytes] = raw_bytes.decode("utf-8")  # str
+        except UnicodeDecodeError:
+            data = raw_bytes  # bytes
+
+        # Set filename relative to relative_dir
+        if relative_dir:
+            filename = str(filepath.relative_to(relative_dir))
+        else:
+            filename = filepath.name
+
+        self.files[filename] = data
+
+    def add_files(
+        self,
+        directory: StrOrPath,
+        recursive: bool = False,
+        exclude: Optional[List[str]] = None,
+    ) -> None:
+        """Add all files in a directory to the object.
+
+        Args:
+            directory: The directory to add files from.
+            recursive: Whether to recursively add files from subdirectories.
+            exclude: A list of filenames to exclude from the directory.
+        """
+        directory = Path(directory)
+        if exclude is None:
+            exclude = []
+        if recursive:
+            files = directory.rglob("*")
+        else:
+            files = directory.glob("*")
+        for filepath in files:
+            if filepath.is_file() and filepath.name not in exclude:
+                self.add_file(filepath, directory)
+
+    def write_files(self, directory: StrOrPath = Path(".")) -> None:
+        """Write all files to the specified directory"""
+        directory = Path(directory)
+        directory.mkdir(exist_ok=True)
+        for filename, data in self.files.items():
+            mode = "w" if isinstance(data, str) else "wb"
+            filepath = directory / filename
+            # In case filename is a relative path, create the parent directories
+            filepath.parent.mkdir(exist_ok=True, parents=True)
+            filepath.open(mode).write(data)
+
+    def __repr_args__(self) -> "ReprArgs":
+        """Replace file data with <bytes> or <str> in __repr__."""
+        rargs = super().__repr_args__()
+        return [
+            (k, v)
+            if k != "files"
+            else (
+                k,
+                {
+                    name: bytes if isinstance(data, bytes) else str
+                    for name, data in v.items()
+                },
+            )
+            for k, v in rargs
+        ]
+
+
+class InputBase(QCIOModelBase, Files):
+    """Base class for all program input objects.
 
     Attributes:
         files: A dict mapping filename to str or bytes data.
@@ -55,46 +177,18 @@ class ProgramArgsBase(QCIOModelBase, Files):
             development and scratch space.
     """
 
-
-class StructuredProgramArgsBase(ProgramArgsBase):
-    """Base Program Args class for structured qcio input classes.
-
-    This class is used to define the args for a structured qcio input class.
-
-    Attributes:
-        keywords: A dict of keywords to be passed to the program. Defaults to an empty
-            dict.
-        files: Files to be passed to the QC program.
-        extras: Additional information to bundle with the object. Use for schema
-            development and scratch space.
-    """
-
-    keywords: Dict[str, Any] = {}
-
-
-class InputBase(QCIOModelBase):
-    """Base class for all program input objects.
-
-    Attributes:
-        program_args: Input arguments for the program.
-        extras: Additional information to bundle with the object. Use for schema
-            development and scratch space.
-    """
-
-    program_args: ProgramArgsBase
-
     @abstractmethod
-    def get_failed_output_class(self) -> Type["FailedOutputBase"]:
+    def get_failed_output_class(self) -> Type["FailureBase"]:
         """Return the FailedOutput class for the input object."""
 
     @abstractmethod
-    def get_successful_output_class(self) -> Type["SuccessfulOutputBase"]:
+    def get_successful_output_class(self) -> Type["ResultBase"]:
         """Return the SuccessfulOutput class for the input object."""
 
     def to_success(
         self,
         provenance: Provenance,
-        computed: Optional[ComputedPropertiesBase] = None,
+        computed: Optional[ComputedPropsBase] = None,
         stdout: Optional[str] = None,
     ) -> "OutputBase":
         """Return a successful output object.
@@ -109,7 +203,7 @@ class InputBase(QCIOModelBase):
             input_data=self, provenance=provenance, computed=computed, stdout=stdout
         )
 
-    def to_failure(self, provenance: Provenance, exc: Exception) -> "FailedOutputBase":
+    def to_failure(self, provenance: Provenance, exc: Exception) -> "FailureBase":
         """Return a failed output object.
 
         Args:
@@ -130,24 +224,36 @@ class InputBase(QCIOModelBase):
             computed=computed,
         )
 
-    def __repr_args__(self) -> "ReprArgs":
-        return [("program_args", self.program_args)]  # pragma: no cover
+
+class ProgramArgs(InputBase):
+    """Core arguments for a program including keywords and files.
+
+    Attributes:
+        keywords: A dict of keywords to be passed to the program. Defaults to an empty
+            dict.
+        files: A dict mapping filename to str or bytes data.
+        extras: Additional information to bundle with the object. Use for schema
+
+    """
+
+    keywords: Dict[str, Any] = {}
 
 
-class StructuredInputBase(InputBase):
-    """Base class for all structured qcio input classes.
+class ProgramInputBase(ProgramArgs):
+    """Base class for all structured qcio input classes. ProgramArgs plus a Molecule.
 
     Structured inputs consist of args for a QC program and a Molecule.
 
     Attributes:
-        program_args: Structured input arguments for the program.
+        keywords: A dict of keywords to be passed to the program. Defaults to an empty
+            dict.
+        files: A dict mapping filename to str or bytes data.
         molecule: The molecule to be used in the calculation.
         extras: Additional information to bundle with the object. Use for schema
             development and scratch space.
 
     """
 
-    program_args: StructuredProgramArgsBase
     molecule: Molecule
 
 
@@ -159,11 +265,11 @@ class OutputBase(Files, QCIOModelBase):
         success: A boolean indicator that the operation succeeded or failed. Allows
             programmatic assessment of all outputs regardless of if they failed or
             succeeded by checking `output.success`.
+        computed: An object containing the computed properties from the output.
+        files: A dict mapping filename to str or bytes of files output by the program.
         stdout: The primary logging output of the program. Contains a union of stdout
             and stderr.
         provenance: An object containing the provenance information for the output.
-        computed: An object containing the computed properties from the output.
-        files: A dict mapping filename to str or bytes of files output by the program.
         extras: Additional information to bundle with the object. Use for schema
             development and scratch space.
     """
@@ -171,7 +277,7 @@ class OutputBase(Files, QCIOModelBase):
     input_data: InputBase
     success: bool
     stdout: Optional[str] = None
-    computed: Optional[ComputedPropertiesBase] = None
+    computed: Optional[ComputedPropsBase] = ComputedPropsBase()
     provenance: Provenance
 
     @property
@@ -184,14 +290,23 @@ class OutputBase(Files, QCIOModelBase):
         """Alias for provenance"""
         return self.provenance
 
+    def __repr_args__(self):
+        """Exclude stdout from the repr"""
+        return [
+            (key, value if key != "stdout" else "<...>")
+            for key, value in super().__repr_args__()
+        ]
 
-class SuccessfulOutputBase(OutputBase):
+
+class ResultBase(OutputBase):
     """Base object for any successful computation.
 
     Attributes:
 
         input_data: The input object for the computation.
         success: Always True for a successful output.
+        computed: Any computed data that was able to be extracted.
+        files: A dict mapping filename to str or bytes of files output by the program.
         stdout: The primary logging output of the program. Contains a union of stdout
             and stderr.
         provenance: An object containing the provenance information for the output.
@@ -202,37 +317,27 @@ class SuccessfulOutputBase(OutputBase):
     success: Literal[True] = True
 
 
-class FailedOutputBase(OutputBase):
+class FailureBase(OutputBase):
     """Base object for any failed computation.
 
     Attributes:
         input_data: The input object for the computation.
         success: Always False for a Failed output.
-        traceback: String representation of the traceback of the exception that caused
-            the failure.
         computed: Any computed data that was able to be extracted before the exception.
+        files: A dict mapping filename to str or bytes of files output by the program.
         stdout: The primary logging output of the program. Contains a union of stdout
             and stderr.
         provenance: An object containing the provenance information for the output.
+        traceback: String representation of the traceback of the exception that caused
+            the failure.
         extras: Additional information to bundle with the object. Use for schema
             development and scratch space.
     """
 
     success: Literal[False] = False
     traceback: Optional[str] = None
-    computed: Optional[Any] = None
 
     @property
     def ptraceback(self) -> None:
         """Print the traceback text"""
         print(self.traceback)
-
-    def __repr_args__(self) -> "ReprArgs":
-        """A helper for __repr__ that returns a list of tuples of the form
-        (name, value).
-        """
-        return [  # pragma: no cover
-            ("success", self.success),
-            ("input_data", self.input_data),
-            ("provenance", self.provenance),
-        ]

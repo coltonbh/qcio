@@ -3,6 +3,7 @@
     "cSpell.words": [
         "arange",
         "calcinfo",
+        "calctype",
         "classmethod",
         "conformerid",
         "dtype",
@@ -27,6 +28,7 @@
         "pypi",
         "qcel",
         "QCIO",
+        "rargs",
         "stdoutp",
         "strfile",
         "terachem",
