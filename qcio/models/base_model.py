@@ -1,9 +1,12 @@
 """The Base model from with all QCIO Model objects inherit."""
 from abc import ABC
+from enum import Enum
 from pathlib import Path
 from typing import Any, Dict, Union
 
 import numpy as np
+import toml
+import yaml
 from pydantic import BaseModel, Extra
 from typing_extensions import Self
 
@@ -46,13 +49,21 @@ class QCIOModelBase(BaseModel, ABC):
         multiple string serializers can used it without duplicating logic
         (e.g. json, yaml, toml).
         """
-        # Exclude empty lists and dictionaries from serialization
         model_dict = super().dict(**kwargs)
         to_pop = []
+        print(self.__class__.__name__)
         for key, value in model_dict.items():
+            # Custom serialization for numpy arrays, enums, and pathlib Paths
             if isinstance(value, np.ndarray):
                 model_dict[key] = value.tolist()
-            elif not value:  # None, empty list, empty dict
+            elif issubclass(type(value), Enum):
+                model_dict[key] = value.value
+            elif isinstance(value, Path):
+                model_dict[key] = str(value)
+
+            # Exclude empty lists, dictionaries, and objects with all None values from
+            # serialization
+            elif value in [None, [], {}]:
                 to_pop.append(key)
 
         for key in to_pop:
@@ -73,28 +84,43 @@ class QCIOModelBase(BaseModel, ABC):
             The instantiated object.
         """
         filepath = Path(filepath)
-        return cls.parse_raw(filepath.read_text())
+        data = filepath.read_text()
+
+        if filepath.suffix in [".yaml", ".yml"]:
+            return cls.parse_obj(yaml.safe_load(data))
+        elif filepath.suffix == ".toml":
+            return cls.parse_obj(toml.loads(data))
+
+        # Assume json for all other file extensions
+        return cls.parse_raw(data)
         # pydantic v2
         # return cls.model_validate_json(filepath.read_text())
 
-    def save(
-        self, filepath: Union[Path, str], exclude_none: bool = True, **kwargs
-    ) -> None:
+    def save(self, filepath: Union[Path, str], **kwargs) -> None:
         """Write an object to disk as json.
 
         Args:
-            filepath: The path to write the object to.
-            exclude_none: If True, do not write fields with value None to disk.
-            **kwargs: Additional arguments to pass to json().
+            filepath: The path to write the object to.I
         """
         filepath = Path(filepath)
         filepath.parent.mkdir(exist_ok=True, parents=True)
-        filepath.write_text(self.json(exclude_none=exclude_none, **kwargs))
+
+        if filepath.suffix in [".yaml", ".yml"]:
+            data = yaml.dump(self.dict(**kwargs))
+
+        elif filepath.suffix == ".toml":
+            data = toml.dumps(self.dict(**kwargs))
+
+        else:
+            # Write data to json regardless of file extension
+            data = self.json(**kwargs)
+
+        filepath.write_text(data)
         # pydantic v2
         # filepath.write(self.model_dump())
 
     def __repr_args__(self):
-        return [
+        return [  # pragma: no cover
             (name, value)
             for name, value in self.__dict__.items()
             if name != "extras"  # Ignore "extras" field

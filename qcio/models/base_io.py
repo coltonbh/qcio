@@ -1,5 +1,6 @@
 """Base classes for qcio input and output objects."""
 from abc import abstractmethod
+from pathlib import Path
 from traceback import format_exception
 from typing import TYPE_CHECKING, Any, Dict, Literal, Optional, Type
 
@@ -10,7 +11,7 @@ from .molecule import Molecule
 __all__ = ["Provenance"]
 
 
-if TYPE_CHECKING:
+if TYPE_CHECKING:  # pragma: no cover
     from pydantic.typing import ReprArgs
 
 
@@ -21,6 +22,10 @@ class Provenance(QCIOModelBase):
         program: The name of the program that created the output.
         version: The version of the program that created the output.
         working_dir: The working directory used by the program.
+        wall_time: The wall time used by the program.
+        hostname: The hostname of the machine the program was run on.
+        hostcpus: The number of logical cpus on the host machine where the program ran.
+        hostmem: The amount of memory on the host machine where the program ran in GiB.
         extras: Additional information to bundle with the object. Use for schema
             development and scratch space.
 
@@ -28,10 +33,11 @@ class Provenance(QCIOModelBase):
 
     program: str
     program_version: Optional[str] = None
-    working_dir: Optional[str] = None
-
-    def __repr_args__(self) -> "ReprArgs":
-        return [("program", self.program), ("program_version", self.program_version)]
+    working_dir: Optional[Path] = None
+    wall_time: Optional[float] = None
+    hostname: Optional[str] = None
+    hostcpus: Optional[int] = None
+    hostmem: Optional[int] = None
 
 
 class ComputedPropertiesBase(QCIOModelBase):
@@ -80,12 +86,10 @@ class InputBase(QCIOModelBase):
     @abstractmethod
     def get_failed_output_class(self) -> Type["FailedOutputBase"]:
         """Return the FailedOutput class for the input object."""
-        raise NotImplementedError()
 
     @abstractmethod
     def get_successful_output_class(self) -> Type["SuccessfulOutputBase"]:
         """Return the SuccessfulOutput class for the input object."""
-        raise NotImplementedError()
 
     def to_success(
         self,
@@ -127,7 +131,7 @@ class InputBase(QCIOModelBase):
         )
 
     def __repr_args__(self) -> "ReprArgs":
-        return [("program_args", self.program_args)]
+        return [("program_args", self.program_args)]  # pragma: no cover
 
 
 class StructuredInputBase(InputBase):
@@ -170,9 +174,15 @@ class OutputBase(Files, QCIOModelBase):
     computed: Optional[ComputedPropertiesBase] = None
     provenance: Provenance
 
-    def print_stdout(self) -> None:
+    @property
+    def pstdout(self) -> None:
         """Print the stdout text"""
         print(self.stdout)
+
+    @property
+    def prov(self) -> Provenance:
+        """Alias for provenance"""
+        return self.provenance
 
 
 class SuccessfulOutputBase(OutputBase):
@@ -212,11 +222,16 @@ class FailedOutputBase(OutputBase):
     traceback: Optional[str] = None
     computed: Optional[Any] = None
 
+    @property
+    def ptraceback(self) -> None:
+        """Print the traceback text"""
+        print(self.traceback)
+
     def __repr_args__(self) -> "ReprArgs":
         """A helper for __repr__ that returns a list of tuples of the form
         (name, value).
         """
-        return [
+        return [  # pragma: no cover
             ("success", self.success),
             ("input_data", self.input_data),
             ("provenance", self.provenance),

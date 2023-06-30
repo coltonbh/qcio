@@ -1,3 +1,4 @@
+from collections import Counter
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, Dict, List, Optional, Union
 
@@ -21,8 +22,7 @@ class Identifiers(QCIOModelBase):
 
     Attributes:
         name_IUPAC: The IUPAC name of the molecule.
-        name_common: the common name of the molecule.
-        molecule_hash: A hash of the molecule.
+        name_common: The common name of the molecule.
         smiles: The SMILES representation of the molecule.
         inchi: The InChI representation of the molecule.
         inchikey: The InChIKey representation of the molecule.
@@ -42,7 +42,6 @@ class Identifiers(QCIOModelBase):
 
     name_IUPAC: Optional[str] = None
     name_common: Optional[str] = None
-    molecule_hash: Optional[str] = None
     smiles: Optional[str] = None
     inchi: Optional[str] = None
     inchikey: Optional[str] = None
@@ -95,13 +94,40 @@ class Molecule(QCIOModelBase):
         """A helper for __repr__ that returns a list of tuples of the form
         (name, value).
         """
-        return [("name", self.identifiers.name_common), ("symbols", self.symbols)]
+        return [  # pragma: no cover
+            ("name", self.identifiers.name_common),
+            ("formula", self.formula),
+        ]
 
     @validator("geometry")
     def shape_n_by_3(cls, v, values, **kwargs):
         """Ensure there is an x, y, and z coordinate for each atom."""
         n_atoms = len(values["symbols"])
         return np.array(v).reshape(n_atoms, 3)
+
+    @property
+    def formula(self) -> str:
+        """Return the molecular formula of the molecule using the Hill System.
+        # noqa: E501
+        https://chemistry.stackexchange.com/questions/1239/order-of-elements-in-a-formula
+        """
+        counter_elements = Counter(self.symbols)
+
+        carbon_count = counter_elements.pop("C", 0)
+        hydrogen_count = counter_elements.pop("H", 0)
+
+        # Sort remaining elements alphabetically
+        sorted_elements = sorted(counter_elements.items())
+
+        if hydrogen_count > 0:
+            sorted_elements = [("H", hydrogen_count)] + sorted_elements
+        if carbon_count > 0:
+            sorted_elements = [("C", carbon_count)] + sorted_elements
+
+        return "".join(
+            f"{element}{count if count > 1 else ''}"
+            for element, count in sorted_elements
+        )
 
     @classmethod
     def open(cls, filepath: Union[Path, str]) -> Self:

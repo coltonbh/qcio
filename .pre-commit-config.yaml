@@ -33,7 +33,8 @@ repos:
     hooks:
       - id: mypy
         additional_dependencies:
-          [tokenize-rt==3.2.0, pydantic>=1.0.0, types-paramiko]
+          [tokenize-rt==3.2.0, pydantic>=1.0.0, types-toml, types-pyyaml]
+        command: poetry run mypy .
   - repo: local
     hooks:
       - id: tests
