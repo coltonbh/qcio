@@ -6,21 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+## [0.2.0]
+
 ### Added
 
 - `wall_time`, `hostcpus`, `hostname`, `hostmem` to `Provenance`
 - `pstdout` and `ptraceback` as aliased attributes on `Output` and `FailedOutput` to quickly print out the values for easier viewing.
 - `Molecule.formula` property to return Hill System molecular formula.
 - Serialization support for `yaml` and `toml` in `.save()` and `.open()` methods.
--
+- Compatibility for `QCElemental`. `SinglePointInput` objects can now run `.to_qcel()` to return a `dict` representation of an `AtomicInput` and `.to_output_from_qcel` to convert a `dict` representation of an `AtomicResult` or `FailedOperation` to a `SinglePointSuccessfulOutput` or `SinglePointFailedOutput` object.
 
-### Change
+### Changed
 
 - Changed `Provenance.working_dir` from `str` -> `Path`
-
-### Added
-
-- Added compatibility for `QCElemental`. `SinglePointInput` objects can now run `.to_qcel()` to return a `dict` representation of an `AtomicInput` and `.to_output_from_qcel` to convert a `dict` representation of an `AtomicResult` or `FailedOperation` to a `SinglePointSuccessfulOutput` or `SinglePointFailedOutput` object.
 
 ## [0.1.0]
 
