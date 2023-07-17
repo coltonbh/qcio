@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+## [0.3.0]
+
 ### Changed
 
 - Dropped `.program_args` nesting from input objects in favor of a flatter model structure. This makes defining inputs much quick/easier.
@@ -52,7 +54,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `SinglePointComputedProperties`
   - `Wavefunction`
 
-[unreleased]: https://github.com/coltonbh/qcio/compare/0.2.1...HEAD
+[unreleased]: https://github.com/coltonbh/qcio/compare/0.3.0...HEAD
+[0.3.0]: https://github.com/coltonbh/qcio/releases/tag/0.3.0
 [0.2.1]: https://github.com/coltonbh/qcio/releases/tag/0.2.1
 [0.2.0]: https://github.com/coltonbh/qcio/releases/tag/0.2.0
 [0.1.0]: https://github.com/coltonbh/qcio/releases/tag/0.1.0
