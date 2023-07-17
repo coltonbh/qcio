@@ -1,13 +1,13 @@
-from .models.base_io import *  # noqa: F403
-from .models.file_io import *  # noqa: F403
-from .models.molecule import *  # noqa: F403
-from .models.single_point_io import *  # noqa: F403
+# https://github.com/python-poetry/poetry/pull/2366#issuecomment-652418094
+from importlib import metadata
 
-__version__ = "0.1.0"
+from .models import *  # noqa: F403
+
+__version__ = metadata.version(__name__)
 
 __all__ = [  # noqa: F405
     # Core Models
-    "InputBase",
+    "Files",
     "ComputedPropsBase",
     "OutputBase",
     "Files",
@@ -16,10 +16,12 @@ __all__ = [  # noqa: F405
     "FileFailure",
     "Provenance",
     "Model",
-    "SinglePointCalcType",
-    "SinglePointInput",
-    "SinglePointResult",
+    "CalcType",
+    "ProgramInput",
+    "SinglePointResults",
+    "SinglePointOutput",
     "SinglePointFailure",
     "SinglePointComputedProps",
     "Wavefunction",
+    "ProgramFailure",
 ]

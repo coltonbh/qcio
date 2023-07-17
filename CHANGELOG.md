@@ -9,8 +9,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 
 - Dropped `.program_args` nesting from input objects in favor of a flatter model structure. This makes defining inputs much quick/easier.
-- Renamed `calc_type` -> `calctype`. 
-
+- Renamed `calc_type` -> `calctype`.
+- Change computational model to use `ProgramInput` and `DualProgramInput` instead of `SinglePointInput` and `OptimizationInput` to enable more flexibility in the future.
+- Added frequency analysis values to `SinglePointResults` object.
 
 ## [0.2.1]
 
