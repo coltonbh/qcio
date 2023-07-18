@@ -6,7 +6,7 @@ from typing import List, Optional
 import numpy as np
 from pydantic import validator
 
-from qcio.helper_types import ArrayLike2D
+from qcio.helper_types import ArrayLike2D, ArrayLike3D
 
 from .base_models import QCIOModelBase
 from .molecule import Molecule
@@ -58,7 +58,7 @@ class SinglePointResults(ResultsBase):
         wavefunction: Wavefunction data from the calculation.
 
         freqs_wavenumber: The frequencies of the molecule in wavenumbers.
-        normal_modes_cartesian: n_vibmodes*n_atoms length array containing
+        normal_modes_cartesian: n_vibmodes by n_atoms length array containing
             un-mass-weighted Cartesian displacements of each normal mode.
         gibbs_free_energy: Gibbs free energy (i.e. thermochemical analysis) in Hartrees
             of a system where translation / rotation / vibration degrees of freedom are
@@ -84,8 +84,15 @@ class SinglePointResults(ResultsBase):
 
     # Frequency data
     freqs_wavenumber: List[float] = []
-    normal_modes_cartesian: List[float] = []
+    normal_modes_cartesian: Optional[ArrayLike3D] = None
     gibbs_free_energy: Optional[float] = None
+
+    @validator("normal_modes_cartesian")
+    def validate_normal_modes_cartesian_shape(cls, v: ArrayLike3D):
+        if v is not None:
+            # Assume array has length of the number of normal modes
+            n_normal_modes = len(v)
+            return np.asarray(v).reshape(n_normal_modes, -1, 3)
 
     @validator("gradient")
     def validate_gradient_shape(cls, v: ArrayLike2D):

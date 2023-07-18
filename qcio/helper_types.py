@@ -10,3 +10,6 @@ SPReturnResult = Union[float, List[List[float]]]
 
 # Type for any values that can be coerced to 2D numpy array
 ArrayLike2D = Union[List[List[float]], List[float], np.ndarray]
+
+# Type for any values that can be coerced to 3D numpy array
+ArrayLike3D = Union[List[List[List[float]]], List[List[float]], np.ndarray]

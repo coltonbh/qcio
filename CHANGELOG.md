@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+## [0.3.3]
+
+### Fixed
+
+- Fixed `SinglePointResult.normal_modes_cartesian` to be proper 3D structure with xyz displacements for each atom for each normal mode.
+
+### Changed
+
+- `from_qcel_output` now overwrites the core results value with `.return_result` since `QCElemental` does not always write energy/gradient/hessian values to `AtomicResult.properties`.
+
 ## [0.3.2]
 
 ### Fixed
@@ -66,7 +76,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `SinglePointComputedProperties`
   - `Wavefunction`
 
-[unreleased]: https://github.com/coltonbh/qcio/compare/0.3.2...HEAD
+[unreleased]: https://github.com/coltonbh/qcio/compare/0.3.3...HEAD
+[0.3.3]: https://github.com/coltonbh/qcio/releases/tag/0.3.3
 [0.3.2]: https://github.com/coltonbh/qcio/releases/tag/0.3.2
 [0.3.1]: https://github.com/coltonbh/qcio/releases/tag/0.3.1
 [0.3.0]: https://github.com/coltonbh/qcio/releases/tag/0.3.0

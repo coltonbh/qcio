@@ -111,6 +111,9 @@ def from_qcel_output_results(
         if value is not None:
             results[key] = value
 
+    # Override with return_result as qcel may not have save the key value to .properties
+    results[qcel_output["driver"]] = qcel_output["return_result"]
+
     if qcel_output["wavefunction"]:
         results["wavefunction"] = {
             key: value
