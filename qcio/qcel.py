@@ -11,29 +11,33 @@ from qcio import (
 )
 
 
-def to_qcel_input(inp_obj: ProgramInput) -> Dict[str, Any]:
+def to_qcel_input(prog_input: ProgramInput) -> Dict[str, Any]:
     """Return the QCElemental v1 input schema representation of the input
     (AtomicInput dict).
+
+    Args:
+        prog_input: The input object to convert.
 
     Returns:
         The QCElemental v1 dict representation of an AtomicInput object.
     """
     return {
         "molecule": {
-            "symbols": inp_obj.molecule.symbols,
-            "geometry": inp_obj.molecule.geometry,
-            "molecular_charge": inp_obj.molecule.charge,
-            "molecular_multiplicity": inp_obj.molecule.multiplicity,
+            "symbols": prog_input.molecule.symbols,
+            "geometry": prog_input.molecule.geometry,
+            "molecular_charge": prog_input.molecule.charge,
+            "molecular_multiplicity": prog_input.molecule.multiplicity,
+            "connectivity": prog_input.molecule.connectivity or None,
             "identifiers": {
                 key: value
-                for key, value in inp_obj.molecule.identifiers.dict().items()
+                for key, value in prog_input.molecule.identifiers.dict().items()
                 if key not in ["name_IUPAC", "name_common"]  # not on qcel model
             },
         },
-        "driver": inp_obj.calctype,
-        "model": inp_obj.model.dict(),
-        "keywords": inp_obj.keywords,
-        "extras": inp_obj.extras,
+        "driver": prog_input.calctype,
+        "model": prog_input.model.dict(),
+        "keywords": prog_input.keywords,
+        "extras": prog_input.extras,
     }
 
 
