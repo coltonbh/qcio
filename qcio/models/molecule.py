@@ -135,12 +135,14 @@ class Molecule(QCIOModelBase):
 
     def dict(self, **kwargs) -> Dict[str, Any]:
         """Handle tuple in connectivity"""
-        dict = super().dict(**kwargs)
-        # Must cast all values to floats as toml cannot handle mixed types
-        dict["connectivity"] = [
-            [float(val) for val in bond] for bond in dict["connectivity"]
-        ]
-        return dict
+        as_dict = super().dict(**kwargs)
+        # Connectivity may be empty and super().dict() will remove empty values
+        if (connectivity := as_dict.get("connectivity")) is not None:
+            # Must cast all values to floats as toml cannot handle mixed types
+            as_dict["connectivity"] = [
+                [float(val) for val in bond] for bond in connectivity
+            ]
+        return as_dict
 
     @classmethod
     def open(cls, filepath: Union[Path, str]) -> Self:
