@@ -1,6 +1,6 @@
 from collections import Counter
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Dict, List, Optional, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Optional, Tuple, Union
 
 import numpy as np
 from pydantic import validator
@@ -78,6 +78,10 @@ class Molecule(QCIOModelBase):
         charge: The molecular charge.
         connectivity: Explicit description of the bonds between atoms.
         multiplicity: The molecular multiplicity.
+        connectivity: Explicit description of the bonds between atoms. Each tuple
+            contains the indices of the atoms in the bond and the order of the bond.
+            E.g., [(0, 1, 1.0), (1, 2, 2.0)] indicates a single bond between atoms 0
+            and 1 and a double bond between atoms 1 and 2.
         masses: Explicit masses for the atoms. If not set, default isotopic masses are
             used.
     """
@@ -87,8 +91,8 @@ class Molecule(QCIOModelBase):
     charge: int = 0
     multiplicity: int = 1
     identifiers: Identifiers = Identifiers()
+    connectivity: List[Tuple[int, int, float]] = []
     # masses: List[float] = []
-    # connectivity: List[Bond] = []
 
     def __repr_args__(self) -> "ReprArgs":
         """A helper for __repr__ that returns a list of tuples of the form
@@ -128,6 +132,15 @@ class Molecule(QCIOModelBase):
             f"{element}{count if count > 1 else ''}"
             for element, count in sorted_elements
         )
+
+    def dict(self, **kwargs) -> Dict[str, Any]:
+        """Handle tuple in connectivity"""
+        dict = super().dict(**kwargs)
+        # Must cast all values to floats as toml cannot handle mixed types
+        dict["connectivity"] = [
+            [float(val) for val in bond] for bond in dict["connectivity"]
+        ]
+        return dict
 
     @classmethod
     def open(cls, filepath: Union[Path, str]) -> Self:
