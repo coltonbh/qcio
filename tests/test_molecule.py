@@ -41,3 +41,18 @@ def test_to_from_file_json(test_data_dir, tmp_path):
         )
     assert caffeine_copy.multiplicity == caffeine.multiplicity
     assert caffeine_copy.charge == caffeine.charge
+
+
+def test_molecule_dict_connectivity(water):
+    # Test that connectivity is a list of lists of floats
+    dict = water.dict()
+    for bond in dict["connectivity"]:
+        assert isinstance(bond, list)
+        for val in bond:
+            assert isinstance(val, float)
+
+    # Ensure the dict still works if connectivity not included
+    dict.pop("connectivity")
+    water = Molecule(**dict)
+    new_dict = water.dict()
+    assert "connectivity" not in new_dict
