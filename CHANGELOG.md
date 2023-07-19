@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+## [0.3.5]
+
+### Changed
+
+- Dropped `.energies` and `.molecules` on `OptimizationResult` in favor of `@property` lookups on the `.trajectory` attribute. If memory utilization really becomes an issue consider optimizing in future by creating attributes of `.energy` or `.molecules` with smaller memory footprint.
+
 ## [0.3.4]
 
 ### Changed
@@ -82,7 +88,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `SinglePointComputedProperties`
   - `Wavefunction`
 
-[unreleased]: https://github.com/coltonbh/qcio/compare/0.3.4...HEAD
+[unreleased]: https://github.com/coltonbh/qcio/compare/0.3.5...HEAD
+[0.3.5]: https://github.com/coltonbh/qcio/releases/tag/0.3.5
 [0.3.4]: https://github.com/coltonbh/qcio/releases/tag/0.3.4
 [0.3.3]: https://github.com/coltonbh/qcio/releases/tag/0.3.3
 [0.3.2]: https://github.com/coltonbh/qcio/releases/tag/0.3.2

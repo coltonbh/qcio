@@ -168,22 +168,28 @@ class OptimizationResults(ResultsBase):
 
     Attributes:
         energies: The energies for each step of the optimization.
-        # NOTE: Maybe should just be be geometries since all other data is duplicated?
-        molecules: The Molecule objects for each step of the optimization. Must contain
-            at least one Molecule corresponding to the final geometry.
+        molecules: The Molecule objects for each step of the optimization.
+        final_molecule: The final, optimized molecule.
         trajectory: The SinglePointOutput objects for each step of the optimization.
     """
 
-    energies: List[float]
-    molecules: List[Molecule]
-    # NOTE: This is a circular import, hence the ignores.
-    # type: ignore  # noqa: F821
     trajectory: List[SinglePointOutput] = []
 
     @property
     def final_molecule(self) -> Molecule:
         """The final molecule in the optimization."""
-        return self.molecules[-1]
+        return self.trajectory[-1].input_data.molecule
+
+    @property
+    def energies(self) -> List[float]:
+        """The energies for each step of the optimization."""
+        # or 0.0 covers null case for mypy
+        return [output.results.energy or 0.0 for output in self.trajectory]
+
+    @property
+    def molecules(self) -> List[Molecule]:
+        """The Molecule objects for each step of the optimization."""
+        return [output.input_data.molecule for output in self.trajectory]
 
 
 class OptimizationOutput(SuccessfulOutputBase):
