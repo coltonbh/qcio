@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+### Changed
+
+- Dropped `results.py` file and moved all results objects to `outputs.py` to remove circular dependency.
+
 ## [0.3.3]
 
 ### Fixed

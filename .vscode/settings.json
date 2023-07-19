@@ -35,6 +35,8 @@
         "strfile",
         "terachem",
         "tracebackp",
-        "wavenumber"
+        "vibmodes",
+        "wavenumber",
+        "wavenumbers"
     ]
 }
