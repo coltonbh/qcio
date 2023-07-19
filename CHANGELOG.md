@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+## [0.3.4]
+
 ### Changed
 
 - Dropped `results.py` file and moved all results objects to `outputs.py` to remove circular dependency.
@@ -80,7 +82,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `SinglePointComputedProperties`
   - `Wavefunction`
 
-[unreleased]: https://github.com/coltonbh/qcio/compare/0.3.3...HEAD
+[unreleased]: https://github.com/coltonbh/qcio/compare/0.3.4...HEAD
+[0.3.4]: https://github.com/coltonbh/qcio/releases/tag/0.3.4
 [0.3.3]: https://github.com/coltonbh/qcio/releases/tag/0.3.3
 [0.3.2]: https://github.com/coltonbh/qcio/releases/tag/0.3.2
 [0.3.1]: https://github.com/coltonbh/qcio/releases/tag/0.3.1
