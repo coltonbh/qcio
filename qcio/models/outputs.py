@@ -176,9 +176,12 @@ class OptimizationResults(ResultsBase):
     trajectory: List[SinglePointOutput] = []
 
     @property
-    def final_molecule(self) -> Molecule:
+    def final_molecule(self) -> Optional[Molecule]:
         """The final molecule in the optimization."""
-        return self.trajectory[-1].input_data.molecule
+        try:
+            return self.trajectory[-1].input_data.molecule
+        except IndexError:  # Empty trajectory
+            return None
 
     @property
     def energies(self) -> List[float]:

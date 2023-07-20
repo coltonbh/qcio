@@ -6,9 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+## [0.4.1]
+
+### Fixed
+
+- `final_molecule` lookup now returns `None` if `.trajectory` is empty rather than raising `IndexError`.
+
 ## [0.4.0]
 
-### Change
+### Changed
 
 - Changed `Provenance.working_dir` -> `scratch_dir`.
 
@@ -94,7 +100,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `SinglePointComputedProperties`
   - `Wavefunction`
 
-[unreleased]: https://github.com/coltonbh/qcio/compare/0.4.0...HEAD
+[unreleased]: https://github.com/coltonbh/qcio/compare/0.4.1...HEAD
+[0.4.1]: https://github.com/coltonbh/qcio/releases/tag/0.4.1
 [0.4.0]: https://github.com/coltonbh/qcio/releases/tag/0.4.0
 [0.3.5]: https://github.com/coltonbh/qcio/releases/tag/0.3.5
 [0.3.4]: https://github.com/coltonbh/qcio/releases/tag/0.3.4
