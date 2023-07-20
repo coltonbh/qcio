@@ -42,7 +42,7 @@ def sp_input(water):
 
 
 @pytest.fixture
-def sp_result(sp_input):
+def sp_output(sp_input):
     """Create SinglePointOutput object"""
     sp_inp_energy = sp_input("energy")
     energy = 1.0
@@ -58,6 +58,6 @@ def sp_result(sp_input):
             "gradient": gradient,
             "hessian": hessian,
         },
-        provenance={"program": "qcio-test-suite", "working_dir": "/tmp/qcio"},
+        provenance={"program": "qcio-test-suite", "scratch_dir": "/tmp/qcio"},
         extras={"some_extra": 1},
     )

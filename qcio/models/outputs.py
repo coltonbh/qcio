@@ -191,6 +191,15 @@ class OptimizationResults(ResultsBase):
         """The Molecule objects for each step of the optimization."""
         return [output.input_data.molecule for output in self.trajectory]
 
+    def __repr_args__(self):
+        """Custom repr to avoid printing the entire collection objects."""
+        return [
+            ("final_molecule", f"{self.final_molecule}"),
+            ("trajectory", "[...]"),
+            ("energies", "[...]"),
+            ("molecules", "[...]"),
+        ]
+
 
 class OptimizationOutput(SuccessfulOutputBase):
     """Output from a successful optimization.

@@ -99,7 +99,6 @@ class Molecule(QCIOModelBase):
         (name, value).
         """
         return [  # pragma: no cover
-            ("name", self.identifiers.name_common),
             ("formula", self.formula),
         ]
 
