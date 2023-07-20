@@ -258,7 +258,7 @@ class Provenance(QCIOModelBase):
     Attributes:
         program: The name of the program that created the output.
         version: The version of the program that created the output.
-        working_dir: The working directory used by the program.
+        scratch_dir: The working directory used by the program.
         wall_time: The wall time used by the program.
         hostname: The hostname of the machine the program was run on.
         hostcpus: The number of logical cpus on the host machine where the program ran.
@@ -270,7 +270,7 @@ class Provenance(QCIOModelBase):
 
     program: str
     program_version: Optional[str] = None
-    working_dir: Optional[Path] = None
+    scratch_dir: Optional[Path] = None
     wall_time: Optional[float] = None
     hostname: Optional[str] = None
     hostcpus: Optional[int] = None

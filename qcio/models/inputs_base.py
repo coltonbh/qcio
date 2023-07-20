@@ -9,7 +9,14 @@ from pydantic import BaseModel
 from .base_models import Files
 from .molecule import Molecule
 
-__all__ = ["Model", "CalcType", "ProgramArgs", "QCProgramArgs", "InputBase"]
+__all__ = [
+    "Model",
+    "CalcType",
+    "ProgramArgs",
+    "QCProgramArgs",
+    "InputBase",
+    "StructuredInputBase",
+]
 
 
 class CalcType(str, Enum):

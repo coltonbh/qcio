@@ -134,21 +134,21 @@ def test_return_result(sp_input):
     assert np.array_equal(output.return_result, output.results.hessian)
 
 
-def test_successful_output_serialization(sp_result):
+def test_successful_output_serialization(sp_output):
     """Test that successful result serializes and deserializes"""
-    serialized = sp_result.json()
+    serialized = sp_output.json()
     # model_validate_json in pydantic v2
     deserialized = SinglePointOutput.parse_raw(serialized)
-    assert deserialized == sp_result
-    assert deserialized.results == sp_result.results
-    assert deserialized.input_data == sp_result.input_data
+    assert deserialized == sp_output
+    assert deserialized.results == sp_output.results
+    assert deserialized.input_data == sp_output.input_data
     assert deserialized.provenance.program == "qcio-test-suite"
-    assert deserialized.stdout == sp_result.stdout
-    assert deserialized.extras == sp_result.extras
-    assert deserialized.return_result == sp_result.return_result
-    assert deserialized.return_result == sp_result.results.energy
-    assert np.array_equal(deserialized.results.gradient, sp_result.results.gradient)
-    assert np.array_equal(deserialized.results.hessian, sp_result.results.hessian)
+    assert deserialized.stdout == sp_output.stdout
+    assert deserialized.extras == sp_output.extras
+    assert deserialized.return_result == sp_output.return_result
+    assert deserialized.return_result == sp_output.results.energy
+    assert np.array_equal(deserialized.results.gradient, sp_output.results.gradient)
+    assert np.array_equal(deserialized.results.hessian, sp_output.results.hessian)
 
 
 def test_wavefunction_to_numpy():
