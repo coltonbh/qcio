@@ -24,4 +24,7 @@ __all__ = [  # noqa: F405
     "SinglePointComputedProps",
     "Wavefunction",
     "ProgramFailure",
+    "ProgramArgs",
+    "QCProgramArgs",
+    "DualProgramArgs",
 ]

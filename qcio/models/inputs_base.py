@@ -16,6 +16,7 @@ __all__ = [
     "QCProgramArgs",
     "InputBase",
     "StructuredInputBase",
+    "DualProgramArgs",
 ]
 
 
@@ -69,13 +70,25 @@ class Model(BaseModel):
 
 
 class QCProgramArgs(ProgramArgs):
-    """Core arguments for a QC program. Breaks out model from keywords.
+    """Core arguments for a calculation on a molecule. Breaks out model from keywords.
 
     Attributes:
         model: The model for the quantum chemistry calculation.
     """
 
     model: Model
+
+
+class DualProgramArgs(ProgramArgs):
+    """Core arguments for a DualProgramInput without calctype and molecule.
+
+    Attributes:
+        subprogram_args: The input arguments for the subprogram.
+        subprogram: The name of the subprogram to be used.
+    """
+
+    subprogram_args: QCProgramArgs
+    subprogram: str
 
 
 class StructuredInputBase(ProgramArgs):
