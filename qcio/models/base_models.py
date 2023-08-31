@@ -2,14 +2,13 @@
 import json
 from abc import ABC
 from base64 import b64decode, b64encode
-from enum import Enum
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, Dict, List, Optional, Union
 
 import numpy as np
 import toml
 import yaml
-from pydantic import BaseModel, Extra, validator
+from pydantic import BaseModel, field_serializer, field_validator
 from typing_extensions import Self
 
 from ..helper_types import StrOrPath
@@ -35,49 +34,17 @@ class QCIOModelBase(BaseModel, ABC):
     # version: ClassVar[Literal["v1"]] = "v1"
     extras: Dict[str, Any] = {}
 
-    class Config:
+    model_config = {
         # Raises an error if extra fields are passed to model.
-        extra = Extra.forbid
+        "extra": "forbid",
         # Allow numpy types in models. Pydantic will no longer raise an exception for
         # types it doesn't recognize.
         # https://docs.pydantic.dev/latest/usage/types/#arbitrary-types-allowed
-        arbitrary_types_allowed = True
+        "arbitrary_types_allowed": True,
         # Don't allow mutation of objects
-        # https://docs.pydantic.dev/latest/usage/models/#faux-immutability
-        allow_mutation = False
-        # convert ndarray to list for JSON serialization
-        # https://docs.pydantic.dev/latest/usage/exporting_models/#json_encodershttps://docs.pydantic.dev/latest/usage/exporting_models/#json_encoders  # noqa: E501
-        json_encoders = {np.ndarray: lambda v: v.tolist()}
-        # exclude fields with value None from serialization
-        exclude_none = True
-
-    def dict(self, **kwargs):
-        """Convert the object to a dictionary.
-
-        Properly serialize numpy arrays. Serialization is performed in .dict() so that
-        multiple string serializers can used it without duplicating logic
-        (e.g. json, yaml, toml).
-        """
-        model_dict = super().dict(**kwargs)
-        to_pop = []
-        for key, value in model_dict.items():
-            # Custom serialization for numpy arrays, enums, and pathlib Paths
-            if isinstance(value, np.ndarray):
-                model_dict[key] = value.tolist()
-            elif issubclass(type(value), Enum):
-                model_dict[key] = value.value
-            elif isinstance(value, Path):
-                model_dict[key] = str(value)
-
-            # Exclude empty lists, dictionaries, and objects with all None values from
-            # serialization
-            elif value in [None, [], {}]:
-                to_pop.append(key)
-
-        for key in to_pop:
-            model_dict.pop(key)
-
-        return model_dict
+        # https://docs.pydantic.dev/2.3/api/config/#pydantic.config.ConfigDict.frozen
+        "frozen": True,
+    }
 
     @classmethod
     def open(cls, filepath: Union[Path, str]) -> Self:
@@ -95,37 +62,42 @@ class QCIOModelBase(BaseModel, ABC):
         data = filepath.read_text()
 
         if filepath.suffix in [".yaml", ".yml"]:
-            return cls.parse_obj(yaml.safe_load(data))
+            return cls.model_validate(yaml.safe_load(data))
         elif filepath.suffix == ".toml":
-            return cls.parse_obj(toml.loads(data))
+            return cls.model_validate(toml.loads(data))
 
         # Assume json for all other file extensions
-        return cls.parse_raw(data)
-        # pydantic v2
-        # return cls.model_validate_json(filepath.read_text())
+        return cls.model_validate_json(data)
 
-    def save(self, filepath: Union[Path, str], **kwargs) -> None:
-        """Write an object to disk as json.
+    def save(
+        self,
+        filepath: Union[Path, str],
+        exclude_none=True,
+        **kwargs,
+    ) -> None:
+        """Write an object to disk as json, yaml, or toml.
 
         Args:
-            filepath: The path to write the object to.I
+            filepath: The path to write the object to.
+            exclude_none: If True, attributes with a value of None will not be written.
+                Changing default behavior from pydantic.model_dump() to True.
         """
         filepath = Path(filepath)
         filepath.parent.mkdir(exist_ok=True, parents=True)
 
+        model_dict = self.model_dump(mode="json", exclude_none=exclude_none, **kwargs)
+
         if filepath.suffix in [".yaml", ".yml"]:
-            data = yaml.dump(self.dict(**kwargs))
+            data = yaml.dump(model_dict)
 
         elif filepath.suffix == ".toml":
-            data = toml.dumps(self.dict(**kwargs))
+            data = toml.dumps(model_dict)
 
         else:
             # Write data to json regardless of file extension
-            data = self.json(**kwargs)
+            data = json.dumps(model_dict)
 
         filepath.write_text(data)
-        # pydantic v2
-        # filepath.write(self.model_dump())
 
     def __repr_args__(self) -> "ReprArgs":
         """Only show non empty fields in repr."""
@@ -139,6 +111,15 @@ class QCIOModelBase(BaseModel, ABC):
             (name, value) for name, value in self.__dict__.items() if exists(value)
         ]
 
+    def __eq__(self, other: Any) -> bool:
+        """Check equality of two objects.
+
+        Necessary because BaseModel.__eq__ does not compare numpy arrays.
+        """
+        if isinstance(other, self.__class__):
+            return self.model_dump() == other.model_dump()
+        return False
+
 
 class Files(QCIOModelBase):
     """File model for handling string and binary data.
@@ -151,7 +132,7 @@ class Files(QCIOModelBase):
 
     files: Dict[str, Union[str, bytes]] = {}
 
-    @validator("files", pre=True)
+    @field_validator("files")
     def convert_base64_to_bytes(cls, value):
         """Convert base64 encoded data to bytes."""
         for filename, data in value.items():
@@ -159,21 +140,15 @@ class Files(QCIOModelBase):
                 value[filename] = b64decode(data[7:])
         return value
 
-    def dict(self, *args, **kwargs):
-        """Return a dict representation of the object encoding bytes as b64 strings."""
-        dict = super().dict(*args, **kwargs)
-        if self.files:  # clause so that empty files dict is not included in dict
-            files = {}
-            for filename, data in self.files.items():
-                if isinstance(data, bytes):
-                    data = f"base64:{b64encode(data).decode('utf-8')}"
-                files[filename] = data
-            dict["files"] = files
-        return dict
-
-    def json(self, *args, **kwargs):
-        """Return a JSON representation of the object."""
-        return json.dumps(self.dict(*args, **kwargs))
+    @field_serializer("files")
+    def serialize_files(self, files, _info) -> Dict[str, str]:
+        """Serialize files to a dict of filename to base64 encoded string."""
+        return {
+            filename: f"base64:{b64encode(data).decode('utf-8')}"
+            if isinstance(data, bytes)
+            else data
+            for filename, data in files.items()
+        }
 
     def add_file(
         self, filepath: Union[Path, str], relative_dir: Optional[Path] = None
@@ -270,7 +245,7 @@ class Provenance(QCIOModelBase):
 
     program: str
     program_version: Optional[str] = None
-    scratch_dir: Optional[Path] = None
+    scratch_dir: Optional[StrOrPath] = None
     wall_time: Optional[float] = None
     hostname: Optional[str] = None
     hostcpus: Optional[int] = None

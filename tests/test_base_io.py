@@ -28,12 +28,10 @@ def test_file_b64(test_data_dir):
     mixin = Files()
     mixin.add_file(input_filepath)
     assert isinstance(mixin.files[input_filepath.name], bytes)
-    json_str = mixin.json()
+    json_str = mixin.model_dump_json()
     json_dict = json.loads(json_str)
     assert json_dict["files"][input_filepath.name].startswith("base64:")
-    mixin_new = mixin.parse_raw(json_str)
-    # v2
-    # file = File.model_validate_json(json_dict["data"])
+    mixin_new = mixin.model_validate_json(json_str)
     # Round trip of file is lossless
     assert mixin_new.files["c0"] == input_filepath.read_bytes()
 

@@ -28,14 +28,12 @@ def to_qcel_input(prog_input: ProgramInput) -> Dict[str, Any]:
             "molecular_charge": prog_input.molecule.charge,
             "molecular_multiplicity": prog_input.molecule.multiplicity,
             "connectivity": prog_input.molecule.connectivity or None,
-            "identifiers": {
-                key: value
-                for key, value in prog_input.molecule.identifiers.dict().items()
-                if key not in ["name_IUPAC", "name_common"]  # not on qcel model
-            },
+            "identifiers": prog_input.molecule.identifiers.model_dump(
+                exclude={"name_IUPAC", "name_common", "extras"}
+            ),  # not on qcel model
         },
         "driver": prog_input.calctype,
-        "model": prog_input.model.dict(),
+        "model": prog_input.model.model_dump(),
         "keywords": prog_input.keywords,
         "extras": prog_input.extras,
     }

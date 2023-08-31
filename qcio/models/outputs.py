@@ -2,7 +2,7 @@
 from typing import List, Literal, Optional, Union
 
 import numpy as np
-from pydantic import validator
+from pydantic import field_validator
 
 from qcio.helper_types import ArrayLike2D, ArrayLike3D
 
@@ -55,13 +55,14 @@ class Wavefunction(QCIOModelBase):
     scf_occupations_a: Optional[ArrayLike2D] = None
     scf_occupations_b: Optional[ArrayLike2D] = None
 
-    _to_numpy = validator(
+    @field_validator(
         "scf_eigenvalues_a",
         "scf_eigenvalues_b",
         "scf_occupations_a",
         "scf_occupations_b",
-        allow_reuse=True,
-    )(lambda x: np.asarray(x) if x is not None else None)
+    )
+    def to_numpy(cls, val, _info) -> Optional[np.ndarray]:
+        return np.asarray(val) if val is not None else None
 
 
 class SinglePointResults(ResultsBase):
@@ -112,20 +113,20 @@ class SinglePointResults(ResultsBase):
     normal_modes_cartesian: Optional[ArrayLike3D] = None
     gibbs_free_energy: Optional[float] = None
 
-    @validator("normal_modes_cartesian")
+    @field_validator("normal_modes_cartesian")
     def validate_normal_modes_cartesian_shape(cls, v: ArrayLike3D):
         if v is not None:
             # Assume array has length of the number of normal modes
             n_normal_modes = len(v)
             return np.asarray(v).reshape(n_normal_modes, -1, 3)
 
-    @validator("gradient")
+    @field_validator("gradient")
     def validate_gradient_shape(cls, v: ArrayLike2D):
         """Validate gradient is n x 3"""
         if v is not None:
             return np.asarray(v).reshape(-1, 3)
 
-    @validator("hessian")
+    @field_validator("hessian")
     def validate_hessian_shape(cls, v: ArrayLike2D):
         """Validate hessian is square"""
         if v is not None:

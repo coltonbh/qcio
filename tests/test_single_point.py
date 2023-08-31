@@ -122,13 +122,15 @@ def test_return_result(sp_input):
     assert output.return_result == output.results.energy
 
     sp_inp_grad = sp_input("gradient")
-    output = SinglePointOutput(**{**output.dict(), **{"input_data": sp_inp_grad}})
+    output = SinglePointOutput(**{**output.model_dump(), **{"input_data": sp_inp_grad}})
 
     assert np.array_equal(output.return_result, gradient)
     assert np.array_equal(output.return_result, output.results.gradient)
 
     sp_inp_hessian = sp_input("hessian")
-    output = SinglePointOutput(**{**output.dict(), **{"input_data": sp_inp_hessian}})
+    output = SinglePointOutput(
+        **{**output.model_dump(), **{"input_data": sp_inp_hessian}}
+    )
 
     assert np.array_equal(output.return_result, hessian)
     assert np.array_equal(output.return_result, output.results.hessian)
@@ -136,9 +138,8 @@ def test_return_result(sp_input):
 
 def test_successful_output_serialization(sp_output):
     """Test that successful result serializes and deserializes"""
-    serialized = sp_output.json()
-    # model_validate_json in pydantic v2
-    deserialized = SinglePointOutput.parse_raw(serialized)
+    serialized = sp_output.model_dump_json()
+    deserialized = SinglePointOutput.model_validate_json(serialized)
     assert deserialized == sp_output
     assert deserialized.results == sp_output.results
     assert deserialized.input_data == sp_output.input_data
