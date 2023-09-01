@@ -18,16 +18,11 @@ def test_serialization_to_disk_json(sp_output, tmp_path):
 
 def test_serialization_to_disk_yaml(sp_output, tmp_path):
     """Test serialization to disk yaml"""
-
-    filename = tmp_path / "sp_output.yaml"
-    sp_output.save(filename)
-    reopened = SinglePointOutput.open(filename)
-    assert sp_output == reopened
-
-    filename = tmp_path / "sp_output.yml"
-    sp_output.save(filename)
-    reopened = SinglePointOutput.open(filename)
-    assert sp_output == reopened
+    for ext in [".yaml", ".yml"]:
+        filename = tmp_path / f"sp_output{ext}"
+        sp_output.save(filename)
+        reopened = SinglePointOutput.open(filename)
+        assert sp_output == reopened
 
 
 def test_serialization_to_disk_toml(sp_output, tmp_path):

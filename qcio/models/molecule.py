@@ -3,7 +3,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Any, Dict, List, Optional, Tuple, Union
 
 import numpy as np
-from pydantic import validator
+from pydantic import field_serializer, field_validator
 from typing_extensions import Self
 
 from qcio.constants import BOHR_TO_ANGSTROM
@@ -102,11 +102,20 @@ class Molecule(QCIOModelBase):
             ("formula", self.formula),
         ]
 
-    @validator("geometry")
+    @field_validator("geometry")
     def shape_n_by_3(cls, v, values, **kwargs):
         """Ensure there is an x, y, and z coordinate for each atom."""
-        n_atoms = len(values["symbols"])
+        n_atoms = len(values.data["symbols"])
         return np.array(v).reshape(n_atoms, 3)
+
+    @field_serializer("connectivity")
+    def serialize_connectivity(self, connectivity, _info) -> List[List[float]]:
+        """Serialize connectivity to a list of tuples.
+
+        Cannot have homogeneous data types in .toml files so must cast all values to
+        floats.
+        """
+        return [[float(val) for val in bond] for bond in connectivity]
 
     @property
     def formula(self) -> str:
@@ -132,9 +141,9 @@ class Molecule(QCIOModelBase):
             for element, count in sorted_elements
         )
 
-    def dict(self, **kwargs) -> Dict[str, Any]:
+    def model_dump(self, **kwargs) -> Dict[str, Any]:
         """Handle tuple in connectivity"""
-        as_dict = super().dict(**kwargs)
+        as_dict = super().model_dump(**kwargs)
         # Connectivity may be empty and super().dict() will remove empty values
         if (connectivity := as_dict.get("connectivity")) is not None:
             # Must cast all values to floats as toml cannot handle mixed types

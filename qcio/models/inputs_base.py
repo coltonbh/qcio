@@ -4,7 +4,7 @@ and organize common attributes used across multiple input objects.
 from enum import Enum
 from typing import Any, Dict, Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, field_serializer
 
 from .base_models import Files
 from .molecule import Molecule
@@ -103,3 +103,8 @@ class StructuredInputBase(ProgramArgs):
 
     calctype: CalcType
     molecule: Molecule
+
+    @field_serializer("calctype")
+    def serialize_calctype(self, calctype: CalcType, _info) -> str:
+        """Serialize CalcType to string"""
+        return calctype.value
