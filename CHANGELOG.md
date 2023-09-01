@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+## [0.5.0]
+
 ### Changed
 
 - Updated `pydantic` from `v1` -> `v2`.
@@ -110,7 +112,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `SinglePointComputedProperties`
   - `Wavefunction`
 
-[unreleased]: https://github.com/coltonbh/qcio/compare/0.4.2...HEAD
+[unreleased]: https://github.com/coltonbh/qcio/compare/0.5.0...HEAD
+[0.5.0]: https://github.com/coltonbh/qcio/releases/tag/0.5.0
 [0.4.2]: https://github.com/coltonbh/qcio/releases/tag/0.4.2
 [0.4.1]: https://github.com/coltonbh/qcio/releases/tag/0.4.1
 [0.4.0]: https://github.com/coltonbh/qcio/releases/tag/0.4.0
