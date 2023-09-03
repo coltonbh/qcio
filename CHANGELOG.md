@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+## [0.5.1] - 2023-09-02
+
 ### Added
 
 - `qcio.utils.json_dumps` for serializing `pydantic` objects or lists of objects. Helpful for serializing requests to send of HTTP.
@@ -21,43 +23,43 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - `model.save()` now saves json with `indent=4` by default.
 
-## [0.5.0]
+## [0.5.0] - 2023-08-31
 
 ### Changed
 
 - Updated `pydantic` from `v1` -> `v2`.
 
-## [0.4.2]
+## [0.4.2] - 2023-08-18
 
 ### Added
 
 - `DualProgramArgs` object.
 
-## [0.4.1]
+## [0.4.1] - 2023-07-20
 
 ### Fixed
 
 - `final_molecule` lookup now returns `None` if `.trajectory` is empty rather than raising `IndexError`.
 
-## [0.4.0]
+## [0.4.0] - 2023-07-19
 
 ### Changed
 
 - Changed `Provenance.working_dir` -> `scratch_dir`.
 
-## [0.3.5]
+## [0.3.5] - 2023-07-18
 
 ### Changed
 
 - Dropped `.energies` and `.molecules` on `OptimizationResult` in favor of `@property` lookups on the `.trajectory` attribute. If memory utilization really becomes an issue consider optimizing in future by creating attributes of `.energy` or `.molecules` with smaller memory footprint.
 
-## [0.3.4]
+## [0.3.4] - 2023-07-18
 
 ### Changed
 
 - Dropped `results.py` file and moved all results objects to `outputs.py` to remove circular dependency.
 
-## [0.3.3]
+## [0.3.3] - 2023-07-17
 
 ### Fixed
 
@@ -67,19 +69,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - `from_qcel_output` now overwrites the core results value with `.return_result` since `QCElemental` does not always write energy/gradient/hessian values to `AtomicResult.properties`.
 
-## [0.3.2]
+## [0.3.2] - 2023-07-17
 
 ### Fixed
 
 - `Molecule.dict()` raised exception if `.connectivity` did not exist since `super().dict()` removes empty collections for serialization.
 
-## [0.3.1]
+## [0.3.1] - 2023-07-17
 
 ### Added
 
 - `Molecule.connectivity` for `rdkit` and other MM package support that depends on explicitly defined bonds.
 
-## [0.3.0]
+## [0.3.0] - 2023-07-17
 
 ### Changed
 
@@ -88,13 +90,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Change computational model to use `ProgramInput` and `DualProgramInput` instead of `SinglePointInput` and `OptimizationInput` to enable more flexibility in the future.
 - Added frequency analysis values to `SinglePointResults` object.
 
-## [0.2.1]
+## [0.2.1] - 2023-06-29
 
 ### Fixed
 
 - Removed mistaken call to `print()` leftover from debugging.
 
-## [0.2.0]
+## [0.2.0] - 2023-06-29
 
 ### Added
 
@@ -108,7 +110,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Changed `Provenance.working_dir` from `str` -> `Path`
 
-## [0.1.0]
+## [0.1.0] - 2023-06-28
 
 ### Added
 
@@ -127,7 +129,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `SinglePointComputedProperties`
   - `Wavefunction`
 
-[unreleased]: https://github.com/coltonbh/qcio/compare/0.5.0...HEAD
+[unreleased]: https://github.com/coltonbh/qcio/compare/0.5.1...HEAD
+[0.5.1]: https://github.com/coltonbh/qcio/releases/tag/0.5.1
 [0.5.0]: https://github.com/coltonbh/qcio/releases/tag/0.5.0
 [0.4.2]: https://github.com/coltonbh/qcio/releases/tag/0.4.2
 [0.4.1]: https://github.com/coltonbh/qcio/releases/tag/0.4.1
