@@ -61,6 +61,7 @@ class Wavefunction(QCIOModelBase):
         "scf_occupations_a",
         "scf_occupations_b",
     )
+    @classmethod
     def to_numpy(cls, val, _info) -> Optional[np.ndarray]:
         return np.asarray(val) if val is not None else None
 
@@ -90,6 +91,9 @@ class SinglePointResults(ResultsBase):
             of a system where translation / rotation / vibration degrees of freedom are
             approximated using ideal gas / rigid rotor / harmonic oscillator
             respectively.
+        scf_dipole_moment: The x, y, z component of the dipole moment of the molecule
+            in units of e a0 (NOT Debye!).
+
     """
 
     # calcinfo contains general information about the calculation
@@ -113,7 +117,11 @@ class SinglePointResults(ResultsBase):
     normal_modes_cartesian: Optional[ArrayLike3D] = None
     gibbs_free_energy: Optional[float] = None
 
+    # SCF results
+    scf_dipole_moment: Optional[List[float]] = None
+
     @field_validator("normal_modes_cartesian")
+    @classmethod
     def validate_normal_modes_cartesian_shape(cls, v: ArrayLike3D):
         if v is not None:
             # Assume array has length of the number of normal modes
@@ -121,12 +129,14 @@ class SinglePointResults(ResultsBase):
             return np.asarray(v).reshape(n_normal_modes, -1, 3)
 
     @field_validator("gradient")
+    @classmethod
     def validate_gradient_shape(cls, v: ArrayLike2D):
         """Validate gradient is n x 3"""
         if v is not None:
             return np.asarray(v).reshape(-1, 3)
 
     @field_validator("hessian")
+    @classmethod
     def validate_hessian_shape(cls, v: ArrayLike2D):
         """Validate hessian is square"""
         if v is not None:

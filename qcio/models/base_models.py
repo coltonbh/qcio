@@ -73,6 +73,7 @@ class QCIOModelBase(BaseModel, ABC):
         self,
         filepath: Union[Path, str],
         exclude_none=True,
+        indent: int = 4,
         **kwargs,
     ) -> None:
         """Write an object to disk as json, yaml, or toml.
@@ -81,6 +82,7 @@ class QCIOModelBase(BaseModel, ABC):
             filepath: The path to write the object to.
             exclude_none: If True, attributes with a value of None will not be written.
                 Changing default behavior from pydantic.model_dump() to True.
+            indent: The number of spaces to indent the json or yaml output.
         """
         filepath = Path(filepath)
         filepath.parent.mkdir(exist_ok=True, parents=True)
@@ -88,14 +90,14 @@ class QCIOModelBase(BaseModel, ABC):
         model_dict = self.model_dump(mode="json", exclude_none=exclude_none, **kwargs)
 
         if filepath.suffix in [".yaml", ".yml"]:
-            data = yaml.dump(model_dict)
+            data = yaml.dump(model_dict, indent=indent)
 
         elif filepath.suffix == ".toml":
             data = toml.dumps(model_dict)
 
         else:
             # Write data to json regardless of file extension
-            data = json.dumps(model_dict)
+            data = json.dumps(model_dict, indent=indent)
 
         filepath.write_text(data)
 

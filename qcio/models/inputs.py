@@ -58,8 +58,8 @@ class DualProgramInput(StructuredInputBase, DualProgramArgs):
         keywords: Dict of keywords to be passed to the program. Defaults to empty dict.
         molecule: The molecule to be used in the calculation.
         files: A dict mapping filename to str or bytes data.
-        subprogram_args: The input arguments for the subprogram.
         subprogram: The name of the subprogram to be used.
+        subprogram_args: The input arguments for the subprogram.
         extras: Additional information to bundle with the object. Use for schema
             development and scratch space.
     """
