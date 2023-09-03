@@ -6,6 +6,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+### Added
+
+- `qcio.utils.json_dumps` for serializing `pydantic` objects or lists of objects. Helpful for serializing requests to send of HTTP.
+- `typos` pre-commit check.
+- `@classmethod` decorator to `@field_validator` functions as per [pydantic docs](https://docs.pydantic.dev/latest/usage/validators/#field-validators).
+- `SinglePointResults.scf_dipole_moment`.
+
+### Fixed
+
+- Removed invalid objects in `qcio.__init__.py.__all__`.
+
+### Changed
+
+- `model.save()` now saves json with `indent=4` by default.
+
 ## [0.5.0]
 
 ### Changed

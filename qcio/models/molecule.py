@@ -103,6 +103,7 @@ class Molecule(QCIOModelBase):
         ]
 
     @field_validator("geometry")
+    @classmethod
     def shape_n_by_3(cls, v, values, **kwargs):
         """Ensure there is an x, y, and z coordinate for each atom."""
         n_atoms = len(values.data["symbols"])
@@ -167,7 +168,11 @@ class Molecule(QCIOModelBase):
         return super().open(filepath)
 
     def save(
-        self, filepath: Union[Path, str], exclude_none: bool = True, **kwargs
+        self,
+        filepath: Union[Path, str],
+        exclude_none=True,
+        indent: int = 4,
+        **kwargs,
     ) -> None:
         """Save a molecule to a file.
 
@@ -185,7 +190,7 @@ class Molecule(QCIOModelBase):
         if filepath.suffix == ".xyz":
             self._to_xyz(filepath)
             return
-        super().save(filepath, **kwargs)
+        super().save(filepath, exclude_none, indent, **kwargs)
 
     def _to_xyz(self, filepath: Union[Path, str]) -> None:
         """Write a molecule to an XYZ file.

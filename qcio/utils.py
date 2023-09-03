@@ -1,4 +1,7 @@
-from typing import Optional
+import json
+from typing import List, Optional, Union
+
+from pydantic import BaseModel
 
 from .models import (
     CalcType,
@@ -29,3 +32,10 @@ def calctype_to_output(calctype: Optional[CalcType]):
         CalcType.transition_state: OptimizationOutput,
     }
     return calctype_to_output[calctype]
+
+
+def json_dumps(obj: Union[BaseModel, List[BaseModel]]) -> str:
+    """Serialization helper for lists of pydantic objects."""
+    if isinstance(obj, list):
+        return json.dumps([o.model_dump() for o in obj])
+    return obj.model_dump_json()
