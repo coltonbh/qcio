@@ -152,7 +152,7 @@ class Files(QCIOModelBase):
             for filename, data in files.items()
         }
 
-    def add_file(
+    def open_file(
         self, filepath: Union[Path, str], relative_dir: Optional[Path] = None
     ) -> None:
         """Create a File object from a file on disk.
@@ -177,7 +177,7 @@ class Files(QCIOModelBase):
 
         self.files[filename] = data
 
-    def add_files(
+    def open_files(
         self,
         directory: StrOrPath,
         recursive: bool = False,
@@ -199,9 +199,9 @@ class Files(QCIOModelBase):
             files = directory.glob("*")
         for filepath in files:
             if filepath.is_file() and filepath.name not in exclude:
-                self.add_file(filepath, directory)
+                self.open_file(filepath, directory)
 
-    def write_files(self, directory: StrOrPath = Path(".")) -> None:
+    def save_files(self, directory: StrOrPath = Path(".")) -> None:
         """Write all files to the specified directory"""
         directory = Path(directory)
         directory.mkdir(exist_ok=True)

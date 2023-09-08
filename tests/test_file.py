@@ -28,7 +28,7 @@ def test_to_directory(test_data_dir, tmp_path):
         # program="terachem",
         extras={"my_extra": "123"},
     )
-    file_inp.write_files(tmp_path)
+    file_inp.save_files(tmp_path)
     for filename in file_inp.files:
         # Ensure files were written
         assert (tmp_path / filename).exists()

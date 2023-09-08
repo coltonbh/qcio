@@ -31,7 +31,7 @@ class FileInput(InputBase):
         """Collect all files from directory and instantiate an object."""
         obj = cls(**kwargs)
         directory = Path(directory)
-        obj.add_files(directory)
+        obj.open_files(directory)
         return obj
 
 

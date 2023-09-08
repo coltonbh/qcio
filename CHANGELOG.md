@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+## [0.6.0] - 2023-09-08
+
+### Changed
+
+- Renamed methods `.write_files()` -> `save_files()`, `.add_file()` -> `.open_file()`, `add_files()` -> `.open_files()` to keep a more consistent convention with `.save*` dumping objects to disk and `.open*` opening files on disk.
+
 ## [0.5.1] - 2023-09-02
 
 ### Added
@@ -129,7 +135,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `SinglePointComputedProperties`
   - `Wavefunction`
 
-[unreleased]: https://github.com/coltonbh/qcio/compare/0.5.1...HEAD
+[unreleased]: https://github.com/coltonbh/qcio/compare/0.6.0...HEAD
+[0.6.0]: https://github.com/coltonbh/qcio/releases/tag/0.6.0
 [0.5.1]: https://github.com/coltonbh/qcio/releases/tag/0.5.1
 [0.5.0]: https://github.com/coltonbh/qcio/releases/tag/0.5.0
 [0.4.2]: https://github.com/coltonbh/qcio/releases/tag/0.4.2
