@@ -1,5 +1,5 @@
 """End user output and results objects from a calculation."""
-from typing import List, Literal, Optional, Union
+from typing import TYPE_CHECKING, List, Literal, Optional, Union
 
 import numpy as np
 from pydantic import field_validator
@@ -10,6 +10,10 @@ from .base_models import QCIOModelBase
 from .inputs import DualProgramInput, FileInput, ProgramInput
 from .molecule import Molecule
 from .outputs_base import OutputBase, ResultsBase, SuccessfulOutputBase
+
+if TYPE_CHECKING:  # pragma: no cover
+    from pydantic.typing import ReprArgs
+
 
 __all__ = [
     "FileOutput",
@@ -249,3 +253,10 @@ class ProgramFailure(OutputBase):
     def ptraceback(self) -> None:
         """Print the traceback text"""
         print(self.traceback)
+
+    def __repr_args__(self) -> "ReprArgs":
+        """Exclude traceback from the repr"""
+        return [
+            (key, value if key != "traceback" else "<...>")
+            for key, value in super().__repr_args__()
+        ]
