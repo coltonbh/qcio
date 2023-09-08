@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+## [0.6.1] - 2023-09-08
+
+### Changed
+
+- Removed `.traceback` from `__repr_args__` of `ProgramFailure` so object is more human-readable in an interactive session.
+
 ## [0.6.0] - 2023-09-08
 
 ### Changed
@@ -135,7 +141,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `SinglePointComputedProperties`
   - `Wavefunction`
 
-[unreleased]: https://github.com/coltonbh/qcio/compare/0.6.0...HEAD
+[unreleased]: https://github.com/coltonbh/qcio/compare/0.6.1...HEAD
+[0.6.1]: https://github.com/coltonbh/qcio/releases/tag/0.6.1
 [0.6.0]: https://github.com/coltonbh/qcio/releases/tag/0.6.0
 [0.5.1]: https://github.com/coltonbh/qcio/releases/tag/0.5.1
 [0.5.0]: https://github.com/coltonbh/qcio/releases/tag/0.5.0
