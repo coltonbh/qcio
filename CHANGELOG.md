@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+### Added
+
+- README.md documentation for basic library utilization.
+
+### Changed
+
+- Renamed `DualProgramArgs` to `SubProgramArgs`.
+- Updated `dev-decisions.md` documentation.
+
 ## [0.6.1] - 2023-09-08
 
 ### Changed
