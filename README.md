@@ -155,3 +155,7 @@ Failed calculations are represented by a `ProgramFailure` object. This object ha
 output.traceback # Stack trace from the failed calculation
 output.ptraceback # Shortcut to print out the traceback in human readable format
 ```
+
+## Support
+
+If you have any issues with `qcio` or would like to request a feature, please open an [issue](https://github.com/coltonbh/qcio/issues).
