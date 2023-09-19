@@ -124,22 +124,34 @@ new_prog_input = ProgramInput(**new_input_dict)
 
 ### Output Objects
 
+#### SinglePointOutput and OptimizationOutput
+
 Currently supported `Output` objects include `SinglePointOutput` for energy, gradient, and hessian calculations; and `OptimizationOutput` for optimization and transition state calculations. All `Output` objects have the same basic API:
 
 ```python
-output_obj.input_data # Input data used by the QC program
-output_obj.success # Whether the calculation succeeded
-output_obj.results # All structured results from the calculation
-output_obj.stdout # Stdout log from the calculation
-output_obj.files # Any files returned by the calculation
-output_obj.provenance # Provenance information about the calculation
-output_obj.extras # Any extra information not in the schema
+output.input_data # Input data used by the QC program
+output.success # Whether the calculation succeeded
+output.results # All structured results from the calculation
+output.stdout # Stdout log from the calculation
+output.pstdout # Shortcut to print out the stdout in human readable format
+output.files # Any files returned by the calculation
+output.provenance # Provenance information about the calculation
+output.extras # Any extra information not in the schema
 ```
 
 The only difference between a `SinglePointOutput` and an `OptimizationOutput` is the `results` attribute. `SinglePointOutput` objects have a `SinglePointResults` object, and `OptimizationOutput` objects have an `OptimizationResults` object. Available attributes for each result type can be found by calling `dir()` on the object.
 
 ```python
-dir(output_obj.results)
+dir(output.results)
 ```
 
 Results can be saved to disk in json, yaml, or toml format by calling `.save("filename.{json/yaml/toml}")` and loaded from disk by calling `.open("filename.{json/yaml/toml}")`.
+
+#### ProgramFailure
+
+Failed calculations are represented by a `ProgramFailure` object. This object has the same API as `Output` objects but also has a `.traceback` attribute that captures the stack trace.
+
+```python
+output.traceback # Stack trace from the failed calculation
+output.ptraceback # Shortcut to print out the traceback in human readable format
+```
