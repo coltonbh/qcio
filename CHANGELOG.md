@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+## [0.7.0] - 2023-09-19
+
 ### Added
 
 - README.md documentation for basic library utilization.
@@ -150,7 +152,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `SinglePointComputedProperties`
   - `Wavefunction`
 
-[unreleased]: https://github.com/coltonbh/qcio/compare/0.6.1...HEAD
+[unreleased]: https://github.com/coltonbh/qcio/compare/0.7.0...HEAD
+[0.7.0]: https://github.com/coltonbh/qcio/releases/tag/0.7.0
 [0.6.1]: https://github.com/coltonbh/qcio/releases/tag/0.6.1
 [0.6.0]: https://github.com/coltonbh/qcio/releases/tag/0.6.0
 [0.5.1]: https://github.com/coltonbh/qcio/releases/tag/0.5.1
