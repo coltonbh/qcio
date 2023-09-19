@@ -4,7 +4,7 @@ from typing import List, Union
 
 from typing_extensions import Self
 
-from .inputs_base import DualProgramArgs, InputBase, QCProgramArgs, StructuredInputBase
+from .inputs_base import InputBase, QCProgramArgs, StructuredInputBase, SubProgramArgs
 from .molecule import Molecule
 
 __all__ = [
@@ -50,7 +50,7 @@ class ProgramInput(StructuredInputBase, QCProgramArgs):
     """
 
 
-class DualProgramInput(StructuredInputBase, DualProgramArgs):
+class DualProgramInput(StructuredInputBase, SubProgramArgs):
     """Input for a two program calculation.
 
     Attributes:

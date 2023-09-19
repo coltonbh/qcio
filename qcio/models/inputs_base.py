@@ -16,7 +16,7 @@ __all__ = [
     "QCProgramArgs",
     "InputBase",
     "StructuredInputBase",
-    "DualProgramArgs",
+    "SubProgramArgs",
 ]
 
 
@@ -79,8 +79,8 @@ class QCProgramArgs(ProgramArgs):
     model: Model
 
 
-class DualProgramArgs(ProgramArgs):
-    """Core arguments for a DualProgramInput without calctype and molecule.
+class SubProgramArgs(ProgramArgs):
+    """Core arguments for a subprogram.
 
     Attributes:
         subprogram_args: The input arguments for the subprogram.

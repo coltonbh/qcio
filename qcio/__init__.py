@@ -23,5 +23,5 @@ __all__ = [  # noqa: F405
     "ProgramFailure",
     "ProgramArgs",
     "QCProgramArgs",
-    "DualProgramArgs",
+    "SubProgramArgs",
 ]
