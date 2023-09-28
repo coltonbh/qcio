@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+### Added
+
+- Add validation to `Molecule.symbols` so that all symbols will be capitalized, e.g., `NA` -> `Na`, `h` -> `H`, etc.
+
+### Changed
+
+- `Molecule._to_xyz()` is now a public method `Molecule.to_xyz()` that returns an xyz string rather than writing an xyz file to disk.
+- Hoisted `utils.json_dumps` to `qcio.json_dumps` for easier import.
+
 ## [0.7.0] - 2023-09-19
 
 ### Added

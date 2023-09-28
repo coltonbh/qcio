@@ -51,3 +51,10 @@ def test_molecule_model_dump_connectivity(water):
         assert isinstance(bond, list)
         for val in bond:
             assert isinstance(val, float)
+
+
+def test_molecule_capitalize():
+    molecule = Molecule(symbols=["NA"], geometry=[[0, 0, 0]])
+    assert molecule.symbols == ["Na"]
+    molecule = Molecule(symbols=["h"], geometry=[[0, 0, 0]])
+    assert molecule.symbols == ["H"]
