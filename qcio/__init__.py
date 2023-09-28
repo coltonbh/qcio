@@ -2,6 +2,7 @@
 from importlib import metadata
 
 from .models import *  # noqa: F403
+from .utils import json_dumps
 
 __version__ = metadata.version(__name__)
 
@@ -24,4 +25,6 @@ __all__ = [  # noqa: F405
     "ProgramArgs",
     "QCProgramArgs",
     "SubProgramArgs",
+    # Core Utils
+    "json_dumps",
 ]

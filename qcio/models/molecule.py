@@ -102,6 +102,12 @@ class Molecule(QCIOModelBase):
             ("formula", self.formula),
         ]
 
+    @field_validator("symbols")
+    @classmethod
+    def camel_case(cls, v, values, **kwargs):
+        """Ensure symbols are all capitalized with lowercase second letter."""
+        return [symbol.capitalize() for symbol in v]
+
     @field_validator("geometry")
     @classmethod
     def shape_n_by_3(cls, v, values, **kwargs):
@@ -188,30 +194,30 @@ class Molecule(QCIOModelBase):
         """
         filepath = Path(filepath)
         if filepath.suffix == ".xyz":
-            self._to_xyz(filepath)
+            filepath.write_text(self.to_xyz())
             return
         super().save(filepath, exclude_none, indent, **kwargs)
 
-    def _to_xyz(self, filepath: Union[Path, str]) -> None:
-        """Write a molecule to an XYZ file.
+    def to_xyz(self) -> str:
+        """Return an xyz string representation of the molecule.
 
         Notes:
-            Will export qcio data to the comments line with a qcio_key=value format.
+            Will add qcio data to the comments line with a qcio_key=value format.
         """
-        filepath = Path(filepath)
 
-        qcio_kwargs = {
+        qcio_data = {  # These get added to comments line (line 2) in xyz file
             "qcio_charge": self.charge,
             "qcio_multiplicity": self.multiplicity,
         }
         assert isinstance(self.geometry, np.ndarray)  # For mypy
         geometry_angstrom = self.geometry * BOHR_TO_ANGSTROM
 
-        with open(filepath, "w") as f:
-            f.write(f"{len(self.symbols)}\n")
-            f.write(f"{' '.join([f'{k}={v}' for k, v in qcio_kwargs.items()])}\n")
-            for symbol, (x, y, z) in zip(self.symbols, geometry_angstrom):
-                f.write(f"{symbol:2s} {x: >18.12f} {y: >18.12f} {z: >18.12f}\n")
+        xyz_lines = []
+        xyz_lines.append(f"{len(self.symbols)}")
+        xyz_lines.append(f"{' '.join([f'{k}={v}' for k, v in qcio_data.items()])}")
+        for symbol, (x, y, z) in zip(self.symbols, geometry_angstrom):
+            xyz_lines.append(f"{symbol:2s} {x: >18.12f} {y: >18.12f} {z: >18.12f}")
+        return "\n".join(xyz_lines)
 
     @classmethod
     def _from_xyz(cls, filepath: Union[Path, str]) -> Self:
