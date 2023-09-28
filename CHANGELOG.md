@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+## [0.7.1] - 2023-09-27
+
 ### Added
 
 - Add validation to `Molecule.symbols` so that all symbols will be capitalized, e.g., `NA` -> `Na`, `h` -> `H`, etc.
@@ -161,7 +163,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `SinglePointComputedProperties`
   - `Wavefunction`
 
-[unreleased]: https://github.com/coltonbh/qcio/compare/0.7.0...HEAD
+[unreleased]: https://github.com/coltonbh/qcio/compare/0.7.1...HEAD
+[0.7.1]: https://github.com/coltonbh/qcio/releases/tag/0.7.1
 [0.7.0]: https://github.com/coltonbh/qcio/releases/tag/0.7.0
 [0.6.1]: https://github.com/coltonbh/qcio/releases/tag/0.6.1
 [0.6.0]: https://github.com/coltonbh/qcio/releases/tag/0.6.0
