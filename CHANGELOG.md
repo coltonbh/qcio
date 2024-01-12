@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+## [0.8.0] - 2024-01-12
+
 ### Added
 
 - `OptimizationOutput.save("filename.xyz)` now save the trajectory to an xyz file.
@@ -171,7 +173,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `SinglePointComputedProperties`
   - `Wavefunction`
 
-[unreleased]: https://github.com/coltonbh/qcio/compare/0.7.1...HEAD
+[unreleased]: https://github.com/coltonbh/qcio/compare/0.8.0...HEAD
+[0.8.0]: https://github.com/coltonbh/qcio/releases/tag/0.8.0
 [0.7.1]: https://github.com/coltonbh/qcio/releases/tag/0.7.1
 [0.7.0]: https://github.com/coltonbh/qcio/releases/tag/0.7.0
 [0.6.1]: https://github.com/coltonbh/qcio/releases/tag/0.6.1
