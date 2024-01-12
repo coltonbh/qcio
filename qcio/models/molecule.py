@@ -217,6 +217,7 @@ class Molecule(QCIOModelBase):
         xyz_lines.append(f"{' '.join([f'{k}={v}' for k, v in qcio_data.items()])}")
         for symbol, (x, y, z) in zip(self.symbols, geometry_angstrom):
             xyz_lines.append(f"{symbol:2s} {x: >18.12f} {y: >18.12f} {z: >18.12f}")
+        xyz_lines.append("")  # Append newline to end of file
         return "\n".join(xyz_lines)
 
     @classmethod

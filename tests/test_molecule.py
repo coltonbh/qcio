@@ -29,6 +29,11 @@ def test_to_file_xyz(test_data_dir, tmp_path):
     assert caffeine_copy.multiplicity == caffeine.multiplicity
     assert caffeine_copy.charge == caffeine.charge
 
+    # single \n at end of file
+    text = (tmp_path / "caffeine_copy.xyz").read_text()
+    assert text.endswith("\n")
+    assert not text.endswith("\n\n")
+
 
 def test_to_from_file_json(test_data_dir, tmp_path):
     caffeine = Molecule.open(test_data_dir / "caffeine.xyz")
