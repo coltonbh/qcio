@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+### Added
+
+- `OptimizationOutput.save("filename.xyz)` now save the trajectory to an xyz file.
+
+### Fixed
+
+- Saved Molecule xyz files now end with a `\n` character.
+
 ## [0.7.1] - 2023-09-27
 
 ### Added

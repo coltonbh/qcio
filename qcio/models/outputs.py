@@ -1,4 +1,5 @@
 """End user output and results objects from a calculation."""
+from pathlib import Path
 from typing import TYPE_CHECKING, List, Literal, Optional, Union
 
 import numpy as np
@@ -217,6 +218,34 @@ class OptimizationResults(ResultsBase):
             ("energies", "[...]"),
             ("molecules", "[...]"),
         ]
+
+    def save(
+        self,
+        filepath: Union[Path, str],
+        exclude_none=True,
+        indent: int = 4,
+        **kwargs,
+    ) -> None:
+        """Save an OptimizationOutput to a file.
+
+        Args:
+            filepath: The path to save the molecule to.
+            exclude_none: If True, attributes with a value of None will not be written
+                to the file.
+            **kwargs: Additional keyword arguments to pass to the json serializer.
+
+        Notes:
+            If the filepath has a .xyz extension, the trajectory will be saved to an XYZ
+            file.
+        """
+        filepath = Path(filepath)
+        if filepath.suffix == ".xyz":
+            text = "".join(
+                sp_output.input_data.molecule.to_xyz() for sp_output in self.trajectory
+            )
+            filepath.write_text(text)
+            return
+        super().save(filepath, exclude_none, indent, **kwargs)
 
 
 class OptimizationOutput(SuccessfulOutputBase):
