@@ -1,6 +1,7 @@
 """Base (non-end user) input models for qcio. Most models here are used to collect
 and organize common attributes used across multiple input objects.
 """
+
 from enum import Enum
 from typing import Any, Dict, Optional
 

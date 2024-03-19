@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+### Added
+
+- `py.typed` file to enable type checking in other projects that use `qcio`.
+
+### Changed
+
+- Updated `black`.
+
 ## [0.8.0] - 2024-01-12
 
 ### Added

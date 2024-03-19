@@ -1,4 +1,5 @@
 """Compatibility layer for QCElemental (QCSchema)."""
+
 from typing import Any, Dict, Union
 
 from qcio import (
