@@ -1,4 +1,5 @@
 """End user input models for qcio"""
+
 from pathlib import Path
 from typing import List, Union
 

@@ -1,4 +1,5 @@
 """The Base model from which all QCIO Model objects inherit."""
+
 import json
 from abc import ABC
 from base64 import b64decode, b64encode
@@ -146,9 +147,11 @@ class Files(QCIOModelBase):
     def serialize_files(self, files, _info) -> Dict[str, str]:
         """Serialize files to a dict of filename to base64 encoded string."""
         return {
-            filename: f"base64:{b64encode(data).decode('utf-8')}"
-            if isinstance(data, bytes)
-            else data
+            filename: (
+                f"base64:{b64encode(data).decode('utf-8')}"
+                if isinstance(data, bytes)
+                else data
+            )
             for filename, data in files.items()
         }
 
@@ -216,14 +219,16 @@ class Files(QCIOModelBase):
         """Replace file data with '<bytes>' or '<str>' in __repr__."""
         rargs = super().__repr_args__()
         return [
-            (k, v)
-            if k != "files"
-            else (
-                k,
-                {
-                    name: bytes if isinstance(data, bytes) else str
-                    for name, data in v.items()
-                },
+            (
+                (k, v)
+                if k != "files"
+                else (
+                    k,
+                    {
+                        name: bytes if isinstance(data, bytes) else str
+                        for name, data in v.items()
+                    },
+                )
             )
             for k, v in rargs
         ]

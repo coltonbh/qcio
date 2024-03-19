@@ -1,4 +1,5 @@
 """Base (non end user) classes for output models."""
+
 from typing import TYPE_CHECKING, Literal, Optional
 
 from .base_models import Files, Provenance, QCIOModelBase

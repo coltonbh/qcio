@@ -1,4 +1,5 @@
 """End user output and results objects from a calculation."""
+
 from pathlib import Path
 from typing import TYPE_CHECKING, List, Literal, Optional, Union
 
