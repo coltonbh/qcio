@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+## [0.8.1] - 2024-03-29
+
 ### Added
 
 - `py.typed` file to enable type checking in other projects that use `qcio`.
@@ -182,7 +184,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `SinglePointComputedProperties`
   - `Wavefunction`
 
-[unreleased]: https://github.com/coltonbh/qcio/compare/0.8.0...HEAD
+[unreleased]: https://github.com/coltonbh/qcio/compare/0.8.1...HEAD
+[0.8.1]: https://github.com/coltonbh/qcio/releases/tag/0.8.1
 [0.8.0]: https://github.com/coltonbh/qcio/releases/tag/0.8.0
 [0.7.1]: https://github.com/coltonbh/qcio/releases/tag/0.7.1
 [0.7.0]: https://github.com/coltonbh/qcio/releases/tag/0.7.0
