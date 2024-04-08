@@ -1,23 +1,14 @@
 from pathlib import Path
-from typing import List, Union
+from typing import Union
 
 import numpy as np
-from pydantic import PlainSerializer
+from pydantic import PlainSerializer, SkipValidation
 from typing_extensions import Annotated
 
 StrOrPath = Annotated[Union[str, Path], PlainSerializer(lambda x: str(x))]
 
-# May be energy (float), gradient or hessian (List[List[float]])
-SPReturnResult = Union[float, List[List[float]]]
-
-# Type for any values that can be coerced to 2D numpy array
-ArrayLike2D = Annotated[
-    Union[List[List[float]], List[float], np.ndarray],
-    PlainSerializer(lambda x: np.array(x).tolist()),
-]
-
-# Type for any values that can be coerced to 3D numpy array
-ArrayLike3D = Annotated[
-    Union[List[List[List[float]]], List[List[float]], np.ndarray],
-    PlainSerializer(lambda x: np.array(x).tolist()),
+# Skipping validation allows non numpy arrays to be passed and then coerced by
+# validators to numpy arrays.
+SerializableNDArray = Annotated[
+    SkipValidation[np.ndarray], PlainSerializer(lambda x: np.array(x).tolist())
 ]

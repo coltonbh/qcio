@@ -1,15 +1,8 @@
 """Compatibility layer for QCElemental (QCSchema)."""
 
-from typing import Any, Dict, Union
+from typing import Any, Dict
 
-from qcio import (
-    ProgramFailure,
-    ProgramInput,
-    Provenance,
-    SinglePointOutput,
-    SinglePointResults,
-    Wavefunction,
-)
+from qcio import ProgramInput, SinglePointResults, Wavefunction
 
 
 def to_qcel_input(prog_input: ProgramInput) -> Dict[str, Any]:
@@ -39,53 +32,10 @@ def to_qcel_input(prog_input: ProgramInput) -> Dict[str, Any]:
             ),  # not on qcel model
         },
         "driver": prog_input.calctype,
-        "model": prog_input.model.model_dump(),
+        "model": prog_input.model.model_dump(exclude={"extras"}),
         "keywords": prog_input.keywords,
         "extras": prog_input.extras,
     }
-
-
-def from_qcel_output(
-    qcio_input: ProgramInput,
-    qcel_output: Dict[str, Any],
-) -> Union[SinglePointOutput, ProgramFailure]:
-    """Create a SinglePointSuccessfulOutput or SinglePointFailedOutput from the
-    QCElemental v1 output schema representation of the output (AtomicResult dict).
-
-    NOTE: Function no longer used in qcop; only using from_qcel_output_results. Maybe
-        remove in the future if I never return to use it.
-
-    Args:
-        qcio_input: The input object for the computation.
-        qcel_output: The QCElemental v1 output schema representation of the output.
-            May be a dict representing an AtomicResult or FailedOperation.
-    """
-    prov_extras = {"NOTE": "Computed by QCEngine"}
-
-    if qcel_output["success"] is False:
-        return ProgramFailure(
-            input_data=qcio_input,
-            traceback=qcel_output["error"]["error_message"],
-            provenance=Provenance(
-                program=qcel_output["input_data"]["provenance"]["creator"],
-                program_version=qcel_output["input_data"]["provenance"].get("version"),
-                wall_time=qcel_output["input_data"]["provenance"].get("wall_time"),
-                extras=prov_extras,
-            ),
-            extras=qcel_output["extras"] or {},  # Because .extras may be None
-        )
-    else:
-        return SinglePointOutput(
-            input_data=qcio_input,
-            stdout=qcel_output["stdout"],
-            results=from_qcel_output_results(qcel_output),
-            provenance=Provenance(
-                program=qcel_output["provenance"]["creator"],
-                program_version=qcel_output["provenance"].get("version"),
-                wall_time=qcel_output["provenance"].get("wall_time"),
-                extras=prov_extras,
-            ),
-        )
 
 
 def from_qcel_output_results(
@@ -111,6 +61,7 @@ def from_qcel_output_results(
             qcel_key = qcio_to_qcel[key]
         else:
             qcel_key = key
+
         value = qcel_output["properties"].get(qcel_key)
         if value is not None:
             results[key] = value

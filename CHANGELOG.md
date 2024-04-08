@@ -6,6 +6,26 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+### Added
+
+- `Molecule.atomic_numbers` property which uses `qcio.constants.ELEMENTS` to map atomic symbols to atomic numbers.
+- Generic `ProgramOutput[InputType, ResultsType]` class to handle all program outputs.
+
+### Removed
+
+**THIS IS A BREAKING RELEASE DUE TO THESE REMOVALS! Trying to maintain core end-user API though.**
+
+- `from_qcel_output` function that is no longer needed since I only need to parse out the results from `QCElemental` objects.
+- 🚨 BREAKING CHANGE: `calctype_to_output` since all outputs are now `ProgramOutput` objects parameterized by their input type and results type.
+- `test_input_to_output_from_qcel_failed_operation` test since we only parse results from `QCElemental` objects and don't need to parse `FailedOperation` objects.
+- `ArrayLike3D` type hint since we are specifically accepting only `NDArray` types for all numpy arrays (instead of previously accepting `List[List[List[float]])` as well) and the dimensionality (shape) cannot be enforced at the type level. All array shapes are enforced by validators and noted as comments.
+- Unused `SPReturnType` type hint.
+
+### Changed
+
+- 🚨 BREAKING CHANGE: Inheritance hierarchy for inputs changed to `ProgramInput(FileInput, ...)`, `DualProgramInput(ProgramInput, ...)`. Specifically, all inputs are subclasses of `FileInput` now. So `isinstance(obj, FileInput)` that previously returned `False` for `ProgramInput` and `DualProgramInput` objects (which were not children of `FileInput`) now return True. Update these checks to `if type(obj) is FileInput` to retain the original behavior.
+- 🚨 BREAKING CHANGE: While a `ProgramFailure` object is provided for end-user backwards compatibility, because of varying Generics parameters, previous `isinstance(obj, ProgramFailure)` checks that used to return `True` will now return `False`. Check for "equality" to old`ProgramFailure`objects with`if obj.success is False` instead.
+
 ## [0.8.2] - 2024-04-09
 
 ### Added
@@ -22,6 +42,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Updated `black`.
 - Added `fix_com=True` and `fix_orientation=True` to default conversion from `qcio.Molecule` to `qcelemental.Molecule` objects so that qcel doesn't translate or rotate the molecule unsuspectingly without the user's consent. See default behaviors [here](https://github.com/MolSSI/QCElemental/blob/8e5a8cff52a6438ff9d6c1c6bbf1aeb4f02f12e1/qcelemental/models/molecule.py#L262-L281).
+- Renamed `SubProgramArgs` to `SubProgramInput` to be more consistent with the naming convention of the other input objects.
 
 ## [0.8.0] - 2024-01-12
 

@@ -63,3 +63,8 @@ def test_molecule_capitalize():
     assert molecule.symbols == ["Na"]
     molecule = Molecule(symbols=["h"], geometry=[[0, 0, 0]])
     assert molecule.symbols == ["H"]
+
+
+def test_atomic_symbols():
+    molecule = Molecule(symbols=["Na", "Cl"], geometry=[[0, 0, 0], [1, 1, 1]])
+    assert molecule.atomic_numbers == [11, 17]

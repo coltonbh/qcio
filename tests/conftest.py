@@ -3,7 +3,14 @@ from pathlib import Path
 import numpy as np
 import pytest
 
-from qcio import ProgramInput, SinglePointOutput
+from qcio import (
+    DualProgramInput,
+    FileInput,
+    OptimizationResults,
+    ProgramInput,
+    ProgramOutput,
+    SinglePointResults,
+)
 from qcio.utils import water as water_mol
 
 
@@ -20,11 +27,31 @@ def water():
 
 
 @pytest.fixture
-def sp_input(water):
-    """Create a function that returns a SinglePointInput object with a specified
-    calculation type."""
+def file_input():
+    return FileInput(
+        files={"binary": b"binary data", "text": "text data"},
+        cmdline_args=["-i", "input.dat", "-o", "output.dat"],
+    )
 
-    def _create_sp_input(calctype):
+
+@pytest.fixture
+def input_data(request, file_input, prog_input, dprog_input):
+    """Input data fixture"""
+    if request.param == "file_input":
+        return file_input
+    elif request.param == "prog_input":
+        return prog_input("energy")
+    elif request.param == "dprog_input":
+        return dprog_input
+    else:
+        raise ValueError(f"Unknown input data type: {request.param}")
+
+
+@pytest.fixture
+def prog_input(water):
+    """Function that returns ProgramInput of calctype."""
+
+    def _create_prog_input(calctype):
         return ProgramInput(
             molecule=water,
             calctype=calctype,
@@ -38,26 +65,80 @@ def sp_input(water):
             },
         )
 
-    return _create_sp_input
+    return _create_prog_input
 
 
 @pytest.fixture
-def sp_output(sp_input):
-    """Create SinglePointOutput object"""
-    sp_inp_energy = sp_input("energy")
-    energy = 1.0
-    n_atoms = len(sp_inp_energy.molecule.symbols)
-    gradient = np.arange(n_atoms * 3).reshape(n_atoms, 3)
-    hessian = np.arange(n_atoms**2 * 3**2).reshape(n_atoms * 3, n_atoms * 3)
+def dprog_input(water):
+    """Function that returns DualProgramInput of calctype."""
 
-    return SinglePointOutput(
-        input_data=sp_inp_energy,
+    def _create_prog_input(calctype):
+        return DualProgramInput(
+            molecule=water,
+            calctype=calctype,
+            keywords={
+                "maxiter": 100,
+                "purify": "no",
+                "some-bool": False,
+            },
+            subprogram="fake subprogram",
+            subprogram_args={"model": {"method": "hf", "basis": "sto-3g"}},
+        )
+
+    return _create_prog_input
+
+
+@pytest.fixture
+def sp_results():
+    """SinglePointResults object"""
+
+    def _create_sp_results(molecule):
+        n_atoms = len(molecule.symbols)
+        gradient = np.arange(n_atoms * 3, dtype=np.float64).reshape(n_atoms, 3)
+        hessian = np.arange(n_atoms**2 * 3**2, dtype=np.float64).reshape(
+            n_atoms * 3, n_atoms * 3
+        )
+        return SinglePointResults(
+            energy=1.0,
+            gradient=gradient,
+            hessian=hessian,
+            extras={"some_extra_result": 1},
+        )
+
+    return _create_sp_results
+
+
+@pytest.fixture
+def prog_output(prog_input, sp_results):
+    """Successful ProgramOutput object"""
+    pi_energy = prog_input("energy")
+    sp_results = sp_results(pi_energy.molecule)
+
+    return ProgramOutput[ProgramInput, SinglePointResults](
+        input_data=pi_energy,
+        success=True,
         stdout="program standard out...",
-        results={
-            "energy": energy,
-            "gradient": gradient,
-            "hessian": hessian,
-        },
+        results=sp_results,
         provenance={"program": "qcio-test-suite", "scratch_dir": "/tmp/qcio"},
         extras={"some_extra": 1},
     )
+
+
+@pytest.fixture
+def prog_output_failure(prog_input, sp_results):
+    """Failed ProgramOutput object"""
+    pi_energy = prog_input("energy")
+
+    return ProgramOutput[ProgramInput, SinglePointResults](
+        input_data=pi_energy,
+        success=False,
+        stdout="program standard out...",
+        results=None,
+        provenance={"program": "qcio-test-suite", "scratch_dir": "/tmp/qcio"},
+        extras={"some_extra": 1},
+    )
+
+
+@pytest.fixture
+def opt_results(prog_output):
+    return OptimizationResults(trajectory=[prog_output])

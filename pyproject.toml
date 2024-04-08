@@ -9,11 +9,12 @@ description = "Beautiful and user friendly data structures for quantum chemistry
 authors = ["Colton Hicks <github@coltonhicks.com>"]
 license = "MIT"
 readme = "README.md"
+homepage = "https://github.com/coltonbh/qcio"
 
 [tool.poetry.dependencies]
 python = "^3.8"
-pydantic = ">=2.0.0"
-numpy = ">=1.20"
+pydantic = "^2.0.0,!=2.0.1,!=2.1.0"
+numpy = "^1.20"
 toml = "^0.10.2"
 pyyaml = "^6.0"
 typing-extensions = "^4.7.1"
@@ -48,6 +49,10 @@ target-version = "py38"
 [tool.coverage.run]
 branch = true
 omit = ["*/tests/*", "*__init__.py"]
+
+[tool.pytest.ini_options]
+filterwarnings = ["ignore::FutureWarning"]
+
 
 [tool.mypy]
 plugins = "pydantic.mypy"
