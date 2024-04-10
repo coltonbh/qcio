@@ -38,6 +38,7 @@ repos:
     rev: v1.16.10
     hooks:
       - id: typos
+        exclude: constants\.py$
   - repo: local
     hooks:
       - id: tests
