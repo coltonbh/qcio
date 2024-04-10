@@ -24,7 +24,7 @@ mypy = "^1.1.1"
 pytest = "^7.2.2"
 pre-commit = "^3.2.1"
 pytest-cov = "^4.0.0"
-ruff = "^0.0.260"
+ruff = "^0.3.5"
 isort = "^5.12.0"
 qcelemental = ">=0.26.0"
 types-toml = "^0.10.8.6"
@@ -42,8 +42,9 @@ use_parentheses = true
 
 [tool.ruff]
 line-length = 88
-isort = { known-first-party = ["qcio", "tests"] }
+lint = {isort = { known-first-party = ["qcio", "tests"] }}
 target-version = "py38"
+exclude = ["**/__init__.py"]
 
 [tool.coverage.run]
 branch = true
