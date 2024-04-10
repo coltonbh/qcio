@@ -6,9 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+## [0.8.2] - 2024-04-09
+
 ### Added
 
-- `constants.ELEMENTS` mapping of atomic numbers to element symbols.
+- `constants.ELEMENTS` mapping of atomic numbers to element symbols. In anticipation of supporting `xtb` in `qcop` which uses atomic numbers instead of element symbols.
 
 ## [0.8.1] - 2024-03-29
 
@@ -188,7 +190,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `SinglePointComputedProperties`
   - `Wavefunction`
 
-[unreleased]: https://github.com/coltonbh/qcio/compare/0.8.1...HEAD
+[unreleased]: https://github.com/coltonbh/qcio/compare/0.8.2...HEAD
+[0.8.2]: https://github.com/coltonbh/qcio/releases/tag/0.8.2
 [0.8.1]: https://github.com/coltonbh/qcio/releases/tag/0.8.1
 [0.8.0]: https://github.com/coltonbh/qcio/releases/tag/0.8.0
 [0.7.1]: https://github.com/coltonbh/qcio/releases/tag/0.7.1
