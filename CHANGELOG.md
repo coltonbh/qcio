@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+### Added
+
+- `constants.ELEMENTS` mapping of atomic numbers to element symbols.
+
 ## [0.8.1] - 2024-03-29
 
 ### Added
