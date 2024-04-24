@@ -1,0 +1,5 @@
+[default.extend-words]
+# Elements
+Ba = "Ba"
+Nd = "Nd"
+ND = "ND"

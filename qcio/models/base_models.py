@@ -3,6 +3,7 @@
 import json
 from abc import ABC
 from base64 import b64decode, b64encode
+from enum import Enum
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, Dict, List, Optional, Union
 
@@ -13,12 +14,13 @@ from pydantic import BaseModel, field_serializer, field_validator
 from typing_extensions import Self
 
 from ..helper_types import StrOrPath
+from .utils import deprecated_function
 
 if TYPE_CHECKING:  # pragma: no cover
     from pydantic.typing import ReprArgs
 
 
-__all__ = ["Files", "Provenance"]
+__all__ = ["Files", "Provenance", "Model", "CalcType"]
 
 
 class QCIOModelBase(BaseModel, ABC):
@@ -155,7 +157,7 @@ class Files(QCIOModelBase):
             for filename, data in files.items()
         }
 
-    def open_file(
+    def add_file(
         self, filepath: Union[Path, str], relative_dir: Optional[Path] = None
     ) -> None:
         """Create a File object from a file on disk.
@@ -180,7 +182,13 @@ class Files(QCIOModelBase):
 
         self.files[filename] = data
 
-    def open_files(
+    @deprecated_function("add_file")
+    def open_file(
+        self, filepath: Union[Path, str], relative_dir: Optional[Path] = None
+    ) -> None:
+        self.add_file(filepath, relative_dir)
+
+    def add_files(
         self,
         directory: StrOrPath,
         recursive: bool = False,
@@ -202,7 +210,16 @@ class Files(QCIOModelBase):
             files = directory.glob("*")
         for filepath in files:
             if filepath.is_file() and filepath.name not in exclude:
-                self.open_file(filepath, directory)
+                self.add_file(filepath, directory)
+
+    @deprecated_function("add_files")
+    def open_files(
+        self,
+        directory: StrOrPath,
+        recursive: bool = False,
+        exclude: Optional[List[str]] = None,
+    ) -> None:
+        self.add_files(directory, recursive, exclude)
 
     def save_files(self, directory: StrOrPath = Path(".")) -> None:
         """Write all files to the specified directory"""
@@ -257,3 +274,32 @@ class Provenance(QCIOModelBase):
     hostname: Optional[str] = None
     hostcpus: Optional[int] = None
     hostmem: Optional[int] = None
+
+
+class CalcType(str, Enum):
+    """The Calculation type."""
+
+    energy = "energy"
+    gradient = "gradient"
+    hessian = "hessian"
+    optimization = "optimization"
+    transition_state = "transition_state"
+
+    def __repr__(self) -> str:
+        """Custom repr for CalcType"""
+        return f"'{self.name}'"  # pragma: no cover
+
+
+class Model(QCIOModelBase):
+    """The model for the quantum chemistry calculation.
+
+    Attributes:
+        method: The name of the method to be used in the calculation. Named according to
+            the convention of the program being called. If an MM calculation then the
+            name of the force field.
+        basis: The name of the basis set to be used in the calculation. Named according
+            to the convention of the program being called.
+    """
+
+    method: str
+    basis: Optional[str] = None

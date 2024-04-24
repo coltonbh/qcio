@@ -1,49 +1,39 @@
 """End user output and results objects from a calculation."""
 
+from __future__ import annotations
+
+import sys
+import warnings
 from pathlib import Path
-from typing import TYPE_CHECKING, List, Literal, Optional, Union
+from typing import TYPE_CHECKING, Generic, List, Literal, Optional, TypeVar, Union
 
 import numpy as np
-from pydantic import field_validator
+from pydantic import field_validator, model_validator
+from typing_extensions import Self
 
-from qcio.helper_types import ArrayLike2D, ArrayLike3D
+from qcio.helper_types import SerializableNDArray
 
-from .base_models import QCIOModelBase
-from .inputs import DualProgramInput, FileInput, ProgramInput
+from .base_models import CalcType, Files, Provenance, QCIOModelBase
+from .inputs import DualProgramInput, FileInput, Inputs, InputType, ProgramInput
 from .molecule import Molecule
-from .outputs_base import OutputBase, ResultsBase, SuccessfulOutputBase
+from .utils import deprecated_class
 
 if TYPE_CHECKING:  # pragma: no cover
     from pydantic.typing import ReprArgs
 
 
 __all__ = [
-    "FileOutput",
-    "SinglePointOutput",
-    "OptimizationOutput",
-    "ProgramFailure",
     "SinglePointResults",
     "Wavefunction",
     "OptimizationResults",
+    "ProgramOutput",
+    "ResultsType",
+    "Results",
+    "NoResults",
+    "SinglePointOutput",
+    "ProgramFailure",
+    "OptimizationOutput",
 ]
-
-
-class FileOutput(SuccessfulOutputBase):
-    """Generic output class for pure file based I/O.
-
-    Attributes:
-        input_data: The FileInput object used for the computation.
-        files: A dict mapping filename to str or bytes data.
-        success: A boolean indicator that the operation succeeded (always True)
-        stdout: The primary logging output of the program. Contains a union of stdout
-            and stderr.
-        provenance: An object containing the provenance information for the results.
-        extras: Additional information to bundle with the object. Use for schema
-            development and scratch space.
-
-    """
-
-    input_data: FileInput
 
 
 class Wavefunction(QCIOModelBase):
@@ -56,10 +46,10 @@ class Wavefunction(QCIOModelBase):
         scf_occupations_b: The SCF beta-spin orbital occupations.
     """
 
-    scf_eigenvalues_a: Optional[ArrayLike2D] = None
-    scf_eigenvalues_b: Optional[ArrayLike2D] = None
-    scf_occupations_a: Optional[ArrayLike2D] = None
-    scf_occupations_b: Optional[ArrayLike2D] = None
+    scf_eigenvalues_a: Optional[SerializableNDArray] = None
+    scf_eigenvalues_b: Optional[SerializableNDArray] = None
+    scf_occupations_a: Optional[SerializableNDArray] = None
+    scf_occupations_b: Optional[SerializableNDArray] = None
 
     @field_validator(
         "scf_eigenvalues_a",
@@ -72,7 +62,22 @@ class Wavefunction(QCIOModelBase):
         return np.asarray(val) if val is not None else None
 
 
-class SinglePointResults(ResultsBase):
+class NoResults(QCIOModelBase):
+    """Am empty results object for when no results are present.
+
+    This is used to avoid having to use Optional[Results] in ProgramOutput which gives
+    greater type safety by ensuring that results are always present. Also, this object
+    functions as an empty container so that end user code doesn't have to check if
+    results are None before accessing them--akin to returning an empty list instead of
+    None for a function.
+    """
+
+    def __bool__(self):
+        """Behave like an empty container."""
+        return False
+
+
+class SinglePointResults(QCIOModelBase):
     """The computed results from a single point calculation.
 
     Attributes:
@@ -111,8 +116,8 @@ class SinglePointResults(ResultsBase):
 
     # Core properties
     energy: Optional[float] = None
-    gradient: Optional[ArrayLike2D] = None
-    hessian: Optional[ArrayLike2D] = None
+    gradient: Optional[SerializableNDArray] = None  # Coerced to 2D array
+    hessian: Optional[SerializableNDArray] = None  # Coerced to 2D array
     nuclear_repulsion_energy: Optional[float] = None
 
     # Wavefunction data
@@ -120,7 +125,7 @@ class SinglePointResults(ResultsBase):
 
     # Frequency data
     freqs_wavenumber: List[float] = []
-    normal_modes_cartesian: Optional[ArrayLike3D] = None
+    normal_modes_cartesian: Optional[SerializableNDArray] = None  # Coerced to 3D array
     gibbs_free_energy: Optional[float] = None
 
     # SCF results
@@ -128,7 +133,7 @@ class SinglePointResults(ResultsBase):
 
     @field_validator("normal_modes_cartesian")
     @classmethod
-    def validate_normal_modes_cartesian_shape(cls, v: ArrayLike3D):
+    def validate_normal_modes_cartesian_shape(cls, v: SerializableNDArray):
         if v is not None:
             # Assume array has length of the number of normal modes
             n_normal_modes = len(v)
@@ -136,61 +141,41 @@ class SinglePointResults(ResultsBase):
 
     @field_validator("gradient")
     @classmethod
-    def validate_gradient_shape(cls, v: ArrayLike2D):
+    def validate_gradient_shape(cls, v: SerializableNDArray):
         """Validate gradient is n x 3"""
         if v is not None:
             return np.asarray(v).reshape(-1, 3)
 
     @field_validator("hessian")
     @classmethod
-    def validate_hessian_shape(cls, v: ArrayLike2D):
+    def validate_hessian_shape(cls, v: SerializableNDArray):
         """Validate hessian is square"""
         if v is not None:
             v = np.asarray(v)
             n = int(np.sqrt(v.size))
             return v.reshape((n, n))
 
-
-class SinglePointOutput(SuccessfulOutputBase):
-    """Output from a successful single point calculation.
-
-    Attributes:
-        input_data: The SinglePointInput object for the computation.
-        success: Always True for a successful computation.
-        results: The results computed by the program.
-        files: A dict mapping filename to str or bytes data.
-        stdout: The primary logging output of the program. Contains a union of stdout
-            and stderr.
-        provenance: An object containing the provenance information for the results.
-        extras: Additional information to bundle with the object. Use for schema
-            development and scratch space.
-    """
-
-    input_data: ProgramInput
-    results: SinglePointResults
-
-    @property
-    def return_result(self) -> Union[float, ArrayLike2D]:
-        """Return the result of the calculation.
-
-        Returns:
-            The explicitly requested result of the calculation, i.e., the energy,
-                gradient, or hessian.
-        """
-        return getattr(self.results, self.input_data.calctype.value)
+    def return_result(self, calctype: CalcType) -> Union[float, SerializableNDArray]:
+        """Return the primary result of the calculation."""
+        return getattr(self, calctype.value)
 
 
-class OptimizationResults(ResultsBase):
+class OptimizationResults(QCIOModelBase):
     """Computed properties for an optimization.
 
     Attributes:
         energies: The energies for each step of the optimization.
         molecules: The Molecule objects for each step of the optimization.
-        final_molecule: The final, optimized molecule.
+        final_molecule: The final, optimized Molecule.
         trajectory: The SinglePointOutput objects for each step of the optimization.
     """
 
-    trajectory: List[SinglePointOutput] = []
+    trajectory: List[
+        Union[
+            ProgramOutput[ProgramInput, SinglePointResults],
+            ProgramOutput[ProgramInput, NoResults],
+        ]
+    ] = []
 
     @property
     def final_molecule(self) -> Optional[Molecule]:
@@ -204,15 +189,23 @@ class OptimizationResults(ResultsBase):
     def energies(self) -> List[float]:
         """The energies for each step of the optimization."""
         # or 0.0 covers null case for mypy
-        return [output.results.energy or 0.0 for output in self.trajectory]
+        return [
+            output.results.energy or 0.0
+            for output in self.trajectory
+            if not isinstance(output.results, NoResults)
+        ]
 
     @property
     def molecules(self) -> List[Molecule]:
         """The Molecule objects for each step of the optimization."""
         return [output.input_data.molecule for output in self.trajectory]
 
+    def return_result(self, calctype: CalcType) -> Optional[Molecule]:
+        """Return the primary result of the calculation."""
+        return self.final_molecule
+
     def __repr_args__(self):
-        """Custom repr to avoid printing the entire collection objects."""
+        """Custom repr to avoid printing the entire collection of objects."""
         return [
             ("final_molecule", f"{self.final_molecule}"),
             ("trajectory", "[...]"),
@@ -242,42 +235,75 @@ class OptimizationResults(ResultsBase):
         filepath = Path(filepath)
         if filepath.suffix == ".xyz":
             text = "".join(
-                sp_output.input_data.molecule.to_xyz() for sp_output in self.trajectory
+                prog_output.input_data.molecule.to_xyz()
+                for prog_output in self.trajectory
             )
             filepath.write_text(text)
             return
         super().save(filepath, exclude_none, indent, **kwargs)
 
 
-class OptimizationOutput(SuccessfulOutputBase):
-    """Output from a successful optimization.
-
-    Attributes:
-        input_data: The OptimizationInput object for the computation.
-        results: The results computed by the program.
-    """
-
-    input_data: Union[DualProgramInput, ProgramInput]
-    results: OptimizationResults
+Results = Union[NoResults, SinglePointResults, OptimizationResults]
+ResultsType = TypeVar("ResultsType", bound=Results)
 
 
-class ProgramFailure(OutputBase):
-    """A object containing details about a failed calculation.
-
-    Attributes:
-        input_data: The input object for the computation.
-        success: Always False for a Failed output.
-        traceback: String representation of the traceback of the exception that caused
-            the failure.
-        results: Any compted data that was able to be extracted before program failed.
-        stdout: The primary logging output of the program. Contains a union of stdout
-            and stderr.
-        provenance: An object containing the provenance information for the output.
-    """
-
-    input_data: Union[DualProgramInput, ProgramInput, FileInput]
-    success: Literal[False] = False
+class ProgramOutput(Files, Generic[InputType, ResultsType]):
+    input_data: InputType
+    provenance: Provenance
+    success: Literal[True, False]
+    results: ResultsType = NoResults()  # type: ignore
+    stdout: Optional[str] = None
     traceback: Optional[str] = None
+
+    def model_post_init(self, __context) -> None:
+        """
+        Parameterize the class (if not set explicitly) and register the class so pickle
+        can find it.
+        """
+        # Check if the current class is still generic, do not override if explicitly set
+        if self.__class__ is ProgramOutput:
+            input_type = type(self.input_data)
+            # TODO: Make sure this is valid for results == None
+            results_type = type(self.results)
+            self.__class__ = ProgramOutput[input_type, results_type]  # type: ignore # noqa 501
+
+        # Add class to module so that pickle can find it
+        if not sys.modules[self.__class__.__module__].__dict__.get(
+            self.__class__.__name__
+        ):
+            setattr(
+                sys.modules[self.__class__.__module__],
+                self.__class__.__name__,
+                self.__class__,
+            )
+
+    @model_validator(mode="after")
+    def ensure_traceback_on_failure(self) -> Self:
+        if self.success is False and self.traceback is None:
+            raise ValueError("A traceback must be provided for failed calculations.")
+        return self
+
+    @model_validator(mode="after")
+    def ensure_results_on_success(self) -> Self:
+        if self.success is True and type(self.input_data) is not FileInput:
+            # Ensure results are provided for successful calculations
+            assert not isinstance(
+                self.results, NoResults
+            ), "Results must be provided for successful, non FileInput calculations."
+
+            if type(self.results) is SinglePointResults:
+                # Ensure the primary calctype result is present
+                calctype_val = self.input_data.calctype.value  # type: ignore
+                assert (
+                    getattr(self.results, calctype_val) is not None
+                ), f"Missing the primary result: {calctype_val}."
+
+        return self
+
+    @property
+    def pstdout(self) -> None:
+        """Print the stdout text"""
+        print(self.stdout)
 
     @property
     def ptraceback(self) -> None:
@@ -285,8 +311,40 @@ class ProgramFailure(OutputBase):
         print(self.traceback)
 
     def __repr_args__(self) -> "ReprArgs":
-        """Exclude traceback from the repr"""
+        """Exclude stdout and traceback from the repr"""
         return [
-            (key, value if key != "traceback" else "<...>")
+            (key, value if key not in {"stdout", "traceback"} else "<...>")
             for key, value in super().__repr_args__()
         ]
+
+    @property
+    def return_result(self) -> Union[float, SerializableNDArray, Optional[Molecule]]:
+        """Return the primary result of the calculation."""
+        warnings.warn(
+            ".return_result is being depreciated and will be removed in a future. "
+            "Please access results directly at .results instead.",
+            category=FutureWarning,
+            stacklevel=2,
+        )
+        # For mypy
+        assert self.results is not None, "No results exist on this ProgramOutput"
+        assert type(self.input_data) is not FileInput, "FileInputs have no results."
+        return self.results.return_result(self.input_data.calctype)  # type: ignore
+
+
+# For compatibility with old API
+@deprecated_class("ProgramOutput[StructuredInputs, OptimizationResults]")
+class OptimizationOutput(ProgramOutput[DualProgramInput, OptimizationResults]):
+    success: Literal[True] = True
+    traceback: Optional[str] = None
+
+
+@deprecated_class("ProgramOutput[ProgramInput, SinglePointResults]")
+class SinglePointOutput(ProgramOutput[ProgramInput, SinglePointResults]):
+    success: Literal[True] = True
+    traceback: Optional[str] = None
+
+
+@deprecated_class("ProgramOutput[StructuredInputs, Results]")
+class ProgramFailure(ProgramOutput[Inputs, Results]):
+    success: Literal[False] = False

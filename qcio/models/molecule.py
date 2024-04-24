@@ -6,8 +6,8 @@ import numpy as np
 from pydantic import field_serializer, field_validator
 from typing_extensions import Self
 
-from qcio.constants import BOHR_TO_ANGSTROM
-from qcio.helper_types import ArrayLike2D
+from qcio.constants import _ELEMENTS, BOHR_TO_ANGSTROM
+from qcio.helper_types import SerializableNDArray
 
 from .base_models import QCIOModelBase
 
@@ -87,7 +87,7 @@ class Molecule(QCIOModelBase):
     """
 
     symbols: List[str]
-    geometry: ArrayLike2D
+    geometry: SerializableNDArray  # Coerced to 2D array
     charge: int = 0
     multiplicity: int = 1
     identifiers: Identifiers = Identifiers()
@@ -123,6 +123,11 @@ class Molecule(QCIOModelBase):
         floats.
         """
         return [[float(val) for val in bond] for bond in connectivity]
+
+    @property
+    def atomic_numbers(self) -> List[int]:
+        """Return the atomic numbers of the atoms in the molecule."""
+        return [_ELEMENTS[symbol] for symbol in self.symbols]
 
     @property
     def formula(self) -> str:
@@ -245,4 +250,4 @@ class Molecule(QCIOModelBase):
             symbols.append(split_line[0])
             geometry.append([float(val) / BOHR_TO_ANGSTROM for val in split_line[1:]])
 
-        return cls(symbols=symbols, geometry=geometry, **qcio_kwargs)
+        return cls(symbols=symbols, geometry=geometry, **qcio_kwargs)  # type: ignore

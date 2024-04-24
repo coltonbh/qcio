@@ -1,15 +1,15 @@
 from qcio import OptimizationResults
 
 
-def test_optimization_result_properties(sp_output):
+def test_optimization_result_properties(prog_output):
     opt_res = OptimizationResults(
-        trajectory=[sp_output],
+        trajectory=[prog_output],
     )
 
     # Test properties
-    assert opt_res.final_molecule == sp_output.input_data.molecule
-    assert opt_res.energies == [sp_output.results.energy]
-    assert opt_res.molecules == [sp_output.input_data.molecule]
+    assert opt_res.final_molecule == prog_output.input_data.molecule
+    assert opt_res.energies == [prog_output.results.energy]
+    assert opt_res.molecules == [prog_output.input_data.molecule]
     # Test custom __repr_args__
     repr_args = opt_res.__repr_args__()
     assert isinstance(repr_args, list)
@@ -20,9 +20,9 @@ def test_optimization_result_properties(sp_output):
         assert isinstance(arg[1], str)
 
 
-def test_optimization_save_to_xyz(sp_output, tmp_path):
+def test_optimization_save_to_xyz(prog_output, tmp_path):
     opt_res = OptimizationResults(
-        trajectory=[sp_output] * 3,
+        trajectory=[prog_output] * 3,
     )
     opt_res.save(tmp_path / "opt_res.xyz")
 
@@ -47,9 +47,9 @@ H      0.000000000000     0.529177210903     0.000000000000
     assert text == correct_text
 
 
-def test_optimization_save_non_xyz(sp_output, tmp_path):
+def test_optimization_save_non_xyz(prog_output, tmp_path):
     opt_res = OptimizationResults(
-        trajectory=[sp_output] * 3,
+        trajectory=[prog_output] * 3,
     )
     opt_res.save(tmp_path / "opt_res.json")
     opt_res_copy = OptimizationResults.open(tmp_path / "opt_res.json")

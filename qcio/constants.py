@@ -1,7 +1,9 @@
 # https://physics.nist.gov/cgi-bin/cuu/Value?bohrrada0
 BOHR_TO_ANGSTROM = 0.529177210903
 
-ELEMENTS = {
+# Declaring Private so I can update implementations of this towards a periodic table.
+# Public features are exposed on core models. e.g., Molecule.atomic_symbols
+_ELEMENTS = {
     "H": 1,
     "He": 2,
     "Li": 3,
