@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+## [0.9.0] - 2024-04-23
+
 ### Added
 
 - `Molecule.atomic_numbers` property which uses `qcio.constants.ELEMENTS` to map atomic symbols to atomic numbers.
@@ -211,7 +213,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `SinglePointComputedProperties`
   - `Wavefunction`
 
-[unreleased]: https://github.com/coltonbh/qcio/compare/0.8.2...HEAD
+[unreleased]: https://github.com/coltonbh/qcio/compare/0.9.0...HEAD
+[0.9.0]: https://github.com/coltonbh/qcio/releases/tag/0.9.0
 [0.8.2]: https://github.com/coltonbh/qcio/releases/tag/0.8.2
 [0.8.1]: https://github.com/coltonbh/qcio/releases/tag/0.8.1
 [0.8.0]: https://github.com/coltonbh/qcio/releases/tag/0.8.0
