@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+## [0.9.1] - 2024-06-11
+
 ### Changed
 
 - Changed decimal precision of `Molecule.to_xyz()` string representation of geometry values to 17 decimal places to capture all `float64` precision.
@@ -217,7 +219,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `SinglePointComputedProperties`
   - `Wavefunction`
 
-[unreleased]: https://github.com/coltonbh/qcio/compare/0.9.0...HEAD
+[unreleased]: https://github.com/coltonbh/qcio/compare/0.9.1...HEAD
+[0.9.1]: https://github.com/coltonbh/qcio/releases/tag/0.9.1
 [0.9.0]: https://github.com/coltonbh/qcio/releases/tag/0.9.0
 [0.8.2]: https://github.com/coltonbh/qcio/releases/tag/0.8.2
 [0.8.1]: https://github.com/coltonbh/qcio/releases/tag/0.8.1
