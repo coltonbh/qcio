@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+### Changed
+
+- Changed decimal precision of `Molecule.to_xyz()` string representation of geometry values to 17 decimal places to capture all `float64` precision.
+
 ## [0.9.0] - 2024-04-23
 
 ### Added
