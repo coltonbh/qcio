@@ -1,14 +1,22 @@
 from pathlib import Path
-from typing import Union
+from typing import List, Union
 
 import numpy as np
-from pydantic import PlainSerializer, SkipValidation
+from pydantic import BeforeValidator, GetPydanticSchema, PlainSerializer, SkipValidation
+from pydantic_core import core_schema
 from typing_extensions import Annotated
 
 StrOrPath = Annotated[Union[str, Path], PlainSerializer(lambda x: str(x))]
 
-# Skipping validation allows non numpy arrays to be passed and then coerced by
-# validators to numpy arrays.
+# Create the annotated type for numpy array
 SerializableNDArray = Annotated[
-    SkipValidation[np.ndarray], PlainSerializer(lambda x: np.array(x).tolist())
+    SkipValidation[np.ndarray],
+    # Coerce values to float64 numpy array. Not required. Creates consistency.
+    BeforeValidator(lambda x: np.array(x, dtype=np.float64)),
+    # Serializes the numpy array to a list
+    PlainSerializer(lambda x: np.array(x).tolist()),
+    # Describe json schema as a list of floats (numbers). Required for ChemCloud docs.
+    GetPydanticSchema(
+        lambda tp, handler: core_schema.with_default_schema(handler(List[float]))
+    ),
 ]
