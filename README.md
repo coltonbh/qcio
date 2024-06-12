@@ -60,6 +60,14 @@ prog_input.save("input.json")
 prog_input = ProgramInput.open("input.json")
 ```
 
+`Molecule` objects can be opened from and saved as xyz files or saved to disk as `.json`, `.yaml`, or `.toml` formats by changing the extension of the file. For `.xyz` files precision can be controlled by passing the `precision` argument to the `save` method.
+
+```python
+caffeine = Molecule.open("caffeine.xyz")
+caffeine.save("caffeine2.json", precision=6)
+caffeine.save("caffeine.toml")
+```
+
 #### DualProgramInput - Input object for a workflow that uses multiple QC programs.
 
 `DualProgramInput` objects can be used to power workflows that require multiple QC programs. For example, a geometry optimization workflow might use `geomeTRIC` to power the optimization and use `terachem` to compute the energies and gradients.

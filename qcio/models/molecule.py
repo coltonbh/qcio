@@ -199,13 +199,16 @@ class Molecule(QCIOModelBase):
         """
         filepath = Path(filepath)
         if filepath.suffix == ".xyz":
-            filepath.write_text(self.to_xyz())
+            filepath.write_text(self.to_xyz(**kwargs))
             return
         super().save(filepath, exclude_none, indent, **kwargs)
 
-    def to_xyz(self) -> str:
+    def to_xyz(self, precision: int = 17) -> str:
         """Return an xyz string representation of the molecule.
 
+        Args:
+            precision: The number of decimal places to include in the xyz file. Default
+                17 which captures all precision of float64.
         Notes:
             Will add qcio data to the comments line with a qcio_key=value format.
         """
@@ -220,9 +223,12 @@ class Molecule(QCIOModelBase):
         xyz_lines = []
         xyz_lines.append(f"{len(self.symbols)}")
         xyz_lines.append(f"{' '.join([f'{k}={v}' for k, v in qcio_data.items()])}")
+
+        # Create a format string using the precision parameter
+        format_str = f"{{:2s}} {{: >18.{precision}f}} {{: >18.{precision}f}} {{: >18.{precision}f}}"  # noqa: E501
+
         for symbol, (x, y, z) in zip(self.symbols, geometry_angstrom):
-            # Using 17 decimal places to capture all precision of float64
-            xyz_lines.append(f"{symbol:2s} {x: >18.17f} {y: >18.17f} {z: >18.17f}")
+            xyz_lines.append(format_str.format(symbol, x, y, z))
         xyz_lines.append("")  # Append newline to end of file
         return "\n".join(xyz_lines)
 

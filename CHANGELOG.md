@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+### Added
+
+- `precision` argument to `Molecule.save()` method to control the decimal precision of the xyz file output. Default is 17 decimal places to capture all `float64` precision.
+
+### Changed
+
+- Added `GetPydanticSerializer` annotation to `SerializableNDArray` to create the correct json docs for ChemCloud (or any other json schema generator).
+- Added `BeforeValidator` to `SerializableNDArray` to coerce all arrays to `float64` for consistency.
+
 ## [0.9.1] - 2024-06-11
 
 ### Changed
