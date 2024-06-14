@@ -4,8 +4,18 @@ from __future__ import annotations
 
 import sys
 import warnings
+from itertools import product
 from pathlib import Path
-from typing import TYPE_CHECKING, Generic, List, Literal, Optional, TypeVar, Union
+from typing import (
+    TYPE_CHECKING,
+    Generic,
+    List,
+    Literal,
+    Optional,
+    TypeVar,
+    Union,
+    get_args,
+)
 
 import numpy as np
 from pydantic import field_validator, model_validator
@@ -256,26 +266,13 @@ class ProgramOutput(Files, Generic[InputType, ResultsType]):
     traceback: Optional[str] = None
 
     def model_post_init(self, __context) -> None:
-        """
-        Parameterize the class (if not set explicitly) and register the class so pickle
-        can find it.
-        """
+        """Parameterize the class (if not set explicitly)."""
         # Check if the current class is still generic, do not override if explicitly set
         if self.__class__ is ProgramOutput:
             input_type = type(self.input_data)
             # TODO: Make sure this is valid for results == None
             results_type = type(self.results)
             self.__class__ = ProgramOutput[input_type, results_type]  # type: ignore # noqa 501
-
-        # Add class to module so that pickle can find it
-        if not sys.modules[self.__class__.__module__].__dict__.get(
-            self.__class__.__name__
-        ):
-            setattr(
-                sys.modules[self.__class__.__module__],
-                self.__class__.__name__,
-                self.__class__,
-            )
 
     @model_validator(mode="after")
     def ensure_traceback_on_failure(self) -> Self:
@@ -348,3 +345,19 @@ class SinglePointOutput(ProgramOutput[ProgramInput, SinglePointResults]):
 @deprecated_class("ProgramOutput[StructuredInputs, Results]")
 class ProgramFailure(ProgramOutput[Inputs, Results]):
     success: Literal[False] = False
+
+
+# Register the concrete classes for serialization
+def _register_program_output_classes():
+    """Required so that pickle can find the concrete classes for serialization."""
+    for input_type, results_type in product(get_args(Inputs), get_args(Results)):
+        _class = ProgramOutput[input_type, results_type]
+        name = _class.__name__
+        this_module = sys.modules[__name__]
+        if name not in this_module.__dict__:
+            # Directly declare the type to ensure it is registered
+            setattr(this_module, name, _class)
+
+
+# Call this function during module initialization
+_register_program_output_classes()
