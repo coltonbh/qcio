@@ -6,7 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
-## [0.9.2] - 2024-06-2
+## [0.9.3] - 2024-06-13
+
+### Added
+
+- Registration of all concrete `ProgramOutput[InputType, ResultsType]` on the `outputs.py` module so `pickle` can find the classes for serialization and deserialization within `celery`. The previous approach of registering classes upon instantiation of a class did not work because of multiple processes running in `celery`. The worker process in which the class was instatiated had the class at `outputs.ProgramOutput[...]` however the main process would sometimes need to serialize an object and it would not be in the `outputs.py` module. The former approach appeared to work better than I thought because declaring classes as types for a `trajector` registered them on the `outputs.py` module without my realizing it.
+
+## [0.9.2] - 2024-06-12
 
 ### Added
 
@@ -230,7 +236,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `SinglePointComputedProperties`
   - `Wavefunction`
 
-[unreleased]: https://github.com/coltonbh/qcio/compare/0.9.2...HEAD
+[unreleased]: https://github.com/coltonbh/qcio/compare/0.9.3...HEAD
+[0.9.3]: https://github.com/coltonbh/qcio/releases/tag/0.9.3
 [0.9.2]: https://github.com/coltonbh/qcio/releases/tag/0.9.2
 [0.9.1]: https://github.com/coltonbh/qcio/releases/tag/0.9.1
 [0.9.0]: https://github.com/coltonbh/qcio/releases/tag/0.9.0
