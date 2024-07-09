@@ -4,10 +4,10 @@ from typing import List, Union
 import numpy as np
 from pydantic import BaseModel
 
-from .models import Molecule  # FileOutput,
+from .models import Structure  # FileOutput,
 
-# Helper Molecules
-water = Molecule(
+# Helper Structures
+water = Structure(
     symbols=["O", "H", "H"],
     geometry=np.array([0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0, 1.0, 0.0]),
     charge=0,

@@ -25,7 +25,7 @@ from qcio.helper_types import SerializableNDArray
 
 from .base_models import CalcType, Files, Provenance, QCIOModelBase
 from .inputs import DualProgramInput, FileInput, Inputs, InputType, ProgramInput
-from .molecule import Molecule
+from .structure import Structure
 from .utils import deprecated_class
 
 if TYPE_CHECKING:  # pragma: no cover
@@ -97,22 +97,22 @@ class SinglePointResults(QCIOModelBase):
         calcinfo_nbasis: The number of basis functions in the calculation.
         calcinfo_nmo: The number of molecular orbitals in the calculation
 
-        energy: The electronic energy of the molecule in Hartrees.
-        gradient: The gradient of the molecule in Hartrees/Bohr.
-        hessian: The hessian of the molecule in Hartrees/Bohr^2.
-        nuclear_repulsion_energy: The nuclear repulsion energy of the molecule in
+        energy: The electronic energy of the structure in Hartrees.
+        gradient: The gradient of the structure in Hartrees/Bohr.
+        hessian: The hessian of the structure in Hartrees/Bohr^2.
+        nuclear_repulsion_energy: The nuclear repulsion energy of the structure in
             Hartrees.
 
         wavefunction: Wavefunction data from the calculation.
 
-        freqs_wavenumber: The frequencies of the molecule in wavenumbers.
+        freqs_wavenumber: The frequencies of the structure in wavenumbers.
         normal_modes_cartesian: 3D n_vibmodes x n_atoms x 3 array containing
             un-mass-weighted Cartesian displacements of each normal mode.
         gibbs_free_energy: Gibbs free energy (i.e. thermochemical analysis) in Hartrees
             of a system where translation / rotation / vibration degrees of freedom are
             approximated using ideal gas / rigid rotor / harmonic oscillator
             respectively.
-        scf_dipole_moment: The x, y, z component of the dipole moment of the molecule
+        scf_dipole_moment: The x, y, z component of the dipole moment of the structure
             in units of e a0 (NOT Debye!).
 
     """
@@ -175,8 +175,8 @@ class OptimizationResults(QCIOModelBase):
 
     Attributes:
         energies: The energies for each step of the optimization.
-        molecules: The Molecule objects for each step of the optimization.
-        final_molecule: The final, optimized Molecule.
+        structures: The Structure objects for each step of the optimization.
+        final_structure: The final, optimized Structure.
         trajectory: The SinglePointOutput objects for each step of the optimization.
     """
 
@@ -188,39 +188,69 @@ class OptimizationResults(QCIOModelBase):
     ] = []
 
     @property
-    def final_molecule(self) -> Optional[Molecule]:
-        """The final molecule in the optimization."""
+    def final_structure(self) -> Optional[Structure]:
+        """The final Structure in the optimization."""
         try:
-            return self.trajectory[-1].input_data.molecule
+            return self.trajectory[-1].input_data.structure
         except IndexError:  # Empty trajectory
             return None
 
     @property
-    def energies(self) -> List[float]:
-        """The energies for each step of the optimization."""
-        # or 0.0 covers null case for mypy
-        return [
-            output.results.energy or 0.0
-            for output in self.trajectory
-            if not isinstance(output.results, NoResults)
-        ]
+    def final_molecule(self) -> Optional[Structure]:
+        warnings.warn(
+            ".final_molecule is being depreciated and will be removed in a future. "
+            "Please use .final_structure instead.",
+            category=FutureWarning,
+            stacklevel=2,
+        )
+        return self.final_structure
 
     @property
-    def molecules(self) -> List[Molecule]:
-        """The Molecule objects for each step of the optimization."""
-        return [output.input_data.molecule for output in self.trajectory]
+    def final_energy(self) -> Optional[Structure]:
+        """The final energy in the optimization."""
+        return self.energies[-1]
 
-    def return_result(self, calctype: CalcType) -> Optional[Molecule]:
+    @property
+    def energies(self) -> np.ndarray:
+        """The energies for each step of the optimization."""
+        energies = np.empty(len(self.trajectory), dtype=float)
+
+        for i, output in enumerate(self.trajectory):
+            if not isinstance(output.results, NoResults):
+                energies[i] = output.results.energy
+            else:
+                # If the calculation failed, set the energy to 0.0
+                energies[i] = 0.0
+
+        return energies
+
+    @property
+    def structures(self) -> List[Structure]:
+        """The Structure objects for each step of the optimization."""
+        return [output.input_data.structure for output in self.trajectory]
+
+    @property
+    def molecules(self) -> List[Structure]:
+        """The Structure objects for each step of the optimization."""
+        warnings.warn(
+            ".molecules is being depreciated and will be removed in a future. "
+            "Please use .structures instead.",
+            category=FutureWarning,
+            stacklevel=2,
+        )
+        return self.structures
+
+    def return_result(self, calctype: CalcType) -> Optional[Structure]:
         """Return the primary result of the calculation."""
-        return self.final_molecule
+        return self.final_structure
 
     def __repr_args__(self):
         """Custom repr to avoid printing the entire collection of objects."""
         return [
-            ("final_molecule", f"{self.final_molecule}"),
+            ("final_structure", f"{self.final_structure}"),
             ("trajectory", "[...]"),
             ("energies", "[...]"),
-            ("molecules", "[...]"),
+            ("structures", "[...]"),
         ]
 
     def save(
@@ -245,7 +275,7 @@ class OptimizationResults(QCIOModelBase):
         filepath = Path(filepath)
         if filepath.suffix == ".xyz":
             text = "".join(
-                prog_output.input_data.molecule.to_xyz()
+                prog_output.input_data.structure.to_xyz()
                 for prog_output in self.trajectory
             )
             filepath.write_text(text)
@@ -315,7 +345,7 @@ class ProgramOutput(Files, Generic[InputType, ResultsType]):
         ]
 
     @property
-    def return_result(self) -> Union[float, SerializableNDArray, Optional[Molecule]]:
+    def return_result(self) -> Union[float, SerializableNDArray, Optional[Structure]]:
         """Return the primary result of the calculation."""
         warnings.warn(
             ".return_result is being depreciated and will be removed in a future. "

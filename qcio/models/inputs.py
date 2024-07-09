@@ -1,5 +1,6 @@
 """Input models for quantum chemistry calculations."""
 
+import warnings
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Union
 
@@ -7,7 +8,7 @@ from pydantic import BaseModel, field_serializer
 from typing_extensions import Self, TypeVar
 
 from .base_models import CalcType, Files, Model
-from .molecule import Molecule
+from .structure import Structure
 
 __all__ = [
     "FileInput",
@@ -46,14 +47,43 @@ class _KeywordsMixin(BaseModel):
     keywords: Dict[str, Any] = {}
 
 
-class _MoleculeKeywordsMixin(_KeywordsMixin):
-    molecule: Molecule
+class _StructureKeywordsMixin(_KeywordsMixin):
+    """
+    Attributes:
+        structure: The structure to be used in the calculation or SMILES string.
+    """
+
+    structure: Structure
+
+    def __init__(self, **data: Any):
+        """Backwards compatibility for 'molecule' attribute.
+
+        TODO: Remove in 0.10.0 or later.
+        """
+        if "molecule" in data:
+            warnings.warn(
+                "Use of 'molecule' attribute is deprecated. Use 'structure' instead.",
+                FutureWarning,
+                stacklevel=2,
+            )
+            data["structure"] = data.pop("molecule")
+        super().__init__(**data)
+
+    @property
+    def molecule(self) -> Structure:
+        """Backwards compatibility for 'molecule' attribute."""
+        warnings.warn(
+            "Use of 'molecule' attribute is deprecated. Use 'structure' instead.",
+            FutureWarning,
+            stacklevel=2,
+        )
+        return self.structure
 
 
 class ProgramArgs(FileInput, _KeywordsMixin):
-    """Generic arguments for a program without a calctype or molecule specification.
+    """Generic arguments for a program without a calctype or structure specification.
 
-    This class is needed for multi-step calculations where the calctype and molecule
+    This class is needed for multi-step calculations where the calctype and structure
     are specified only once for the entire calculation, e.g., multistep_opt in BigChem.
 
     Attributes:
@@ -71,7 +101,7 @@ class ProgramArgs(FileInput, _KeywordsMixin):
 class ProgramArgsSub(FileInput, _KeywordsMixin):
     """Generic arguments for a program that also calls a subprogram.
 
-    This class is needed for multi-step calculations where the calctype and molecule
+    This class is needed for multi-step calculations where the calctype and structure
     are specified only once for the entire calculation, e.g., multistep_opt in BigChem.
 
     Attributes:
@@ -89,7 +119,7 @@ class ProgramArgsSub(FileInput, _KeywordsMixin):
     subprogram_args: ProgramArgs
 
 
-class ProgramInput(ProgramArgs, _MoleculeKeywordsMixin):
+class ProgramInput(ProgramArgs, _StructureKeywordsMixin):
     """Input for a single quantum chemistry program.
 
     Attributes:
@@ -97,7 +127,7 @@ class ProgramInput(ProgramArgs, _MoleculeKeywordsMixin):
         model: The model for the quantum chemistry calculation.
         keywords: A dict of keywords to be passed to the program excluding model and
             calctype. Defaults to an empty dict.
-        molecule: The molecule to be used in the calculation.
+        structure: The structure to be used in the calculation.
         files: Files to be passed to the QC program.
         extras: Additional information to bundle with the object. Use for schema
             development and scratch space.
@@ -116,7 +146,7 @@ class DualProgramInput(ProgramArgsSub, ProgramInput):
 
     Attributes:
         calctype: The type of calculation to be performed.
-        molecule: The molecule to be used in the calculation.
+        structure: The structure to be used in the calculation.
         keywords: Dict of keywords to be passed to the program. Defaults to empty dict.
         files: A dict mapping filename to str or bytes data.
         subprogram: The name of the subprogram to use.

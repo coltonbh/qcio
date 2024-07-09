@@ -6,13 +6,13 @@ from pydantic import ValidationError
 
 from qcio import (
     FileInput,
-    Molecule,
     NoResults,
     OptimizationResults,
     ProgramInput,
     ProgramOutput,
     Provenance,
     SinglePointResults,
+    Structure,
     Wavefunction,
 )
 
@@ -36,7 +36,7 @@ def test_results_hessian_converted_np_array():
 def test_single_point_success_casts_gradient_to_n_by_3(prog_input):
     """Test that SinglePointSuccess casts gradient to n by 3"""
     pi_gradient = prog_input("gradient")
-    n_atoms = len(pi_gradient.molecule.symbols)
+    n_atoms = len(pi_gradient.structure.symbols)
     gradient = [float(i) for i in range(n_atoms * 3)]
     output = ProgramOutput(
         input_data=pi_gradient,
@@ -54,7 +54,7 @@ def test_single_point_success_casts_gradient_to_n_by_3(prog_input):
 def test_single_point_success_casts_hessian_to_3n_by_3n(prog_input):
     """Test that SinglePointSuccess casts hessian to 3n x 3n"""
     pi_hessian = prog_input("hessian")
-    n_atoms = len(pi_hessian.molecule.symbols)
+    n_atoms = len(pi_hessian.structure.symbols)
     hessian = [float(i) for i in range(n_atoms**2 * 3**2)]
 
     po = ProgramOutput(
@@ -73,7 +73,7 @@ def test_single_point_success_casts_hessian_to_3n_by_3n(prog_input):
 def test_single_point_results_normal_modes_cartesian_shape(prog_input):
     """Test that SinglePointResults normal_modes_cartesian are n_modes x n_atoms x 3"""
     pi_energy = prog_input("energy")
-    n_atoms = len(pi_energy.molecule.symbols)
+    n_atoms = len(pi_energy.structure.symbols)
     n_atoms * 3
     results = SinglePointResults(
         normal_modes_cartesian=np.array(
@@ -122,7 +122,7 @@ def test_return_result(prog_input):
     # TODO: Remove this test once you depreciate .return_result
     prog_input_energy = prog_input("energy")
     energy = 1.0
-    n_atoms = len(prog_input_energy.molecule.symbols)
+    n_atoms = len(prog_input_energy.structure.symbols)
     gradient = np.arange(n_atoms * 3).reshape(n_atoms, 3)
     hessian = np.arange(n_atoms**2 * 3**2).reshape(n_atoms * 3, n_atoms * 3)
 
@@ -358,7 +358,7 @@ def test_pickle_serialization_of_program_output_parametrized(
 def test_pickle_serialization_of_program_output():
     prog_output = ProgramOutput[ProgramInput, SinglePointResults](
         input_data=ProgramInput(
-            molecule=Molecule(
+            structure=Structure(
                 symbols=["O", "H", "H"],
                 geometry=np.array([0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0, 1.0, 0.0]),
                 charge=0,

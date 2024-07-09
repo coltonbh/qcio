@@ -1,3 +1,4 @@
+import warnings
 from collections import Counter
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, Dict, List, Optional, Tuple, Union
@@ -10,49 +11,53 @@ from qcio.constants import _ELEMENTS, BOHR_TO_ANGSTROM
 from qcio.helper_types import SerializableNDArray
 
 from .base_models import QCIOModelBase
+from .utils import renamed_class, smiles_to_structure
 
 if TYPE_CHECKING:
     from pydantic.typing import ReprArgs
 
-__all__ = ["Molecule", "Identifiers"]
+__all__ = ["Structure", "Identifiers", "Molecule"]
 
 
 class Identifiers(QCIOModelBase):
-    """Molecule identifiers.
+    """Structure identifiers.
 
     Attributes:
-        name_IUPAC: The IUPAC name of the molecule.
-        name_common: The common name of the molecule.
-        smiles: The SMILES representation of the molecule.
-        inchi: The InChI representation of the molecule.
-        inchikey: The InChIKey representation of the molecule.
+        name: A human-readable, common name for the structure.
+        name_IUPAC: The IUPAC name of the structure.
+        smiles: The SMILES representation of the structure.
+        canonical_smiles: The canonical SMILES representation of the structure.
         canonical_explicit_hydrogen_smiles: The canonical explicit hydrogen SMILES
-            representation of the molecule.
-        canonical_isomeric_explicit_hydrogen_mapped_smiles: The canonical isomeric
-            explicit hydrogen mapped SMILES representation of the molecule.
-        canonical_isomeric_explicit_hydrogen_smiles: The canonical isomeric explicit
-            hydrogen SMILES representation of the molecule.
+            representation of the structure.
         canonical_isomeric_smiles: The canonical isomeric SMILES representation of the
-            molecule.
-        canonical_smiles: The canonical SMILES representation of the molecule.
-        pubchem_cid: The PubChem Compound ID of the molecule.
-        pubchem_sid: The PubChem Substance ID of the molecule.
-        pubchem_conformerid: The PubChem Conformer ID of the molecule.
+            structure.
+        canonical_isomeric_explicit_hydrogen_smiles: The canonical isomeric explicit
+            hydrogen SMILES representation of the structure.
+        canonical_isomeric_explicit_hydrogen_mapped_smiles: The canonical isomeric
+            explicit hydrogen mapped SMILES representation of the structure.
+        inchi: The InChI representation of the structure.
+        inchikey: The InChIKey representation of the structure.
+        pubchem_cid: The PubChem Compound ID of the structure.
+        pubchem_sid: The PubChem Substance ID of the structure.
+        pubchem_conformerid: The PubChem Conformer ID of the structure.
     """
 
+    name: Optional[str] = None
     name_IUPAC: Optional[str] = None
-    name_common: Optional[str] = None
     smiles: Optional[str] = None
+    canonical_smiles: Optional[str] = None
+    canonical_explicit_hydrogen_smiles: Optional[str] = None
+    canonical_isomeric_smiles: Optional[str] = None
+    canonical_isomeric_explicit_hydrogen_smiles: Optional[str] = None
+    canonical_isomeric_explicit_hydrogen_mapped_smiles: Optional[str] = None
     inchi: Optional[str] = None
     inchikey: Optional[str] = None
-    canonical_explicit_hydrogen_smiles: Optional[str] = None
-    canonical_isomeric_explicit_hydrogen_mapped_smiles: Optional[str] = None
-    canonical_isomeric_explicit_hydrogen_smiles: Optional[str] = None
-    canonical_isomeric_smiles: Optional[str] = None
-    canonical_smiles: Optional[str] = None
     pubchem_cid: Optional[str] = None
     pubchem_sid: Optional[str] = None
     pubchem_conformerid: Optional[str] = None
+
+    # Allow direct assignment of identifiers
+    model_config = {"extra": "forbid", "frozen": False}
 
 
 # class Bond(QCIOModelBase):
@@ -67,14 +72,15 @@ class Identifiers(QCIOModelBase):
 #     order: Optional[float]
 
 
-class Molecule(QCIOModelBase):
-    """A molecule object.
+class Structure(QCIOModelBase):
+    """A Structure object with atoms and their corresponding cartesian coordinates;
+        also charge, and multiplicity for the entire structure.
 
     Attributes:
-        symbols: The atomic symbols of the molecule.
-        geometry: The geometry of the molecule in Cartesian coordinates. Units are (AU)
+        symbols: The atomic symbols of the structure.
+        geometry: The geometry of the structure in Cartesian coordinates. Units are (AU)
             Bohr.
-        identifiers: Identifiers for the molecule such as name, smiles, etc.
+        identifiers: Identifiers for the structure such as name, smiles, etc.
         charge: The molecular charge.
         connectivity: Explicit description of the bonds between atoms.
         multiplicity: The molecular multiplicity.
@@ -90,9 +96,48 @@ class Molecule(QCIOModelBase):
     geometry: SerializableNDArray  # Coerced to 2D array
     charge: int = 0
     multiplicity: int = 1
-    identifiers: Identifiers = Identifiers()
+    ids: Identifiers = Identifiers()
     connectivity: List[Tuple[int, int, float]] = []
     # masses: List[float] = []
+
+    @property
+    def identifiers(self) -> Identifiers:
+        warnings.warn(
+            "The 'identifiers' attribute is deprecated and will be removed in a future "
+            "release. Please use 'ids' instead.",
+            category=FutureWarning,
+            stacklevel=2,
+        )
+        return self.ids
+
+    @classmethod
+    def from_smiles(
+        cls,
+        smiles: str,
+        *,
+        program: str = "rdkit",
+        force_field: str = "UFF",
+        multiplicity: int = 1,
+    ) -> Self:
+        """Convert a SMILES string to a 3D Structure.
+
+        Args:
+            smiles: The SMILES string.
+            program: The program to use for the conversion. Defaults to "rdkit".
+            force_field: The force field to use. E.g., UFF, MMFF94, MMFF94s, etc.
+            multiplicity: The multiplicity of the structure. Defaults to 1.
+
+        Returns:
+            A 3D Structure object with identifiers for SMILES and canonical SMILES.
+        """
+        dict_repr = smiles_to_structure(smiles, program, force_field)
+        dict_repr["multiplicity"] = multiplicity
+        dict_repr["extras"] = {
+            "NOTE": "This structure was generated from a SMILES string.",
+            "program": program,
+            "force_field": force_field,
+        }
+        return cls(**dict_repr)
 
     def __repr_args__(self) -> "ReprArgs":
         """A helper for __repr__ that returns a list of tuples of the form
@@ -126,12 +171,12 @@ class Molecule(QCIOModelBase):
 
     @property
     def atomic_numbers(self) -> List[int]:
-        """Return the atomic numbers of the atoms in the molecule."""
+        """Return the atomic numbers of the atoms in the structure."""
         return [_ELEMENTS[symbol] for symbol in self.symbols]
 
     @property
     def formula(self) -> str:
-        """Return the molecular formula of the molecule using the Hill System.
+        """Return the molecular formula of the structure using the Hill System.
         # noqa: E501
         https://chemistry.stackexchange.com/questions/1239/order-of-elements-in-a-formula
         """
@@ -166,7 +211,7 @@ class Molecule(QCIOModelBase):
 
     @classmethod
     def open(cls, filepath: Union[Path, str]) -> Self:
-        """Open a molecule from a file.
+        """Open a structure from a file.
 
         Args:
             filepath: The path to the file to open. Maybe a path to a JSON file or an
@@ -185,16 +230,16 @@ class Molecule(QCIOModelBase):
         indent: int = 4,
         **kwargs,
     ) -> None:
-        """Save a molecule to a file.
+        """Save a Structure to a file.
 
         Args:
-            filepath: The path to save the molecule to.
+            filepath: The path to save the structure to.
             exclude_none: If True, attributes with a value of None will not be written
                 to the file.
             **kwargs: Additional keyword arguments to pass to the json serializer.
 
         Notes:
-            If the filepath has a .xyz extension, the molecule will be saved to an XYZ
+            If the filepath has a .xyz extension, the structure will be saved to an XYZ
             file.
         """
         filepath = Path(filepath)
@@ -204,7 +249,7 @@ class Molecule(QCIOModelBase):
         super().save(filepath, exclude_none, indent, **kwargs)
 
     def to_xyz(self, precision: int = 17) -> str:
-        """Return an xyz string representation of the molecule.
+        """Return an xyz string representation of the structure.
 
         Args:
             precision: The number of decimal places to include in the xyz file. Default
@@ -234,7 +279,7 @@ class Molecule(QCIOModelBase):
 
     @classmethod
     def _from_xyz(cls, filepath: Union[Path, str]) -> Self:
-        """Create a molecule from an XYZ file.
+        """Create a Structure from an XYZ file.
 
         Notes:
             Will read qcio data from the comments line with a qcio_key=value format.
@@ -258,3 +303,8 @@ class Molecule(QCIOModelBase):
             geometry.append([float(val) / BOHR_TO_ANGSTROM for val in split_line[1:]])
 
         return cls(symbols=symbols, geometry=geometry, **qcio_kwargs)  # type: ignore
+
+
+@renamed_class(Structure)
+class Molecule:
+    pass

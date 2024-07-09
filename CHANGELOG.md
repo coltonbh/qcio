@@ -6,11 +6,26 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+### Added
+
+- A number of additional constant values.
+- `constants._SOLVENTS_DIELECTRIC` for a number of common solvents.
+- `Structure.from_smiles` to create a 3D structure from a smiles string.
+
+### Changed
+
+- Updated `BOHR_TO_ANGSTROM` from `0.529177210903` to `0.529177210544` in accordance with https://physics.nist.gov/cgi-bin/cuu/Value?bohrrada0
+- Renamed `Molecule` to `Structure` to better suggest that the coordinates may represent a superstructure comprised of many molecules. Maintained backwards compatibility for passing `ProgramInput(..., molecule=Structure(...))`, and for accessing `prog_input.molecule` with depreciation warnings.
+- 🚨 Breaking Change: `OptimizationResults.energies` returns a `np.array` now instead of a `list[float]`. This makes it easier for converting the energies to other units like `kcal/mol`.
+- 🚨 Breaking Change: `Identifiers.name_common` renamed to `name` for simplicity.
+- 🚨 Breaking Change: Renamed `Structure.identifiers` -> `Structure.ids` to reduce verbosity.
+- Made `Identifiers` object directly modifiable so one can add names and smiles to structures easily with `mystruc.ids.name = 'my name'` or `mystruct.ids.smiles = 'CCO'`.
+
 ## [0.9.3] - 2024-06-13
 
 ### Added
 
-- Registration of all concrete `ProgramOutput[InputType, ResultsType]` on the `outputs.py` module so `pickle` can find the classes for serialization and deserialization within `celery`. The previous approach of registering classes upon instantiation of a class did not work because of multiple processes running in `celery`. The worker process in which the class was instatiated had the class at `outputs.ProgramOutput[...]` however the main process would sometimes need to serialize an object and it would not be in the `outputs.py` module. The former approach appeared to work better than I thought because declaring classes as types for a `trajector` registered them on the `outputs.py` module without my realizing it.
+- Registration of all concrete `ProgramOutput[InputType, ResultsType]` on the `outputs.py` module so `pickle` can find the classes for serialization and deserialization within `celery`. The previous approach of registering classes upon instantiation of a class did not work because of multiple processes running in `celery`. The worker process in which the class was instantiated had the class at `outputs.ProgramOutput[...]` however the main process would sometimes need to serialize an object and it would not be in the `outputs.py` module. The former approach appeared to work better than I thought because declaring classes as types for a `trajector` registered them on the `outputs.py` module without my realizing it.
 
 ## [0.9.2] - 2024-06-12
 
