@@ -253,6 +253,12 @@ class OptimizationResults(QCIOModelBase):
             ("structures", "[...]"),
         ]
 
+    def to_xyz(self) -> str:
+        """Return the trajectory as an XYZ file."""
+        return "".join(
+            prog_output.input_data.structure.to_xyz() for prog_output in self.trajectory
+        )
+
     def save(
         self,
         filepath: Union[Path, str],
@@ -274,11 +280,7 @@ class OptimizationResults(QCIOModelBase):
         """
         filepath = Path(filepath)
         if filepath.suffix == ".xyz":
-            text = "".join(
-                prog_output.input_data.structure.to_xyz()
-                for prog_output in self.trajectory
-            )
-            filepath.write_text(text)
+            filepath.write_text(self.to_xyz())
             return
         super().save(filepath, exclude_none, indent, **kwargs)
 
