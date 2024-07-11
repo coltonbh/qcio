@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+## [0.10.1] - 2024-07-10
+
+### Changed
+
+- Fixed a depreciated use of `Structure.identifiers` instead of `Structure.ids`.
+
 ## [0.10.0] - 2024-07-10
 
 ### Added
@@ -253,7 +259,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `SinglePointComputedProperties`
   - `Wavefunction`
 
-[unreleased]: https://github.com/coltonbh/qcio/compare/0.10.0...HEAD
+[unreleased]: https://github.com/coltonbh/qcio/compare/0.10.1...HEAD
+[0.10.1]: https://github.com/coltonbh/qcio/releases/tag/0.10.1
 [0.10.0]: https://github.com/coltonbh/qcio/releases/tag/0.10.0
 [0.9.3]: https://github.com/coltonbh/qcio/releases/tag/0.9.3
 [0.9.2]: https://github.com/coltonbh/qcio/releases/tag/0.9.2

@@ -27,7 +27,7 @@ def to_qcel_input(prog_input: ProgramInput) -> Dict[str, Any]:
             # https://github.com/MolSSI/QCElemental/blob/8e5a8cff52a6438ff9d6c1c6bbf1aeb4f02f12e1/qcelemental/models/molecule.py#L262-L281  # noqa: E501
             "fix_com": True,
             "fix_orientation": True,
-            "identifiers": prog_input.structure.identifiers.model_dump(
+            "identifiers": prog_input.structure.ids.model_dump(
                 exclude={"name_IUPAC", "name", "extras"}
             ),  # not on qcel model
         },
