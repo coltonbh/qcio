@@ -11,7 +11,7 @@ from qcio import (
     ProgramOutput,
     SinglePointResults,
 )
-from qcio.utils import water as water_mol
+from qcio.utils import water as water_struct
 
 
 @pytest.fixture
@@ -22,8 +22,8 @@ def test_data_dir():
 
 @pytest.fixture
 def water():
-    """Water molecule fixture"""
-    return water_mol
+    """Water Structure fixture"""
+    return water_struct
 
 
 @pytest.fixture
@@ -53,7 +53,7 @@ def prog_input(water):
 
     def _create_prog_input(calctype):
         return ProgramInput(
-            molecule=water,
+            structure=water,
             calctype=calctype,
             model={"method": "hf", "basis": "sto-3g"},
             keywords={
@@ -74,7 +74,7 @@ def dprog_input(water):
 
     def _create_prog_input(calctype):
         return DualProgramInput(
-            molecule=water,
+            structure=water,
             calctype=calctype,
             keywords={
                 "maxiter": 100,
@@ -92,8 +92,8 @@ def dprog_input(water):
 def sp_results():
     """SinglePointResults object"""
 
-    def _create_sp_results(molecule):
-        n_atoms = len(molecule.symbols)
+    def _create_sp_results(structure):
+        n_atoms = len(structure.symbols)
         gradient = np.arange(n_atoms * 3, dtype=np.float64).reshape(n_atoms, 3)
         hessian = np.arange(n_atoms**2 * 3**2, dtype=np.float64).reshape(
             n_atoms * 3, n_atoms * 3
@@ -112,7 +112,7 @@ def sp_results():
 def prog_output(prog_input, sp_results):
     """Successful ProgramOutput object"""
     pi_energy = prog_input("energy")
-    sp_results = sp_results(pi_energy.molecule)
+    sp_results = sp_results(pi_energy.structure)
 
     return ProgramOutput[ProgramInput, SinglePointResults](
         input_data=pi_energy,

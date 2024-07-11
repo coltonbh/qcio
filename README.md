@@ -38,12 +38,12 @@ All `qcio` objects can be serialized and saved to disk by calling `.save("filena
 #### ProgramInput - Core input object for a single QC program.
 
 ```python
-from qcio import Molecule, ProgramInput
-# xyz files or saved Molecule objects can be opened from disk
-caffeine = Molecule.open("caffeine.xyz")
+from qcio import Structure, ProgramInput
+# xyz files or saved Structure objects can be opened from disk
+caffeine = Structure.open("caffeine.xyz")
 # Define the program input
 prog_input = ProgramInput(
-    molecule=caffeine,
+    structure=caffeine,
     calctype="energy",
     keywords={"purify": "no", "restricted": False},
     model={"method": "hf", "basis": "sto-3g"},
@@ -60,10 +60,10 @@ prog_input.save("input.json")
 prog_input = ProgramInput.open("input.json")
 ```
 
-`Molecule` objects can be opened from and saved as xyz files or saved to disk as `.json`, `.yaml`, or `.toml` formats by changing the extension of the file. For `.xyz` files precision can be controlled by passing the `precision` argument to the `save` method.
+`Structure` objects can be opened from and saved as xyz files or saved to disk as `.json`, `.yaml`, or `.toml` formats by changing the extension of the file. For `.xyz` files precision can be controlled by passing the `precision` argument to the `save` method.
 
 ```python
-caffeine = Molecule.open("caffeine.xyz")
+caffeine = Structure.open("caffeine.xyz")
 caffeine.save("caffeine2.json", precision=6)
 caffeine.save("caffeine.toml")
 ```
@@ -73,12 +73,12 @@ caffeine.save("caffeine.toml")
 `DualProgramInput` objects can be used to power workflows that require multiple QC programs. For example, a geometry optimization workflow might use `geomeTRIC` to power the optimization and use `terachem` to compute the energies and gradients.
 
 ```python
-from qcio import Molecule, DualProgramInput
-# xyz files or saved Molecule objects can be opened from disk
-caffeine = Molecule.open("caffeine.xyz")
+from qcio import Structure, DualProgramInput
+# xyz files or saved Structure objects can be opened from disk
+caffeine = Structure.open("caffeine.xyz")
 # Define the program input
 prog_input = DualProgramInput(
-    molecule=caffeine,
+    structure=caffeine,
     calctype="optimization",
     keywords={"maxiter": 250},
     subprogram="terachem",

@@ -1,8 +1,8 @@
 import numpy as np
 
-from qcio import Molecule
+from qcio import Structure
 
-caffeine = Molecule(
+caffeine = Structure(
     symbols=[
         "O",
         "O",

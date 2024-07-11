@@ -11,6 +11,7 @@ __all__ = [  # noqa: F405
     "CalcType",
     "Model",
     "Provenance",
+    "Structure",
     "Molecule",
     "Files",
     "FileInput",

@@ -17,18 +17,18 @@ def to_qcel_input(prog_input: ProgramInput) -> Dict[str, Any]:
     """
     return {
         "molecule": {
-            "symbols": prog_input.molecule.symbols,
-            "geometry": prog_input.molecule.geometry,
-            "molecular_charge": prog_input.molecule.charge,
-            "molecular_multiplicity": prog_input.molecule.multiplicity,
-            "connectivity": prog_input.molecule.connectivity or None,
+            "symbols": prog_input.structure.symbols,
+            "geometry": prog_input.structure.geometry,
+            "molecular_charge": prog_input.structure.charge,
+            "molecular_multiplicity": prog_input.structure.multiplicity,
+            "connectivity": prog_input.structure.connectivity or None,
             # Insane defaults, but they are the defaults in qcelemental
             # Setting to True instead so qcel doesn't rotate or translate the molecule
             # https://github.com/MolSSI/QCElemental/blob/8e5a8cff52a6438ff9d6c1c6bbf1aeb4f02f12e1/qcelemental/models/molecule.py#L262-L281  # noqa: E501
             "fix_com": True,
             "fix_orientation": True,
-            "identifiers": prog_input.molecule.identifiers.model_dump(
-                exclude={"name_IUPAC", "name_common", "extras"}
+            "identifiers": prog_input.structure.identifiers.model_dump(
+                exclude={"name_IUPAC", "name", "extras"}
             ),  # not on qcel model
         },
         "driver": prog_input.calctype,

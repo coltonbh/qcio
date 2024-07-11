@@ -1,8 +1,17 @@
 # https://physics.nist.gov/cgi-bin/cuu/Value?bohrrada0
-BOHR_TO_ANGSTROM = 0.529177210903
+BOHR_TO_ANGSTROM = 0.529177210544
+ANGSTROM_TO_BOHR = 1 / BOHR_TO_ANGSTROM
+# https://www.physics.nist.gov/cgi-bin/cuu/Value?hr
+HARTREE_TO_JOULE = 4.3597447222060e-18
+# https://physics.nist.gov/cgi-bin/cuu/Value?na
+AVOGADRO_NUMBER = 6.02214076e23
+# https://www.nist.gov/pml/special-publication-811/nist-guide-si-appendix-b-conversion-factors/nist-guide-si-appendix-b8
+# Using kcal(th) as Therochemical calorie is the unit used in quantum chemistry.
+KCAL_TO_JOULE = 4.184e3
+HARTREE_TO_KCAL_PER_MOL = HARTREE_TO_JOULE / KCAL_TO_JOULE * AVOGADRO_NUMBER
 
 # Declaring Private so I can update implementations of this towards a periodic table.
-# Public features are exposed on core models. e.g., Molecule.atomic_symbols
+# Public features are exposed on core models. e.g., Structure.atomic_numbers
 _ELEMENTS = {
     "H": 1,
     "He": 2,
@@ -122,4 +131,49 @@ _ELEMENTS = {
     "Lv": 116,
     "Ts": 117,
     "Og": 118,
+}
+
+# https://depts.washington.edu/eooptic/linkfiles/dielectric_chart%5B1%5D.pdf
+_SOLVENTS_DIELECTRIC = {
+    "acetic acid": 6.15,
+    "acetone": 20.7,
+    "acetonitrile": 37.5,
+    "anisole": 4.33,
+    "benzene": 2.27,
+    "bromobenzene": 5.17,
+    "carbon disulfide": 2.6,
+    "carbon tetrachloride": 2.24,
+    "chlorobenzene": 5.62,
+    "chloroform": 4.81,
+    "cyclohexane": 2.02,
+    "dibutyl ether": 3.1,
+    "o -dichlorobenzene": 9.93,
+    "1,2-dichloroethane": 10.36,
+    "dichloromethane": 8.93,
+    "diethylamine": 3.6,
+    "diethyl ether": 4.33,
+    "1,2-dimethoxyethane": 7.2,
+    "n,n -dimethylacetamide": 37.8,
+    "n,n -dimethylformamide": 36.7,
+    "dimethyl sulfoxide": 46.7,
+    "1,4-dioxane": 2.25,
+    "ethanol": 24.5,
+    "ethyl acetate": 6.02,
+    "ethyl benzoate": 6.02,
+    "formamide": 111,
+    "hexamethylphosphoramide": 30,
+    "isopropyl alcohol": 17.9,
+    "methanol": 32.7,
+    "2-methyl-2-propanol": 10.9,
+    "nitrobenzene": 34.82,
+    "nitromethane": 35.87,
+    "pyridine": 12.4,
+    "tetrahydrofuran": 7.58,
+    "toluene": 2.38,
+    "trichloroethylene": 3.4,
+    "triethylamine": 2.42,
+    "trifluoroacetic acid": 8.55,
+    "2,2,2-trifluoroethanol": 8.55,
+    "water": 80.1,
+    "o -xylene": 2.57,
 }
