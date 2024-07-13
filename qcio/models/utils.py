@@ -144,5 +144,5 @@ def smiles_to_structure(
         "symbols": atoms,
         "geometry": geometry_bohr,
         "charge": Chem.GetFormalCharge(mol),
-        "ids": {"canonical_smiles": canonical_smiles, "smiles": smiles},
+        "identifiers": {"canonical_smiles": canonical_smiles, "smiles": smiles},
     }

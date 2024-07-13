@@ -91,8 +91,8 @@ def test_smiles_to_structure_rdkit():
     )
     assert struct.charge == 0
     assert struct.multiplicity == 1
-    assert struct.ids.smiles == "OCC"
-    assert struct.ids.canonical_smiles == "CCO"
+    assert struct.identifiers.smiles == "OCC"
+    assert struct.identifiers.canonical_smiles == "CCO"
 
     # Check Charge
     struct = Structure.from_smiles("[O-]CC")
@@ -102,3 +102,10 @@ def test_smiles_to_structure_rdkit():
     struct = Structure.from_smiles("[O-]CC", multiplicity=3)
     assert struct.charge == -1
     assert struct.multiplicity == 3
+
+
+def test_ids_backwards_compatibility():
+    struct = Structure(symbols=["H"], geometry=[[0, 0, 0]], ids={"name": "fake"})
+    assert struct.identifiers.name == "fake"
+    # Test that ids is an alias for identifiers
+    assert struct.ids == struct.identifiers

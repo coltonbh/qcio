@@ -58,7 +58,7 @@ class _StructureKeywordsMixin(_KeywordsMixin):
     def __init__(self, **data: Any):
         """Backwards compatibility for 'molecule' attribute.
 
-        TODO: Remove in 0.10.0 or later.
+        TODO: Remove in future versions.
         """
         if "molecule" in data:
             warnings.warn(
