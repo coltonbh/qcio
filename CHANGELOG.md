@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+## [0.10.2] - 2024-07-12
+
 ### Added
 
 - `OptimizationResults.to_xyz()` to convert the trajectory to an `xyz` multi-structure format.
@@ -268,7 +270,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `SinglePointComputedProperties`
   - `Wavefunction`
 
-[unreleased]: https://github.com/coltonbh/qcio/compare/0.10.1...HEAD
+[unreleased]: https://github.com/coltonbh/qcio/compare/0.10.2...HEAD
+[0.10.2]: https://github.com/coltonbh/qcio/releases/tag/0.10.2
 [0.10.1]: https://github.com/coltonbh/qcio/releases/tag/0.10.1
 [0.10.0]: https://github.com/coltonbh/qcio/releases/tag/0.10.0
 [0.9.3]: https://github.com/coltonbh/qcio/releases/tag/0.9.3
