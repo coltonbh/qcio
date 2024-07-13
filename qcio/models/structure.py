@@ -56,9 +56,6 @@ class Identifiers(QCIOModelBase):
     pubchem_sid: Optional[str] = None
     pubchem_conformerid: Optional[str] = None
 
-    # Allow direct assignment of identifiers
-    model_config = {"extra": "forbid", "frozen": False}
-
 
 # class Bond(QCIOModelBase):
 #     """A bond object.
@@ -96,19 +93,26 @@ class Structure(QCIOModelBase):
     geometry: SerializableNDArray  # Coerced to 2D array
     charge: int = 0
     multiplicity: int = 1
-    ids: Identifiers = Identifiers()
+    identifiers: Identifiers = Identifiers()
     connectivity: List[Tuple[int, int, float]] = []
-    # masses: List[float] = []
+
+    def __init__(self, **data: Any):
+        """Backwards compatibility for 'ids' attribute."""
+        if identifiers := data.pop("ids", None):
+            warnings.warn(
+                "Passing 'ids' is deprecated and will be removed in a future "
+                "release. Please use 'identifiers' instead. Once instantiated, "
+                "you can use structure.ids to access the identifiers as a shortcut.",
+                category=FutureWarning,
+                stacklevel=2,
+            )
+            data["identifiers"] = identifiers
+        super().__init__(**data)
 
     @property
-    def identifiers(self) -> Identifiers:
-        warnings.warn(
-            "The 'identifiers' attribute is deprecated and will be removed in a future "
-            "release. Please use 'ids' instead.",
-            category=FutureWarning,
-            stacklevel=2,
-        )
-        return self.ids
+    def ids(self) -> Identifiers:
+        """Shortcut to access the identifiers."""
+        return self.identifiers
 
     @classmethod
     def from_smiles(
@@ -168,6 +172,11 @@ class Structure(QCIOModelBase):
         floats.
         """
         return [[float(val) for val in bond] for bond in connectivity]
+
+    @property
+    def geometry_angstrom(self) -> np.ndarray:
+        """Return the geometry of the structure in Angstrom."""
+        return self.geometry * BOHR_TO_ANGSTROM
 
     @property
     def atomic_numbers(self) -> List[int]:

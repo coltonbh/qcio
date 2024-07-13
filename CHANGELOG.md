@@ -10,6 +10,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - `OptimizationResults.to_xyz()` to convert the trajectory to an `xyz` multi-structure format.
 
+### Changed
+
+- Reverted back to using `Structure.identifiers` rather than `Structure.ids`. There is an `@property` on `Structure` for `ids` for shorthand in end user cases. Added compatibility shim for passing `ids` upon instantiation so should not be a breaking change.
+- Reverted `Identifiers` to being immutable. While it's nice to be able to set `.name` dynamically in a Jupyter Notebook for display purposes, I realized that variable names in notebooks are often reused and it becomes too easy to accidentally rename structures to something unintended. Perhaps better to keep everything immutable. Maybe add a feature like `ProgramOutput.add_display_name(...)` or something akin to this for in-the-moment view modifications. This data would not be persisted upon saving.
+
 ## [0.10.1] - 2024-07-10
 
 ### Changed
