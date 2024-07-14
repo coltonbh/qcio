@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+## [0.10.3] - 2024-07-13
+
 ### Fixed
 
 - `Molecule` now correctly inherits from `Structure` for backwards compatibility.
@@ -274,7 +276,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `SinglePointComputedProperties`
   - `Wavefunction`
 
-[unreleased]: https://github.com/coltonbh/qcio/compare/0.10.2...HEAD
+[unreleased]: https://github.com/coltonbh/qcio/compare/0.10.3...HEAD
+[0.10.3]: https://github.com/coltonbh/qcio/releases/tag/0.10.3
 [0.10.2]: https://github.com/coltonbh/qcio/releases/tag/0.10.2
 [0.10.1]: https://github.com/coltonbh/qcio/releases/tag/0.10.1
 [0.10.0]: https://github.com/coltonbh/qcio/releases/tag/0.10.0
