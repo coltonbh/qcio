@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+### Fixed
+
+- `Molecule` now correctly inherits from `Structure` for backwards compatibility.
+
 ## [0.10.2] - 2024-07-12
 
 ### Added

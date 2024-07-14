@@ -315,5 +315,5 @@ class Structure(QCIOModelBase):
 
 
 @renamed_class(Structure)
-class Molecule:
+class Molecule(Structure):
     pass
