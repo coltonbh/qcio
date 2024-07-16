@@ -8,10 +8,12 @@ from itertools import product
 from pathlib import Path
 from typing import (
     TYPE_CHECKING,
+    Any,
     Generic,
     List,
     Literal,
     Optional,
+    Tuple,
     TypeVar,
     Union,
     get_args,
@@ -29,7 +31,7 @@ from .structure import Structure
 from .utils import deprecated_class
 
 if TYPE_CHECKING:  # pragma: no cover
-    from pydantic.typing import ReprArgs
+    pass
 
 
 __all__ = [
@@ -236,8 +238,8 @@ class OptimizationResults(QCIOModelBase):
             if not isinstance(output.results, NoResults):
                 energies[i] = output.results.energy
             else:
-                # If the calculation failed, set the energy to 0.0
-                energies[i] = 0.0
+                # If the calculation failed, set the energy to nan
+                energies[i] = np.nan
 
         return energies
 
@@ -383,12 +385,19 @@ class ProgramOutput(Files, Generic[InputType, ResultsType]):
         """Print the traceback text"""
         print(self.traceback)
 
-    def __repr_args__(self) -> "ReprArgs":
-        """Exclude stdout and traceback from the repr"""
-        return [
+    def __repr_args__(self) -> List[Tuple[str, Any]]:
+        """Exclude stdout and traceback from the repr and ensure success is first"""
+        args = super().__repr_args__()
+
+        # Replace stdout and traceback with "<...>"
+        filtered_args = [
             (key, value if key not in {"stdout", "traceback"} else "<...>")
-            for key, value in super().__repr_args__()
+            for key, value in args
         ]
+        # Ensure success is first
+        success_arg = [(key, value) for key, value in filtered_args if key == "success"]
+        other_args = [(key, value) for key, value in filtered_args if key != "success"]
+        return success_arg + other_args
 
     @property
     def return_result(self) -> Union[float, SerializableNDArray, Optional[Structure]]:

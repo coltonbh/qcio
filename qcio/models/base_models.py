@@ -105,7 +105,7 @@ class QCIOModelBase(BaseModel, ABC):
         filepath.write_text(data)
 
     def __repr_args__(self) -> "ReprArgs":
-        """Only show non empty fields in repr."""
+        """Only show non empty fields in repr but always show success even if false."""
 
         def exists(value):
             if isinstance(value, np.ndarray):
@@ -113,7 +113,9 @@ class QCIOModelBase(BaseModel, ABC):
             return bool(value)
 
         return [  # pragma: no cover
-            (name, value) for name, value in self.__dict__.items() if exists(value)
+            (name, value)
+            for name, value in self.__dict__.items()
+            if name == "success" or exists(value)
         ]
 
     def __eq__(self, other: Any) -> bool:

@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+### Changed
+
+- `OptimizationResults.trajectory` may contain a series of successful `ProgramOutput[..., SinglePointResults]` objects and then a failed `ProgramOutput[..., NoResults]` object. In this case we set the `.energies` property of the last value to `nan` for the failed calculation rather than `0.0`.
+- Updated `QCIOModelBase.__repr_args__` so that `.success` is always shown in the repr, even if `False`.
+- Updated `ProgramOutput.__repr_args__` to always show `.success` first. This helps with `ProgramOutput[..., OptimizationsResults]` where it isn't immediately obvious the calculation has failed from the printed string because `.results` isn't `NoResults`.
+
 ## [0.10.4] - 2024-07-15
 
 ### Added
