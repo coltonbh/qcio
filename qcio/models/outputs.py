@@ -169,6 +169,23 @@ class SinglePointResults(QCIOModelBase):
         """Return the primary result of the calculation."""
         return getattr(self, calctype.value)
 
+    @model_validator(mode="after")
+    def ensure_results(self) -> Self:
+        """Ensure that at least one result is present."""
+        if all(
+            result is None
+            for result in [
+                self.energy,
+                self.gradient,
+                self.hessian,
+            ]
+        ):
+            raise ValueError(
+                "SinglePointResults requires either an energy, gradient, or hessian "
+                "value."
+            )
+        return self
+
 
 class OptimizationResults(QCIOModelBase):
     """Computed properties for an optimization.
@@ -310,6 +327,33 @@ class ProgramOutput(Files, Generic[InputType, ResultsType]):
     def ensure_traceback_on_failure(self) -> Self:
         if self.success is False and self.traceback is None:
             raise ValueError("A traceback must be provided for failed calculations.")
+        return self
+
+    @model_validator(mode="after")
+    def ensure_noresults_on_failure_for_single_point(self) -> Self:
+        """Ensure that failed single point calculations have a NoResult object.
+
+        Failed optimization or transition_state calculations may still have a partially
+        completed trajectory as an OptimizationResults object.
+        """
+        if (
+            type(self.input_data) is not FileInput
+            and not self.success
+            # NOTE: Must # type: ignore because the type check above is not respected
+            # by mypy. Perhaps I'll want to reconsider how inputs inherit from FileInput
+            # so I can use isinstance() checks??
+            and self.input_data.calctype  # type: ignore
+            in {
+                CalcType.energy,
+                CalcType.gradient,
+                CalcType.hessian,
+            }
+        ):
+            assert isinstance(self.results, NoResults), (
+                "Unsuccessful energy, gradient and hessian calculations must set "
+                ".results to NoResults."
+            )
+
         return self
 
     @model_validator(mode="after")

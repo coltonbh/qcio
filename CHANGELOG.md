@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+### Added
+
+- `ensure_results` validator to `SinglePointResults` to enforce that either `energy`, `gradient` or `hessian` must be set. I.e., one cannot have an empty `SinglePointResults` object--this should instead be `NoResults`.
+- `ensure_noresults_on_failure_for_single_point` to `ProgramOutput` so that setting `.success=False` and `.results=SinglePointResults` is an invalid state.
+
 ## [0.10.3] - 2024-07-13
 
 ### Fixed
