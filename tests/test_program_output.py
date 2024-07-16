@@ -76,6 +76,7 @@ def test_single_point_results_normal_modes_cartesian_shape(prog_input):
     n_atoms = len(pi_energy.structure.symbols)
     n_atoms * 3
     results = SinglePointResults(
+        energy=-1.0,
         normal_modes_cartesian=np.array(
             [
                 [
@@ -112,7 +113,7 @@ def test_single_point_results_normal_modes_cartesian_shape(prog_input):
                     -3.52070589e-54,
                 ],
             ]
-        )
+        ),
     )
     assert results.normal_modes_cartesian.shape == (3, 3, 3)
 
@@ -415,3 +416,22 @@ def test_pickle_serialization_of_program_output():
     serialized = pickle.dumps(dynamic_generics)
     deserialized = pickle.loads(serialized)
     assert deserialized == dynamic_generics
+
+
+def test_ensure_result_present_on_single_point_results_validator():
+    with pytest.raises(ValidationError):
+        SinglePointResults()
+
+
+def test_ensure_noresults_on_failure_for_single_point_validator(prog_input):
+    prog_inp = prog_input("energy")
+    spr = SinglePointResults(energy=-1.0)
+
+    with pytest.raises(ValidationError):
+        ProgramOutput(
+            input_data=prog_inp,
+            success=False,
+            results=spr,
+            provenance={"program": "fake"},
+            traceback="Fake traceback",
+        )
