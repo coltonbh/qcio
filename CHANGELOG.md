@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+## [0.10.4] - 2024-07-15
+
 ### Added
 
 - `ensure_results` validator to `SinglePointResults` to enforce that either `energy`, `gradient` or `hessian` must be set. I.e., one cannot have an empty `SinglePointResults` object--this should instead be `NoResults`.
@@ -281,7 +283,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `SinglePointComputedProperties`
   - `Wavefunction`
 
-[unreleased]: https://github.com/coltonbh/qcio/compare/0.10.3...HEAD
+[unreleased]: https://github.com/coltonbh/qcio/compare/0.10.4...HEAD
+[0.10.4]: https://github.com/coltonbh/qcio/releases/tag/0.10.4
 [0.10.3]: https://github.com/coltonbh/qcio/releases/tag/0.10.3
 [0.10.2]: https://github.com/coltonbh/qcio/releases/tag/0.10.2
 [0.10.1]: https://github.com/coltonbh/qcio/releases/tag/0.10.1
