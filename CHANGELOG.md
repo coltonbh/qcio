@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+### Added
+
+- ✨`view`✨ module that enables simple viewing of `Structures` and `ProgramOutput` objects for easy visual analysis and comparison in Jupyter Notebooks. Use with `from qcio import view` and then `view.view(prog_output1, prog_output2, ...)` inside a Jupyter Notebook. See `README.md` for more details.
+
 ### Changed
 
 - Refactored `ProgramOutput.files` into the `.results` attribute:
