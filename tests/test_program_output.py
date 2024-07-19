@@ -6,7 +6,7 @@ from pydantic import ValidationError
 
 from qcio import (
     FileInput,
-    NoResults,
+    Files,
     OptimizationResults,
     ProgramInput,
     ProgramOutput,
@@ -233,18 +233,6 @@ def test_correct_generic_instantiates_and_equality_checks_pass(prog_output, tmp_
     assert wo_types_opt == w_types_opt == wo_types_opened_opt == w_types_opened_opt
 
 
-def test_program_failure_without_results(prog_output):
-    inp_data = prog_output.input_data
-    output = ProgramOutput[ProgramInput, NoResults](
-        success=False,
-        input_data=inp_data,
-        stdout="program standard out...",
-        traceback="Traceback",
-        provenance=prog_output.provenance,
-    )
-    assert isinstance(output.results, NoResults)
-
-
 def test_non_file_success_always_has_result(prog_input):
     pi_energy = prog_input("energy")
     with pytest.raises(ValidationError):
@@ -271,18 +259,18 @@ def test_primary_result_must_be_present_on_success(prog_output):
     [
         pytest.param(
             "file_input",
-            NoResults(),
+            Files(),
             True,
             FileInput,
-            NoResults,
-            id="FileInput-NoResults-Success",
+            Files,
+            id="FileInput-Files-Success",
         ),
         pytest.param(
             "file_input",
-            NoResults(),
+            Files(),
             False,
             FileInput,
-            NoResults,
+            Files,
             id="FileInput-NoResults-Failure",
         ),
     ],
@@ -331,29 +319,27 @@ def test_pickle_serialization_of_program_output_parametrized(
     deserialized = pickle.loads(serialized)
     assert deserialized == prog_output
 
-    # # Generics not specified at instantiation of ProgramOutput
-    # unspecified_po = ProgramOutput(**prog_output.model_dump())
-    # serialized = pickle.dumps(prog_output)
-    # deserialized = pickle.loads(serialized)
-    # assert deserialized == unspecified_po
+    # Generics not specified at instantiation of ProgramOutput
+    unspecified_po = ProgramOutput(**prog_output.model_dump())
+    serialized = pickle.dumps(prog_output)
+    deserialized = pickle.loads(serialized)
+    assert deserialized == unspecified_po
 
-    # # Generics specified and .results is None
-    # prog_output_dict = prog_output.model_dump()
-    # prog_output_dict.update(
-    #     {"results": None, "success": False, "traceback": "Traceback: ..."}
-    # )
-    # no_results = ProgramOutput(**prog_output_dict)
-    # serialized = pickle.dumps(no_results)
-    # deserialized = pickle.loads(serialized)
-    # assert deserialized == no_results
+    # Generics specified and .results is not passed
+    prog_output_dict = prog_output.model_dump()
+    prog_output_dict.update({"success": False, "traceback": "Traceback: ..."})
+    no_results = ProgramOutput(**prog_output_dict)
+    serialized = pickle.dumps(no_results)
+    deserialized = pickle.loads(serialized)
+    assert deserialized == no_results
 
-    # # Dynamically specified generics
-    # dynamic_generics = ProgramOutput[
-    #     type(prog_output.input_data), type(prog_output.results)
-    # ](**prog_output.model_dump())
-    # serialized = pickle.dumps(dynamic_generics)
-    # deserialized = pickle.loads(serialized)
-    # assert deserialized == dynamic_generics
+    # Dynamically specified generics
+    dynamic_generics = ProgramOutput[
+        type(prog_output.input_data), type(prog_output.results)
+    ](**prog_output.model_dump())
+    serialized = pickle.dumps(dynamic_generics)
+    deserialized = pickle.loads(serialized)
+    assert deserialized == dynamic_generics
 
 
 def test_pickle_serialization_of_program_output():
@@ -401,7 +387,7 @@ def test_pickle_serialization_of_program_output():
     # Generics specified and .results is None
     prog_output_dict = prog_output.model_dump()
     prog_output_dict.update(
-        {"results": NoResults(), "success": False, "traceback": "Traceback: ..."}
+        {"results": Files(), "success": False, "traceback": "Traceback: ..."}
     )
     # Fails
     no_results = ProgramOutput(**prog_output_dict)
@@ -423,15 +409,22 @@ def test_ensure_result_present_on_single_point_results_validator():
         SinglePointResults()
 
 
-def test_ensure_noresults_on_failure_for_single_point_validator(prog_input):
-    prog_inp = prog_input("energy")
-    spr = SinglePointResults(energy=-1.0)
+def test_compatibility_layer_for_files_on_program_output(prog_input):
+    """Test that the compatibility layer for files on ProgramOutput works"""
+    energy_input = prog_input("energy")
+    # Passing Files as a dictionary
+    files = {"file1": "file1.txt", "file2": "file2.txt"}
 
-    with pytest.raises(ValidationError):
-        ProgramOutput(
-            input_data=prog_inp,
-            success=False,
-            results=spr,
-            provenance={"program": "fake"},
-            traceback="Fake traceback",
-        )
+    po = ProgramOutput(
+        input_data=energy_input,
+        success=True,
+        results=SinglePointResults(energy=-1.0),
+        provenance={"program": "qcio-test-suite"},
+        files=files,
+    )
+    assert po.results.files == files
+
+
+def test_compatibility_layer_for_noresults_prog_outputs(test_data_dir):
+    """Ensure old ProgramOutput with NoResults can still be loaded."""
+    ProgramOutput.model_validate_json((test_data_dir / "po_noresults.json").read_text())

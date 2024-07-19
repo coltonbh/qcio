@@ -18,7 +18,6 @@ __all__ = [  # noqa: F405
     "ProgramInput",
     "ProgramOutput",
     "DualProgramInput",
-    "NoResults",
     "SinglePointResults",
     "OptimizationResults",
     "SinglePointOutput",

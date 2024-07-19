@@ -9,6 +9,7 @@ from pathlib import Path
 from typing import (
     TYPE_CHECKING,
     Any,
+    Dict,
     Generic,
     List,
     Literal,
@@ -41,7 +42,6 @@ __all__ = [
     "ProgramOutput",
     "ResultsType",
     "Results",
-    "NoResults",
     "SinglePointOutput",
     "ProgramFailure",
     "OptimizationOutput",
@@ -74,22 +74,7 @@ class Wavefunction(QCIOModelBase):
         return np.asarray(val) if val is not None else None
 
 
-class NoResults(QCIOModelBase):
-    """Am empty results object for when no results are present.
-
-    This is used to avoid having to use Optional[Results] in ProgramOutput which gives
-    greater type safety by ensuring that results are always present. Also, this object
-    functions as an empty container so that end user code doesn't have to check if
-    results are None before accessing them--akin to returning an empty list instead of
-    None for a function.
-    """
-
-    def __bool__(self):
-        """Behave like an empty container."""
-        return False
-
-
-class SinglePointResults(QCIOModelBase):
+class SinglePointResults(Files):
     """The computed results from a single point calculation.
 
     Attributes:
@@ -189,7 +174,7 @@ class SinglePointResults(QCIOModelBase):
         return self
 
 
-class OptimizationResults(QCIOModelBase):
+class OptimizationResults(Files):
     """Computed properties for an optimization.
 
     Attributes:
@@ -202,20 +187,17 @@ class OptimizationResults(QCIOModelBase):
     trajectory: List[
         Union[
             ProgramOutput[ProgramInput, SinglePointResults],
-            ProgramOutput[ProgramInput, NoResults],
+            ProgramOutput[ProgramInput, Files],
         ]
     ] = []
 
     @property
-    def final_structure(self) -> Optional[Structure]:
+    def final_structure(self) -> Structure:
         """The final Structure in the optimization."""
-        try:
-            return self.trajectory[-1].input_data.structure
-        except IndexError:  # Empty trajectory
-            return None
+        return self.structures[-1]
 
     @property
-    def final_molecule(self) -> Optional[Structure]:
+    def final_molecule(self) -> Structure:
         warnings.warn(
             ".final_molecule is being depreciated and will be removed in a future. "
             "Please use .final_structure instead.",
@@ -225,23 +207,22 @@ class OptimizationResults(QCIOModelBase):
         return self.final_structure
 
     @property
-    def final_energy(self) -> Optional[Structure]:
+    def final_energy(self) -> Optional[float]:  # Optional for np.nan
         """The final energy in the optimization."""
         return self.energies[-1]
 
     @property
     def energies(self) -> np.ndarray:
         """The energies for each step of the optimization."""
-        energies = np.empty(len(self.trajectory), dtype=float)
-
-        for i, output in enumerate(self.trajectory):
-            if not isinstance(output.results, NoResults):
-                energies[i] = output.results.energy
-            else:
-                # If the calculation failed, set the energy to nan
-                energies[i] = np.nan
-
-        return energies
+        return np.array(
+            [
+                # ensure_structured_results_on_success validator ensures .results
+                # is not Files if success is True so # type: ignore
+                output.results.energy if output.success else np.nan  # type: ignore
+                for output in self.trajectory
+            ],
+            dtype=float,
+        )
 
     @property
     def structures(self) -> List[Structure]:
@@ -304,74 +285,75 @@ class OptimizationResults(QCIOModelBase):
         super().save(filepath, exclude_none, indent, **kwargs)
 
 
-Results = Union[NoResults, SinglePointResults, OptimizationResults]
+Results = Union[Files, SinglePointResults, OptimizationResults]
 ResultsType = TypeVar("ResultsType", bound=Results)
 
 
-class ProgramOutput(Files, Generic[InputType, ResultsType]):
+class ProgramOutput(QCIOModelBase, Generic[InputType, ResultsType]):
     input_data: InputType
     provenance: Provenance
     success: Literal[True, False]
-    results: ResultsType = NoResults()  # type: ignore
+    results: ResultsType
     stdout: Optional[str] = None
     traceback: Optional[str] = None
+
+    def __init__(self, **data: Any):
+        """Backwards compatibility for files attribute."""
+
+        if "files" in data:
+            warnings.warn(
+                "The 'files' attribute has been moved to 'results.files'. Please "
+                "update your code accordingly.",
+                category=FutureWarning,
+                stacklevel=2,
+            )
+
+            # This moves files from the top level to the results attribute
+            if isinstance(data["results"], dict):
+                results_files_dict = data["results"].get("files", {})
+            else:  # data["results"] is Files, SinglePointResults, OptimizationResults
+                results_files_dict = data["results"].files
+
+            results_files_dict.update(**data.pop("files"))
+
+        super().__init__(**data)
 
     def model_post_init(self, __context) -> None:
         """Parameterize the class (if not set explicitly)."""
         # Check if the current class is still generic, do not override if explicitly set
         if self.__class__ is ProgramOutput:
             input_type = type(self.input_data)
-            # TODO: Make sure this is valid for results == None
             results_type = type(self.results)
             self.__class__ = ProgramOutput[input_type, results_type]  # type: ignore # noqa 501
 
     @model_validator(mode="after")
     def ensure_traceback_on_failure(self) -> Self:
-        if self.success is False and self.traceback is None:
-            raise ValueError("A traceback must be provided for failed calculations.")
+        if self.success is False:
+            assert (
+                self.traceback is not None
+            ), "A traceback must be provided for failed calculations."
         return self
 
     @model_validator(mode="after")
-    def ensure_noresults_on_failure_for_single_point(self) -> Self:
-        """Ensure that failed single point calculations have a NoResult object.
-
-        Failed optimization or transition_state calculations may still have a partially
-        completed trajectory as an OptimizationResults object.
-        """
-        if (
-            type(self.input_data) is not FileInput
-            and not self.success
-            # NOTE: Must # type: ignore because the type check above is not respected
-            # by mypy. Perhaps I'll want to reconsider how inputs inherit from FileInput
-            # so I can use isinstance() checks??
-            and self.input_data.calctype  # type: ignore
-            in {
-                CalcType.energy,
-                CalcType.gradient,
-                CalcType.hessian,
-            }
-        ):
-            assert isinstance(self.results, NoResults), (
-                "Unsuccessful energy, gradient and hessian calculations must set "
-                ".results to NoResults."
+    def ensure_structured_results_on_success(self) -> Self:
+        """Ensure structured results are provided for successful, non FileInputs."""
+        # Covers case of ProgramInput and DualProgramInput
+        if self.success is True and isinstance(self.input_data, ProgramInput):
+            assert type(self.results) is not Files, (
+                "Structured results must be provided for successful, non FileInput "
+                "calculations."
             )
 
         return self
 
     @model_validator(mode="after")
-    def ensure_results_on_success(self) -> Self:
-        if self.success is True and type(self.input_data) is not FileInput:
-            # Ensure results are provided for successful calculations
-            assert not isinstance(
-                self.results, NoResults
-            ), "Results must be provided for successful, non FileInput calculations."
-
-            if type(self.results) is SinglePointResults:
-                # Ensure the primary calctype result is present
-                calctype_val = self.input_data.calctype.value  # type: ignore
-                assert (
-                    getattr(self.results, calctype_val) is not None
-                ), f"Missing the primary result: {calctype_val}."
+    def ensure_primary_result_on_success(self) -> Self:
+        if type(self.results) is SinglePointResults:
+            # Ensure the primary calctype result is present
+            calctype_val = self.input_data.calctype.value  # type: ignore
+            assert (
+                getattr(self.results, calctype_val) is not None
+            ), f"Missing the primary result: {calctype_val}."
 
         return self
 
@@ -398,6 +380,18 @@ class ProgramOutput(Files, Generic[InputType, ResultsType]):
         success_arg = [(key, value) for key, value in filtered_args if key == "success"]
         other_args = [(key, value) for key, value in filtered_args if key != "success"]
         return success_arg + other_args
+
+    @property
+    def files(self) -> Dict[str, Union[str, bytes]]:
+        """Return the files attribute."""
+        # Depreciation warning
+        warnings.warn(
+            ".files has been moved to .results.files. "
+            "Please access it there going forward.",
+            category=FutureWarning,
+            stacklevel=2,
+        )
+        return self.results.files
 
     @property
     def return_result(self) -> Union[float, SerializableNDArray, Optional[Structure]]:
