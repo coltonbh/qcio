@@ -6,6 +6,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+### Changed
+
+- Refactored `ProgramOutput.files` into the `.results` attribute:
+  - `ProgramOutput` now inherits from `QCIOModelBase`.
+  - `SinglePointResults` and `OptimizationResults` inherit from `Files`.
+    - This means `SinglePointResults` and `OptimizationResults` both return `True` for `isinstance(obj, Files)`.
+  - `Files` has been added to `Results` (a valid `ResultsType`).
+  - Removed awkward `NoResults` object from `qcio`. Realizing that `Files` is the correct base case for `.results` (files may exist for all failed or successful calculations) enabled this change.
+  - `ProgramOutput.results: ResultsType` now has no default value.
+  - This is more logically consistent with the idea that all program results--including files--are found at `.results`. Structured results objects like `SinglePointResults` and `OptimizationResults` essentially parse out data from these files into structured data. `FileInput` calculations behave just like structured calculations now with their outputs (the files produced by the program) available in `.results`. This matches the metal model for input objects that start with `FileInput` and then layer structure onto common values like `.model`, `keywords`, and `calctype`.
+    - This means that `FileInput` calculations now produce a `ProgramOutput[FileInput, Files]` object instead of the former `ProgramOutput[FileInput, NoResults]` object. This same change holds for failed single point calculations or failed optimization calculations with no computed results.
+  - Added compatibility layer with `FutureWarning` message to preserve backwards compatibility for instantiating `ProgramOutput` objects having `.files` and accessing `ProgramOutput.files` on instantiated objects.
+- Cleaned up `.final_energy` and `final_structure` return values on `OptimizationResults`.
+
+### Removed
+
+- `Structure.extra` note about the structure being generated from a force field embedding when instantiated using `.from_smiles(smiles: str)`.
+
 ## [0.10.5] - 2024-07-15
 
 ### Changed

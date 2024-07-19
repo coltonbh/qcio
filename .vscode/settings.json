@@ -31,6 +31,7 @@
         "pstdout",
         "ptraceback",
         "pubchem",
+        "Pydantic",
         "pypa",
         "pypi",
         "qcel",
@@ -41,7 +42,7 @@
         "stdoutp",
         "strfile",
         "terachem",
-        "tracebackp",
+        "traceback",
         "vibmodes",
         "wavenumber",
         "wavenumbers"

@@ -136,11 +136,6 @@ class Structure(QCIOModelBase):
         """
         dict_repr = smiles_to_structure(smiles, program, force_field)
         dict_repr["multiplicity"] = multiplicity
-        dict_repr["extras"] = {
-            "NOTE": "This structure was generated from a SMILES string.",
-            "program": program,
-            "force_field": force_field,
-        }
         return cls(**dict_repr)
 
     def __repr_args__(self) -> "ReprArgs":
