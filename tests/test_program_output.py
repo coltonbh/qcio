@@ -271,7 +271,7 @@ def test_primary_result_must_be_present_on_success(prog_output):
             False,
             FileInput,
             Files,
-            id="FileInput-NoResults-Failure",
+            id="FileInput-Files-Failure",
         ),
     ],
     indirect=["input_data"],
@@ -365,7 +365,6 @@ def test_pickle_serialization_of_program_output():
         success=True,
         # traceback="Traceback: ...",
         stdout="program standard out...",
-        # results=NoResults(),
         results=SinglePointResults(
             energy=1.0,
             extras={"some_extra_result": 1},

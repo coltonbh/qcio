@@ -15,7 +15,7 @@ Inspired by [QCElemental](https://github.com/MolSSI/QCElemental). Built for cons
 
 ## The QC Suite of Programs
 
-- [qcio](https://github.com/coltonbh/qcio) - Beautiful and user friendly data structures for quantum chemistry.
+- [qcio](https://github.com/coltonbh/qcio) - Elegant and intuitive data structures for quantum chemistry, featuring seamless Jupyter Notebook visualizations.
 - [qcparse](https://github.com/coltonbh/qcparse) - A library for efficient parsing of quantum chemistry data into structured `qcio` objects.
 - [qcop](https://github.com/coltonbh/qcop) - A package for operating quantum chemistry programs using `qcio` standardized data structures. Compatible with `TeraChem`, `psi4`, `QChem`, `NWChem`, `ORCA`, `Molpro`, `geomeTRIC` and many more.
 - [BigChem](https://github.com/mtzgroup/bigchem) - A distributed application for running quantum chemistry calculations at scale across clusters of computers or the cloud. Bring multi-node scaling to your favorite quantum chemistry program.
@@ -50,7 +50,7 @@ prog_input = ProgramInput(
     extras={"comment": "This is a comment"}, # Anything extra not in the schema
 )
 # Binary or other files used as input can be added
-prog_input.open_file("wfn.dat")
+prog_input.add_file("wfn.dat")
 prog_input.keywords["initial_guess"] = "wfn.dat"
 
 # Save the input to disk in json, yaml, or toml format
@@ -132,22 +132,22 @@ new_prog_input = ProgramInput(**new_input_dict)
 
 ### Output Objects
 
-#### SinglePointOutput and OptimizationOutput
+#### ProgramOutput
 
-Currently supported `Output` objects include `SinglePointOutput` for energy, gradient, and hessian calculations; and `OptimizationOutput` for optimization and transition state calculations. All `Output` objects have the same basic API:
+All computations result in a `ProgramOutput` object that encapsulates the core results, files, stdout, and additional details of the calculation. A `ProgramOutput` object has the following attributes:
 
 ```python
 output.input_data # Input data used by the QC program
-output.success # Whether the calculation succeeded
+output.success # Whether the calculation succeeded or failed
 output.results # All structured results from the calculation
+output.results.files # Any files returned by the calculation
 output.stdout # Stdout log from the calculation
 output.pstdout # Shortcut to print out the stdout in human readable format
-output.files # Any files returned by the calculation
 output.provenance # Provenance information about the calculation
 output.extras # Any extra information not in the schema
 ```
 
-The only difference between a `SinglePointOutput` and an `OptimizationOutput` is the `results` attribute. `SinglePointOutput` objects have a `SinglePointResults` object, and `OptimizationOutput` objects have an `OptimizationResults` object. Available attributes for each result type can be found by calling `dir()` on the object.
+The `.results` attribute on a `ProgramOutput` is polymorphic and may be either `Files`, `SinglePointResults` or `OptimizationResults` depending on the type of calculation requested. Available attributes for each result type can be found by calling `dir()` on the object.
 
 ```python
 dir(output.results)
@@ -155,14 +155,35 @@ dir(output.results)
 
 Results can be saved to disk in json, yaml, or toml format by calling `.save("filename.{json/yaml/toml}")` and loaded from disk by calling `.open("filename.{json/yaml/toml}")`.
 
-#### ProgramFailure
+## ✨ Visualization ✨
 
-Failed calculations are represented by a `ProgramFailure` object. This object has the same API as `Output` objects but also has a `.traceback` attribute that captures the stack trace.
+Visualize all your results with a single line of code!
 
-```python
-output.traceback # Stack trace from the failed calculation
-output.ptraceback # Shortcut to print out the traceback in human readable format
+First install the visualization module:
+
+```sh
+pip install qcio[view]
 ```
+
+or if your shell requires `''` around arguments with brackets:
+
+```sh
+pip install 'qcio[view]'
+```
+
+Then in a Jupyter notebook import the `qcio` view module and call `view.view(...)` passing it one or any number of `qcio` objects you want to visualizing including `Structure` objects or any `ProgramOutput` object. You may also pass an array of `titles` and/or `subtitles` to add additional information to the molecular structure display. If no titles are passed `qcio` with look for `Structure` identifiers such as a name or SMILES to label the `Structure`.
+
+![Structure Viewer](https://public.coltonhicks.com/assets/qcio/structure_viewer.png)
+
+Seamless visualizations for `ProgramOutput` objects make results analysis easy!
+
+![Optimization Viewer](https://public.coltonhicks.com/assets/qcio/optimization_viewer.png)
+
+Single point calculations display their results in a table.
+
+![Single Point Viewer](https://public.coltonhicks.com/assets/qcio/single_point_viewer.png)
+
+If you want to use the HTML generated by the viewer to build your own dashboards use the functions inside of `qcio.view.py` that begin with the word `generate_` to create HTML you can insert into any dashboard.
 
 ## Support
 

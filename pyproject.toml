@@ -20,9 +20,13 @@ toml = "^0.10.2"
 pyyaml = "^6.0"
 typing-extensions = "^4.7.1"
 rdkit = { version = ">=2022.3.3", optional = true }
+matplotlib = { version = ">=3.0.0", optional = true }
+ipython = { version = ">=8.0.0", optional = true }
+py3Dmol = { version = ">=2.2.1", optional = true }
 
 [tool.poetry.extras]
 rdkit = ["rdkit"]
+view = ["matplotlib", "ipython", "py3Dmol"]
 
 [tool.poetry.group.dev.dependencies]
 black = "^24.0.0"
