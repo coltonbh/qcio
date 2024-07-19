@@ -404,6 +404,8 @@ def structures(
     *structures: Structure,
     titles: Optional[List[str]] = None,
     subtitles: Optional[List[str]] = None,
+    titles_extra: Optional[List[str]] = None,
+    subtitles_extra: Optional[List[str]] = None,
     width: int = 600,
     height: int = 450,
     show_indices: bool = False,
@@ -426,10 +428,13 @@ def structures(
     """
     titles = titles or []
     subtitles = subtitles or []
+    titles_extra = titles_extra or []
+    subtitles_extra = subtitles_extra or []
+
     final_html = []
 
-    for i, (struct, title, subtitle) in enumerate(
-        zip_longest(structures, titles, subtitles)
+    for i, (struct, title, subtitle, t_extra, s_extra) in enumerate(
+        zip_longest(structures, titles, subtitles, titles_extra, subtitles_extra)
     ):
         if i % 2 == 0:
             if i != 0:
@@ -445,6 +450,8 @@ def structures(
                 height=height,
                 title=title,
                 subtitle=subtitle,
+                title_extra=t_extra,
+                subtitle_extra=s_extra,
                 show_indices=show_indices,
                 **kwargs,
             )
@@ -483,9 +490,13 @@ def program_outputs(
     """
     titles = kwargs.get("titles") or []
     subtitles = kwargs.get("subtitles") or []
+    titles_extra = kwargs.get("titles_extra") or []
+    subtitles_extra = kwargs.get("subtitles_extra") or []
 
     final_html = []
-    for po, title, subtitle in zip_longest(prog_outputs, titles, subtitles):
+    for po, title, subtitle, t_extra, s_extra in zip_longest(
+        prog_outputs, titles, subtitles, titles_extra, subtitles_extra
+    ):
         final_html.append(generate_output_table(po))
 
         # Create structure viewer
@@ -494,7 +505,7 @@ def program_outputs(
 
         else:
             # Determine the structure to use
-            title_extra = ""
+            title_extra = t_extra or ""
             if isinstance(po.results, OptimizationResults):
                 for_viewer: Union[Structure, List[Structure]]
                 if animate:
@@ -510,6 +521,7 @@ def program_outputs(
                 title=title,
                 title_extra=title_extra,
                 subtitle=subtitle,
+                subtitle_extra=s_extra,
                 show_indices=show_indices,
                 **kwargs,
             )
@@ -570,7 +582,6 @@ def view(
 
     if all(isinstance(obj, Structure) for obj in objs):
         structures(*objs, titles=titles, subtitles=subtitles, **kwargs)  # type: ignore
-
         return
 
     for obj, title, subtitle in zip_longest(objs, titles, subtitles):
@@ -579,7 +590,9 @@ def view(
 
         if isinstance(obj, Structure):
             structures(obj, titles=_titles, subtitles=_subtitles, **kwargs)
+
         elif isinstance(obj, ProgramOutput):
             program_outputs(obj, titles=_titles, subtitles=_subtitles, **kwargs)
+
         else:
             raise NotImplementedError(f"Viewing of {type(obj)} is not implemented.")
