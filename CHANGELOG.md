@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+## [0.11.0] - 2024-07-19
+
 ### Added
 
 - ✨`view`✨ module that enables simple viewing of `Structures` and `ProgramOutput` objects for easy visual analysis and comparison in Jupyter Notebooks. Use with `from qcio import view` and then `view.view(prog_output1, prog_output2, ...)` inside a Jupyter Notebook. See `README.md` for more details.
@@ -17,7 +19,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `SinglePointResults` and `OptimizationResults` inherit from `Files`.
     - This means `SinglePointResults` and `OptimizationResults` both return `True` for `isinstance(obj, Files)`.
   - `Files` has been added to `Results` (a valid `ResultsType`).
-  - Removed awkward `NoResults` object from `qcio`. Realizing that `Files` is the correct base case for `.results` (files may exist for all failed or successful calculations) enabled this change.
+  - 🚨 BREAKING CHANGE: Removed awkward `NoResults` object from `qcio`. Realizing that `Files` is the correct base case for `.results` (files may exist for all failed or successful calculations) enabled this change.
   - `ProgramOutput.results: ResultsType` now has no default value.
   - This is more logically consistent with the idea that all program results--including files--are found at `.results`. Structured results objects like `SinglePointResults` and `OptimizationResults` essentially parse out data from these files into structured data. `FileInput` calculations behave just like structured calculations now with their outputs (the files produced by the program) available in `.results`. This matches the metal model for input objects that start with `FileInput` and then layer structure onto common values like `.model`, `keywords`, and `calctype`.
     - This means that `FileInput` calculations now produce a `ProgramOutput[FileInput, Files]` object instead of the former `ProgramOutput[FileInput, NoResults]` object. This same change holds for failed single point calculations or failed optimization calculations with no computed results.
@@ -313,7 +315,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `SinglePointComputedProperties`
   - `Wavefunction`
 
-[unreleased]: https://github.com/coltonbh/qcio/compare/0.10.5...HEAD
+[unreleased]: https://github.com/coltonbh/qcio/compare/0.11.0...HEAD
+[0.11.0]: https://github.com/coltonbh/qcio/releases/tag/0.11.0
 [0.10.5]: https://github.com/coltonbh/qcio/releases/tag/0.10.5
 [0.10.4]: https://github.com/coltonbh/qcio/releases/tag/0.10.4
 [0.10.3]: https://github.com/coltonbh/qcio/releases/tag/0.10.3
