@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+### Added
+
+- Added support for `titles_extra` and `subtitles_extra` to top-level `view.view` function. This allows users to pass additional data they want displayed after the default title (usually `Structure.name`) is displayed.
+
 ## [0.11.0] - 2024-07-19
 
 ### Added
