@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+## [0.11.1] - 2024-07-19
+
 ### Added
 
 - Added support for `titles_extra` and `subtitles_extra` to top-level `view.view` function. This allows users to pass additional data they want displayed after the default title (usually `Structure.name`) is displayed.
@@ -319,7 +321,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `SinglePointComputedProperties`
   - `Wavefunction`
 
-[unreleased]: https://github.com/coltonbh/qcio/compare/0.11.0...HEAD
+[unreleased]: https://github.com/coltonbh/qcio/compare/0.11.1...HEAD
+[0.11.1]: https://github.com/coltonbh/qcio/releases/tag/0.11.1
 [0.11.0]: https://github.com/coltonbh/qcio/releases/tag/0.11.0
 [0.10.5]: https://github.com/coltonbh/qcio/releases/tag/0.10.5
 [0.10.4]: https://github.com/coltonbh/qcio/releases/tag/0.10.4
