@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+## [0.11.2] - 2024-07-20
+
 ### Added
 
 - Periodic Table with simple interface.
@@ -349,7 +351,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `SinglePointComputedProperties`
   - `Wavefunction`
 
-[unreleased]: https://github.com/coltonbh/qcio/compare/0.11.1...HEAD
+[unreleased]: https://github.com/coltonbh/qcio/compare/0.11.2...HEAD
+[0.11.2]: https://github.com/coltonbh/qcio/releases/tag/0.11.2
 [0.11.1]: https://github.com/coltonbh/qcio/releases/tag/0.11.1
 [0.11.0]: https://github.com/coltonbh/qcio/releases/tag/0.11.0
 [0.10.5]: https://github.com/coltonbh/qcio/releases/tag/0.10.5
