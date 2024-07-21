@@ -6,6 +6,34 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+### Added
+
+- Periodic Table with simple interface.
+
+  ```python
+  from qcio.constants import periodic_table as pt
+
+  pt.He.symbol
+  pt.He.number
+  pt.He.name
+  pt.Ht.mass
+  pt.He.group
+  pt.He.period
+  pt.He.block
+  pt.He.electron_confg
+
+  group_6 = pt.group(6)
+  period_3 = pt.period(3)
+
+  # Check Data Source
+  pt.data_source
+  pt.data_url
+  ```
+
+### Removed
+
+- `constants._ELEMENTS` which was a short-term holdover until a periodic table could be added.
+
 ## [0.11.1] - 2024-07-19
 
 ### Added

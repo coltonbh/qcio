@@ -7,7 +7,8 @@ import numpy as np
 from pydantic import field_serializer, field_validator
 from typing_extensions import Self
 
-from qcio.constants import _ELEMENTS, BOHR_TO_ANGSTROM
+from qcio.constants import BOHR_TO_ANGSTROM
+from qcio.constants import periodic_table as pt
 from qcio.helper_types import SerializableNDArray
 
 from .base_models import QCIOModelBase
@@ -176,7 +177,7 @@ class Structure(QCIOModelBase):
     @property
     def atomic_numbers(self) -> List[int]:
         """Return the atomic numbers of the atoms in the structure."""
-        return [_ELEMENTS[symbol] for symbol in self.symbols]
+        return [getattr(pt, symbol).number for symbol in self.symbols]
 
     @property
     def formula(self) -> str:
