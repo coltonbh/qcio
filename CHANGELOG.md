@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+### Fixed
+
+- Fixed `IndexError` when viewing an optimization that failed on the first gradient evaluation.
+
+### Added
+
+- Added `Wall Time` to the `ProgramOutput` table headed in in `view.py`.
+
 ## [0.11.2] - 2024-07-20
 
 ### Added

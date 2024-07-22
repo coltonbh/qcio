@@ -6,6 +6,7 @@ import pytest
 from qcio import (
     DualProgramInput,
     FileInput,
+    Files,
     OptimizationResults,
     ProgramInput,
     ProgramOutput,
@@ -41,7 +42,7 @@ def input_data(request, file_input, prog_input, dprog_input):
         return file_input
     elif request.param == "prog_input":
         return prog_input("energy")
-    elif request.param == "dprog_input":
+    elif request.param == "dprog_input":  # DualProgramInput
         return dprog_input
     else:
         raise ValueError(f"Unknown input data type: {request.param}")
@@ -129,11 +130,11 @@ def prog_output_failure(prog_input, sp_results):
     """Failed ProgramOutput object"""
     pi_energy = prog_input("energy")
 
-    return ProgramOutput[ProgramInput, SinglePointResults](
+    return ProgramOutput[ProgramInput, Files](
         input_data=pi_energy,
         success=False,
-        stdout="program standard out...",
-        results=None,
+        traceback="Traceback...",
+        results=Files(),
         provenance={"program": "qcio-test-suite", "scratch_dir": "/tmp/qcio"},
         extras={"some_extra": 1},
     )
