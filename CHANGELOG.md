@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+## [0.11.3] - 2024-07-22
+
 ### Fixed
 
 - Fixed `IndexError` when viewing an optimization that failed on the first gradient evaluation.
@@ -359,7 +361,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `SinglePointComputedProperties`
   - `Wavefunction`
 
-[unreleased]: https://github.com/coltonbh/qcio/compare/0.11.2...HEAD
+[unreleased]: https://github.com/coltonbh/qcio/compare/0.11.3...HEAD
+[0.11.3]: https://github.com/coltonbh/qcio/releases/tag/0.11.3
 [0.11.2]: https://github.com/coltonbh/qcio/releases/tag/0.11.2
 [0.11.1]: https://github.com/coltonbh/qcio/releases/tag/0.11.1
 [0.11.0]: https://github.com/coltonbh/qcio/releases/tag/0.11.0
