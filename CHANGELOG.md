@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+## [0.11.4] - 2024-07-22
+
 ### Added
 
 - Can pass `charge` and `multiplicity` to `Structure.open("struct.xyz", charge=-1, multiplicity=3)` when opening `xyz` files. Passing these values to files that already contain `charge` or `multiplicity` will raise a `ValueError`.
@@ -365,7 +367,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `SinglePointComputedProperties`
   - `Wavefunction`
 
-[unreleased]: https://github.com/coltonbh/qcio/compare/0.11.3...HEAD
+[unreleased]: https://github.com/coltonbh/qcio/compare/0.11.4...HEAD
+[0.11.4]: https://github.com/coltonbh/qcio/releases/tag/0.11.4
 [0.11.3]: https://github.com/coltonbh/qcio/releases/tag/0.11.3
 [0.11.2]: https://github.com/coltonbh/qcio/releases/tag/0.11.2
 [0.11.1]: https://github.com/coltonbh/qcio/releases/tag/0.11.1
