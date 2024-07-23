@@ -109,3 +109,118 @@ def test_ids_backwards_compatibility():
     assert struct.identifiers.name == "fake"
     # Test that ids is an alias for identifiers
     assert struct.ids == struct.identifiers
+
+
+@pytest.mark.parametrize(
+    "xyzstring, charge, multiplicity, expected_charge, expected_multiplicity, raises",
+    [
+        (
+            """2
+            
+            H 0.0 0.0 0.0
+            H 0.0 0.0 1.0
+            """,
+            1,
+            None,
+            1,
+            1,
+            False,
+        ),
+        (
+            """2
+            
+            H 0.0 0.0 0.0
+            H 0.0 0.0 1.0
+            """,
+            None,
+            2,
+            0,
+            2,
+            False,
+        ),
+        (
+            """2
+            
+            H 0.0 0.0 0.0
+            H 0.0 0.0 1.0
+            """,
+            3,
+            4,
+            3,
+            4,
+            False,
+        ),
+        (
+            """2
+            qcio_charge=-3
+            H 0.0 0.0 0.0
+            H 0.0 0.0 1.0
+            """,
+            None,
+            2,
+            -3,
+            2,
+            False,
+        ),
+        (
+            """2
+            qcio_charge=-3
+            H 0.0 0.0 0.0
+            H 0.0 0.0 1.0
+            """,
+            1,
+            None,
+            None,
+            None,
+            True,
+        ),
+        (
+            """2
+            qcio_multiplicity=4
+            H 0.0 0.0 0.0
+            H 0.0 0.0 1.0
+            """,
+            1,
+            None,
+            1,
+            4,
+            False,
+        ),
+        (
+            """2
+            qcio_multiplicity=4
+            H 0.0 0.0 0.0
+            H 0.0 0.0 1.0
+            """,
+            None,
+            1,
+            None,
+            None,
+            True,
+        ),
+    ],
+)
+def test_passing_charge_and_multiplicity_to_open(
+    tmp_path,
+    xyzstring,
+    charge,
+    multiplicity,
+    expected_charge,
+    expected_multiplicity,
+    raises,
+):
+    filepath = tmp_path / "test.xyz"
+    filepath.write_text(xyzstring)
+
+    if raises:
+        with pytest.raises(ValueError):
+            struct = Structure.open(filepath, charge=charge, multiplicity=multiplicity)
+    else:
+        struct = Structure.open(filepath, charge=charge, multiplicity=multiplicity)
+        assert struct.charge == expected_charge
+        assert struct.multiplicity == expected_multiplicity
+
+
+def test_no_charge_multiplicity_to_non_xyz_files():
+    with pytest.raises(ValueError):
+        Structure.open("file.json", charge=1, multiplicity=2)

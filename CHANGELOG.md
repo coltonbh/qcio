@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+### Added
+
+- Can pass `charge` and `multiplicity` to `Structure.open("struct.xyz", charge=-1, multiplicity=3)` when opening `xyz` files. Passing these values to files that already contain `charge` or `multiplicity` will raise a `ValueError`.
+
 ## [0.11.3] - 2024-07-22
 
 ### Fixed

@@ -215,17 +215,26 @@ class Structure(QCIOModelBase):
         return as_dict
 
     @classmethod
-    def open(cls, filepath: Union[Path, str]) -> Self:
+    def open(
+        cls,
+        filepath: Union[Path, str],
+        charge: Optional[int] = None,
+        multiplicity: Optional[int] = None,
+    ) -> Self:
         """Open a structure from a file.
 
         Args:
             filepath: The path to the file to open. Maybe a path to a JSON file or an
                 XYZ file.
         """
-
         filepath = Path(filepath)
+        if (charge or multiplicity) and filepath.suffix != ".xyz":
+            raise ValueError(
+                "Charge and multiplicity can only be set when opening an XYZ file."
+            )
+
         if filepath.suffix == ".xyz":
-            return cls._from_xyz(filepath)
+            return cls._from_xyz(filepath, charge=charge, multiplicity=multiplicity)
         return super().open(filepath)
 
     def save(
@@ -283,7 +292,13 @@ class Structure(QCIOModelBase):
         return "\n".join(xyz_lines)
 
     @classmethod
-    def _from_xyz(cls, filepath: Union[Path, str]) -> Self:
+    def _from_xyz(
+        cls,
+        filepath: Union[Path, str],
+        *,
+        charge: Optional[int] = None,
+        multiplicity: Optional[int] = None,
+    ) -> Self:
         """Create a Structure from an XYZ file.
 
         Notes:
@@ -300,6 +315,19 @@ class Structure(QCIOModelBase):
             for item in lines[1].strip().split()
             if item.startswith("qcio_")
         }
+        if charge is not None and "charge" in qcio_kwargs:
+            raise ValueError("Charge cannot be set in the file and as an argument.")
+        if multiplicity is not None and "multiplicity" in qcio_kwargs:
+            raise ValueError(
+                "Multiplicity cannot be set in the file and as an argument."
+            )
+
+        # Set charge and multiplicity if provided
+        if charge is not None:
+            qcio_kwargs["charge"] = charge
+        if multiplicity is not None:
+            qcio_kwargs["multiplicity"] = multiplicity
+
         symbols = []
         geometry = []
         for line in lines[2 : 2 + num_atoms]:
