@@ -27,10 +27,7 @@ from contextlib import contextmanager
 from itertools import zip_longest
 from typing import Any, Dict, List, Optional, Union
 
-import matplotlib.pyplot as plt
 import numpy as np
-import py3Dmol as p3d
-from IPython.display import HTML, display
 
 from qcio import (
     DualProgramInput,
@@ -41,6 +38,24 @@ from qcio import (
     Structure,
     constants,
 )
+
+# View dependencies
+try:
+    import matplotlib.pyplot as plt
+    import py3Dmol as p3d
+    from IPython.display import HTML, display
+except ImportError as e:
+    missing_packages = []
+    if "matplotlib" in str(e):
+        missing_packages.append("matplotlib")
+    if "py3Dmol" in str(e):
+        missing_packages.append("py3Dmol")
+    if "IPython" in str(e):
+        missing_packages.append("IPython")
+    raise ImportError(
+        f"Missing dependencies: {', '.join(missing_packages)} required for the view "
+        "module. Please install them using: pip install qcio[view]"
+    )
 
 
 def generate_structure_viewer_html(

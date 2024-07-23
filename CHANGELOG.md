@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+### Added
+
+- Install all extra features with `pip install qcio[all]`.
+- Better error messaging if `qcio.view` is imported but `view` dependencies are not installed.
+
 ## [0.11.4] - 2024-07-22
 
 ### Added

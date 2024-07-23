@@ -1701,10 +1701,11 @@ doc = ["furo", "jaraco.packaging (>=9.3)", "jaraco.tidelift (>=1.4)", "rst.linke
 test = ["big-O", "importlib-resources", "jaraco.functools", "jaraco.itertools", "jaraco.test", "more-itertools", "pytest (>=6,!=8.1.*)", "pytest-checkdocs (>=2.4)", "pytest-cov", "pytest-enabler (>=2.2)", "pytest-ignore-flaky", "pytest-mypy", "pytest-ruff (>=0.2.1)"]
 
 [extras]
+all = ["ipython", "matplotlib", "py3Dmol", "rdkit"]
 rdkit = ["rdkit"]
 view = ["ipython", "matplotlib", "py3Dmol"]
 
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "2422e69ef94118336b8cc89559daac24831ce22320e87d61c7444940531b00d0"
+content-hash = "1a040eed2fc01abda79bfaee5849828b244662fc86028bd842f92b5daaf79873"
