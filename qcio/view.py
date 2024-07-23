@@ -218,6 +218,7 @@ def generate_output_table(*prog_outputs: ProgramOutput) -> str:
         <tr>
             <th>Structure Name</th>
             <th>Success</th>
+            <th>Wall Time</th>
             <th>Calculation Type</th>
             <th>Program</th>
             <th>Model</th>
@@ -245,6 +246,9 @@ def generate_output_table(*prog_outputs: ProgramOutput) -> str:
         <tr>
             <td>{po.input_data.structure.ids.name}</td>
             <td {success_style}>{po.success}</td>
+            <td> {
+                _format_time(po.provenance.wall_time) if po.provenance.wall_time 
+                 else "No timing data"}</td>
             <td>{po.input_data.calctype.name}</td>
             <td>{f"{po.provenance.program} {po.provenance.program_version or ''}"}</td>
             <td>{po.input_data.model}</td>
@@ -286,7 +290,11 @@ def generate_optimization_plot(
     last_is_nan = np.isnan(relative_energies[-1])
 
     if last_is_nan:
-        delta_E = relative_energies[-2]
+        try:
+            delta_E = relative_energies[-2]
+        except IndexError:
+            # If there is only one energy point, set delta_E to nan
+            delta_E = np.nan
     else:
         delta_E = relative_energies[-1]
 
@@ -296,9 +304,7 @@ def generate_optimization_plot(
     ax1.set_ylabel("Relative Energy (kcal/mol)", color=color)
     ax1.plot(relative_energies, label="Energy", marker="o", color="green")
     if last_is_nan:
-        ax1.plot(
-            len(relative_energies) - 1, relative_energies[-2], marker="x", color="red"
-        )
+        ax1.plot(len(relative_energies) - 1, delta_E, marker="x", color="red")
     ax1.tick_params(axis="y", labelcolor=color)
     ax1.text(
         0.95,
@@ -356,6 +362,21 @@ def _not_empty(value) -> bool:
     if isinstance(value, np.ndarray):
         return bool(value.any())
     return bool(value)
+
+
+def _format_time(seconds_float: float) -> str:
+    """Format a time in seconds to a human-readable string."""
+    hours = int(seconds_float // 3600)
+    minutes = int((seconds_float % 3600) // 60)
+    seconds = seconds_float % 60
+    if hours > 0:
+        formatted_time = f"{hours:02}h:{minutes:02}m:{seconds:05.2f}s"
+    elif minutes > 0:
+        formatted_time = f"{minutes:02}m:{seconds:05.2f}s"
+    else:
+        formatted_time = f"{seconds:05.2f}s"
+
+    return formatted_time
 
 
 def generate_results_table(results: SinglePointResults) -> str:
