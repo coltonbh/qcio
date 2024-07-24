@@ -7,7 +7,8 @@ from .data import structures
 
 
 def test_from_xyz(test_data_dir):
-    caffeine = Structure._from_xyz(test_data_dir / "caffeine.xyz")
+    xyz_str = (test_data_dir / "caffeine.xyz").read_text()
+    caffeine = Structure.from_xyz(xyz_str)
     assert caffeine.symbols == structures.caffeine.symbols
     for i in range(len(caffeine.geometry)):
         assert caffeine.geometry[i] == pytest.approx(
@@ -21,7 +22,7 @@ def test_from_xyz(test_data_dir):
 def test_to_file_xyz(test_data_dir, tmp_path):
     caffeine = Structure.open(test_data_dir / "caffeine.xyz")
     caffeine.save(tmp_path / "caffeine_copy.xyz")
-    caffeine_copy = Structure._from_xyz(tmp_path / "caffeine_copy.xyz")
+    caffeine_copy = Structure.open(tmp_path / "caffeine_copy.xyz")
     assert caffeine_copy.symbols == caffeine.symbols
     for i in range(len(caffeine.geometry)):
         assert caffeine_copy.geometry[i] == pytest.approx(
@@ -72,7 +73,7 @@ def test_atomic_symbols():
 
 
 def test_smiles_to_structure_rdkit():
-    struct = Structure.from_smiles("OCC")
+    struct = Structure.from_smiles("OCC", program="rdkit", force_field="UFF")
     assert struct.symbols == ["O", "C", "C", "H", "H", "H", "H", "H", "H"]
     assert np.allclose(
         struct.geometry,
@@ -89,6 +90,24 @@ def test_smiles_to_structure_rdkit():
         ],
         atol=1e-4,
     )
+    assert struct.charge == 0
+    assert struct.multiplicity == 1
+    assert struct.identifiers.smiles == "OCC"
+    assert struct.identifiers.canonical_smiles == "CCO"
+
+    # Check Charge
+    struct = Structure.from_smiles("[O-]CC")
+    assert struct.charge == -1
+
+    # Check manual multiplicity
+    struct = Structure.from_smiles("[O-]CC", multiplicity=3)
+    assert struct.charge == -1
+    assert struct.multiplicity == 3
+
+
+def test_smiles_to_structure_openbabel():
+    struct = Structure.from_smiles("OCC", program="openbabel")
+    assert struct.symbols == ["O", "C", "C", "H", "H", "H", "H", "H", "H"]
     assert struct.charge == 0
     assert struct.multiplicity == 1
     assert struct.identifiers.smiles == "OCC"
@@ -224,3 +243,33 @@ def test_passing_charge_and_multiplicity_to_open(
 def test_no_charge_multiplicity_to_non_xyz_files():
     with pytest.raises(ValueError):
         Structure.open("file.json", charge=1, multiplicity=2)
+
+
+def test_to_smiles_rdkit(water):
+    smiles = water.to_smiles()
+    assert smiles == "O"
+    smiles = water.to_smiles(program="rdkit", hydrogens=True)
+    assert smiles == "[H]O[H]"
+
+
+def test_to_smiles_openbabel(water):
+    smiles = water.to_smiles()
+    assert smiles == "O"
+    smiles = water.to_smiles(program="openbabel", hydrogens=True)
+    assert smiles == "[H]O[H]"
+
+
+def test_add_smiles(water):
+    water.add_smiles(program="rdkit")
+    assert water.identifiers.smiles == "O"
+    assert water.identifiers.canonical_smiles == "O"
+    assert water.identifiers.canonical_smiles_program == "rdkit"
+    water.add_smiles(program="rdkit", hydrogens=True)
+    assert water.identifiers.canonical_explicit_hydrogen_smiles == "[H]O[H]"
+
+    water.add_smiles(program="openbabel")
+    assert water.identifiers.smiles == "O"
+    assert water.identifiers.canonical_smiles == "O"
+    assert water.identifiers.canonical_smiles_program == "openbabel"
+    water.add_smiles(program="openbabel", hydrogens=True)
+    assert water.identifiers.canonical_explicit_hydrogen_smiles == "[H]O[H]"

@@ -4,7 +4,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Any, Dict, List, Optional, Tuple, Union
 
 import numpy as np
-from pydantic import field_serializer, field_validator
+from pydantic import field_serializer, model_validator
 from typing_extensions import Self
 
 from qcio.constants import BOHR_TO_ANGSTROM
@@ -12,7 +12,7 @@ from qcio.constants import periodic_table as pt
 from qcio.helper_types import SerializableNDArray
 
 from .base_models import QCIOModelBase
-from .utils import renamed_class, smiles_to_structure
+from .utils import renamed_class, smiles_to_structure, structure_to_smiles
 
 if TYPE_CHECKING:
     from pydantic.typing import ReprArgs
@@ -28,6 +28,7 @@ class Identifiers(QCIOModelBase):
         name_IUPAC: The IUPAC name of the structure.
         smiles: The SMILES representation of the structure.
         canonical_smiles: The canonical SMILES representation of the structure.
+        canonical_smiles_program: The program used to generate the canonical SMILES.
         canonical_explicit_hydrogen_smiles: The canonical explicit hydrogen SMILES
             representation of the structure.
         canonical_isomeric_smiles: The canonical isomeric SMILES representation of the
@@ -47,6 +48,7 @@ class Identifiers(QCIOModelBase):
     name_IUPAC: Optional[str] = None
     smiles: Optional[str] = None
     canonical_smiles: Optional[str] = None
+    canonical_smiles_program: Optional[str] = None
     canonical_explicit_hydrogen_smiles: Optional[str] = None
     canonical_isomeric_smiles: Optional[str] = None
     canonical_isomeric_explicit_hydrogen_smiles: Optional[str] = None
@@ -121,7 +123,7 @@ class Structure(QCIOModelBase):
         smiles: str,
         *,
         program: str = "rdkit",
-        force_field: str = "UFF",
+        force_field: str = "MMFF94s",
         multiplicity: int = 1,
     ) -> Self:
         """Convert a SMILES string to a 3D Structure.
@@ -139,6 +141,16 @@ class Structure(QCIOModelBase):
         dict_repr["multiplicity"] = multiplicity
         return cls(**dict_repr)
 
+    def to_smiles(self, program: str = "rdkit", hydrogens: bool = False) -> str:
+        """Generate the canonical SMILES representation of the structure.
+
+        Args:
+            program: The program to use for the conversion. Defaults to "rdkit".
+            hydrogens: Whether to include hydrogens in the SMILES string. Defaults to
+                False.
+        """
+        return structure_to_smiles(self, program=program, hydrogens=hydrogens)
+
     def __repr_args__(self) -> "ReprArgs":
         """A helper for __repr__ that returns a list of tuples of the form
         (name, value).
@@ -147,18 +159,68 @@ class Structure(QCIOModelBase):
             ("formula", self.formula),
         ]
 
-    @field_validator("symbols")
-    @classmethod
-    def camel_case(cls, v, values, **kwargs):
-        """Ensure symbols are all capitalized with lowercase second letter."""
-        return [symbol.capitalize() for symbol in v]
+    def add_smiles(
+        self,
+        *,
+        smiles: Optional[str] = None,
+        canonical_smiles: Optional[str] = None,
+        canonical_smiles_program: Optional[str] = None,
+        canonical_explicit_hydrogen_smiles: Optional[str] = None,
+        program: str = "rdkit",
+        hydrogens: bool = False,
+    ) -> None:
+        """Add SMILES data to the identifiers.
 
-    @field_validator("geometry")
-    @classmethod
-    def shape_n_by_3(cls, v, values, **kwargs):
-        """Ensure there is an x, y, and z coordinate for each atom."""
-        n_atoms = len(values.data["symbols"])
-        return np.array(v).reshape(n_atoms, 3)
+        If no SMILES data is provided, the SMILES will be generated from the structure
+        using program.
+
+        Args:
+            smiles: The SMILES representation of the structure.
+            canonical_smiles: The canonical SMILES representation of the structure.
+            canonical_explicit_hydrogen_smiles: The canonical explicit hydrogen SMILES.
+            canonical_smiles_program: The program used to generate the canonical SMILES.
+            program: The program to use for the conversion. Defaults to "rdkit".
+            hydrogens: Whether to include hydrogens in the SMILES string. Defaults to
+                False.
+        """
+        # If no SMILES data is provided, generate it from the structure
+        if not smiles and not canonical_smiles:
+            smiles = self.to_smiles(program=program, hydrogens=hydrogens)
+            canonical_smiles_program = program
+
+            if hydrogens:
+                canonical_explicit_hydrogen_smiles = smiles
+            else:
+                canonical_smiles = smiles
+
+        # Create a new Identifiers instance with the updated values
+        new_identifiers = self.identifiers.model_copy(
+            update={
+                "smiles": smiles,
+                "canonical_smiles": canonical_smiles,
+                "canonical_smiles_program": canonical_smiles_program,
+                "canonical_explicit_hydrogen_smiles": canonical_explicit_hydrogen_smiles,  # noqa: E501
+            }
+        )
+
+        # Replace the existing identifiers with the new instance
+        object.__setattr__(self, "identifiers", new_identifiers)
+
+    @model_validator(mode="before")
+    def validate_symbols_and_geometry(cls, values):
+        """Ensure symbols are valid atomic symbols and geometry is correct."""
+        symbols = [symbol.capitalize() for symbol in values.get("symbols", [])]
+        for symbol in symbols:
+            if not hasattr(pt, symbol):
+                raise ValueError(f"Invalid atomic symbol: '{symbol}'")
+        values["symbols"] = symbols
+
+        geometry = values.get("geometry")
+        if geometry is not None:
+            n_atoms = len(values["symbols"])
+            values["geometry"] = np.array(geometry).reshape(n_atoms, 3)
+
+        return values
 
     @field_serializer("connectivity")
     def serialize_connectivity(self, connectivity, _info) -> List[List[float]]:
@@ -228,13 +290,16 @@ class Structure(QCIOModelBase):
                 XYZ file.
         """
         filepath = Path(filepath)
+
         if (charge or multiplicity) and filepath.suffix != ".xyz":
             raise ValueError(
                 "Charge and multiplicity can only be set when opening an XYZ file."
             )
 
         if filepath.suffix == ".xyz":
-            return cls._from_xyz(filepath, charge=charge, multiplicity=multiplicity)
+            xyz_str = filepath.read_text()
+            return cls.from_xyz(xyz_str, charge=charge, multiplicity=multiplicity)
+
         return super().open(filepath)
 
     def save(
@@ -292,22 +357,26 @@ class Structure(QCIOModelBase):
         return "\n".join(xyz_lines)
 
     @classmethod
-    def _from_xyz(
+    def from_xyz(
         cls,
-        filepath: Union[Path, str],
+        xyz_str: str,
         *,
         charge: Optional[int] = None,
         multiplicity: Optional[int] = None,
     ) -> Self:
-        """Create a Structure from an XYZ file.
+        """Create a Structure from an XYZ file or string.
 
+        Args:
+            xyx_str: The XYZ string.
+            charge: The molecular charge of the structure. If not provided, will read
+                from the XYZ string if set or default to 0.
+            multiplicity: The molecular multiplicity of the structure. If not provided,
+                will read from the XYZ string if set or default to 1.
         Notes:
             Will read qcio data from the comments line with a qcio_key=value format.
         """
-        filepath = Path(filepath)
 
-        with open(filepath, "r") as f:
-            lines = f.readlines()
+        lines = xyz_str.split("\n")
 
         num_atoms = int(lines[0])
         qcio_kwargs: Dict[str, Any] = {

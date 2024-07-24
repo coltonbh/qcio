@@ -8,7 +8,7 @@ References:
 
 import csv
 from pathlib import Path
-from typing import Optional
+from typing import List, Optional
 
 from pydantic import BaseModel
 
@@ -82,7 +82,7 @@ class PeriodicTable:
                 setattr(instance, symbol, atom)
         return instance
 
-    def group(self, group_number: int):
+    def group(self, group_number: int) -> List[Atom]:
         """Return all atoms in a group."""
         assert 1 <= group_number <= 18, "Group number must be between 1 and 18."
         return [
@@ -91,7 +91,7 @@ class PeriodicTable:
             if isinstance(atom, Atom) and atom.group == group_number
         ]
 
-    def period(self, period_number: int):
+    def period(self, period_number: int) -> List[Atom]:
         """Return all atoms in a period."""
         assert 1 <= period_number <= 7, "Period number must be between 1 and 7."
         return [
@@ -99,6 +99,13 @@ class PeriodicTable:
             for atom in self.__dict__.values()
             if isinstance(atom, Atom) and atom.period == period_number
         ]
+
+    def number(self, number: int) -> Atom:
+        """Return an atom by atomic number."""
+        for atom in self.__dict__.values():
+            if isinstance(atom, Atom) and atom.number == number:
+                return atom
+        raise ValueError(f"No atom with atomic number {number}.")
 
 
 periodic_table = PeriodicTable.from_pubchem()

@@ -29,6 +29,8 @@
         "nbeta",
         "ncpus",
         "ndarray",
+        "openbabel",
+        "OUTOPTIONS",
         "pstdout",
         "ptraceback",
         "pubchem",
