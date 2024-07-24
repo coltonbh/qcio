@@ -28,7 +28,7 @@ def to_qcel_input(prog_input: ProgramInput) -> Dict[str, Any]:
             "fix_com": True,
             "fix_orientation": True,
             "identifiers": prog_input.structure.identifiers.model_dump(
-                exclude={"name_IUPAC", "name", "extras"}
+                exclude={"name_IUPAC", "name", "extras", "canonical_smiles_program"}
             ),  # not on qcel model
         },
         "driver": prog_input.calctype,

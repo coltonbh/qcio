@@ -10,6 +10,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Install all extra features with `pip install qcio[all]`.
 - Better error messaging if `qcio.view` is imported but `view` dependencies are not installed.
+- `PeriodicTable.number(number: int) -> Atom` to lookup atoms by atomic number.
+- Multi-structure SMILES support for `Structure.from_smiles` using `Open Babel`.
+  ```python
+    struct = Structure.from_smiles("CCO.O.O", program="openbabel")
+  ```
+- `Structure.to_smiles()` to generate a canonical smiles string. Supported using `rdkit` or `openbabel`.
+- `Structure.add_smiles()` to add `smiles` and/or `canonical_smiles` to `Structure.identifiers`. Can pass `smiles`, `canonical_smiles`, `canonical_explicit_hydrogen_smiles` and `canonical_smiles_program` directly to this method. Alternatively, one can pass no values or `program` and `hydrogen` to generate and set SMILES automatically using `rdkit` or `openbabel`.
+
+### Changed
+
+- Default force field for `Structure.from_smiles` changed from `UFF` -> `MMFF94s`.
+- `Structure._from_xyz` is now public and accepts an `XYZ` string rather than a filepath.
 
 ## [0.11.4] - 2024-07-22
 
