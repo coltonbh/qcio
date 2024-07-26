@@ -220,13 +220,14 @@ def structure_to_smiles(
         from rdkit import Chem
         from rdkit.Chem import rdDetermineBonds
 
+        # Details: https://greglandrum.github.io/rdkit-blog/posts/2022-12-18-introducing-rdDetermineBonds.html  # noqa: E501
         # Create RDKit molecule
         mol = Chem.MolFromXYZBlock(structure.to_xyz())  # type: ignore
 
         # Use rdDetermineBonds to infer bond information
-        rdDetermineBonds.DetermineBonds(mol)
+        rdDetermineBonds.DetermineBonds(mol, charge=structure.charge)
 
-        # Remove hydrogens
+        # Remove hydrogens if necessary
         if not hydrogens:
             mol = Chem.RemoveHs(mol)
 
@@ -243,6 +244,28 @@ def structure_to_smiles(
 
         # Create Open Babel OBMol object
         mol = pybel.readstring("xyz", "\n".join(xyz_lines))
+
+        # Assign charges
+        partial_charges = mol.calccharges()
+
+        # Check if the sum of the partial charges matches the total charge
+        if sum(partial_charges) != structure.charge:
+            raise ValueError(
+                f"Charge mismatch. Open Babel: {sum(partial_charges)} vs Structure: "
+                f"{structure.charge}"
+            )
+
+        # Set the formal charges on the atoms
+        if sum(partial_charges) != 0:
+            for atom, charge in zip(mol.atoms, partial_charges):
+                atom.OBAtom.SetFormalCharge(int(round(charge)))
+
+        # Ensure the total charge matches the structure
+        if mol.charge != structure.charge:
+            raise ValueError(
+                f"Charge mismatch. Open Babel: {sum(partial_charges)} vs Structure: "
+                f"{structure.charge}"
+            )
 
         # Create an OBConversion object to handle output format
         conv = ob.OBConversion()

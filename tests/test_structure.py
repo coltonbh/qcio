@@ -252,11 +252,23 @@ def test_to_smiles_rdkit(water):
     assert smiles == "[H]O[H]"
 
 
+def test_smiles_charges_rdkit():
+    s = Structure.from_smiles("CC[O-]")
+    assert s.charge == -1
+    assert s.to_smiles(program="rdkit") == "CC[O-]"
+
+
 def test_to_smiles_openbabel(water):
     smiles = water.to_smiles()
     assert smiles == "O"
     smiles = water.to_smiles(program="openbabel", hydrogens=True)
     assert smiles == "[H]O[H]"
+
+
+def test_smiles_charges_openbabel():
+    s = Structure.from_smiles("CC[O-]")
+    assert s.charge == -1
+    assert s.to_smiles(program="openbabel") == "[O-]CC"
 
 
 def test_add_smiles(water):
