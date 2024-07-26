@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+### Added
+
+- `Structures.to_smiles` now correctly adds charge information the the SMILES using `rdkit` or `openbabel`.
+
 ## [0.11.5] - 2024-07-23
 
 ### Added
