@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+### Added
+
+- Documentation website available at <https://qcio.coltonhicks.com/>.
+
 ### Removed
 
 - Removed compatibility methods `Files.open_file` and `Files.open_files`. These now only exist at `Files.add_file` and `Files.add_files`.
