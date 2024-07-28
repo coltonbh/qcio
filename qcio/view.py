@@ -554,6 +554,8 @@ def program_outputs(
 
             structure_html = generate_structure_html(
                 for_viewer,
+                width=width,
+                height=height,
                 title=title,
                 title_extra=title_extra,
                 subtitle=subtitle,

@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+### Removed
+
+- Removed compatibility methods `Files.open_file` and `Files.open_files`. These now only exist at `Files.add_file` and `Files.add_files`.
+
 ## [0.11.6] - 2024-07-26
 
 ### Added

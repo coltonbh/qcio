@@ -1,9 +1,9 @@
-"""Physical constants and periodic table from NIST CODATA 2022. All values should have a
-reference to their source.
+"""Physical constants and periodic table from NIST CODATA 2022 and PubChem. All values
+must have a reference to their source.
 
 References:
-- https://physics.nist.gov/cuu/Constants/Table/allascii.txt
-- PubChem periodic table JSON: https://pubchem.ncbi.nlm.nih.gov/periodic-table/
+    - <https://physics.nist.gov/cuu/Constants/Table/allascii.txt>
+    - PubChem periodic table JSON: <https://pubchem.ncbi.nlm.nih.gov/periodic-table/>
 """
 
 import csv
@@ -12,17 +12,39 @@ from typing import List, Optional
 
 from pydantic import BaseModel
 
-# https://physics.nist.gov/cgi-bin/cuu/Value?bohrrada0
 BOHR_TO_ANGSTROM = 0.529177210544
+"""Conversion factor from Bohr to Angstrom. 
+
+<https://physics.nist.gov/cgi-bin/cuu/Value?bohrrada0>
+"""
+
 ANGSTROM_TO_BOHR = 1 / BOHR_TO_ANGSTROM
-# https://www.physics.nist.gov/cgi-bin/cuu/Value?hr
+"""Conversion factor from Angstrom to Bohr.
+
+<https://physics.nist.gov/cgi-bin/cuu/Value?bohrrada0>
+"""
+
 HARTREE_TO_JOULE = 4.3597447222060e-18
-# https://physics.nist.gov/cgi-bin/cuu/Value?na
+"""Conversion factor from Hartree to Joule. 
+
+<https://physics.nist.gov/cgi-bin/cuu/Value?na>
+"""
+
 AVOGADRO_NUMBER = 6.02214076e23
-# https://www.nist.gov/pml/special-publication-811/nist-guide-si-appendix-b-conversion-factors/nist-guide-si-appendix-b8
-# Using kcal(th) as Therochemical calorie is the unit used in quantum chemistry.
+"""Avogadro's number. 
+
+<https://physics.nist.gov/cuu/Constants/Table/allascii.txt>
+"""
+
 KCAL_TO_JOULE = 4.184e3
+"""Conversion factor from kilocalorie to Joule.
+Using kcal(th) as Therochemical calorie is the unit used in quantum chemistry.
+
+<https://www.nist.gov/pml/special-publication-811/nist-guide-si-appendix-b-conversion-factors/nist-guide-si-appendix-b8>
+"""
+
 HARTREE_TO_KCAL_PER_MOL = HARTREE_TO_JOULE / KCAL_TO_JOULE * AVOGADRO_NUMBER
+"""Conversion factor from Hartree to kcal/mol."""
 
 _DATA_DIR = Path(__file__).parent / "constants_data"
 
@@ -44,7 +66,6 @@ class PeriodicTable:
     """Periodic table data model. Data source and URL should be set by class methods."""
 
     # Should be set by @classmethod
-
     data_source: str = ""
     data_url: str = ""
 
@@ -108,7 +129,28 @@ class PeriodicTable:
         raise ValueError(f"No atom with atomic number {number}.")
 
 
+# ruff: noqa
 periodic_table = PeriodicTable.from_pubchem()
+"""Periodic table data from PubChem.
+
+    Example:
+        ```python
+        >>> from qcio.constnats import periodic_table as pt
+        
+        >>> pt.Ni
+        Atom(symbol='Ni', number=28, name='Nickel', mass=58.6934, group=10, period=4, block='d', electron_config='[Ar] 3d8 4s2')
+
+        >>> pt.group(1)
+        [Atom(symbol='H', number=1, name='Hydrogen', mass=1.00784, group=1, period=1, block='s', electron_config='1s1'),
+        Atom(symbol='Li', number=3, name='Lithium', mass=6.94, group=1, period=2, block='s', electron_config='[He] 2s1'),
+        Atom(symbol='Na', number=11, name='Sodium', mass=22.98976928, group=1, period=3, block='s', electron_config='[Ne] 3s1'),
+        Atom(symbol='K', number=19, name='Potassium', mass=39.0983, group=1, period=4, block='s', electron_config='[Ar] 4s1'),
+        Atom(symbol='Rb', number=37, name='Rubidium', mass=85.4678, group=1, period=5, block='s', electron_config='[Kr] 5s1'),
+        Atom(symbol='Cs', number=55, name='Cesium', mass=132.90545196, group=1, period=6, block='s', electron_config='[Xe] 6s1'),
+        Atom(symbol='Fr', number=87, name='Francium', mass=223.0, group=1, period=7, block='s', electron_config='[Rn] 7s1')]
+        ```
+"""
+# ruff: noqa: enable
 
 # https://depts.washington.edu/eooptic/linkfiles/dielectric_chart%5B1%5D.pdf
 _SOLVENTS_DIELECTRIC = {

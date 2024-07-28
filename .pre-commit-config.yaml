@@ -5,15 +5,17 @@ repos:
     rev: v4.4.0
     hooks:
       - id: check-yaml
+        exclude: mkdocs.yml
       - id: check-added-large-files
         args: ["--maxkb=250"]
-        exclude: caffeine.frequencies.out
+        exclude: ^docs/visualizations/.*
+
   - repo: https://github.com/Yelp/detect-secrets
     rev: v1.4.0
     hooks:
       - id: detect-secrets
         stages: [commit]
-        exclude: poetry.lock
+        exclude: '.*\.(lock|ipynb)$'
   - repo: https://github.com/charliermarsh/ruff-pre-commit
     # Ruff version.
     rev: "v0.0.260"
@@ -32,8 +34,7 @@ repos:
     rev: v1.9.0
     hooks:
       - id: mypy
-        additional_dependencies:
-          [pydantic>=2.0.0, types-toml, types-pyyaml]
+        additional_dependencies: [pydantic>=2.0.0, types-toml, types-pyyaml]
   - repo: https://github.com/crate-ci/typos
     rev: v1.16.10
     hooks:

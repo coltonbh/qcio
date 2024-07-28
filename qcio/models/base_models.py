@@ -14,7 +14,6 @@ from pydantic import BaseModel, field_serializer, field_validator
 from typing_extensions import Self
 
 from ..helper_types import StrOrPath
-from .utils import deprecated_function
 
 if TYPE_CHECKING:  # pragma: no cover
     from pydantic.typing import ReprArgs
@@ -55,11 +54,14 @@ class QCIOModelBase(BaseModel, ABC):
 
         Args:
             filepath: The path to the object on disk.
-            *args: Additional arguments to pass to the constructor.
-            **kwargs: Additional keyword arguments to pass to the constructor.
 
         Returns:
             The instantiated object.
+
+        Example:
+            ```python
+            my_obj = MyModel.open("path/to/file.json")
+            ```
         """
         filepath = Path(filepath)
         data = filepath.read_text()
@@ -75,17 +77,38 @@ class QCIOModelBase(BaseModel, ABC):
     def save(
         self,
         filepath: Union[Path, str],
-        exclude_none=True,
+        exclude_none: bool = True,
         indent: int = 4,
         **kwargs,
     ) -> None:
-        """Write an object to disk as json, yaml, or toml.
+        """
+        Save an object to disk as `json`, `yaml`, or `toml`. Objects such as `Structure`
+        and `OptimizationResults` can additionally be saved as `xyz` files.
 
         Args:
             filepath: The path to write the object to.
             exclude_none: If True, attributes with a value of None will not be written.
                 Changing default behavior from pydantic.model_dump() to True.
-            indent: The number of spaces to indent the json or yaml output.
+            indent: The number of spaces to use for indentation in the JSON file. 0
+                creates a more compact JSON file, 4 is more human-readable.
+            **kwargs: Additional keyword arguments to pass to the serialization method.
+
+        Example:
+            ```python
+            my_obj.save("path/to/file.json")
+            ```
+
+            ```python
+            my_obj.save("path/to/file.yaml")
+            ```
+
+            ```python
+            my_obj.save("path/to/file.toml")
+            ```
+
+            ```python
+            my_obj.save("path/to/file.xyz")
+            ```
         """
         filepath = Path(filepath)
         filepath.parent.mkdir(exist_ok=True, parents=True)
@@ -140,7 +163,7 @@ class Files(QCIOModelBase):
     files: Dict[str, Union[str, bytes]] = {}
 
     @field_validator("files")
-    def convert_base64_to_bytes(cls, value):
+    def _convert_base64_to_bytes(cls, value):
         """Convert base64 encoded data to bytes."""
         for filename, data in value.items():
             if isinstance(data, str) and data.startswith("base64:"):
@@ -148,7 +171,7 @@ class Files(QCIOModelBase):
         return value
 
     @field_serializer("files")
-    def serialize_files(self, files, _info) -> Dict[str, str]:
+    def _serialize_files(self, files, _info) -> Dict[str, str]:
         """Serialize files to a dict of filename to base64 encoded string."""
         return {
             filename: (
@@ -162,12 +185,20 @@ class Files(QCIOModelBase):
     def add_file(
         self, filepath: Union[Path, str], relative_dir: Optional[Path] = None
     ) -> None:
-        """Create a File object from a file on disk.
+        """Add a file to the object. The file will be added at to the `files` attribute
+            with the filename as the key and the file data as the value.
 
         Args:
             filepath: The path to the file.
             relative_dir: The directory to make the file relative to. Helpful when
                 adding files from a subdirectory.
+
+        Example:
+            ```python
+                my_obj.add_file("path/to/file.txt")
+                print(my_obj.files)
+                # Output: {"file.txt": "file data"}
+            ```
         """
         filepath = Path(filepath)
         raw_bytes = filepath.read_bytes()
@@ -183,12 +214,6 @@ class Files(QCIOModelBase):
             filename = filepath.name
 
         self.files[filename] = data
-
-    @deprecated_function("add_file")
-    def open_file(
-        self, filepath: Union[Path, str], relative_dir: Optional[Path] = None
-    ) -> None:
-        self.add_file(filepath, relative_dir)
 
     def add_files(
         self,
@@ -213,15 +238,6 @@ class Files(QCIOModelBase):
         for filepath in files:
             if filepath.is_file() and filepath.name not in exclude:
                 self.add_file(filepath, directory)
-
-    @deprecated_function("add_files")
-    def open_files(
-        self,
-        directory: StrOrPath,
-        recursive: bool = False,
-        exclude: Optional[List[str]] = None,
-    ) -> None:
-        self.add_files(directory, recursive, exclude)
 
     def save_files(self, directory: StrOrPath = Path(".")) -> None:
         """Write all files to the specified directory"""
@@ -279,7 +295,15 @@ class Provenance(QCIOModelBase):
 
 
 class CalcType(str, Enum):
-    """The Calculation type."""
+    """The Calculation type.
+
+    Attributes:
+        energy: Energy calculation.
+        gradient: Gradient calculation.
+        hessian: Hessian calculation.
+        optimization: Geometry optimization (to a minima).
+        transition_state: Transition state optimization (to a saddle point).
+    """
 
     energy = "energy"
     gradient = "gradient"

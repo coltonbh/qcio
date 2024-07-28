@@ -1,0 +1,120 @@
+site_name: Quantum Chemistry I/O (QCIO)
+site_url: https://coltonbh.github.io/qcio/
+theme:
+  name: material
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: blue
+      accent: amber
+      toggle:
+        icon: material/lightbulb
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: blue
+      accent: amber
+      toggle:
+        icon: material/lightbulb-outline
+        name: Switch to light mode
+  features:
+    - content.tabs.link
+    - content.code.annotate
+    - content.code.copy
+    - announce.dismiss
+    - navigation.tabs
+    - navigation.instant
+    - navigation.instant.prefetch
+    - navigation.instant.preview
+    - navigation.instant.progress
+    - navigation.path
+    - navigation.sections
+    - navigation.top
+    - navigation.tracking
+    - search.suggest
+    - toc.follow
+
+  icon:
+    repo: fontawesome/brands/github-alt
+
+repo_url: https://github.com/coltonbh/qcio
+edit_uri: edit/master/docs/
+site_author: Colton Hicks
+plugins:
+  - search
+  - autorefs
+  - mknotebooks
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            members_order: source
+            separate_signature: true
+            show_bases: false
+            show_root_heading: true
+            show_symbol_type_heading: true
+            show_symbol_type_toc: true
+            merge_init_into_class: true
+            show_signature_annotations: true
+            signature_crossrefs: true
+            inherited_members: false
+            # Pretty sure I want this false.
+            show_if_no_docstring: false
+
+            docstring_options:
+              ignore_init_summary: true
+
+            filters:
+              - "!^_"
+              - "!^model"
+              - "^__init__"
+
+          selection:
+            new_path_syntax: true
+
+  - exclude:
+      glob:
+        - dev-docs/**
+
+markdown_extensions:
+  - toc:
+      permalink: true
+      title: Page contents
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      pygments_lang_class: true
+  - pymdownx.extra
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.tabbed:
+      alternate_style: true
+  - markdown_include.include
+
+watch:
+  - qcio # Adjust this
+
+nav:
+  - Getting Started:
+      - Welcome to qcio: index.md
+      - Why use qcio?: why.md
+  - API Documentation:
+      - Overview: api/overview.md
+      - Structure: api/structure.md
+      - Inputs: api/inputs.md
+      - Outputs: api/outputs.md
+      - Constants and Periodic Table:
+          - Constants: api/constants.md
+      - Additional Models:
+          - Files: api/files.md
+          - CalcType: api/calctype.md
+          - Model: api/model.md
+          - Provenance: api/provenance.md
+          - QCIOModelBase: api/qciomodelbase.md
+  - ✨Visualizations✨:
+      - Overview: visualizations/overview.md
+      - Structure: visualizations/structure.ipynb
+      - ProgramOutputs: visualizations/programoutputs.ipynb
+  - Changelog: https://github.com/coltonbh/qcio/blob/master/CHANGELOG.md
