@@ -82,11 +82,11 @@ class SinglePointResults(Files):
         calcinfo_nalpha: The number of alpha electrons as computed by the program.
         calcinfo_nbeta: The number of beta electrons as computed by the program.
         calcinfo_nbasis: The number of basis functions in the calculation.
-        calcinfo_nmo: The number of molecular orbitals in the calculation
+        calcinfo_nmo: The number of molecular orbitals in the calculation.
 
-        energy: The electronic energy of the structure in Hartrees.
-        gradient: The gradient of the structure in Hartrees/Bohr.
-        hessian: The hessian of the structure in Hartrees/Bohr^2.
+        energy: The electronic energy of the structure in `Hartrees`.
+        gradient: The gradient of the structure in `Hartrees/Bohr`.
+        hessian: The hessian of the structure in `Hartrees/Bohr^2`.
         nuclear_repulsion_energy: The nuclear repulsion energy of the structure in
             Hartrees.
 
@@ -130,7 +130,7 @@ class SinglePointResults(Files):
 
     @field_validator("normal_modes_cartesian")
     @classmethod
-    def validate_normal_modes_cartesian_shape(cls, v: SerializableNDArray):
+    def _validate_normal_modes_cartesian_shape(cls, v: SerializableNDArray):
         if v is not None:
             # Assume array has length of the number of normal modes
             n_normal_modes = len(v)
@@ -138,14 +138,14 @@ class SinglePointResults(Files):
 
     @field_validator("gradient")
     @classmethod
-    def validate_gradient_shape(cls, v: SerializableNDArray):
+    def _validate_gradient_shape(cls, v: SerializableNDArray):
         """Validate gradient is n x 3"""
         if v is not None:
             return np.asarray(v).reshape(-1, 3)
 
     @field_validator("hessian")
     @classmethod
-    def validate_hessian_shape(cls, v: SerializableNDArray):
+    def _validate_hessian_shape(cls, v: SerializableNDArray):
         """Validate hessian is square"""
         if v is not None:
             v = np.asarray(v)
@@ -157,7 +157,7 @@ class SinglePointResults(Files):
         return getattr(self, calctype.value)
 
     @model_validator(mode="after")
-    def ensure_results(self) -> Self:
+    def _ensure_results(self) -> Self:
         """Ensure that at least one result is present."""
         if all(
             result is None
@@ -208,7 +208,9 @@ class OptimizationResults(Files):
 
     @property
     def final_energy(self) -> Optional[float]:  # Optional for np.nan
-        """The final energy in the optimization."""
+        """
+        The final energy in the optimization. Is `np.nan` if final calculation failed.
+        """
         return self.energies[-1]
 
     @property
@@ -254,7 +256,7 @@ class OptimizationResults(Files):
         ]
 
     def to_xyz(self) -> str:
-        """Return the trajectory as an XYZ file."""
+        """Return the trajectory as an `xyz` string."""
         return "".join(
             prog_output.input_data.structure.to_xyz() for prog_output in self.trajectory
         )
@@ -262,9 +264,9 @@ class OptimizationResults(Files):
     def save(
         self,
         filepath: Union[Path, str],
-        exclude_none=True,
+        exclude_none: bool = True,
         indent: int = 4,
-        **kwargs,
+        **kwargs: Dict[str, Any],
     ) -> None:
         """Save an OptimizationOutput to a file.
 
@@ -274,9 +276,9 @@ class OptimizationResults(Files):
                 to the file.
             **kwargs: Additional keyword arguments to pass to the json serializer.
 
-        Notes:
-            If the filepath has a .xyz extension, the trajectory will be saved to an XYZ
-            file.
+        Note:
+            If the filepath has a `.xyz` extension, the trajectory will be saved to a
+            multi-structure `xyz` file.
         """
         filepath = Path(filepath)
         if filepath.suffix == ".xyz":
@@ -290,12 +292,28 @@ ResultsType = TypeVar("ResultsType", bound=Results)
 
 
 class ProgramOutput(QCIOModelBase, Generic[InputType, ResultsType]):
+    """The core output object from a quantum chemistry calculation.
+
+    Attributes:
+        input_data: The input data for the calculation. Any of `qcio.Inputs`.
+        success: Whether the calculation was successful.
+        results: The results of the calculation. Contains parsed values and files.
+            Any of `qcio.Results`.
+        stdout: The standard output from the calculation.
+        traceback: The traceback from the calculation, if it failed.
+        provenance: The provenance information for the calculation.
+        extras Dict[str, Any]: Additional information to bundle with the object. Use for
+            schema development and scratch space.
+        pstdout str: `@property` Print the stdout text.
+        ptraceback str: `@property` Print the traceback text.
+    """
+
     input_data: InputType
-    provenance: Provenance
     success: Literal[True, False]
     results: ResultsType
     stdout: Optional[str] = None
     traceback: Optional[str] = None
+    provenance: Provenance
 
     def __init__(self, **data: Any):
         """Backwards compatibility for files attribute."""
@@ -335,7 +353,7 @@ class ProgramOutput(QCIOModelBase, Generic[InputType, ResultsType]):
         return self
 
     @model_validator(mode="after")
-    def ensure_structured_results_on_success(self) -> Self:
+    def _ensure_structured_results_on_success(self) -> Self:
         """Ensure structured results are provided for successful, non FileInputs."""
         # Covers case of ProgramInput and DualProgramInput
         if self.success is True and isinstance(self.input_data, ProgramInput):

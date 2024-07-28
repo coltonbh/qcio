@@ -46,6 +46,16 @@ rdkit = ">=2022.9.5"
 rdkit-stubs = "^0.7"
 jupyterlab = "^4.2.4"
 
+
+[tool.poetry.group.docs.dependencies]
+mkdocs = "^1.6.0"
+mkdocs-material = "^9.5.30"
+markdown-include = "^0.8.1"
+pymdown-extensions = "^10.8.1"
+mkdocstrings = {extras = ["python"], version = "^0.25.2"}
+mkdocs-exclude = "^1.0.2"
+mknotebooks = "^0.8.0"
+
 [tool.black]
 line-length = 88
 
