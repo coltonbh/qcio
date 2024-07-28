@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+## [0.11.7] - 2024-07-27
+
 ### Added
 
 - Documentation website available at <https://qcio.coltonhicks.com/>.
@@ -400,7 +402,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `SinglePointComputedProperties`
   - `Wavefunction`
 
-[unreleased]: https://github.com/coltonbh/qcio/compare/0.11.6...HEAD
+[unreleased]: https://github.com/coltonbh/qcio/compare/0.11.7...HEAD
+[0.11.7]: https://github.com/coltonbh/qcio/releases/tag/0.11.7
 [0.11.6]: https://github.com/coltonbh/qcio/releases/tag/0.11.6
 [0.11.5]: https://github.com/coltonbh/qcio/releases/tag/0.11.5
 [0.11.4]: https://github.com/coltonbh/qcio/releases/tag/0.11.4
