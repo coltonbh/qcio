@@ -1,0 +1,2016 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="Colton Hicks">
+      
+      
+        <link rel="canonical" href="https://coltonbh.github.io/qcio/visualizations/structure/">
+      
+      
+        <link rel="prev" href="../overview/">
+      
+      
+        <link rel="next" href="../programoutputs/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.30">
+    
+    
+      
+        <title>Structure - Quantum Chemistry I/O (QCIO)</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.3cba04c6.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../css/ansi-colours.css">
+    
+      <link rel="stylesheet" href="../../css/jupyter-cells.css">
+    
+      <link rel="stylesheet" href="../../css/pandas-dataframe.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#easily-view-and-interact-with-any-structure" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Quantum Chemistry I/O (QCIO)" class="md-header__button md-logo" aria-label="Quantum Chemistry I/O (QCIO)" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Quantum Chemistry I/O (QCIO)
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Structure
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="amber"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7M9 21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1H9v1Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="amber"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7M9 21v-1h6v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1m3-17a5 5 0 0 0-5 5c0 2.05 1.23 3.81 3 4.58V16h4v-2.42c1.77-.77 3-2.53 3-4.58a5 5 0 0 0-5-5Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/coltonbh/qcio" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1zM480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2zm-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3zm-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../.." class="md-tabs__link">
+          
+  
+  Getting Started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../api/overview/" class="md-tabs__link">
+          
+  
+  API Documentation
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../overview/" class="md-tabs__link">
+          
+  
+  ✨Visualizations✨
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="https://github.com/coltonbh/qcio/blob/master/CHANGELOG.md" class="md-tabs__link">
+        
+  
+    
+  
+  Changelog
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Quantum Chemistry I/O (QCIO)" class="md-nav__button md-logo" aria-label="Quantum Chemistry I/O (QCIO)" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Quantum Chemistry I/O (QCIO)
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/coltonbh/qcio" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1zM480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2zm-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3zm-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Getting Started
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            Getting Started
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Welcome to qcio
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../why/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Why use qcio?
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    API Documentation
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            API Documentation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/overview/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/structure/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Structure
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/inputs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Inputs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/outputs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Outputs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_5" id="__nav_2_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Constants and Periodic Table
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            Constants and Periodic Table
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/constants/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Constants
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_6" id="__nav_2_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Additional Models
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            Additional Models
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/files/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/calctype/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CalcType
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/model/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Model
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/provenance/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Provenance
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/qciomodelbase/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    QCIOModelBase
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    ✨Visualizations✨
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            ✨Visualizations✨
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overview/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Structure
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Structure
+  </span>
+  
+
+      </a>
+      
+        
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="Page contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Page contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#easily-view-and-interact-with-any-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Easily view and interact with any structure
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Easily view and interact with any structure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cn1cnc2c1concon2cc" class="md-nav__link">
+    <span class="md-ellipsis">
+      CN1C=NC2=C1C(=O)N(C(=O)N2C)C
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CN1C=NC2=C1C(=O)N(C(=O)N2C)C">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pass-any-number-of-objects-of-any-type-to-view" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pass any number of objects (of any type) to view
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Pass any number of objects (of any type) to view">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#c1cc2ccc1occn2ccn" class="md-nav__link">
+    <span class="md-ellipsis">
+      C1=CC2=C(C=C1O)C(=CN2)CCN
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="C1=CC2=C(C=C1O)C(=CN2)CCN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nccc1ccococc1" class="md-nav__link">
+    <span class="md-ellipsis">
+      NCCc1cc(O)c(O)cc1
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="NCCc1cc(O)c(O)cc1">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#titles-are-generated-automatically-from-identifier-information" class="md-nav__link">
+    <span class="md-ellipsis">
+      Titles are generated automatically from identifier information
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Titles are generated automatically from identifier information">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#serotonin" class="md-nav__link">
+    <span class="md-ellipsis">
+      Serotonin
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Serotonin">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dopamine" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dopamine
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Dopamine">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#or-manually-add-titles-or-subtitles" class="md-nav__link">
+    <span class="md-ellipsis">
+      Or manually add titles or subtitles
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Or manually add titles or subtitles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#good-morning" class="md-nav__link">
+    <span class="md-ellipsis">
+      Good morning ☀️
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Good morning ☀️">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#glutamate" class="md-nav__link">
+    <span class="md-ellipsis">
+      Glutamate 🧪
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Glutamate 🧪">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#charge-1-multiplicity-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Charge: -1 Multiplicity: 1
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../programoutputs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ProgramOutputs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/coltonbh/qcio/blob/master/CHANGELOG.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Changelog
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="Page contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Page contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#easily-view-and-interact-with-any-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Easily view and interact with any structure
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Easily view and interact with any structure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cn1cnc2c1concon2cc" class="md-nav__link">
+    <span class="md-ellipsis">
+      CN1C=NC2=C1C(=O)N(C(=O)N2C)C
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CN1C=NC2=C1C(=O)N(C(=O)N2C)C">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pass-any-number-of-objects-of-any-type-to-view" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pass any number of objects (of any type) to view
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Pass any number of objects (of any type) to view">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#c1cc2ccc1occn2ccn" class="md-nav__link">
+    <span class="md-ellipsis">
+      C1=CC2=C(C=C1O)C(=CN2)CCN
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="C1=CC2=C(C=C1O)C(=CN2)CCN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nccc1ccococc1" class="md-nav__link">
+    <span class="md-ellipsis">
+      NCCc1cc(O)c(O)cc1
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="NCCc1cc(O)c(O)cc1">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#titles-are-generated-automatically-from-identifier-information" class="md-nav__link">
+    <span class="md-ellipsis">
+      Titles are generated automatically from identifier information
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Titles are generated automatically from identifier information">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#serotonin" class="md-nav__link">
+    <span class="md-ellipsis">
+      Serotonin
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Serotonin">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dopamine" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dopamine
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Dopamine">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#or-manually-add-titles-or-subtitles" class="md-nav__link">
+    <span class="md-ellipsis">
+      Or manually add titles or subtitles
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Or manually add titles or subtitles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#good-morning" class="md-nav__link">
+    <span class="md-ellipsis">
+      Good morning ☀️
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Good morning ☀️">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#glutamate" class="md-nav__link">
+    <span class="md-ellipsis">
+      Glutamate 🧪
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Glutamate 🧪">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#charge-1-multiplicity-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Charge: -1 Multiplicity: 1
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+  <h1>Structure</h1>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script>
+(function() {
+  function addWidgetsRenderer() {
+    var requireJsScript = document.createElement('script');
+    requireJsScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js';
+
+    var mimeElement = document.querySelector('script[type="application/vnd.jupyter.widget-view+json"]');
+    var jupyterWidgetsScript = document.createElement('script');
+    var widgetRendererSrc = 'https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js';
+    var widgetState;
+
+    // Fallback for older version:
+    try {
+      widgetState = mimeElement && JSON.parse(mimeElement.innerHTML);
+
+      if (widgetState && (widgetState.version_major < 2 || !widgetState.version_major)) {
+        widgetRendererSrc = 'jupyter-js-widgets@*/dist/embed.js';
+      }
+    } catch(e) {}
+
+    jupyterWidgetsScript.src = widgetRendererSrc;
+
+    document.body.appendChild(requireJsScript);
+    document.body.appendChild(jupyterWidgetsScript);
+  }
+
+  document.addEventListener('DOMContentLoaded', addWidgetsRenderer);
+}());
+</script>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="easily-view-and-interact-with-any-structure">Easily view and interact with any structure<a class="headerlink" href="#easily-view-and-interact-with-any-structure" title="Permanent link">&para;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="language-python highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">qcio</span> <span class="kn">import</span> <span class="n">Structure</span><span class="p">,</span> <span class="n">view</span>
+<span class="n">caffeine</span> <span class="o">=</span> <span class="n">Structure</span><span class="o">.</span><span class="n">from_smiles</span><span class="p">(</span><span class="s1">&#39;CN1C=NC2=C1C(=O)N(C(=O)N2C)C&#39;</span><span class="p">)</span>
+<span class="n">view</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">caffeine</span><span class="p">)</span>
+</code></pre></div>
+
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="output_html rendered_html output_subarea">
+<div style="display: flex; align-items: center; justify-content: center;">
+<div style="text-align: center;">
+<h3 id="cn1cnc2c1concon2cc">CN1C=NC2=C1C(=O)N(C(=O)N2C)C <a class="headerlink" href="#cn1cnc2c1concon2cc" title="Permanent link">&para;</a></h3>
+<div id="3dmolviewer_17221246581640534" style="position: relative; width: 600px; height: 450px;">
+<p id="3dmolwarning_17221246581640534" style="background-color:#ffcccc;color:black">3Dmol.js failed to load for some reason.  Please check your browser console for error messages.<br/></p>
+</div>
+<script>
+
+var loadScriptAsync = function(uri){
+  return new Promise((resolve, reject) => {
+    //this is to ignore the existence of requirejs amd
+    var savedexports, savedmodule;
+    if (typeof exports !== 'undefined') savedexports = exports;
+    else exports = {}
+    if (typeof module !== 'undefined') savedmodule = module;
+    else module = {}
+
+    var tag = document.createElement('script');
+    tag.src = uri;
+    tag.async = true;
+    tag.onload = () => {
+        exports = savedexports;
+        module = savedmodule;
+        resolve();
+    };
+  var firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+});
+};
+
+if(typeof $3Dmolpromise === 'undefined') {
+$3Dmolpromise = null;
+  $3Dmolpromise = loadScriptAsync('https://cdnjs.cloudflare.com/ajax/libs/3Dmol/2.2.1-post1/3Dmol-min.js');
+}
+
+var viewer_17221246581640534 = null;
+var warn = document.getElementById("3dmolwarning_17221246581640534");
+if(warn) {
+    warn.parentNode.removeChild(warn);
+}
+$3Dmolpromise.then(function() {
+viewer_17221246581640534 = $3Dmol.createViewer(document.getElementById("3dmolviewer_17221246581640534"),{backgroundColor:"white"});
+viewer_17221246581640534.zoomTo();
+    viewer_17221246581640534.addModel("24\nqcio_charge=0 qcio_multiplicity=1\nC  3.22425866868323485 0.59895252913622010 -0.59413497010481198\nN  2.08386671222726783 -0.27618680763920539 -0.49585013576623288\nC  2.07882606671166537 -1.62720259754314056 -0.72259128859677224\nN  0.87835014160313007 -2.14449982064608102 -0.55100615216424154\nC  0.09841708638639965 -1.08302867974338390 -0.20385407089047056\nC  0.80851256884800848 0.07818375905212911 -0.16112828261943535\nC  0.23103303729277086 1.33244897855486788 0.17488722572371249\nO  0.88011578380165656 2.37357827603275373 0.21051727007726151\nN  -1.13573141527675170 1.24135933257062137 0.45419694078275191\nC  -1.90528119021423037 0.05930434535383528 0.42077377563892349\nO  -3.11138656154860316 0.08019323495780151 0.68432795156444248\nN  -1.24530605624729618 -1.12165516121357611 0.07933478258637075\nC  -1.96464278923635849 -2.38100718305191172 0.02204981971674216\nC  -1.84231714768309729 2.45587751738147464 0.81134374866696357\nH  3.01750165438081375 1.35611474465044601 -1.35453510600170168\nH  3.39162870756389712 1.06347931827121944 0.38077704791816347\nH  4.10505184135802725 0.01912276906910782 -0.88181074828261852\nH  2.96579112336470185 -2.17954850189883365 -1.00696292924865038\nH  -3.02204429096132943 -2.25865142893693704 0.27065600866164974\nH  -1.88885867736123791 -2.79003833667487289 -0.99046081515702655\nH  -1.51692299698752087 -3.08095950474791902 0.73468003555666095\nH  -2.28448614850673559 2.33047993768811068 1.80525914336855431\nH  -1.19294979410222579 3.33462617056601696 0.81952968750754207\nH  -2.65342632409695600 2.61905710881132769 0.09400106106176048\n","xyz");
+    viewer_17221246581640534.setStyle({"stick": {}, "sphere": {"scale": 0.3}});
+    viewer_17221246581640534.zoomTo();
+viewer_17221246581640534.render();
+});
+</script>
+<h4 id="_1"> <a class="headerlink" href="#_1" title="Permanent link">&para;</a></h4>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="pass-any-number-of-objects-of-any-type-to-view">Pass any number of objects (of any type) to view<a class="headerlink" href="#pass-any-number-of-objects-of-any-type-to-view" title="Permanent link">&para;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="language-python highlight"><pre><span></span><code><span class="n">serotonin</span> <span class="o">=</span> <span class="n">Structure</span><span class="o">.</span><span class="n">from_smiles</span><span class="p">(</span><span class="s2">&quot;C1=CC2=C(C=C1O)C(=CN2)CCN&quot;</span><span class="p">)</span>
+<span class="n">dopamine</span> <span class="o">=</span> <span class="n">Structure</span><span class="o">.</span><span class="n">from_smiles</span><span class="p">(</span><span class="s2">&quot;NCCc1cc(O)c(O)cc1&quot;</span><span class="p">)</span>
+<span class="n">view</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">serotonin</span><span class="p">,</span> <span class="n">dopamine</span><span class="p">)</span>
+</code></pre></div>
+
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="output_html rendered_html output_subarea">
+<div style="display: flex; align-items: center; justify-content: center;">
+<div style="text-align: center;">
+<h3 id="c1cc2ccc1occn2ccn">C1=CC2=C(C=C1O)C(=CN2)CCN <a class="headerlink" href="#c1cc2ccc1occn2ccn" title="Permanent link">&para;</a></h3>
+<div id="3dmolviewer_1722124593692352" style="position: relative; width: 600px; height: 450px;">
+<p id="3dmolwarning_1722124593692352" style="background-color:#ffcccc;color:black">3Dmol.js failed to load for some reason.  Please check your browser console for error messages.<br/></p>
+</div>
+<script>
+
+var loadScriptAsync = function(uri){
+  return new Promise((resolve, reject) => {
+    //this is to ignore the existence of requirejs amd
+    var savedexports, savedmodule;
+    if (typeof exports !== 'undefined') savedexports = exports;
+    else exports = {}
+    if (typeof module !== 'undefined') savedmodule = module;
+    else module = {}
+
+    var tag = document.createElement('script');
+    tag.src = uri;
+    tag.async = true;
+    tag.onload = () => {
+        exports = savedexports;
+        module = savedmodule;
+        resolve();
+    };
+  var firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+});
+};
+
+if(typeof $3Dmolpromise === 'undefined') {
+$3Dmolpromise = null;
+  $3Dmolpromise = loadScriptAsync('https://cdnjs.cloudflare.com/ajax/libs/3Dmol/2.2.1-post1/3Dmol-min.js');
+}
+
+var viewer_1722124593692352 = null;
+var warn = document.getElementById("3dmolwarning_1722124593692352");
+if(warn) {
+    warn.parentNode.removeChild(warn);
+}
+$3Dmolpromise.then(function() {
+viewer_1722124593692352 = $3Dmol.createViewer(document.getElementById("3dmolviewer_1722124593692352"),{backgroundColor:"white"});
+viewer_1722124593692352.zoomTo();
+    viewer_1722124593692352.addModel("25\nqcio_charge=0 qcio_multiplicity=1\nC  2.80662837943892596 0.19461624510125644 1.62644004594558789\nC  2.18671738713131081 -1.04739462810659001 1.78559406544228305\nC  1.04205221631035050 -1.30371588331231392 1.01976405293294148\nC  0.51135558434941475 -0.38099887062730470 0.11625514708800186\nC  1.15528315276037841 0.86637271442856167 -0.02525252446684082\nC  2.29336987732469488 1.13099264862406690 0.73973086890098005\nO  2.94019505341360654 2.33042463772491804 0.64072408820936022\nC  -0.64248928597900123 -0.98139451755059748 -0.48590882876610791\nC  -0.77415410236114401 -2.23828935762225933 0.07514506173286904\nN  0.23947356255826094 -2.41856452406281708 0.97631545313932067\nC  -1.53584322201008616 -0.38941800438644519 -1.53453994105079805\nC  -2.55261258637334310 0.62389585158003458 -0.98757820497747850\nN  -2.03784623404194587 1.99659435506692651 -0.95736744415048758\nH  3.69504497676978971 0.43297752545155627 2.20497726891362067\nH  2.58244102558036603 -1.77972645463350809 2.48100386493334835\nH  0.75377724819234682 1.60007920276663640 -0.71439409236891127\nH  2.42717931676543630 2.89619196027562076 0.04027652711009141\nH  -1.50211112477823416 -3.02022181334629458 -0.09489126075898915\nH  0.38600652411385267 -3.24987117750598165 1.53133884665722397\nH  -0.92963077628609858 0.05707205393057579 -2.33283807432805279\nH  -2.09467533618915525 -1.20723015268739697 -2.00932783141162341\nH  -2.88582840927973061 0.34008317783131742 0.01697273380365259\nH  -3.43672981497666674 0.62051368655550287 -1.63562243768870519\nH  -1.87522970904775632 2.31753693807875072 -1.91053679716472602\nH  -2.75237370338658005 2.60947438642610452 -0.56628058767652500\n","xyz");
+    viewer_1722124593692352.setStyle({"stick": {}, "sphere": {"scale": 0.3}});
+    viewer_1722124593692352.zoomTo();
+viewer_1722124593692352.render();
+});
+</script>
+<h4 id="_2"> <a class="headerlink" href="#_2" title="Permanent link">&para;</a></h4>
+</div>
+<div style="text-align: center;">
+<h3 id="nccc1ccococc1">NCCc1cc(O)c(O)cc1 <a class="headerlink" href="#nccc1ccococc1" title="Permanent link">&para;</a></h3>
+<div id="3dmolviewer_17221245936924894" style="position: relative; width: 600px; height: 450px;">
+<p id="3dmolwarning_17221245936924894" style="background-color:#ffcccc;color:black">3Dmol.js failed to load for some reason.  Please check your browser console for error messages.<br/></p>
+</div>
+<script>
+
+var loadScriptAsync = function(uri){
+  return new Promise((resolve, reject) => {
+    //this is to ignore the existence of requirejs amd
+    var savedexports, savedmodule;
+    if (typeof exports !== 'undefined') savedexports = exports;
+    else exports = {}
+    if (typeof module !== 'undefined') savedmodule = module;
+    else module = {}
+
+    var tag = document.createElement('script');
+    tag.src = uri;
+    tag.async = true;
+    tag.onload = () => {
+        exports = savedexports;
+        module = savedmodule;
+        resolve();
+    };
+  var firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+});
+};
+
+if(typeof $3Dmolpromise === 'undefined') {
+$3Dmolpromise = null;
+  $3Dmolpromise = loadScriptAsync('https://cdnjs.cloudflare.com/ajax/libs/3Dmol/2.2.1-post1/3Dmol-min.js');
+}
+
+var viewer_17221245936924894 = null;
+var warn = document.getElementById("3dmolwarning_17221245936924894");
+if(warn) {
+    warn.parentNode.removeChild(warn);
+}
+$3Dmolpromise.then(function() {
+viewer_17221245936924894 = $3Dmol.createViewer(document.getElementById("3dmolviewer_17221245936924894"),{backgroundColor:"white"});
+viewer_17221245936924894.zoomTo();
+    viewer_17221245936924894.addModel("22\nqcio_charge=0 qcio_multiplicity=1\nN  -3.82831747238149411 0.47797332750282095 0.01557447593432387\nC  -2.44674839009917244 0.29824270330147828 0.46007480321415595\nC  -1.52880033545415484 -0.05563548727794237 -0.71454775657072400\nC  -0.09796828627024931 -0.23799898591558089 -0.26762190827144189\nC  0.78504240481459764 0.85189771715028473 -0.25193925437347586\nC  2.09451440396264932 0.66832214640712939 0.17205335000858096\nO  2.96010598303404127 1.72266094692922955 0.11710946822371407\nC  2.52773316430253425 -0.57657842472618315 0.61755030715260861\nO  3.79030556489432247 -0.73455878561961718 1.11146772189513365\nC  1.67273080040658995 -1.66802681757307858 0.59760341369749626\nC  0.35783253729462089 -1.49806038997911073 0.15693275419270553\nH  -4.40489466202813951 0.73725422629241977 0.81557357253781837\nH  -3.87864135414258637 1.26170786257199774 -0.63454846411673349\nH  -2.41980660609490750 -0.49757616273153082 1.21313769218607792\nH  -2.10477651018549006 1.21810035735981526 0.94861016814279753\nH  -1.57120839716960137 0.72925341488762829 -1.48105122838296621\nH  -1.87565617658815365 -0.97446770548190109 -1.20519382390179808\nH  0.46217962862540890 1.83450272373461098 -0.58477475867416895\nH  3.81313081254230157 1.34944717949571857 -0.17258231972863564\nH  3.99137606415011925 0.08721044955844016 1.59586279009137133\nH  2.01656187383775398 -2.63990545674299470 0.93837385160721420\nH  -0.31469504745108745 -2.35376483914379797 0.15270025171143120\n","xyz");
+    viewer_17221245936924894.setStyle({"stick": {}, "sphere": {"scale": 0.3}});
+    viewer_17221245936924894.zoomTo();
+viewer_17221245936924894.render();
+});
+</script>
+<h4 id="_3"> <a class="headerlink" href="#_3" title="Permanent link">&para;</a></h4>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="titles-are-generated-automatically-from-identifier-information">Titles are generated automatically from identifier information<a class="headerlink" href="#titles-are-generated-automatically-from-identifier-information" title="Permanent link">&para;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="language-python highlight"><pre><span></span><code><span class="n">serotonin</span><span class="o">.</span><span class="n">add_identifiers</span><span class="p">({</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Serotonin&quot;</span><span class="p">})</span>
+<span class="n">dopamine</span><span class="o">.</span><span class="n">add_identifiers</span><span class="p">({</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Dopamine&quot;</span><span class="p">})</span>
+<span class="n">view</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">serotonin</span><span class="p">,</span> <span class="n">dopamine</span><span class="p">)</span>
+</code></pre></div>
+
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="output_html rendered_html output_subarea">
+<div style="display: flex; align-items: center; justify-content: center;">
+<div style="text-align: center;">
+<h3 id="serotonin">Serotonin <a class="headerlink" href="#serotonin" title="Permanent link">&para;</a></h3>
+<div id="3dmolviewer_17221245937015743" style="position: relative; width: 600px; height: 450px;">
+<p id="3dmolwarning_17221245937015743" style="background-color:#ffcccc;color:black">3Dmol.js failed to load for some reason.  Please check your browser console for error messages.<br/></p>
+</div>
+<script>
+
+var loadScriptAsync = function(uri){
+  return new Promise((resolve, reject) => {
+    //this is to ignore the existence of requirejs amd
+    var savedexports, savedmodule;
+    if (typeof exports !== 'undefined') savedexports = exports;
+    else exports = {}
+    if (typeof module !== 'undefined') savedmodule = module;
+    else module = {}
+
+    var tag = document.createElement('script');
+    tag.src = uri;
+    tag.async = true;
+    tag.onload = () => {
+        exports = savedexports;
+        module = savedmodule;
+        resolve();
+    };
+  var firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+});
+};
+
+if(typeof $3Dmolpromise === 'undefined') {
+$3Dmolpromise = null;
+  $3Dmolpromise = loadScriptAsync('https://cdnjs.cloudflare.com/ajax/libs/3Dmol/2.2.1-post1/3Dmol-min.js');
+}
+
+var viewer_17221245937015743 = null;
+var warn = document.getElementById("3dmolwarning_17221245937015743");
+if(warn) {
+    warn.parentNode.removeChild(warn);
+}
+$3Dmolpromise.then(function() {
+viewer_17221245937015743 = $3Dmol.createViewer(document.getElementById("3dmolviewer_17221245937015743"),{backgroundColor:"white"});
+viewer_17221245937015743.zoomTo();
+    viewer_17221245937015743.addModel("25\nqcio_charge=0 qcio_multiplicity=1\nC  2.80662837943892596 0.19461624510125644 1.62644004594558789\nC  2.18671738713131081 -1.04739462810659001 1.78559406544228305\nC  1.04205221631035050 -1.30371588331231392 1.01976405293294148\nC  0.51135558434941475 -0.38099887062730470 0.11625514708800186\nC  1.15528315276037841 0.86637271442856167 -0.02525252446684082\nC  2.29336987732469488 1.13099264862406690 0.73973086890098005\nO  2.94019505341360654 2.33042463772491804 0.64072408820936022\nC  -0.64248928597900123 -0.98139451755059748 -0.48590882876610791\nC  -0.77415410236114401 -2.23828935762225933 0.07514506173286904\nN  0.23947356255826094 -2.41856452406281708 0.97631545313932067\nC  -1.53584322201008616 -0.38941800438644519 -1.53453994105079805\nC  -2.55261258637334310 0.62389585158003458 -0.98757820497747850\nN  -2.03784623404194587 1.99659435506692651 -0.95736744415048758\nH  3.69504497676978971 0.43297752545155627 2.20497726891362067\nH  2.58244102558036603 -1.77972645463350809 2.48100386493334835\nH  0.75377724819234682 1.60007920276663640 -0.71439409236891127\nH  2.42717931676543630 2.89619196027562076 0.04027652711009141\nH  -1.50211112477823416 -3.02022181334629458 -0.09489126075898915\nH  0.38600652411385267 -3.24987117750598165 1.53133884665722397\nH  -0.92963077628609858 0.05707205393057579 -2.33283807432805279\nH  -2.09467533618915525 -1.20723015268739697 -2.00932783141162341\nH  -2.88582840927973061 0.34008317783131742 0.01697273380365259\nH  -3.43672981497666674 0.62051368655550287 -1.63562243768870519\nH  -1.87522970904775632 2.31753693807875072 -1.91053679716472602\nH  -2.75237370338658005 2.60947438642610452 -0.56628058767652500\n","xyz");
+    viewer_17221245937015743.setStyle({"stick": {}, "sphere": {"scale": 0.3}});
+    viewer_17221245937015743.zoomTo();
+viewer_17221245937015743.render();
+});
+</script>
+<h4 id="_4"> <a class="headerlink" href="#_4" title="Permanent link">&para;</a></h4>
+</div>
+<div style="text-align: center;">
+<h3 id="dopamine">Dopamine <a class="headerlink" href="#dopamine" title="Permanent link">&para;</a></h3>
+<div id="3dmolviewer_17221245937019458" style="position: relative; width: 600px; height: 450px;">
+<p id="3dmolwarning_17221245937019458" style="background-color:#ffcccc;color:black">3Dmol.js failed to load for some reason.  Please check your browser console for error messages.<br/></p>
+</div>
+<script>
+
+var loadScriptAsync = function(uri){
+  return new Promise((resolve, reject) => {
+    //this is to ignore the existence of requirejs amd
+    var savedexports, savedmodule;
+    if (typeof exports !== 'undefined') savedexports = exports;
+    else exports = {}
+    if (typeof module !== 'undefined') savedmodule = module;
+    else module = {}
+
+    var tag = document.createElement('script');
+    tag.src = uri;
+    tag.async = true;
+    tag.onload = () => {
+        exports = savedexports;
+        module = savedmodule;
+        resolve();
+    };
+  var firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+});
+};
+
+if(typeof $3Dmolpromise === 'undefined') {
+$3Dmolpromise = null;
+  $3Dmolpromise = loadScriptAsync('https://cdnjs.cloudflare.com/ajax/libs/3Dmol/2.2.1-post1/3Dmol-min.js');
+}
+
+var viewer_17221245937019458 = null;
+var warn = document.getElementById("3dmolwarning_17221245937019458");
+if(warn) {
+    warn.parentNode.removeChild(warn);
+}
+$3Dmolpromise.then(function() {
+viewer_17221245937019458 = $3Dmol.createViewer(document.getElementById("3dmolviewer_17221245937019458"),{backgroundColor:"white"});
+viewer_17221245937019458.zoomTo();
+    viewer_17221245937019458.addModel("22\nqcio_charge=0 qcio_multiplicity=1\nN  -3.82831747238149411 0.47797332750282095 0.01557447593432387\nC  -2.44674839009917244 0.29824270330147828 0.46007480321415595\nC  -1.52880033545415484 -0.05563548727794237 -0.71454775657072400\nC  -0.09796828627024931 -0.23799898591558089 -0.26762190827144189\nC  0.78504240481459764 0.85189771715028473 -0.25193925437347586\nC  2.09451440396264932 0.66832214640712939 0.17205335000858096\nO  2.96010598303404127 1.72266094692922955 0.11710946822371407\nC  2.52773316430253425 -0.57657842472618315 0.61755030715260861\nO  3.79030556489432247 -0.73455878561961718 1.11146772189513365\nC  1.67273080040658995 -1.66802681757307858 0.59760341369749626\nC  0.35783253729462089 -1.49806038997911073 0.15693275419270553\nH  -4.40489466202813951 0.73725422629241977 0.81557357253781837\nH  -3.87864135414258637 1.26170786257199774 -0.63454846411673349\nH  -2.41980660609490750 -0.49757616273153082 1.21313769218607792\nH  -2.10477651018549006 1.21810035735981526 0.94861016814279753\nH  -1.57120839716960137 0.72925341488762829 -1.48105122838296621\nH  -1.87565617658815365 -0.97446770548190109 -1.20519382390179808\nH  0.46217962862540890 1.83450272373461098 -0.58477475867416895\nH  3.81313081254230157 1.34944717949571857 -0.17258231972863564\nH  3.99137606415011925 0.08721044955844016 1.59586279009137133\nH  2.01656187383775398 -2.63990545674299470 0.93837385160721420\nH  -0.31469504745108745 -2.35376483914379797 0.15270025171143120\n","xyz");
+    viewer_17221245937019458.setStyle({"stick": {}, "sphere": {"scale": 0.3}});
+    viewer_17221245937019458.zoomTo();
+viewer_17221245937019458.render();
+});
+</script>
+<h4 id="_5"> <a class="headerlink" href="#_5" title="Permanent link">&para;</a></h4>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="or-manually-add-titles-or-subtitles">Or manually add titles or subtitles<a class="headerlink" href="#or-manually-add-titles-or-subtitles" title="Permanent link">&para;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="language-python highlight"><pre><span></span><code><span class="n">epinephrine</span> <span class="o">=</span> <span class="n">Structure</span><span class="o">.</span><span class="n">from_smiles</span><span class="p">(</span><span class="s2">&quot;CNC[C@H](O)c1ccc(O)c(O)c1&quot;</span><span class="p">)</span>
+<span class="n">glutamate</span> <span class="o">=</span> <span class="n">Structure</span><span class="o">.</span><span class="n">from_smiles</span><span class="p">(</span><span class="s2">&quot;C(CC(=O)O)[C@@H](C(=O)[O-])N&quot;</span><span class="p">)</span>
+<span class="n">view</span><span class="o">.</span><span class="n">view</span><span class="p">(</span>
+    <span class="n">epinephrine</span><span class="p">,</span>
+    <span class="n">glutamate</span><span class="p">,</span>
+    <span class="n">titles</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Good morning ☀️&quot;</span><span class="p">,</span> <span class="s2">&quot;Glutamate 🧪&quot;</span><span class="p">],</span>
+    <span class="n">subtitles</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Charge: </span><span class="si">{</span><span class="n">glutamate</span><span class="o">.</span><span class="n">charge</span><span class="si">}</span><span class="s2"> Multiplicity: </span><span class="si">{</span><span class="n">glutamate</span><span class="o">.</span><span class="n">multiplicity</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">],</span>
+<span class="p">)</span>
+</code></pre></div>
+
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="output_html rendered_html output_subarea">
+<div style="display: flex; align-items: center; justify-content: center;">
+<div style="text-align: center;">
+<h3 id="good-morning">Good morning ☀️ <a class="headerlink" href="#good-morning" title="Permanent link">&para;</a></h3>
+<div id="3dmolviewer_17221245937426825" style="position: relative; width: 600px; height: 450px;">
+<p id="3dmolwarning_17221245937426825" style="background-color:#ffcccc;color:black">3Dmol.js failed to load for some reason.  Please check your browser console for error messages.<br/></p>
+</div>
+<script>
+
+var loadScriptAsync = function(uri){
+  return new Promise((resolve, reject) => {
+    //this is to ignore the existence of requirejs amd
+    var savedexports, savedmodule;
+    if (typeof exports !== 'undefined') savedexports = exports;
+    else exports = {}
+    if (typeof module !== 'undefined') savedmodule = module;
+    else module = {}
+
+    var tag = document.createElement('script');
+    tag.src = uri;
+    tag.async = true;
+    tag.onload = () => {
+        exports = savedexports;
+        module = savedmodule;
+        resolve();
+    };
+  var firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+});
+};
+
+if(typeof $3Dmolpromise === 'undefined') {
+$3Dmolpromise = null;
+  $3Dmolpromise = loadScriptAsync('https://cdnjs.cloudflare.com/ajax/libs/3Dmol/2.2.1-post1/3Dmol-min.js');
+}
+
+var viewer_17221245937426825 = null;
+var warn = document.getElementById("3dmolwarning_17221245937426825");
+if(warn) {
+    warn.parentNode.removeChild(warn);
+}
+$3Dmolpromise.then(function() {
+viewer_17221245937426825 = $3Dmol.createViewer(document.getElementById("3dmolviewer_17221245937426825"),{backgroundColor:"white"});
+viewer_17221245937426825.zoomTo();
+    viewer_17221245937426825.addModel("26\nqcio_charge=0 qcio_multiplicity=1\nC  3.97539428311132603 1.05358053261070173 0.79745312502916643\nN  3.18181300133683642 -0.06371060467210046 0.29451407421646397\nC  1.74289362525173797 0.27633628863162890 0.32018066031370190\nC  0.86575405152554963 -0.96533031345295406 0.03050516876970877\nO  1.35988918910921042 -1.63932693533944929 -1.13355006747430909\nC  -0.58919217595809881 -0.58740960693537381 -0.15295419955077086\nC  -1.14280044535405256 -0.37314161915464084 -1.42915733539063217\nC  -2.48329455456477444 -0.00346624630896398 -1.58230840325177824\nC  -3.27309337366619069 0.15919316586546634 -0.45228127704063564\nO  -4.58965061065850310 0.51976404970436685 -0.53525485611208379\nC  -2.73518631552513458 -0.04326374410318017 0.81508152114431831\nO  -3.51754636880502813 0.12349752997091555 1.92213902571740247\nC  -1.40683087330946011 -0.41319542056135961 0.97558496380877147\nH  3.81685941007586793 1.95907219041667990 0.20266412209640322\nH  3.73922597914856070 1.26543088052334318 1.84520282020448279\nH  5.03795624645526363 0.79697459099701351 0.74477239515922122\nH  3.44469415979637050 -0.22075516447118199 -0.68071952633809407\nH  1.55710023780030737 1.04939573638376360 -0.43675505639443202\nH  1.46093769306916021 0.69100602193212113 1.29606863871200884\nH  0.94405574700021622 -1.68142426460967220 0.85866979925244757\nH  2.24370776524222304 -1.95298687710386965 -0.86876174493459934\nH  -0.52377718872942103 -0.50278731217540629 -2.31577909216709132\nH  -2.88060422785193193 0.14810449365333539 -2.58036545718554367\nH  -4.81820273911319497 0.60045000137306981 -1.47726802634170573\nH  -4.39384820716907853 0.36939551539631366 1.56408199040596929\nH  -1.01625430821589768 -0.56540288857009346 1.97823673735125372\n","xyz");
+    viewer_17221245937426825.setStyle({"stick": {}, "sphere": {"scale": 0.3}});
+    viewer_17221245937426825.zoomTo();
+viewer_17221245937426825.render();
+});
+</script>
+<h4 id="_6"> <a class="headerlink" href="#_6" title="Permanent link">&para;</a></h4>
+</div>
+<div style="text-align: center;">
+<h3 id="glutamate">Glutamate 🧪 <a class="headerlink" href="#glutamate" title="Permanent link">&para;</a></h3>
+<div id="3dmolviewer_17221245937429123" style="position: relative; width: 600px; height: 450px;">
+<p id="3dmolwarning_17221245937429123" style="background-color:#ffcccc;color:black">3Dmol.js failed to load for some reason.  Please check your browser console for error messages.<br/></p>
+</div>
+<script>
+
+var loadScriptAsync = function(uri){
+  return new Promise((resolve, reject) => {
+    //this is to ignore the existence of requirejs amd
+    var savedexports, savedmodule;
+    if (typeof exports !== 'undefined') savedexports = exports;
+    else exports = {}
+    if (typeof module !== 'undefined') savedmodule = module;
+    else module = {}
+
+    var tag = document.createElement('script');
+    tag.src = uri;
+    tag.async = true;
+    tag.onload = () => {
+        exports = savedexports;
+        module = savedmodule;
+        resolve();
+    };
+  var firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+});
+};
+
+if(typeof $3Dmolpromise === 'undefined') {
+$3Dmolpromise = null;
+  $3Dmolpromise = loadScriptAsync('https://cdnjs.cloudflare.com/ajax/libs/3Dmol/2.2.1-post1/3Dmol-min.js');
+}
+
+var viewer_17221245937429123 = null;
+var warn = document.getElementById("3dmolwarning_17221245937429123");
+if(warn) {
+    warn.parentNode.removeChild(warn);
+}
+$3Dmolpromise.then(function() {
+viewer_17221245937429123 = $3Dmol.createViewer(document.getElementById("3dmolviewer_17221245937429123"),{backgroundColor:"white"});
+viewer_17221245937429123.zoomTo();
+    viewer_17221245937429123.addModel("18\nqcio_charge=-1 qcio_multiplicity=1\nC  -0.04909714183693105 0.27994828170500125 0.42901240489348941\nC  1.17463237572620316 0.32418997001197258 -0.48385850410520292\nC  2.37766321205670206 0.84028864316080809 0.24956220072669169\nO  2.98121085331894387 1.87706281402977648 0.01879046967455269\nO  2.79528547189765675 0.02439502592559696 1.23687504993422515\nC  -1.35014393039728797 0.04717271008894475 -0.33887278091565864\nC  -1.36049565136191863 -1.40043238212735743 -0.96526125598194323\nO  -0.81159694222206624 -1.49964573128437606 -2.09805069962795177\nO  -1.94029182556948121 -2.27951829137483220 -0.25796038869324617\nN  -2.50351713463422909 0.16956053079355052 0.61509791682956783\nH  0.09394547202059006 -0.50388833739752248 1.18489305655373145\nH  -0.11703364690895424 1.22839829642616238 0.97907400908834741\nH  1.42098037762783447 -0.66223054543481941 -0.88988364893155880\nH  0.99392447512202131 0.99230893192186254 -1.33391982865660097\nH  3.57062230296258409 0.48975036445761194 1.60705527823956951\nH  -1.47943951943820906 0.79509480850491066 -1.12888306388854454\nH  -2.46073933847966941 -0.72445323360034763 1.13289340007362749\nH  -3.33590940988359952 0.00199814419305342 0.04343638478765417\n","xyz");
+    viewer_17221245937429123.setStyle({"stick": {}, "sphere": {"scale": 0.3}});
+    viewer_17221245937429123.zoomTo();
+viewer_17221245937429123.render();
+});
+</script>
+<h4 id="charge-1-multiplicity-1">Charge: -1 Multiplicity: 1 <a class="headerlink" href="#charge-1-multiplicity-1" title="Permanent link">&para;</a></h4>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.tabs.link", "content.code.annotate", "content.code.copy", "announce.dismiss", "navigation.tabs", "navigation.instant", "navigation.instant.prefetch", "navigation.instant.preview", "navigation.instant.progress", "navigation.path", "navigation.sections", "navigation.top", "navigation.tracking", "search.suggest", "toc.follow"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
+      
+    
+  </body>
+</html>
