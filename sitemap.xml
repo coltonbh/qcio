@@ -2,77 +2,77 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://qcio.coltonhicks.com/</loc>
-         <lastmod>2024-07-28</lastmod>
+         <lastmod>2024-08-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://qcio.coltonhicks.com/why/</loc>
-         <lastmod>2024-07-28</lastmod>
+         <lastmod>2024-08-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://qcio.coltonhicks.com/api/calctype/</loc>
-         <lastmod>2024-07-28</lastmod>
+         <lastmod>2024-08-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://qcio.coltonhicks.com/api/constants/</loc>
-         <lastmod>2024-07-28</lastmod>
+         <lastmod>2024-08-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://qcio.coltonhicks.com/api/files/</loc>
-         <lastmod>2024-07-28</lastmod>
+         <lastmod>2024-08-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://qcio.coltonhicks.com/api/inputs/</loc>
-         <lastmod>2024-07-28</lastmod>
+         <lastmod>2024-08-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://qcio.coltonhicks.com/api/model/</loc>
-         <lastmod>2024-07-28</lastmod>
+         <lastmod>2024-08-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://qcio.coltonhicks.com/api/outputs/</loc>
-         <lastmod>2024-07-28</lastmod>
+         <lastmod>2024-08-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://qcio.coltonhicks.com/api/overview/</loc>
-         <lastmod>2024-07-28</lastmod>
+         <lastmod>2024-08-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://qcio.coltonhicks.com/api/provenance/</loc>
-         <lastmod>2024-07-28</lastmod>
+         <lastmod>2024-08-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://qcio.coltonhicks.com/api/qciomodelbase/</loc>
-         <lastmod>2024-07-28</lastmod>
+         <lastmod>2024-08-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://qcio.coltonhicks.com/api/structure/</loc>
-         <lastmod>2024-07-28</lastmod>
+         <lastmod>2024-08-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://qcio.coltonhicks.com/visualizations/overview/</loc>
-         <lastmod>2024-07-28</lastmod>
+         <lastmod>2024-08-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://qcio.coltonhicks.com/visualizations/programoutputs/</loc>
-         <lastmod>2024-07-28</lastmod>
+         <lastmod>2024-08-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://qcio.coltonhicks.com/visualizations/structure/</loc>
-         <lastmod>2024-07-28</lastmod>
+         <lastmod>2024-08-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
