@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+- Added `CNAME` file to `/docs` directory.
+- Added `data_source` and `data_url` to `periodic_table` docstring.
+
 ## [0.11.7] - 2024-07-27
 
 ### Added
