@@ -133,6 +133,10 @@ class PeriodicTable:
 periodic_table = PeriodicTable.from_pubchem()
 """Periodic table data from PubChem.
 
+    Attributes:
+        data_source (str): Data source.
+        data_url (str): Data URL.
+
     Example:
         ```python
         >>> from qcio.constnats import periodic_table as pt
