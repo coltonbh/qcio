@@ -49,14 +49,15 @@ class QCIOModelBase(BaseModel, ABC):
     }
 
     @classmethod
-    def open(cls, filepath: Union[Path, str]) -> Self:
+    def open(cls, filepath: Union[Path, str]) -> Union[Self, List[Self]]:
         """Instantiate an object from data saved to disk.
 
         Args:
             filepath: The path to the object on disk.
 
         Returns:
-            The instantiated object.
+            The instantiated object or a list of objects if the file contains multiple
+            objects (e.g., a multi-structure xyz file).
 
         Example:
             ```python
