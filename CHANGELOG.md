@@ -6,8 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
-- Added `CNAME` file to `/docs` directory.
-- Added `data_source` and `data_url` to `periodic_table` docstring.
+### Added
+
+- `CNAME` file to `/docs` directory.
+- `data_source` and `data_url` to `periodic_table` docstring.
+- `Structure.from_xyz` and `Structure.to_xyz` now support pulling additional (non `qcio_`) comments into `Structure.extras['xyz_comments']` and serializing these comments back into the `xyz` string.
+- `Structure.from_xyz` and `Structure.to_xyz` support pulling in and serializing `qcio__identifiers_*` in the `xyz` comments line.
+- `Structure.from_xyz_multi(xyz_str: str) -> List[Structure]` to return a list of `Structure` objects from a multi-structure xyz file.
+- `Structure.open` now supports multi-structure xyz files and will return a list of Structure objects.
+- New `CalcType.conformer_search` and `ConformerSearchResults` for conformer search calculations.
 
 ## [0.11.7] - 2024-07-27
 

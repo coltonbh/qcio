@@ -65,6 +65,7 @@ def generate_structure_viewer_html(
     height: int = 450,
     style: Optional[Dict] = None,
     show_indices: bool = False,
+    animate: bool = True,
     png: bool = False,
     **kwargs,
 ) -> str:
@@ -83,13 +84,17 @@ def generate_structure_viewer_html(
     Returns:
         str: The HTML string for the viewer.
     """
+    if not isinstance(struct, list):
+        struct = [struct]
+
     viewer = p3d.view(width=width, height=height)
-    if isinstance(struct, list):
+    if animate:
         combined_xyz = "".join(s.to_xyz() for s in struct)
         viewer.addModelsAsFrames(combined_xyz, "xyz")
         viewer.animate({"loop": "forward"})
     else:
-        viewer.addModel(struct.to_xyz(), "xyz")
+        for s in struct:
+            viewer.addModel(s.to_xyz(), "xyz")
 
     struct = struct[-1] if isinstance(struct, list) else struct
 

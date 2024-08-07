@@ -1,7 +1,7 @@
 import warnings
 from collections import Counter
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Dict, List, Optional, Tuple, Union
+from typing import TYPE_CHECKING, Any, ClassVar, Dict, List, Optional, Tuple, Union
 
 import numpy as np
 from pydantic import field_serializer, model_validator
@@ -108,6 +108,7 @@ class Structure(QCIOModelBase):
     multiplicity: int = 1
     identifiers: Identifiers = Identifiers()
     connectivity: List[Tuple[int, int, float]] = []
+    _xyz_comment_key: ClassVar[str] = "xyz_comments"
 
     def __init__(self, **data: Any):
         """Create a new Structure object.
@@ -144,15 +145,20 @@ class Structure(QCIOModelBase):
         filepath: Union[Path, str],
         charge: Optional[int] = None,
         multiplicity: Optional[int] = None,
-    ) -> Self:
-        """Open a structure from a file.
+    ) -> Union["Structure", List["Structure"]]:
+        """Open a structure or structures from a file.
 
         Args:
             filepath: The path to the file to open. May be a path to a formerly saved
                 Structure file or an XYZ file.
+            charge: The molecular charge of the structure. Only used when opening an XYZ
+                file and if not set in the file.
+            multiplicity: The molecular multiplicity of the structure. Only used when
+                opening an XYZ file and if not set in the file.
 
         Returns:
-            A Structure object.
+            A Structure object or a list of Structure objects for a multi-structure XYZ
+                file.
 
         Example:
             ```python
@@ -161,6 +167,10 @@ class Structure(QCIOModelBase):
 
             ```python
             struct = Structure.open("path/to/structure.xyz", charge=-1, multiplicity=3)
+            ```
+
+            ```python
+            structures = Structure.open("path/to/structures.xyz")
             ```
         """
         filepath = Path(filepath)
@@ -172,7 +182,12 @@ class Structure(QCIOModelBase):
 
         if filepath.suffix == ".xyz":
             xyz_str = filepath.read_text()
-            return cls.from_xyz(xyz_str, charge=charge, multiplicity=multiplicity)
+            structures = cls.from_xyz_multi(
+                xyz_str, charge=charge, multiplicity=multiplicity
+            )
+            if len(structures) == 1:
+                return structures[0]
+            return structures
 
         return super().open(filepath)
 
@@ -272,7 +287,8 @@ class Structure(QCIOModelBase):
 
         Note:
             Will read qcio data such as `charge` and `multiplicity` from the comments
-            line with a `qcio_key=value` format (if it is present).
+            line with a `qcio_key=value` format (if it is present). Also will read in
+            qcio__identifiers_* keys and additional non-qcio comments.
 
         Example:
             ```python
@@ -283,23 +299,36 @@ class Structure(QCIOModelBase):
         lines = xyz_str.split("\n")
 
         num_atoms = int(lines[0])
-        qcio_kwargs: Dict[str, Any] = {
-            item.split("=")[0].replace("qcio_", ""): item.split("=")[1]
-            for item in lines[1].strip().split()
-            if item.startswith("qcio_")
-        }
-        if charge is not None and "charge" in qcio_kwargs:
+
+        # Collect comments
+        structure_kwargs: Dict[str, Any] = {}
+        identifier_kwargs: Dict[str, Any] = {}
+        other_comments: List[str] = []
+
+        for item in lines[1].strip().split():
+            if item.startswith("qcio__identifiers_"):
+                key = item.split("=")[0].replace("qcio__identifiers_", "")
+                value = item.split("=")[1]
+                identifier_kwargs[key] = value
+            elif item.startswith("qcio_"):
+                key = item.split("=")[0].replace("qcio_", "")
+                value = item.split("=")[1]
+                structure_kwargs[key] = value
+            else:
+                other_comments.append(item)
+
+        if charge is not None and "charge" in structure_kwargs:
             raise ValueError("Charge cannot be set in the file and as an argument.")
-        if multiplicity is not None and "multiplicity" in qcio_kwargs:
+        if multiplicity is not None and "multiplicity" in structure_kwargs:
             raise ValueError(
                 "Multiplicity cannot be set in the file and as an argument."
             )
 
         # Set charge and multiplicity if provided
         if charge is not None:
-            qcio_kwargs["charge"] = charge
+            structure_kwargs["charge"] = charge
         if multiplicity is not None:
-            qcio_kwargs["multiplicity"] = multiplicity
+            structure_kwargs["multiplicity"] = multiplicity
 
         symbols = []
         geometry = []
@@ -308,7 +337,45 @@ class Structure(QCIOModelBase):
             symbols.append(split_line[0])
             geometry.append([float(val) / BOHR_TO_ANGSTROM for val in split_line[1:]])
 
-        return cls(symbols=symbols, geometry=geometry, **qcio_kwargs)  # type: ignore
+        return cls(
+            symbols=symbols,
+            geometry=geometry,
+            **structure_kwargs,
+            identifiers=Identifiers(**identifier_kwargs),
+            extras={cls._xyz_comment_key: other_comments},
+        )
+
+    @classmethod
+    def from_xyz_multi(
+        cls,
+        xyz_str: str,
+        charge: Optional[int] = None,
+        multiplicity: Optional[int] = None,
+    ) -> List["Structure"]:
+        """Parse a multi-structure XYZ file into a list of Structure objects.
+
+        Args:
+            xyz_str: The multi-structure XYZ string.
+
+        Returns:
+            A list of Structure objects.
+        """
+        lines = xyz_str.strip().split("\n")
+        structures = []
+        i = 0
+
+        while i < len(lines):
+            num_atoms = int(lines[i])
+            structure_block = "\n".join(lines[i : i + num_atoms + 2])
+            structure = cls.from_xyz(
+                structure_block, charge=charge, multiplicity=multiplicity
+            )
+            structures.append(structure)
+            i += num_atoms + 2
+            while i < len(lines) and not lines[i].strip():
+                i += 1  # Skip any empty lines between structures
+
+        return structures
 
     def to_smiles(self, program: str = "rdkit", hydrogens: bool = False) -> str:
         """Generate the canonical SMILES representation of the structure.
@@ -344,12 +411,23 @@ class Structure(QCIOModelBase):
             "qcio_charge": self.charge,
             "qcio_multiplicity": self.multiplicity,
         }
+
+        # Add identifiers to qcio_data
+        for key, value in self.identifiers.__dict__.items():
+            if key != "extras" and value:
+                qcio_data[f"qcio__identifiers_{key}"] = value
+
         assert isinstance(self.geometry, np.ndarray)  # For mypy
         geometry_angstrom = self.geometry * BOHR_TO_ANGSTROM
 
         xyz_lines = []
         xyz_lines.append(f"{len(self.symbols)}")
-        xyz_lines.append(f"{' '.join([f'{k}={v}' for k, v in qcio_data.items()])}")
+        # Add qcio data to comments line
+        comments = f"{' '.join([f'{k}={v}' for k, v in qcio_data.items()])}"
+        # Add any other comments
+        if xyz_comments := self.extras.get(self._xyz_comment_key, []):
+            comments += " " + " ".join(xyz_comments)
+        xyz_lines.append(comments)
 
         # Create a format string using the precision parameter
         format_str = f"{{:2s}} {{: >18.{precision}f}} {{: >18.{precision}f}} {{: >18.{precision}f}}"  # noqa: E501

@@ -42,6 +42,8 @@
         "qcop",
         "qcparse",
         "rargs",
+        "rotamer",
+        "rotamers",
         "stdoutp",
         "strfile",
         "terachem",
