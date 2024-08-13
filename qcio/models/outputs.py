@@ -45,6 +45,7 @@ __all__ = [
     "SinglePointOutput",
     "ProgramFailure",
     "OptimizationOutput",
+    "ConformerSearchResults",
 ]
 
 
@@ -287,7 +288,74 @@ class OptimizationResults(Files):
         super().save(filepath, exclude_none, indent, **kwargs)
 
 
-Results = Union[Files, SinglePointResults, OptimizationResults]
+class ConformerSearchResults(Files):
+    """Results from a conformer search calculation.
+
+    Conformers and rotamers are sorted by energy.
+
+    Attributes:
+        conformers: The conformers found in the search.
+        conformer_energies: The energies for each conformer.
+        rotamers: The rotamers found in the search.
+        rotamer_energies: The energies for each rotamer.
+    """
+
+    conformers: List[Structure] = []
+    conformer_energies: SerializableNDArray = np.array([])
+    rotamers: List[Structure] = []
+    rotamer_energies: SerializableNDArray = np.array([])
+
+    @model_validator(mode="after")
+    def _energies_size(self) -> "ConformerSearchResults":
+        """Ensure the energies are the same size as the conformers and rotamers."""
+        if self.conformer_energies.size > 0 and (
+            self.conformer_energies.size != len(self.conformers)
+        ):
+            raise ValueError(
+                "The number of conformer energies must match the number of conformers."
+            )
+        if self.rotamer_energies.size > 0 and (
+            self.rotamer_energies.size != len(self.rotamers)
+        ):
+            raise ValueError(
+                "The number of rotamer energies must match the number of rotamers."
+            )
+        return self
+
+    @model_validator(mode="after")
+    def _sort_by_energy(self) -> "ConformerSearchResults":
+        """Sort conformers and rotamers by energy."""
+
+        # Sort conformers and their energies together
+        if self.conformer_energies.size > 0:
+            sorted_indices = np.argsort(self.conformer_energies)
+            self.conformers[:] = [self.conformers[i] for i in sorted_indices]
+            self.conformer_energies[:] = self.conformer_energies[sorted_indices]
+
+        # Sort rotamers and their energies together
+        if self.rotamer_energies.size > 0:
+            sorted_indices = np.argsort(self.rotamer_energies)
+            self.rotamers[:] = [self.rotamers[i] for i in sorted_indices]
+            self.rotamer_energies[:] = self.rotamer_energies[sorted_indices]
+
+        return self
+
+    @property
+    def conformer_energies_relative(self) -> np.ndarray:
+        """The relative energies for each conformer in the search."""
+        if self.conformer_energies.size == 0:
+            return np.array([])
+        return self.conformer_energies - self.conformer_energies.min()
+
+    @property
+    def rotamer_energies_relative(self) -> np.ndarray:
+        """The relative energies for each rotamer in the search."""
+        if self.rotamer_energies.size == 0:
+            return np.array([])
+        return self.rotamer_energies - self.rotamer_energies.min()
+
+
+Results = Union[Files, SinglePointResults, OptimizationResults, ConformerSearchResults]
 ResultsType = TypeVar("ResultsType", bound=Results)
 
 

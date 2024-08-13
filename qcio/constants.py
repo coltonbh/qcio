@@ -46,6 +46,11 @@ Using kcal(th) as Therochemical calorie is the unit used in quantum chemistry.
 HARTREE_TO_KCAL_PER_MOL = HARTREE_TO_JOULE / KCAL_TO_JOULE * AVOGADRO_NUMBER
 """Conversion factor from Hartree to kcal/mol."""
 
+BOLTZMANN_CONSTANT = 1.380649e-23
+"""Boltzmann constant in J/K.
+<https://physics.nist.gov/cuu/Constants/Table/allascii.txt>
+"""
+
 _DATA_DIR = Path(__file__).parent / "constants_data"
 
 

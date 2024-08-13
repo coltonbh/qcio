@@ -49,14 +49,15 @@ class QCIOModelBase(BaseModel, ABC):
     }
 
     @classmethod
-    def open(cls, filepath: Union[Path, str]) -> Self:
+    def open(cls, filepath: Union[Path, str]) -> Union[Self, List[Self]]:
         """Instantiate an object from data saved to disk.
 
         Args:
             filepath: The path to the object on disk.
 
         Returns:
-            The instantiated object.
+            The instantiated object or a list of objects if the file contains multiple
+            objects (e.g., a multi-structure xyz file).
 
         Example:
             ```python
@@ -84,6 +85,18 @@ class QCIOModelBase(BaseModel, ABC):
         """
         Save an object to disk as `json`, `yaml`, or `toml`. Objects such as `Structure`
         and `OptimizationResults` can additionally be saved as `xyz` files.
+
+        Note:
+            By default the object will be saved as a `json` file. If the file extension
+            is `.yaml` or `.yml`, the object will be saved as a `yaml` file. If the file
+            extension is `.toml`, the object will be saved as a `toml` file. If the file
+            extension is `.xyz`, the object will be saved as an `xyz` file (for objects
+            that support this format such as a `Structure` or an `OptimizationResults`
+            which contains `.trajectory: list[Structure]`).
+
+            Additionally, padding will be added to the file by default to make it more
+            human-readable. You can adjust the amount of padding added by changing the
+            `indent` parameter. Pass `indent=None` to create a more compact file.
 
         Args:
             filepath: The path to write the object to.
@@ -278,7 +291,7 @@ class Provenance(QCIOModelBase):
         scratch_dir: The working directory used by the program.
         wall_time: The wall time used by the program.
         hostname: The hostname of the machine the program was run on.
-        hostcpus: The number of logical cpus on the host machine where the program ran.
+        hostcpus: The number of logical CPUs on the host machine where the program ran.
         hostmem: The amount of memory on the host machine where the program ran in GiB.
         extras: Additional information to bundle with the object. Use for schema
             development and scratch space.
@@ -303,6 +316,7 @@ class CalcType(str, Enum):
         hessian: Hessian calculation.
         optimization: Geometry optimization (to a minima).
         transition_state: Transition state optimization (to a saddle point).
+        conformer_search: Conformer search.
     """
 
     energy = "energy"
@@ -310,6 +324,7 @@ class CalcType(str, Enum):
     hessian = "hessian"
     optimization = "optimization"
     transition_state = "transition_state"
+    conformer_search = "conformer_search"
 
     def __repr__(self) -> str:
         """Custom repr for CalcType"""
