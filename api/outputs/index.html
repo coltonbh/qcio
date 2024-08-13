@@ -697,6 +697,39 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#qcio.ConformerSearchResults" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;ConformerSearchResults
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" ConformerSearchResults">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#qcio.ConformerSearchResults.conformer_energies_relative" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;conformer_energies_relative
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qcio.ConformerSearchResults.rotamer_energies_relative" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;rotamer_energies_relative
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#qcio.Wavefunction" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;Wavefunction
@@ -1213,6 +1246,39 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#qcio.ConformerSearchResults" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;ConformerSearchResults
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" ConformerSearchResults">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#qcio.ConformerSearchResults.conformer_energies_relative" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;conformer_energies_relative
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qcio.ConformerSearchResults.rotamer_energies_relative" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;rotamer_energies_relative
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#qcio.Wavefunction" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;Wavefunction
@@ -1457,7 +1523,7 @@ schema development and scratch space.</p>
     <span class="n"><a class="autorefs autorefs-internal" title="qcio.models.base_models.Files" href="../files/#qcio.Files">Files</a></span><span class="p">,</span>
     <span class="n"><a class="autorefs autorefs-internal" title="qcio.models.outputs.SinglePointResults" href="#qcio.SinglePointResults">SinglePointResults</a></span><span class="p">,</span>
     <span class="n"><a class="autorefs autorefs-internal" title="qcio.models.outputs.OptimizationResults" href="#qcio.OptimizationResults">OptimizationResults</a></span><span class="p">,</span>
-    <span class="n"><span title="qcio.models.outputs.ConformerSearchResults">ConformerSearchResults</span></span><span class="p">,</span>
+    <span class="n"><a class="autorefs autorefs-internal" title="qcio.models.outputs.ConformerSearchResults" href="#qcio.ConformerSearchResults">ConformerSearchResults</a></span><span class="p">,</span>
 <span class="p">]</span>
 </code></pre></div>
 
@@ -2026,6 +2092,148 @@ multi-structure <code>xyz</code> file.</p>
     </div>
 
 </div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="qcio.ConformerSearchResults" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">qcio.ConformerSearchResults</span>
+
+
+<a href="#qcio.ConformerSearchResults" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents first">
+
+
+      <p>Results from a conformer search calculation.</p>
+<p>Conformers and rotamers are sorted by energy.</p>
+
+
+<p><span class="doc-section-title">Attributes:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td><code><span title="qcio.ConformerSearchResults.conformers">conformers</span></code></td>
+            <td>
+                  <code><span title="typing.List">List</span>[<a class="autorefs autorefs-internal" title="qcio.models.structure.Structure" href="../structure/#qcio.Structure">Structure</a>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The conformers found in the search.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><span title="qcio.ConformerSearchResults.conformer_energies">conformer_energies</span></code></td>
+            <td>
+                  <code><span title="qcio.helper_types.SerializableNDArray">SerializableNDArray</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The energies for each conformer.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><span title="qcio.ConformerSearchResults.rotamers">rotamers</span></code></td>
+            <td>
+                  <code><span title="typing.List">List</span>[<a class="autorefs autorefs-internal" title="qcio.models.structure.Structure" href="../structure/#qcio.Structure">Structure</a>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The rotamers found in the search.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><span title="qcio.ConformerSearchResults.rotamer_energies">rotamer_energies</span></code></td>
+            <td>
+                  <code><span title="qcio.helper_types.SerializableNDArray">SerializableNDArray</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The energies for each rotamer.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="qcio.ConformerSearchResults.conformer_energies_relative" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">conformer_energies_relative</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#qcio.ConformerSearchResults.conformer_energies_relative" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span class="n">conformer_energies_relative</span><span class="p">:</span> <span class="n"><span title="numpy.ndarray">ndarray</span></span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+      <p>The relative energies for each conformer in the search.</p>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="qcio.ConformerSearchResults.rotamer_energies_relative" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">rotamer_energies_relative</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#qcio.ConformerSearchResults.rotamer_energies_relative" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span class="n">rotamer_energies_relative</span><span class="p">:</span> <span class="n"><span title="numpy.ndarray">ndarray</span></span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+      <p>The relative energies for each rotamer in the search.</p>
+    </div>
+
+</div>
+
+
 
 
 
