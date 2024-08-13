@@ -1152,7 +1152,7 @@ development and scratch space.</p>
   </span>
 
 <a href="#qcio.models.base_models.QCIOModelBase.open" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="language-python doc-signature highlight"><pre><span></span><code><span class="nb">open</span><span class="p">(</span><span class="nf">filepath</span><span class="p">:</span> <span class="n"><span title="typing.Union">Union</span></span><span class="p">[</span><span class="n"><span title="pathlib.Path">Path</span></span><span class="p">,</span> <span class="n">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n"><span title="typing_extensions.Self">Self</span></span>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span class="nb">open</span><span class="p">(</span><span class="nf">filepath</span><span class="p">:</span> <span class="n"><span title="typing.Union">Union</span></span><span class="p">[</span><span class="n"><span title="pathlib.Path">Path</span></span><span class="p">,</span> <span class="n">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n"><span title="typing.Union">Union</span></span><span class="p">[</span><span class="n"><span title="typing_extensions.Self">Self</span></span><span class="p">,</span> <span class="n"><span title="typing.List">List</span></span><span class="p">[</span><span class="n"><span title="typing_extensions.Self">Self</span></span><span class="p">]]</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -1200,11 +1200,21 @@ development and scratch space.</p>
       <tbody>
           <tr class="doc-section-item">
             <td>
-                  <code><span title="typing_extensions.Self">Self</span></code>
+                  <code><span title="typing.Union">Union</span>[<span title="typing_extensions.Self">Self</span>, <span title="typing.List">List</span>[<span title="typing_extensions.Self">Self</span>]]</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>The instantiated object.</p>
+                <p>The instantiated object or a list of objects if the file contains multiple</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="typing.Union">Union</span>[<span title="typing_extensions.Self">Self</span>, <span title="typing.List">List</span>[<span title="typing_extensions.Self">Self</span>]]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>objects (e.g., a multi-structure xyz file).</p>
               </div>
             </td>
           </tr>
@@ -1243,15 +1253,17 @@ development and scratch space.</p>
 <span class="normal">72</span>
 <span class="normal">73</span>
 <span class="normal">74</span>
-<span class="normal">75</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
-<span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Path</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<span class="normal">75</span>
+<span class="normal">76</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Path</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Self</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Self</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Instantiate an object from data saved to disk.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        filepath: The path to the object on disk.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        The instantiated object.</span>
+<span class="sd">        The instantiated object or a list of objects if the file contains multiple</span>
+<span class="sd">        objects (e.g., a multi-structure xyz file).</span>
 
 <span class="sd">    Example:</span>
 <span class="sd">        ```python</span>
@@ -1295,6 +1307,19 @@ development and scratch space.</p>
       <p>Save an object to disk as <code>json</code>, <code>yaml</code>, or <code>toml</code>. Objects such as <code>Structure</code>
 and <code>OptimizationResults</code> can additionally be saved as <code>xyz</code> files.</p>
 
+
+<details class="note" open>
+  <summary>Note</summary>
+  <p>By default the object will be saved as a <code>json</code> file. If the file extension
+is <code>.yaml</code> or <code>.yml</code>, the object will be saved as a <code>yaml</code> file. If the file
+extension is <code>.toml</code>, the object will be saved as a <code>toml</code> file. If the file
+extension is <code>.xyz</code>, the object will be saved as an <code>xyz</code> file (for objects
+that support this format such as a <code>Structure</code> or an <code>OptimizationResults</code>
+which contains <code>.trajectory: list[Structure]</code>).</p>
+<p>Additionally, padding will be added to the file by default to make it more
+human-readable. You can adjust the amount of padding added by changing the
+<code>indent</code> parameter. Pass <code>indent=None</code> to create a more compact file.</p>
+</details>
 
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>
@@ -1381,8 +1406,7 @@ creates a more compact JSON file, 4 is more human-readable.</p>
 </details>
             <details class="quote">
               <summary>Source code in <code>qcio/models/base_models.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 77</span>
-<span class="normal"> 78</span>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 78</span>
 <span class="normal"> 79</span>
 <span class="normal"> 80</span>
 <span class="normal"> 81</span>
@@ -1432,7 +1456,20 @@ creates a more compact JSON file, 4 is more human-readable.</p>
 <span class="normal">125</span>
 <span class="normal">126</span>
 <span class="normal">127</span>
-<span class="normal">128</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">save</span><span class="p">(</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">save</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">filepath</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Path</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
     <span class="n">exclude_none</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
@@ -1442,6 +1479,18 @@ creates a more compact JSON file, 4 is more human-readable.</p>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Save an object to disk as `json`, `yaml`, or `toml`. Objects such as `Structure`</span>
 <span class="sd">    and `OptimizationResults` can additionally be saved as `xyz` files.</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        By default the object will be saved as a `json` file. If the file extension</span>
+<span class="sd">        is `.yaml` or `.yml`, the object will be saved as a `yaml` file. If the file</span>
+<span class="sd">        extension is `.toml`, the object will be saved as a `toml` file. If the file</span>
+<span class="sd">        extension is `.xyz`, the object will be saved as an `xyz` file (for objects</span>
+<span class="sd">        that support this format such as a `Structure` or an `OptimizationResults`</span>
+<span class="sd">        which contains `.trajectory: list[Structure]`).</span>
+
+<span class="sd">        Additionally, padding will be added to the file by default to make it more</span>
+<span class="sd">        human-readable. You can adjust the amount of padding added by changing the</span>
+<span class="sd">        `indent` parameter. Pass `indent=None` to create a more compact file.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        filepath: The path to write the object to.</span>

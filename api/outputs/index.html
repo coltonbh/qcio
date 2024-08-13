@@ -1377,26 +1377,26 @@ schema development and scratch space.</p>
 
                   <details class="quote">
                     <summary>Source code in <code>qcio/models/outputs.py</code></summary>
-                    <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">318</span>
-<span class="normal">319</span>
-<span class="normal">320</span>
-<span class="normal">321</span>
-<span class="normal">322</span>
-<span class="normal">323</span>
-<span class="normal">324</span>
-<span class="normal">325</span>
-<span class="normal">326</span>
-<span class="normal">327</span>
-<span class="normal">328</span>
-<span class="normal">329</span>
-<span class="normal">330</span>
-<span class="normal">331</span>
-<span class="normal">332</span>
-<span class="normal">333</span>
-<span class="normal">334</span>
-<span class="normal">335</span>
-<span class="normal">336</span>
-<span class="normal">337</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">data</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+                    <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">386</span>
+<span class="normal">387</span>
+<span class="normal">388</span>
+<span class="normal">389</span>
+<span class="normal">390</span>
+<span class="normal">391</span>
+<span class="normal">392</span>
+<span class="normal">393</span>
+<span class="normal">394</span>
+<span class="normal">395</span>
+<span class="normal">396</span>
+<span class="normal">397</span>
+<span class="normal">398</span>
+<span class="normal">399</span>
+<span class="normal">400</span>
+<span class="normal">401</span>
+<span class="normal">402</span>
+<span class="normal">403</span>
+<span class="normal">404</span>
+<span class="normal">405</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">data</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Backwards compatibility for files attribute.&quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="s2">&quot;files&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
@@ -1454,7 +1454,10 @@ schema development and scratch space.</p>
 
 <a href="#qcio.Results" class="headerlink" title="Permanent link">&para;</a></h2>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span class="n">Results</span> <span class="o">=</span> <span class="n"><span title="typing.Union">Union</span></span><span class="p">[</span>
-    <span class="n"><a class="autorefs autorefs-internal" title="qcio.models.base_models.Files" href="../files/#qcio.Files">Files</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-internal" title="qcio.models.outputs.SinglePointResults" href="#qcio.SinglePointResults">SinglePointResults</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-internal" title="qcio.models.outputs.OptimizationResults" href="#qcio.OptimizationResults">OptimizationResults</a></span>
+    <span class="n"><a class="autorefs autorefs-internal" title="qcio.models.base_models.Files" href="../files/#qcio.Files">Files</a></span><span class="p">,</span>
+    <span class="n"><a class="autorefs autorefs-internal" title="qcio.models.outputs.SinglePointResults" href="#qcio.SinglePointResults">SinglePointResults</a></span><span class="p">,</span>
+    <span class="n"><a class="autorefs autorefs-internal" title="qcio.models.outputs.OptimizationResults" href="#qcio.OptimizationResults">OptimizationResults</a></span><span class="p">,</span>
+    <span class="n"><span title="qcio.models.outputs.ConformerSearchResults">ConformerSearchResults</span></span><span class="p">,</span>
 <span class="p">]</span>
 </code></pre></div>
 
@@ -1870,11 +1873,11 @@ in units of e a0 (NOT Debye!).</p>
 
             <details class="quote">
               <summary>Source code in <code>qcio/models/outputs.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">258</span>
-<span class="normal">259</span>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">259</span>
 <span class="normal">260</span>
 <span class="normal">261</span>
-<span class="normal">262</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">to_xyz</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="normal">262</span>
+<span class="normal">263</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">to_xyz</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the trajectory as an `xyz` string.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
         <span class="n">prog_output</span><span class="o">.</span><span class="n">input_data</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">to_xyz</span><span class="p">()</span> <span class="k">for</span> <span class="n">prog_output</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">trajectory</span>
@@ -1971,8 +1974,7 @@ multi-structure <code>xyz</code> file.</p>
 </details>
             <details class="quote">
               <summary>Source code in <code>qcio/models/outputs.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">264</span>
-<span class="normal">265</span>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">265</span>
 <span class="normal">266</span>
 <span class="normal">267</span>
 <span class="normal">268</span>
@@ -1994,7 +1996,8 @@ multi-structure <code>xyz</code> file.</p>
 <span class="normal">284</span>
 <span class="normal">285</span>
 <span class="normal">286</span>
-<span class="normal">287</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">save</span><span class="p">(</span>
+<span class="normal">287</span>
+<span class="normal">288</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">save</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">filepath</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Path</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
     <span class="n">exclude_none</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
