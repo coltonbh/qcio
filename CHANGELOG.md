@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+## [0.11.8] - 2024-08-13
+
 ### Added
 
 - `CNAME` file to `/docs` directory.
@@ -412,7 +414,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `SinglePointComputedProperties`
   - `Wavefunction`
 
-[unreleased]: https://github.com/coltonbh/qcio/compare/0.11.7...HEAD
+[unreleased]: https://github.com/coltonbh/qcio/compare/0.11.8...HEAD
+[0.11.8]: https://github.com/coltonbh/qcio/releases/tag/0.11.8
 [0.11.7]: https://github.com/coltonbh/qcio/releases/tag/0.11.7
 [0.11.6]: https://github.com/coltonbh/qcio/releases/tag/0.11.6
 [0.11.5]: https://github.com/coltonbh/qcio/releases/tag/0.11.5
