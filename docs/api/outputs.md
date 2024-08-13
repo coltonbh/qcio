@@ -23,5 +23,8 @@
             - final_energy
             - to_xyz
             - save
+
+::: qcio.ConformerSearchResults
+
 ::: qcio.Wavefunction
 
