@@ -65,8 +65,10 @@ except ImportError as e:
         "module. Please install them using: pip install qcio[view]"
     )
 
-DEFAULT_WIDTH = 600
-DEFAULT_HEIGHT = 450
+DEFAULT_WIDTH: int = 600
+"""The default width of the viewer in pixels."""
+DEFAULT_HEIGHT: int = 450
+"""The default height of the viewer in pixels."""
 
 
 def generate_structure_viewer_html(
@@ -84,7 +86,7 @@ def generate_structure_viewer_html(
 ) -> str:
     """
     Generate the core HTML viewer for a Structure or list of Structures using py3Dmol
-    or 2D PNG images.
+    or 2D PNG images. These keywords may be passed to high level viewer functions.
 
     Args:
         structs: The Structure or list of Structures to visualize.
@@ -639,14 +641,16 @@ def program_outputs(
 
 
 def view(
-    *objs: Union[ProgramOutput, Structure],
+    *objs: Union[ProgramOutput, Structure, List[Structure]],
     **kwargs,
 ) -> None:
     """
-    Top level method for viewing all qcio objects.
+    Top level method for viewing all qcio objects. This should be the only method you
+    need to use to view any qcio object.
 
     Args:
-        *objs: The ProgramOutput objects to view. May pass one or more objects.
+        *objs: The ProgramOutput or Structure objects to view. May pass one or more
+            objects or one or more lists of Structure objects.
         **kwargs: Additional keyword arguments to pass to the viewer functions.
 
     Returns:
