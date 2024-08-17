@@ -61,6 +61,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://qcio.coltonhicks.com/api/view/</loc>
+         <lastmod>2024-08-17</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://qcio.coltonhicks.com/visualizations/coreviews/</loc>
          <lastmod>2024-08-17</lastmod>
          <changefreq>daily</changefreq>
