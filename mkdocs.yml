@@ -107,6 +107,8 @@ nav:
       - Outputs: api/outputs.md
       - Constants and Periodic Table:
           - Constants: api/constants.md
+      - Visualizations:
+        - View: api/view.md
       - Additional Models:
           - Files: api/files.md
           - CalcType: api/calctype.md
