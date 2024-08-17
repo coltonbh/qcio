@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+### Changed
+
+- `Structure` views now use `GridViewer` when laying out multiple structures with `py3Dmol` so as to use only one WebGL context for all images. This dramatically improves performance and reduces lag.
+- Added `view_2d` option for viewing a `2D` image of a molecule rather than the `3D` viewer.
+
+### Added
+
+- View for `ConformerSearchResults`.
+
 ## [0.11.8] - 2024-08-13
 
 ### Added

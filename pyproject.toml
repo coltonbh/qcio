@@ -29,7 +29,7 @@ openbabel-wheel = { version = "^3.1.1.19", optional = true }
 [tool.poetry.extras]
 rdkit = ["rdkit"]
 openbabel = ["openbabel-wheel"]
-view = ["matplotlib", "ipython", "py3Dmol"]
+view = ["matplotlib", "ipython", "py3Dmol", "rdkit"]
 all = ["rdkit", "openbabel-wheel", "matplotlib", "ipython", "py3Dmol"]
 
 [tool.poetry.group.dev.dependencies]

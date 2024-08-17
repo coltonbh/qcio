@@ -117,4 +117,5 @@ nav:
       - Overview: visualizations/overview.md
       - Structure: visualizations/structure.ipynb
       - ProgramOutputs: visualizations/programoutputs.ipynb
+      - Core Views: visualizations/coreviews.ipynb
   - Changelog: https://github.com/coltonbh/qcio/blob/master/CHANGELOG.md

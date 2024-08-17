@@ -3914,9 +3914,9 @@ test = ["big-O", "importlib-resources", "jaraco.functools", "jaraco.itertools", 
 all = ["ipython", "matplotlib", "openbabel-wheel", "py3Dmol", "rdkit"]
 openbabel = ["openbabel-wheel"]
 rdkit = ["rdkit"]
-view = ["ipython", "matplotlib", "py3Dmol"]
+view = ["ipython", "matplotlib", "py3Dmol", "rdkit"]
 
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "cd312823f07b00bfeef82310f8588bc2dad1853143b7e2669693f8c75e95874f"
+content-hash = "d78d24ab7f185e2f4d1646835b9e1fa8cf42117682b512aad82622147da3791d"
