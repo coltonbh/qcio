@@ -6,14 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+## [0.11.9] - 2024-08-16
+
 ### Changed
 
 - `Structure` views now use `GridViewer` when laying out multiple structures with `py3Dmol` so as to use only one WebGL context for all images. This dramatically improves performance and reduces lag.
-- Added `view_2d` option for viewing a `2D` image of a molecule rather than the `3D` viewer.
 
 ### Added
 
 - View for `ConformerSearchResults`.
+- `view_2d` option for viewing a `2D` image of a molecule rather than the `3D` viewer.
 
 ## [0.11.8] - 2024-08-13
 
@@ -423,7 +425,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `SinglePointComputedProperties`
   - `Wavefunction`
 
-[unreleased]: https://github.com/coltonbh/qcio/compare/0.11.8...HEAD
+[unreleased]: https://github.com/coltonbh/qcio/compare/0.11.9...HEAD
+[0.11.9]: https://github.com/coltonbh/qcio/releases/tag/0.11.9
 [0.11.8]: https://github.com/coltonbh/qcio/releases/tag/0.11.8
 [0.11.7]: https://github.com/coltonbh/qcio/releases/tag/0.11.7
 [0.11.6]: https://github.com/coltonbh/qcio/releases/tag/0.11.6
