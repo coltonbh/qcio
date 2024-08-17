@@ -7,8 +7,10 @@
         "classmethod",
         "cmdline",
         "conformerid",
+        "Dmol",
         "dtype",
         "ETKDG",
+        "figsize",
         "freqs",
         "getfixturevalue",
         "HARTREE",
@@ -49,6 +51,7 @@
         "terachem",
         "traceback",
         "vibmodes",
+        "viewergrid",
         "wavenumber",
         "wavenumbers"
     ]
