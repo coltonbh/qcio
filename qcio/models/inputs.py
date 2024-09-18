@@ -193,9 +193,6 @@ class DualProgramInput(ProgramArgsSub, ProgramInput):
         ```
     """
 
-    def fake(self):
-        return 123
-
 
 Inputs = Union[FileInput, ProgramInput, DualProgramInput]
 InputType = TypeVar("InputType", bound=Inputs)
