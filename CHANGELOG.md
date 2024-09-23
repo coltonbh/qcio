@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+## [0.11.10] - 2024-09-23
+
 ### Added
 
 - `Structure.distance(i, j, units='bohr' | 'angstrom')` returns the distance between atoms `i, j`.
@@ -430,7 +432,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `SinglePointComputedProperties`
   - `Wavefunction`
 
-[unreleased]: https://github.com/coltonbh/qcio/compare/0.11.9...HEAD
+[unreleased]: https://github.com/coltonbh/qcio/compare/0.11.10...HEAD
+[0.11.10]: https://github.com/coltonbh/qcio/releases/tag/0.11.10
 [0.11.9]: https://github.com/coltonbh/qcio/releases/tag/0.11.9
 [0.11.8]: https://github.com/coltonbh/qcio/releases/tag/0.11.8
 [0.11.7]: https://github.com/coltonbh/qcio/releases/tag/0.11.7
