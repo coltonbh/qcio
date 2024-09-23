@@ -9,7 +9,10 @@ A `Structure` is the core `qcio` object for representing a molecule or molecular
             - from_xyz
             - to_smiles
             - to_xyz
+            - distance
             - add_smiles
             - add_identifier
 
 ::: qcio.Identifiers
+
+::: qcio.DistanceUnits

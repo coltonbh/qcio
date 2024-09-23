@@ -1,5 +1,6 @@
 import warnings
 from collections import Counter
+from enum import Enum
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, ClassVar, Dict, List, Optional, Tuple, Union
 
@@ -17,7 +18,20 @@ from .utils import renamed_class, smiles_to_structure, structure_to_smiles
 if TYPE_CHECKING:
     from pydantic.typing import ReprArgs
 
-__all__ = ["Structure", "Identifiers", "Molecule"]
+__all__ = ["Structure", "Identifiers", "Molecule", "DistanceUnits"]
+
+
+class DistanceUnits(str, Enum):
+    """Distance units for the Structure.distance method.
+
+    Attributes:
+        bohr (str): The distance in Bohr.
+        angstrom (str): The distance in Angstrom.
+
+    """
+
+    bohr = "bohr"
+    angstrom = "angstrom"
 
 
 class Identifiers(QCIOModelBase):
@@ -376,6 +390,31 @@ class Structure(QCIOModelBase):
                 i += 1  # Skip any empty lines between structures
 
         return structures
+
+    def distance(
+        self, i: int, j: int, units: DistanceUnits = DistanceUnits.bohr
+    ) -> float:
+        """Calculate the distance between two atoms.
+
+        Args:
+            i: The index of the first atom.
+            j: The index of the second atom.
+            units: The units to return the distance in. Defaults to "bohr".
+                May be "bohr" or "angstrom".
+
+        Returns:
+            The distance between the atoms in units (Bohr or Angstrom).
+
+        Example:
+            ```python
+            struct.distance(0, 1)
+            1.34
+            ```
+        """
+        distance = np.linalg.norm(self.geometry[i] - self.geometry[j])
+        if units == DistanceUnits.angstrom:
+            return float(distance * BOHR_TO_ANGSTROM)
+        return float(distance)
 
     def to_smiles(self, program: str = "rdkit", hydrogens: bool = False) -> str:
         """Generate the canonical SMILES representation of the structure.

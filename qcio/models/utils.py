@@ -97,7 +97,7 @@ def _assert_module_installed(module: str):
         importlib.import_module(module)
     except ModuleNotFoundError:
         raise ModuleNotFoundError(
-            "The 'rdkit' module is required for this function. "
+            f"The '{module}' module is required for this function. "
             f"Please install it with 'pip install qcio[{module}]'."
         )
 

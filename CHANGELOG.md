@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+### Added
+
+- `Structure.distance(i, j, units='bohr' | 'angstrom')` returns the distance between atoms `i, j`.
+- `view.view(... distances=[(0, 1), (4,27), ...])` will display the distances between atoms at these indices.
+
 ## [0.11.9] - 2024-08-16
 
 ### Changed
