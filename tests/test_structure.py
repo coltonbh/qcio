@@ -331,3 +331,15 @@ def test_multi_xyz(test_data_dir):
     assert caffeine.multiplicity == qcio_structures.caffeine.multiplicity
     assert caffeine.charge == qcio_structures.caffeine.charge
     assert caffeine.identifiers.name == "caffeine"
+
+
+def test_distance():
+    struct = Structure(symbols=["H", "H"], geometry=[[0, 0, 0], [0, 0, 1]])
+    assert struct.distance(0, 1) == 1.0
+
+    struct = Structure(symbols=["H", "H"], geometry=[[0, 0, 0], [0, 0, -1]])
+    assert struct.distance(0, 1) == 1.0
+
+    struct = Structure(symbols=["H", "H"], geometry=[[0, 0, 0], [0, 1.4, -1.3]])
+
+    assert struct.distance(0, 1) == pytest.approx(1.91049731, abs=1e-8)
