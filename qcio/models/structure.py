@@ -209,6 +209,7 @@ class Structure(QCIOModelBase):
         self,
         filepath: Union[Path, str],
         exclude_none: bool = True,
+        exclude_unset: bool = True,
         indent: int = 4,
         **kwargs,
     ) -> None:
@@ -218,6 +219,8 @@ class Structure(QCIOModelBase):
             filepath: The path to save the structure to.
             exclude_none: If True, attributes with a value of None will not be written
                 to the file.
+            exclude_unset: If True, attributes that have not been set will not be
+                written to the file.
             indent: The number of spaces to use for indentation in the JSON file. 0
                 creates a more compact JSON file, 4 is more human-readable.
             **kwargs: Additional keyword arguments to pass to the json serializer.
@@ -240,7 +243,7 @@ class Structure(QCIOModelBase):
         if filepath.suffix == ".xyz":
             filepath.write_text(self.to_xyz(**kwargs))
             return
-        super().save(filepath, exclude_none, indent, **kwargs)
+        super().save(filepath, exclude_none, exclude_unset, indent, **kwargs)
 
     @property
     def ids(self) -> Identifiers:
@@ -517,6 +520,8 @@ class Structure(QCIOModelBase):
 
         identifiers["canonical_smiles_program"] = program
         self.add_identifiers(identifiers)
+        # Ensure pydantic knows the field has been set
+        self.__pydantic_fields_set__.add("identifiers")
 
     def add_identifiers(self, identifiers: Dict[str, str]) -> None:
         """Add an identifier to the structure.
