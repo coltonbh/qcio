@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+### Changed
+
+- Attributes on models that are not explicitly set (i.e., values set to their default value) will not be serialized and saved. This behavior can be modified by passing `exclude_unset=True` to `.save(...)`.
+
 ## [0.11.10] - 2024-09-23
 
 ### Added

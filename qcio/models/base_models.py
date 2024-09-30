@@ -79,6 +79,7 @@ class QCIOModelBase(BaseModel, ABC):
         self,
         filepath: Union[Path, str],
         exclude_none: bool = True,
+        exclude_unset: bool = True,
         indent: int = 4,
         **kwargs,
     ) -> None:
@@ -102,6 +103,8 @@ class QCIOModelBase(BaseModel, ABC):
             filepath: The path to write the object to.
             exclude_none: If True, attributes with a value of None will not be written.
                 Changing default behavior from pydantic.model_dump() to True.
+            exclude_unset: If True, attributes that have not been set will not be
+                written (i.e., values set to their default value).
             indent: The number of spaces to use for indentation in the JSON file. 0
                 creates a more compact JSON file, 4 is more human-readable.
             **kwargs: Additional keyword arguments to pass to the serialization method.
@@ -126,7 +129,16 @@ class QCIOModelBase(BaseModel, ABC):
         filepath = Path(filepath)
         filepath.parent.mkdir(exist_ok=True, parents=True)
 
-        model_dict = self.model_dump(mode="json", exclude_none=exclude_none, **kwargs)
+        if self.extras:
+            # Ensure pydantic knows the field has been set
+            self.__pydantic_fields_set__.add("extras")
+
+        model_dict = self.model_dump(
+            mode="json",
+            exclude_none=exclude_none,
+            exclude_unset=exclude_unset,
+            **kwargs,
+        )
 
         if filepath.suffix in [".yaml", ".yml"]:
             data = yaml.dump(model_dict, indent=indent)
@@ -227,6 +239,8 @@ class Files(QCIOModelBase):
             filename = filepath.name
 
         self.files[filename] = data
+        # Add files to __pydantic_fields_set__ to ensure they are included in .save()
+        self.__pydantic_fields_set__.add("files")
 
     def add_files(
         self,

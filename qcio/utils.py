@@ -19,6 +19,7 @@ water = Structure(
     charge=0,
     multiplicity=1,
     connectivity=[(0, 1, 1.0), (0, 2, 1.0)],
+    identifiers={"name": "water"},
 )
 
 

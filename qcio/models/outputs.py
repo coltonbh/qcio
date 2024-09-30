@@ -266,6 +266,7 @@ class OptimizationResults(Files):
         self,
         filepath: Union[Path, str],
         exclude_none: bool = True,
+        exclude_unset: bool = True,
         indent: int = 4,
         **kwargs: Dict[str, Any],
     ) -> None:
@@ -275,6 +276,8 @@ class OptimizationResults(Files):
             filepath: The path to save the molecule to.
             exclude_none: If True, attributes with a value of None will not be written
                 to the file.
+            exclude_unset: If True, attributes that have not been set will not be
+                written to the file.
             **kwargs: Additional keyword arguments to pass to the json serializer.
 
         Note:
@@ -285,7 +288,7 @@ class OptimizationResults(Files):
         if filepath.suffix == ".xyz":
             filepath.write_text(self.to_xyz())
             return
-        super().save(filepath, exclude_none, indent, **kwargs)
+        super().save(filepath, exclude_none, exclude_unset, indent, **kwargs)
 
 
 class ConformerSearchResults(Files):
