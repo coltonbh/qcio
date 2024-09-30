@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+## [0.11.11] - 2024-09-30
+
 ### Changed
 
 - Attributes on models that are not explicitly set (i.e., values set to their default value) will not be serialized and saved. This behavior can be modified by passing `exclude_unset=True` to `.save(...)`.
@@ -437,7 +439,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `SinglePointComputedProperties`
   - `Wavefunction`
 
-[unreleased]: https://github.com/coltonbh/qcio/compare/0.11.10...HEAD
+[unreleased]: https://github.com/coltonbh/qcio/compare/0.11.11...HEAD
+[0.11.11]: https://github.com/coltonbh/qcio/releases/tag/0.11.11
 [0.11.10]: https://github.com/coltonbh/qcio/releases/tag/0.11.10
 [0.11.9]: https://github.com/coltonbh/qcio/releases/tag/0.11.9
 [0.11.8]: https://github.com/coltonbh/qcio/releases/tag/0.11.8
