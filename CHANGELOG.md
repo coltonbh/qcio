@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+## [0.11.12] - 2024-10-01
+
 ### Added
 
 - Added `charge` and `multiplicity` to the Structure column of the output table view.
@@ -443,7 +445,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `SinglePointComputedProperties`
   - `Wavefunction`
 
-[unreleased]: https://github.com/coltonbh/qcio/compare/0.11.11...HEAD
+[unreleased]: https://github.com/coltonbh/qcio/compare/0.11.12...HEAD
+[0.11.12]: https://github.com/coltonbh/qcio/releases/tag/0.11.12
 [0.11.11]: https://github.com/coltonbh/qcio/releases/tag/0.11.11
 [0.11.10]: https://github.com/coltonbh/qcio/releases/tag/0.11.10
 [0.11.9]: https://github.com/coltonbh/qcio/releases/tag/0.11.9
