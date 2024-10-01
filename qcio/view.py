@@ -12,7 +12,7 @@ Design Decisions:
         basic parameters followed by a structure viewer and results table or plot.
         DualProgramInputs add details for the subprogram.
         ----------------------------------------------------------------------------
-        | Structure Name | Success | Calculation Type | Program | Model | Keywords |
+        | Structure      | Success | Calculation Type | Program | Model | Keywords |
         ----------------------------------------------------------------------------
         |                                    |                                     |
         |      Structure Viewer (Optional)   |        Results Table or Plot        | 
@@ -365,7 +365,7 @@ def generate_output_table(*prog_outputs: ProgramOutput) -> str:
     table_header = """
     <table>
         <tr>
-            <th>Structure Name</th>
+            <th>Structure</th>
             <th>Success</th>
             <th>Wall Time</th>
             <th>Calculation Type</th>
@@ -393,7 +393,12 @@ def generate_output_table(*prog_outputs: ProgramOutput) -> str:
         )
         base_row = f"""
         <tr>
-            <td>{po.input_data.structure.ids.name}</td>
+            <td>{generate_dictionary_string(
+                {
+                    "charge": po.input_data.structure.charge, 
+                    "multiplicity": po.input_data.structure.multiplicity, 
+                    "name": po.input_data.structure.ids.name or "",
+                })}</td>
             <td {success_style}>{po.success}</td>
             <td> {
                 _format_time(po.provenance.wall_time) if po.provenance.wall_time 
