@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+###
+
+- `interval` to view animations. Sets the interval between frames in milliseconds. Defaults to 100.
+
 ## [0.11.12] - 2024-10-01
 
 ### Added

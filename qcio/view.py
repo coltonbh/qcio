@@ -86,6 +86,7 @@ def generate_structure_viewer_html(
     show_indices: bool = False,
     same_viewer: bool = False,
     view_2d: bool = False,
+    interval: int = 100,
 ) -> str:
     """
     Generate the core HTML viewer for a Structure or list of Structures using py3Dmol
@@ -109,6 +110,7 @@ def generate_structure_viewer_html(
             dictionary for AtomStyleSpec <https://3dmol.org/doc/AtomStyleSpec.html>
         show_indices: Whether to show the atom indices in the viewer.
         view_2d: Whether to display the structure in 2D (PNG images).
+        interval: The interval in milliseconds for the animation.
 
     Returns:
         str: The HTML string for the viewer.
@@ -193,7 +195,8 @@ def generate_structure_viewer_html(
             if isinstance(struct, list):  # Animate lists of structures
                 combined_xyz = "".join(s.to_xyz() for s in struct)
                 viewer.addModelsAsFrames(combined_xyz, "xyz", viewer=grid)
-                viewer.animate({"loop": "forward"}, viewer=grid)
+                viewer.animate({"loop": "forward", "interval": interval}, viewer=grid)
+                # viewer.animate({"loop": "forward"}, viewer=grid)
             else:
                 viewer.addModel(struct.to_xyz(), "xyz", viewer=grid)
 
