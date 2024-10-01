@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+## [0.11.13] - 2024-10-01
+
 ###
 
 - `interval` to view animations. Sets the interval between frames in milliseconds. Defaults to 100.
@@ -449,7 +451,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `SinglePointComputedProperties`
   - `Wavefunction`
 
-[unreleased]: https://github.com/coltonbh/qcio/compare/0.11.12...HEAD
+[unreleased]: https://github.com/coltonbh/qcio/compare/0.11.13...HEAD
+[0.11.13]: https://github.com/coltonbh/qcio/releases/tag/0.11.13
 [0.11.12]: https://github.com/coltonbh/qcio/releases/tag/0.11.12
 [0.11.11]: https://github.com/coltonbh/qcio/releases/tag/0.11.11
 [0.11.10]: https://github.com/coltonbh/qcio/releases/tag/0.11.10
