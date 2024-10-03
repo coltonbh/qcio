@@ -1322,7 +1322,7 @@
     basic parameters followed by a structure viewer and results table or plot.
     DualProgramInputs add details for the subprogram.
     ----------------------------------------------------------------------------
-    | Structure Name | Success | Calculation Type | Program | Model | Keywords |
+    | Structure      | Success | Calculation Type | Program | Model | Keywords |
     ----------------------------------------------------------------------------
     |                                    |                                     |
     |      Structure Viewer (Optional)   |        Results Table or Plot        | 
@@ -1475,15 +1475,7 @@ objects or one or more lists of Structure objects.</p>
 
             <details class="quote">
               <summary>Source code in <code>qcio/view.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">698</span>
-<span class="normal">699</span>
-<span class="normal">700</span>
-<span class="normal">701</span>
-<span class="normal">702</span>
-<span class="normal">703</span>
-<span class="normal">704</span>
-<span class="normal">705</span>
-<span class="normal">706</span>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">706</span>
 <span class="normal">707</span>
 <span class="normal">708</span>
 <span class="normal">709</span>
@@ -1506,7 +1498,15 @@ objects or one or more lists of Structure objects.</p>
 <span class="normal">726</span>
 <span class="normal">727</span>
 <span class="normal">728</span>
-<span class="normal">729</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">view</span><span class="p">(</span>
+<span class="normal">729</span>
+<span class="normal">730</span>
+<span class="normal">731</span>
+<span class="normal">732</span>
+<span class="normal">733</span>
+<span class="normal">734</span>
+<span class="normal">735</span>
+<span class="normal">736</span>
+<span class="normal">737</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">view</span><span class="p">(</span>
     <span class="o">*</span><span class="n">objs</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ProgramOutput</span><span class="p">,</span> <span class="n">Structure</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Structure</span><span class="p">]],</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -1647,15 +1647,7 @@ objects or one or more lists of Structure objects.</p>
 
             <details class="quote">
               <summary>Source code in <code>qcio/view.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">591</span>
-<span class="normal">592</span>
-<span class="normal">593</span>
-<span class="normal">594</span>
-<span class="normal">595</span>
-<span class="normal">596</span>
-<span class="normal">597</span>
-<span class="normal">598</span>
-<span class="normal">599</span>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">599</span>
 <span class="normal">600</span>
 <span class="normal">601</span>
 <span class="normal">602</span>
@@ -1751,7 +1743,15 @@ objects or one or more lists of Structure objects.</p>
 <span class="normal">692</span>
 <span class="normal">693</span>
 <span class="normal">694</span>
-<span class="normal">695</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">program_outputs</span><span class="p">(</span>
+<span class="normal">695</span>
+<span class="normal">696</span>
+<span class="normal">697</span>
+<span class="normal">698</span>
+<span class="normal">699</span>
+<span class="normal">700</span>
+<span class="normal">701</span>
+<span class="normal">702</span>
+<span class="normal">703</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">program_outputs</span><span class="p">(</span>
     <span class="o">*</span><span class="n">prog_outputs</span><span class="p">:</span> <span class="n">ProgramOutput</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">ProgramInput</span><span class="p">,</span> <span class="n">DualProgramInput</span><span class="p">],</span> <span class="n">Results</span><span class="p">],</span>
     <span class="n">animate</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">struct_viewer</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
@@ -1947,22 +1947,22 @@ passed the structures will be animated.</p>
 
             <details class="quote">
               <summary>Source code in <code>qcio/view.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">573</span>
-<span class="normal">574</span>
-<span class="normal">575</span>
-<span class="normal">576</span>
-<span class="normal">577</span>
-<span class="normal">578</span>
-<span class="normal">579</span>
-<span class="normal">580</span>
-<span class="normal">581</span>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">581</span>
 <span class="normal">582</span>
 <span class="normal">583</span>
 <span class="normal">584</span>
 <span class="normal">585</span>
 <span class="normal">586</span>
 <span class="normal">587</span>
-<span class="normal">588</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">structures</span><span class="p">(</span>
+<span class="normal">588</span>
+<span class="normal">589</span>
+<span class="normal">590</span>
+<span class="normal">591</span>
+<span class="normal">592</span>
+<span class="normal">593</span>
+<span class="normal">594</span>
+<span class="normal">595</span>
+<span class="normal">596</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">structures</span><span class="p">(</span>
     <span class="o">*</span><span class="n">structs</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Structure</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Structure</span><span class="p">]],</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -2005,7 +2005,8 @@ passed the structures will be animated.</p>
     <span class="n">style</span><span class="p">:</span> <span class="n"><span title="typing.Optional">Optional</span></span><span class="p">[</span><span class="n"><span title="typing.Dict">Dict</span></span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">show_indices</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">same_viewer</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="n">view_2d</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">view_2d</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">interval</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="mi">100</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">str</span>
 </code></pre></div>
 
@@ -2197,6 +2198,20 @@ dictionary for AtomStyleSpec <a href="https://3dmol.org/doc/AtomStyleSpec.html">
             </td>
             <td>
                   <code>False</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code>interval</code></td>
+            <td>
+                  <code>int</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The interval in milliseconds for the animation.</p>
+              </div>
+            </td>
+            <td>
+                  <code>100</code>
             </td>
           </tr>
       </tbody>
@@ -2467,7 +2482,10 @@ dictionary for AtomStyleSpec <a href="https://3dmol.org/doc/AtomStyleSpec.html">
 <span class="normal">289</span>
 <span class="normal">290</span>
 <span class="normal">291</span>
-<span class="normal">292</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_structure_viewer_html</span><span class="p">(</span>
+<span class="normal">292</span>
+<span class="normal">293</span>
+<span class="normal">294</span>
+<span class="normal">295</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_structure_viewer_html</span><span class="p">(</span>
     <span class="o">*</span><span class="n">structs</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;Structure&quot;</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="s2">&quot;Structure&quot;</span><span class="p">]],</span>
     <span class="n">width</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">height</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -2481,6 +2499,7 @@ dictionary for AtomStyleSpec <a href="https://3dmol.org/doc/AtomStyleSpec.html">
     <span class="n">show_indices</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">same_viewer</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">view_2d</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">interval</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generate the core HTML viewer for a Structure or list of Structures using py3Dmol</span>
@@ -2504,6 +2523,7 @@ dictionary for AtomStyleSpec <a href="https://3dmol.org/doc/AtomStyleSpec.html">
 <span class="sd">            dictionary for AtomStyleSpec &lt;https://3dmol.org/doc/AtomStyleSpec.html&gt;</span>
 <span class="sd">        show_indices: Whether to show the atom indices in the viewer.</span>
 <span class="sd">        view_2d: Whether to display the structure in 2D (PNG images).</span>
+<span class="sd">        interval: The interval in milliseconds for the animation.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        str: The HTML string for the viewer.</span>
@@ -2588,7 +2608,8 @@ dictionary for AtomStyleSpec <a href="https://3dmol.org/doc/AtomStyleSpec.html">
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">struct</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>  <span class="c1"># Animate lists of structures</span>
                 <span class="n">combined_xyz</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">to_xyz</span><span class="p">()</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">struct</span><span class="p">)</span>
                 <span class="n">viewer</span><span class="o">.</span><span class="n">addModelsAsFrames</span><span class="p">(</span><span class="n">combined_xyz</span><span class="p">,</span> <span class="s2">&quot;xyz&quot;</span><span class="p">,</span> <span class="n">viewer</span><span class="o">=</span><span class="n">grid</span><span class="p">)</span>
-                <span class="n">viewer</span><span class="o">.</span><span class="n">animate</span><span class="p">({</span><span class="s2">&quot;loop&quot;</span><span class="p">:</span> <span class="s2">&quot;forward&quot;</span><span class="p">},</span> <span class="n">viewer</span><span class="o">=</span><span class="n">grid</span><span class="p">)</span>
+                <span class="n">viewer</span><span class="o">.</span><span class="n">animate</span><span class="p">({</span><span class="s2">&quot;loop&quot;</span><span class="p">:</span> <span class="s2">&quot;forward&quot;</span><span class="p">,</span> <span class="s2">&quot;interval&quot;</span><span class="p">:</span> <span class="n">interval</span><span class="p">},</span> <span class="n">viewer</span><span class="o">=</span><span class="n">grid</span><span class="p">)</span>
+                <span class="c1"># viewer.animate({&quot;loop&quot;: &quot;forward&quot;}, viewer=grid)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">viewer</span><span class="o">.</span><span class="n">addModel</span><span class="p">(</span><span class="n">struct</span><span class="o">.</span><span class="n">to_xyz</span><span class="p">(),</span> <span class="s2">&quot;xyz&quot;</span><span class="p">,</span> <span class="n">viewer</span><span class="o">=</span><span class="n">grid</span><span class="p">)</span>
 
@@ -2760,10 +2781,7 @@ dictionary for AtomStyleSpec <a href="https://3dmol.org/doc/AtomStyleSpec.html">
 
             <details class="quote">
               <summary>Source code in <code>qcio/view.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">329</span>
-<span class="normal">330</span>
-<span class="normal">331</span>
-<span class="normal">332</span>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">332</span>
 <span class="normal">333</span>
 <span class="normal">334</span>
 <span class="normal">335</span>
@@ -2850,7 +2868,15 @@ dictionary for AtomStyleSpec <a href="https://3dmol.org/doc/AtomStyleSpec.html">
 <span class="normal">416</span>
 <span class="normal">417</span>
 <span class="normal">418</span>
-<span class="normal">419</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_output_table</span><span class="p">(</span><span class="o">*</span><span class="n">prog_outputs</span><span class="p">:</span> <span class="n">ProgramOutput</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="normal">419</span>
+<span class="normal">420</span>
+<span class="normal">421</span>
+<span class="normal">422</span>
+<span class="normal">423</span>
+<span class="normal">424</span>
+<span class="normal">425</span>
+<span class="normal">426</span>
+<span class="normal">427</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_output_table</span><span class="p">(</span><span class="o">*</span><span class="n">prog_outputs</span><span class="p">:</span> <span class="n">ProgramOutput</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generate an HTML table displaying the basic parameters for ProgramOutput objects.</span>
 
@@ -2889,7 +2915,7 @@ dictionary for AtomStyleSpec <a href="https://3dmol.org/doc/AtomStyleSpec.html">
     <span class="n">table_header</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">    &lt;table&gt;</span>
 <span class="s2">        &lt;tr&gt;</span>
-<span class="s2">            &lt;th&gt;Structure Name&lt;/th&gt;</span>
+<span class="s2">            &lt;th&gt;Structure&lt;/th&gt;</span>
 <span class="s2">            &lt;th&gt;Success&lt;/th&gt;</span>
 <span class="s2">            &lt;th&gt;Wall Time&lt;/th&gt;</span>
 <span class="s2">            &lt;th&gt;Calculation Type&lt;/th&gt;</span>
@@ -2917,14 +2943,19 @@ dictionary for AtomStyleSpec <a href="https://3dmol.org/doc/AtomStyleSpec.html">
         <span class="p">)</span>
         <span class="n">base_row</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">        &lt;tr&gt;</span>
-<span class="s2">            &lt;td&gt;</span><span class="si">{</span><span class="n">po</span><span class="o">.</span><span class="n">input_data</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">ids</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&lt;/td&gt;</span>
+<span class="s2">            &lt;td&gt;</span><span class="si">{</span><span class="n">generate_dictionary_string</span><span class="p">(</span>
+<span class="w">                </span><span class="p">{</span>
+<span class="w">                    </span><span class="s2">&quot;charge&quot;</span><span class="p">:</span><span class="w"> </span><span class="n">po</span><span class="o">.</span><span class="n">input_data</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">charge</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                    </span><span class="s2">&quot;multiplicity&quot;</span><span class="p">:</span><span class="w"> </span><span class="n">po</span><span class="o">.</span><span class="n">input_data</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">multiplicity</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                    </span><span class="s2">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="n">po</span><span class="o">.</span><span class="n">input_data</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">ids</span><span class="o">.</span><span class="n">name</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="p">})</span><span class="si">}</span><span class="s2">&lt;/td&gt;</span>
 <span class="s2">            &lt;td </span><span class="si">{</span><span class="n">success_style</span><span class="si">}</span><span class="s2">&gt;</span><span class="si">{</span><span class="n">po</span><span class="o">.</span><span class="n">success</span><span class="si">}</span><span class="s2">&lt;/td&gt;</span>
 <span class="s2">            &lt;td&gt; </span><span class="si">{</span>
 <span class="w">                </span><span class="n">_format_time</span><span class="p">(</span><span class="n">po</span><span class="o">.</span><span class="n">provenance</span><span class="o">.</span><span class="n">wall_time</span><span class="p">)</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">po</span><span class="o">.</span><span class="n">provenance</span><span class="o">.</span><span class="n">wall_time</span><span class="w"> </span>
 <span class="w">                 </span><span class="k">else</span><span class="w"> </span><span class="s2">&quot;No timing data&quot;</span><span class="si">}</span><span class="s2">&lt;/td&gt;</span>
 <span class="s2">            &lt;td&gt;</span><span class="si">{</span><span class="n">po</span><span class="o">.</span><span class="n">input_data</span><span class="o">.</span><span class="n">calctype</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&lt;/td&gt;</span>
 <span class="s2">            &lt;td&gt;</span><span class="si">{</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">po</span><span class="o">.</span><span class="n">provenance</span><span class="o">.</span><span class="n">program</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">po</span><span class="o">.</span><span class="n">provenance</span><span class="o">.</span><span class="n">program_version</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="si">}</span><span class="s2">&quot;</span><span class="si">}</span><span class="s2">&lt;/td&gt;</span>
-<span class="s2">            &lt;td&gt;</span><span class="si">{</span><span class="n">po</span><span class="o">.</span><span class="n">input_data</span><span class="o">.</span><span class="n">model</span><span class="si">}</span><span class="s2">&lt;/td&gt;</span>
+<span class="s2">            &lt;td&gt;</span><span class="si">{</span><span class="n">generate_dictionary_string</span><span class="p">(</span><span class="n">po</span><span class="o">.</span><span class="n">input_data</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(</span><span class="n">exclude</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;extras&quot;</span><span class="p">]))</span><span class="si">}</span><span class="s2">&lt;/td&gt;</span>
 <span class="s2">            &lt;td&gt;</span><span class="si">{</span><span class="n">generate_dictionary_string</span><span class="p">(</span><span class="n">po</span><span class="o">.</span><span class="n">input_data</span><span class="o">.</span><span class="n">keywords</span><span class="p">)</span><span class="si">}</span><span class="s2">&lt;/td&gt;</span>
 <span class="s2">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">po</span><span class="o">.</span><span class="n">input_data</span><span class="o">.</span><span class="n">files</span><span class="p">:</span>
@@ -3046,15 +3077,7 @@ dictionary for AtomStyleSpec <a href="https://3dmol.org/doc/AtomStyleSpec.html">
 
             <details class="quote">
               <summary>Source code in <code>qcio/view.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">422</span>
-<span class="normal">423</span>
-<span class="normal">424</span>
-<span class="normal">425</span>
-<span class="normal">426</span>
-<span class="normal">427</span>
-<span class="normal">428</span>
-<span class="normal">429</span>
-<span class="normal">430</span>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">430</span>
 <span class="normal">431</span>
 <span class="normal">432</span>
 <span class="normal">433</span>
@@ -3105,7 +3128,15 @@ dictionary for AtomStyleSpec <a href="https://3dmol.org/doc/AtomStyleSpec.html">
 <span class="normal">478</span>
 <span class="normal">479</span>
 <span class="normal">480</span>
-<span class="normal">481</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_optimization_plot</span><span class="p">(</span>
+<span class="normal">481</span>
+<span class="normal">482</span>
+<span class="normal">483</span>
+<span class="normal">484</span>
+<span class="normal">485</span>
+<span class="normal">486</span>
+<span class="normal">487</span>
+<span class="normal">488</span>
+<span class="normal">489</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_optimization_plot</span><span class="p">(</span>
     <span class="n">prog_output</span><span class="p">:</span> <span class="n">ProgramOutput</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">6.4</span><span class="p">,</span> <span class="mf">4.8</span><span class="p">),</span> <span class="n">grid</span><span class="o">=</span><span class="kc">True</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -3240,15 +3271,7 @@ dictionary for AtomStyleSpec <a href="https://3dmol.org/doc/AtomStyleSpec.html">
 
             <details class="quote">
               <summary>Source code in <code>qcio/view.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">531</span>
-<span class="normal">532</span>
-<span class="normal">533</span>
-<span class="normal">534</span>
-<span class="normal">535</span>
-<span class="normal">536</span>
-<span class="normal">537</span>
-<span class="normal">538</span>
-<span class="normal">539</span>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">539</span>
 <span class="normal">540</span>
 <span class="normal">541</span>
 <span class="normal">542</span>
@@ -3279,7 +3302,15 @@ dictionary for AtomStyleSpec <a href="https://3dmol.org/doc/AtomStyleSpec.html">
 <span class="normal">567</span>
 <span class="normal">568</span>
 <span class="normal">569</span>
-<span class="normal">570</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_results_table</span><span class="p">(</span><span class="n">results</span><span class="p">:</span> <span class="n">Files</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="normal">570</span>
+<span class="normal">571</span>
+<span class="normal">572</span>
+<span class="normal">573</span>
+<span class="normal">574</span>
+<span class="normal">575</span>
+<span class="normal">576</span>
+<span class="normal">577</span>
+<span class="normal">578</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_results_table</span><span class="p">(</span><span class="n">results</span><span class="p">:</span> <span class="n">Files</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generate an HTML table displaying the results.</span>
 

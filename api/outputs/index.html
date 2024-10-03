@@ -1536,10 +1536,7 @@ schema development and scratch space.</p>
 
                   <details class="quote">
                     <summary>Source code in <code>qcio/models/outputs.py</code></summary>
-                    <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">386</span>
-<span class="normal">387</span>
-<span class="normal">388</span>
-<span class="normal">389</span>
+                    <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">389</span>
 <span class="normal">390</span>
 <span class="normal">391</span>
 <span class="normal">392</span>
@@ -1555,7 +1552,10 @@ schema development and scratch space.</p>
 <span class="normal">402</span>
 <span class="normal">403</span>
 <span class="normal">404</span>
-<span class="normal">405</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">data</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+<span class="normal">405</span>
+<span class="normal">406</span>
+<span class="normal">407</span>
+<span class="normal">408</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">data</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Backwards compatibility for files attribute.&quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="s2">&quot;files&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
@@ -2058,6 +2058,7 @@ in units of e a0 (NOT Debye!).</p>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span class="nf">save</span><span class="p">(</span>
     <span class="n">filepath</span><span class="p">:</span> <span class="n"><span title="typing.Union">Union</span></span><span class="p">[</span><span class="n"><span title="pathlib.Path">Path</span></span><span class="p">,</span> <span class="n">str</span><span class="p">],</span>
     <span class="n">exclude_none</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">exclude_unset</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">indent</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n"><span title="typing.Dict">Dict</span></span><span class="p">[</span><span class="n">str</span><span class="p">,</span> <span class="n"><span title="typing.Any">Any</span></span><span class="p">]</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
@@ -2102,6 +2103,21 @@ in units of e a0 (NOT Debye!).</p>
               <div class="doc-md-description">
                 <p>If True, attributes with a value of None will not be written
 to the file.</p>
+              </div>
+            </td>
+            <td>
+                  <code>True</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code>exclude_unset</code></td>
+            <td>
+                  <code>bool</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If True, attributes that have not been set will not be
+written to the file.</p>
               </div>
             </td>
             <td>
@@ -2156,10 +2172,14 @@ multi-structure <code>xyz</code> file.</p>
 <span class="normal">285</span>
 <span class="normal">286</span>
 <span class="normal">287</span>
-<span class="normal">288</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">save</span><span class="p">(</span>
+<span class="normal">288</span>
+<span class="normal">289</span>
+<span class="normal">290</span>
+<span class="normal">291</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">save</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">filepath</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Path</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
     <span class="n">exclude_none</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">exclude_unset</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">indent</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -2169,6 +2189,8 @@ multi-structure <code>xyz</code> file.</p>
 <span class="sd">        filepath: The path to save the molecule to.</span>
 <span class="sd">        exclude_none: If True, attributes with a value of None will not be written</span>
 <span class="sd">            to the file.</span>
+<span class="sd">        exclude_unset: If True, attributes that have not been set will not be</span>
+<span class="sd">            written to the file.</span>
 <span class="sd">        **kwargs: Additional keyword arguments to pass to the json serializer.</span>
 
 <span class="sd">    Note:</span>
@@ -2179,7 +2201,7 @@ multi-structure <code>xyz</code> file.</p>
     <span class="k">if</span> <span class="n">filepath</span><span class="o">.</span><span class="n">suffix</span> <span class="o">==</span> <span class="s2">&quot;.xyz&quot;</span><span class="p">:</span>
         <span class="n">filepath</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to_xyz</span><span class="p">())</span>
         <span class="k">return</span>
-    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">exclude_none</span><span class="p">,</span> <span class="n">indent</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">exclude_none</span><span class="p">,</span> <span class="n">exclude_unset</span><span class="p">,</span> <span class="n">indent</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>

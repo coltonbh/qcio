@@ -1390,6 +1390,7 @@ development and scratch space.</p>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span class="nf">save</span><span class="p">(</span>
     <span class="n">filepath</span><span class="p">:</span> <span class="n"><span title="typing.Union">Union</span></span><span class="p">[</span><span class="n"><span title="pathlib.Path">Path</span></span><span class="p">,</span> <span class="n">str</span><span class="p">],</span>
     <span class="n">exclude_none</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">exclude_unset</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">indent</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
@@ -1448,6 +1449,21 @@ human-readable. You can adjust the amount of padding added by changing the
               <div class="doc-md-description">
                 <p>If True, attributes with a value of None will not be written.
 Changing default behavior from pydantic.model_dump() to True.</p>
+              </div>
+            </td>
+            <td>
+                  <code>True</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code>exclude_unset</code></td>
+            <td>
+                  <code>bool</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If True, attributes that have not been set will not be
+written (i.e., values set to their default value).</p>
               </div>
             </td>
             <td>
@@ -1562,10 +1578,23 @@ creates a more compact JSON file, 4 is more human-readable.</p>
 <span class="normal">138</span>
 <span class="normal">139</span>
 <span class="normal">140</span>
-<span class="normal">141</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">save</span><span class="p">(</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">save</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">filepath</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Path</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
     <span class="n">exclude_none</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">exclude_unset</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">indent</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -1589,6 +1618,8 @@ creates a more compact JSON file, 4 is more human-readable.</p>
 <span class="sd">        filepath: The path to write the object to.</span>
 <span class="sd">        exclude_none: If True, attributes with a value of None will not be written.</span>
 <span class="sd">            Changing default behavior from pydantic.model_dump() to True.</span>
+<span class="sd">        exclude_unset: If True, attributes that have not been set will not be</span>
+<span class="sd">            written (i.e., values set to their default value).</span>
 <span class="sd">        indent: The number of spaces to use for indentation in the JSON file. 0</span>
 <span class="sd">            creates a more compact JSON file, 4 is more human-readable.</span>
 <span class="sd">        **kwargs: Additional keyword arguments to pass to the serialization method.</span>
@@ -1613,7 +1644,16 @@ creates a more compact JSON file, 4 is more human-readable.</p>
     <span class="n">filepath</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
     <span class="n">filepath</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    <span class="n">model_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;json&quot;</span><span class="p">,</span> <span class="n">exclude_none</span><span class="o">=</span><span class="n">exclude_none</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">extras</span><span class="p">:</span>
+        <span class="c1"># Ensure pydantic knows the field has been set</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__pydantic_fields_set__</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;extras&quot;</span><span class="p">)</span>
+
+    <span class="n">model_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(</span>
+        <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;json&quot;</span><span class="p">,</span>
+        <span class="n">exclude_none</span><span class="o">=</span><span class="n">exclude_none</span><span class="p">,</span>
+        <span class="n">exclude_unset</span><span class="o">=</span><span class="n">exclude_unset</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">)</span>
 
     <span class="k">if</span> <span class="n">filepath</span><span class="o">.</span><span class="n">suffix</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;.yaml&quot;</span><span class="p">,</span> <span class="s2">&quot;.yml&quot;</span><span class="p">]:</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">model_dict</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="n">indent</span><span class="p">)</span>
