@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+## [0.11.14] - 2024-10-16
+
 ### Fixed
 
 - `view.view(...)` displays an empty string if `.model` is `None` on `DualProgramInput` rather than raising an exception.
@@ -455,7 +457,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `SinglePointComputedProperties`
   - `Wavefunction`
 
-[unreleased]: https://github.com/coltonbh/qcio/compare/0.11.13...HEAD
+[unreleased]: https://github.com/coltonbh/qcio/compare/0.11.14...HEAD
+[0.11.14]: https://github.com/coltonbh/qcio/releases/tag/0.11.14
 [0.11.13]: https://github.com/coltonbh/qcio/releases/tag/0.11.13
 [0.11.12]: https://github.com/coltonbh/qcio/releases/tag/0.11.12
 [0.11.11]: https://github.com/coltonbh/qcio/releases/tag/0.11.11
