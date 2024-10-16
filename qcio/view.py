@@ -408,7 +408,9 @@ def generate_output_table(*prog_outputs: ProgramOutput) -> str:
                  else "No timing data"}</td>
             <td>{po.input_data.calctype.name}</td>
             <td>{f"{po.provenance.program} {po.provenance.program_version or ''}"}</td>
-            <td>{generate_dictionary_string(po.input_data.model.model_dump(exclude=["extras"]))}</td>
+            <td>{generate_dictionary_string(
+                po.input_data.model.model_dump(exclude=["extras"])
+                ) if po.input_data.model else ""}</td>
             <td>{generate_dictionary_string(po.input_data.keywords)}</td>
         """
         if po.input_data.files:
