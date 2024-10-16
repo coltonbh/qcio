@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+### Fixed
+
+- `view.view(...)` displays an empty string if `.model` is `None` on `DualProgramInput` rather than raising an exception.
+
 ## [0.11.13] - 2024-10-01
 
 ###
