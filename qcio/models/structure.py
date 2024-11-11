@@ -620,6 +620,47 @@ class Structure(QCIOModelBase):
             ]
         return as_dict
 
+    def swap_indices(self, indices: List[Tuple[int, int]]) -> None:
+        """Swap the indices in the symbols and geometry list.
+
+        Args:
+            indices: A list of tuples containing the indices to swap. E.g.,
+                [(0, 1), (2, 3)] will swap the first and second atoms and the third
+                and fourth atoms.
+        """
+        # Validate indices
+        old_set = set()
+        new_set = set()
+        for old, new in indices:
+            error = False
+            error_message = ""
+            if old in old_set:
+                error_message += (
+                    f"Duplicated old index: {old}. You cannot move an atom twice. "
+                )
+                error = True
+            if new in new_set:
+                error_message += (
+                    f"Duplicated new index: {new}. You cannot move two atoms to the "
+                    "same index."
+                )
+                error = True
+            if error:
+                raise ValueError(error_message)
+
+            old_set.add(old)
+            new_set.add(new)
+
+        # Perform reordering
+        new_symbols = [s for s in self.symbols]
+        new_geometry = np.array([g for g in self.geometry])
+        for old, new in indices:
+            new_symbols[new] = self.symbols[old]
+            new_geometry[new] = self.geometry[old]
+
+        object.__setattr__(self, "symbols", new_symbols)
+        object.__setattr__(self, "geometry", new_geometry)
+
 
 @renamed_class(Structure)
 class Molecule(Structure):
