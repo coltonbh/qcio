@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+## [0.11.15] - 2024-11-11
+
 ### Added
 
 - `Structure.swap_indices()` method for changing the indices of a structure's symbols and geometry. Helpful for setting up structures for an NEB run or RMSD calculation in which index labels are important.
@@ -461,7 +463,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `SinglePointComputedProperties`
   - `Wavefunction`
 
-[unreleased]: https://github.com/coltonbh/qcio/compare/0.11.14...HEAD
+[unreleased]: https://github.com/coltonbh/qcio/compare/0.11.15...HEAD
+[0.11.15]: https://github.com/coltonbh/qcio/releases/tag/0.11.15
 [0.11.14]: https://github.com/coltonbh/qcio/releases/tag/0.11.14
 [0.11.13]: https://github.com/coltonbh/qcio/releases/tag/0.11.13
 [0.11.12]: https://github.com/coltonbh/qcio/releases/tag/0.11.12
