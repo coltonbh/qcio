@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+### Added
+
+- `Structure.swap_indices()` method for changing the indices of a structure's symbols and geometry. Helpful for setting up structures for an NEB run or RMSD calculation in which index labels are important.
+
 ## [0.11.14] - 2024-10-16
 
 ### Fixed

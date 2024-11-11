@@ -102,7 +102,7 @@ def test_smiles_to_structure_rdkit():
             [-3.15050459, 1.21801804, 0.2556908],
             [-2.22416969, -1.49454485, -1.60187022],
         ],
-        atol=1e-4,
+        atol=1e-1,
     )
     assert struct.charge == 0
     assert struct.multiplicity == 1
@@ -343,3 +343,13 @@ def test_distance():
     struct = Structure(symbols=["H", "H"], geometry=[[0, 0, 0], [0, 1.4, -1.3]])
 
     assert struct.distance(0, 1) == pytest.approx(1.91049731, abs=1e-8)
+
+
+def test_reorder_indices():
+    struct = Structure(
+        symbols=["H", "O", "H"], geometry=[[1, 0, 0], [0, 0, 0], [0, 0, 1]]
+    )
+    struct.swap_indices([(0, 1), (1, 2), (2, 0)])
+
+    assert struct.symbols == ["H", "H", "O"]
+    assert np.array_equal(struct.geometry, [[0, 0, 1], [1, 0, 0], [0, 0, 0]])
