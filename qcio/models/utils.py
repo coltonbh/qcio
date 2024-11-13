@@ -98,7 +98,8 @@ def _assert_module_installed(module: str):
     except ModuleNotFoundError:
         raise ModuleNotFoundError(
             f"The '{module}' module is required for this function. "
-            f"Please install it with 'pip install qcio[{module}]'."
+            f"Please install it with 'pip install qcio[{module}]' or "
+            "'pip install qcio[all]'."
         )
 
 
