@@ -10,13 +10,13 @@
         <meta name="author" content="Colton Hicks">
       
       
-        <link rel="canonical" href="https://qcio.coltonhicks.com/api/qciomodelbase/">
+        <link rel="canonical" href="https://qcio.coltonhicks.com/api/utils/">
       
       
-        <link rel="prev" href="../provenance/">
+        <link rel="prev" href="../outputs/">
       
       
-        <link rel="next" href="../../visualizations/overview/">
+        <link rel="next" href="../constants/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -24,7 +24,7 @@
     
     
       
-        <title>QCIOModelBase - Quantum Chemistry I/O (QCIO)</title>
+        <title>Utilities - Quantum Chemistry I/O (QCIO)</title>
       
     
     
@@ -84,7 +84,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#qcio.models.base_models.QCIOModelBase" class="md-skip">
+        <a href="#qcio.utils" class="md-skip">
           Skip to content
         </a>
       
@@ -118,7 +118,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              QCIOModelBase
+              Utilities
             
           </span>
         </div>
@@ -562,10 +562,28 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../utils/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Utilities
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -574,6 +592,68 @@
   
 
       </a>
+      
+        
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="Page contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Page contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#qcio.utils" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-module"></code>&nbsp;utils
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" utils">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#qcio.utils.json_dumps" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;json_dumps
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qcio.utils.rmsd" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;rmsd
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qcio.utils.align" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;align
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -727,8 +807,6 @@
                 
   
   
-    
-  
   
   
     
@@ -743,11 +821,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_8" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_8" >
         
           
           <label class="md-nav__link" for="__nav_2_8" id="__nav_2_8_label" tabindex="">
@@ -761,7 +839,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_8_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_8_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2_8">
             <span class="md-nav__icon md-icon"></span>
             Additional Models
@@ -856,28 +934,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    QCIOModelBase
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../qciomodelbase/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -886,59 +946,6 @@
   
 
       </a>
-      
-        
-
-  
-
-<nav class="md-nav md-nav--secondary" aria-label="Page contents">
-  
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Page contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#qcio.models.base_models.QCIOModelBase" class="md-nav__link">
-    <span class="md-ellipsis">
-      <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;QCIOModelBase
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label=" QCIOModelBase">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#qcio.models.base_models.QCIOModelBase.open" class="md-nav__link">
-    <span class="md-ellipsis">
-      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;open
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#qcio.models.base_models.QCIOModelBase.save" class="md-nav__link">
-    <span class="md-ellipsis">
-      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;save
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1137,28 +1144,37 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#qcio.models.base_models.QCIOModelBase" class="md-nav__link">
+  <a href="#qcio.utils" class="md-nav__link">
     <span class="md-ellipsis">
-      <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;QCIOModelBase
+      <code class="doc-symbol doc-symbol-toc doc-symbol-module"></code>&nbsp;utils
     </span>
   </a>
   
-    <nav class="md-nav" aria-label=" QCIOModelBase">
+    <nav class="md-nav" aria-label=" utils">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#qcio.models.base_models.QCIOModelBase.open" class="md-nav__link">
+  <a href="#qcio.utils.json_dumps" class="md-nav__link">
     <span class="md-ellipsis">
-      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;open
+      <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;json_dumps
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#qcio.models.base_models.QCIOModelBase.save" class="md-nav__link">
+  <a href="#qcio.utils.rmsd" class="md-nav__link">
     <span class="md-ellipsis">
-      <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;save
+      <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;rmsd
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qcio.utils.align" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;align
     </span>
   </a>
   
@@ -1187,60 +1203,21 @@
   
 
 
-  <h1>QCIOModelBase</h1>
+  <h1>Utilities</h1>
 
-<div class="doc doc-object doc-class">
-
-
-
-<h2 id="qcio.models.base_models.QCIOModelBase" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">qcio.models.base_models.QCIOModelBase</span>
+<div class="doc doc-object doc-module">
 
 
-<a href="#qcio.models.base_models.QCIOModelBase" class="headerlink" title="Permanent link">&para;</a></h2>
 
+<h2 id="qcio.utils" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>            <span class="doc doc-object-name doc-module-name">qcio.utils</span>
+
+
+<a href="#qcio.utils" class="headerlink" title="Permanent link">&para;</a></h2>
 
     <div class="doc doc-contents first">
 
-
-      <p>Base Model for all QCIO objects.</p>
-
-
-<p><span class="doc-section-title">Attributes:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td><code><span title="qcio.models.base_models.QCIOModelBase.version">version</span></code></td>
-            <td>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>The version of the schema.</p>
-              </div>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td><code><span title="qcio.models.base_models.QCIOModelBase.extras">extras</span></code></td>
-            <td>
-                  <code><span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>]</code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>Additional information to bundle with the object. Use for schema
-development and scratch space.</p>
-              </div>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
+      <p>Utility functions for working with qcio objects.</p>
 
 
 
@@ -1257,21 +1234,54 @@ development and scratch space.</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="qcio.models.base_models.QCIOModelBase.open" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">open</span>
+<h3 id="qcio.utils.json_dumps" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">json_dumps</span>
 
 
-  <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
-  </span>
-
-<a href="#qcio.models.base_models.QCIOModelBase.open" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="language-python doc-signature highlight"><pre><span></span><code><span class="nb">open</span><span class="p">(</span><span class="nf">filepath</span><span class="p">:</span> <span class="n"><span title="typing.Union">Union</span></span><span class="p">[</span><span class="n"><span title="pathlib.Path">Path</span></span><span class="p">,</span> <span class="n">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n"><span title="typing.Union">Union</span></span><span class="p">[</span><span class="n"><span title="typing_extensions.Self">Self</span></span><span class="p">,</span> <span class="n"><span title="typing.List">List</span></span><span class="p">[</span><span class="n"><span title="typing_extensions.Self">Self</span></span><span class="p">]]</span>
+<a href="#qcio.utils.json_dumps" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span class="nf">json_dumps</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n"><span title="typing.Union">Union</span></span><span class="p">[</span><span class="n"><span title="pydantic.BaseModel">BaseModel</span></span><span class="p">,</span> <span class="n"><span title="typing.List">List</span></span><span class="p">[</span><span class="n"><span title="pydantic.BaseModel">BaseModel</span></span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">str</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
 
-      <p>Instantiate an object from data saved to disk.</p>
+      <p>Serialization helper for lists of pydantic objects.</p>
+
+            <details class="quote">
+              <summary>Source code in <code>qcio/utils.py</code></summary>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">json_dumps</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Serialization helper for lists of pydantic objects.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">([</span><span class="n">o</span><span class="o">.</span><span class="n">model_dump</span><span class="p">()</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">obj</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">model_dump_json</span><span class="p">()</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="qcio.utils.rmsd" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">rmsd</span>
+
+
+<a href="#qcio.utils.rmsd" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span class="nf">rmsd</span><span class="p">(</span>
+    <span class="n">struct1</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="qcio.models.Structure" href="../structure/#qcio.Structure">Structure</a></span><span class="p">,</span>
+    <span class="n">struct2</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="qcio.models.Structure" href="../structure/#qcio.Structure">Structure</a></span><span class="p">,</span>
+    <span class="n">align</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">numthreads</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">float</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+      <p>Calculate the root mean square deviation between two structures in Angstrom.</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -1286,17 +1296,63 @@ development and scratch space.</p>
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code>filepath</code></td>
+            <td><code>struct1</code></td>
             <td>
-                  <code><span title="typing.Union">Union</span>[<span title="pathlib.Path">Path</span>, str]</code>
+                  <code><a class="autorefs autorefs-internal" title="qcio.models.Structure" href="../structure/#qcio.Structure">Structure</a></code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>The path to the object on disk.</p>
+                <p>The first structure.</p>
               </div>
             </td>
             <td>
                 <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code>struct2</code></td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="qcio.models.Structure" href="../structure/#qcio.Structure">Structure</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The second structure.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code>align</code></td>
+            <td>
+                  <code>bool</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Whether to align the structures before calculating the RMSD including
+atom renumbering. If True, rdkit will compute the optimal alignment of the
+two structures before calculating the RMSD. If False, the RMSD will be
+calculated without alignment.</p>
+              </div>
+            </td>
+            <td>
+                  <code>True</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code>numthreads</code></td>
+            <td>
+                  <code>int</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The number of threads to use for the RMSD calculation. Applies only
+to the alignment step if <code>align=True</code>.</p>
+              </div>
+            </td>
+            <td>
+                  <code>1</code>
             </td>
           </tr>
       </tbody>
@@ -1314,43 +1370,20 @@ development and scratch space.</p>
       <tbody>
           <tr class="doc-section-item">
             <td>
-                  <code><span title="typing.Union">Union</span>[<span title="typing_extensions.Self">Self</span>, <span title="typing.List">List</span>[<span title="typing_extensions.Self">Self</span>]]</code>
+                  <code>float</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>The instantiated object or a list of objects if the file contains multiple</p>
-              </div>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                  <code><span title="typing.Union">Union</span>[<span title="typing_extensions.Self">Self</span>, <span title="typing.List">List</span>[<span title="typing_extensions.Self">Self</span>]]</code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>objects (e.g., a multi-structure xyz file).</p>
+                <p>The RMSD between the two structures in Angstroms.</p>
               </div>
             </td>
           </tr>
       </tbody>
     </table>
 
-
-<details class="example" open>
-  <summary>Example</summary>
-  <div class="language-python highlight"><pre><span></span><code><span class="n">my_obj</span> <span class="o">=</span> <span class="n">MyModel</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;path/to/file.json&quot;</span><span class="p">)</span>
-</code></pre></div>
-</details>
             <details class="quote">
-              <summary>Source code in <code>qcio/models/base_models.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">51</span>
-<span class="normal">52</span>
-<span class="normal">53</span>
-<span class="normal">54</span>
-<span class="normal">55</span>
-<span class="normal">56</span>
-<span class="normal">57</span>
-<span class="normal">58</span>
+              <summary>Source code in <code>qcio/utils.py</code></summary>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">58</span>
 <span class="normal">59</span>
 <span class="normal">60</span>
 <span class="normal">61</span>
@@ -1368,32 +1401,63 @@ development and scratch space.</p>
 <span class="normal">73</span>
 <span class="normal">74</span>
 <span class="normal">75</span>
-<span class="normal">76</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
-<span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Path</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Self</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Self</span><span class="p">]]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Instantiate an object from data saved to disk.</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span>
+<span class="normal">84</span>
+<span class="normal">85</span>
+<span class="normal">86</span>
+<span class="normal">87</span>
+<span class="normal">88</span>
+<span class="normal">89</span>
+<span class="normal">90</span>
+<span class="normal">91</span>
+<span class="normal">92</span>
+<span class="normal">93</span>
+<span class="normal">94</span>
+<span class="normal">95</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">rmsd</span><span class="p">(</span>
+    <span class="n">struct1</span><span class="p">:</span> <span class="n">Structure</span><span class="p">,</span> <span class="n">struct2</span><span class="p">:</span> <span class="n">Structure</span><span class="p">,</span> <span class="n">align</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">numthreads</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate the root mean square deviation between two structures in Angstrom.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        filepath: The path to the object on disk.</span>
+<span class="sd">        struct1: The first structure.</span>
+<span class="sd">        struct2: The second structure.</span>
+<span class="sd">        align: Whether to align the structures before calculating the RMSD including</span>
+<span class="sd">            atom renumbering. If True, rdkit will compute the optimal alignment of the</span>
+<span class="sd">            two structures before calculating the RMSD. If False, the RMSD will be</span>
+<span class="sd">            calculated without alignment.</span>
+<span class="sd">        numthreads: The number of threads to use for the RMSD calculation. Applies only</span>
+<span class="sd">            to the alignment step if `align=True`.</span>
+
 
 <span class="sd">    Returns:</span>
-<span class="sd">        The instantiated object or a list of objects if the file contains multiple</span>
-<span class="sd">        objects (e.g., a multi-structure xyz file).</span>
-
-<span class="sd">    Example:</span>
-<span class="sd">        ```python</span>
-<span class="sd">        my_obj = MyModel.open(&quot;path/to/file.json&quot;)</span>
-<span class="sd">        ```</span>
+<span class="sd">        The RMSD between the two structures in Angstroms.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">filepath</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
-    <span class="n">data</span> <span class="o">=</span> <span class="n">filepath</span><span class="o">.</span><span class="n">read_text</span><span class="p">()</span>
+    <span class="n">_assert_module_installed</span><span class="p">(</span><span class="s2">&quot;rdkit&quot;</span><span class="p">)</span>
+    <span class="kn">from</span> <span class="nn">rdkit.Chem</span> <span class="kn">import</span> <span class="n">rdDetermineBonds</span><span class="p">,</span> <span class="n">rdMolAlign</span>
 
-    <span class="k">if</span> <span class="n">filepath</span><span class="o">.</span><span class="n">suffix</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;.yaml&quot;</span><span class="p">,</span> <span class="s2">&quot;.yml&quot;</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
-    <span class="k">elif</span> <span class="n">filepath</span><span class="o">.</span><span class="n">suffix</span> <span class="o">==</span> <span class="s2">&quot;.toml&quot;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">toml</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+    <span class="c1"># Create RDKit molecules</span>
+    <span class="n">mol1</span> <span class="o">=</span> <span class="n">_rdkit_mol_from_structure</span><span class="p">(</span><span class="n">struct1</span><span class="p">)</span>
+    <span class="n">mol2</span> <span class="o">=</span> <span class="n">_rdkit_mol_from_structure</span><span class="p">(</span><span class="n">struct2</span><span class="p">)</span>
 
-    <span class="c1"># Assume json for all other file extensions</span>
-    <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">model_validate_json</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="c1"># Determine connectivity</span>
+    <span class="n">rdDetermineBonds</span><span class="o">.</span><span class="n">DetermineConnectivity</span><span class="p">(</span><span class="n">mol1</span><span class="p">,</span> <span class="n">charge</span><span class="o">=</span><span class="n">struct1</span><span class="o">.</span><span class="n">charge</span><span class="p">)</span>
+    <span class="n">rdDetermineBonds</span><span class="o">.</span><span class="n">DetermineConnectivity</span><span class="p">(</span><span class="n">mol2</span><span class="p">,</span> <span class="n">charge</span><span class="o">=</span><span class="n">struct2</span><span class="o">.</span><span class="n">charge</span><span class="p">)</span>
+
+    <span class="c1"># Compute RMSD</span>
+    <span class="k">if</span> <span class="n">align</span><span class="p">:</span>
+        <span class="n">rmsd</span> <span class="o">=</span> <span class="n">rdMolAlign</span><span class="o">.</span><span class="n">GetBestRMS</span><span class="p">(</span><span class="n">mol2</span><span class="p">,</span> <span class="n">mol1</span><span class="p">,</span> <span class="n">numThreads</span><span class="o">=</span><span class="n">numthreads</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">rmsd</span> <span class="o">=</span> <span class="n">rdMolAlign</span><span class="o">.</span><span class="n">CalcRMS</span><span class="p">(</span><span class="n">mol2</span><span class="p">,</span> <span class="n">mol1</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">rmsd</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -1403,38 +1467,22 @@ development and scratch space.</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="qcio.models.base_models.QCIOModelBase.save" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">save</span>
+<h3 id="qcio.utils.align" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">align</span>
 
 
-<a href="#qcio.models.base_models.QCIOModelBase.save" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="language-python doc-signature highlight"><pre><span></span><code><span class="nf">save</span><span class="p">(</span>
-    <span class="n">filepath</span><span class="p">:</span> <span class="n"><span title="typing.Union">Union</span></span><span class="p">[</span><span class="n"><span title="pathlib.Path">Path</span></span><span class="p">,</span> <span class="n">str</span><span class="p">],</span>
-    <span class="n">exclude_none</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-    <span class="n">exclude_unset</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-    <span class="n">indent</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
-    <span class="o">**</span><span class="n">kwargs</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+<a href="#qcio.utils.align" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span class="nf">align</span><span class="p">(</span>
+    <span class="n">struct</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="qcio.models.Structure" href="../structure/#qcio.Structure">Structure</a></span><span class="p">,</span>
+    <span class="n">refstruct</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="qcio.models.Structure" href="../structure/#qcio.Structure">Structure</a></span><span class="p">,</span>
+    <span class="n">reorder_atoms</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="typing.Tuple">Tuple</span></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="qcio.models.Structure" href="../structure/#qcio.Structure">Structure</a></span><span class="p">,</span> <span class="n">float</span><span class="p">]</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
 
-      <p>Save an object to disk as <code>json</code>, <code>yaml</code>, or <code>toml</code>. Objects such as <code>Structure</code>
-and <code>OptimizationResults</code> can additionally be saved as <code>xyz</code> files.</p>
+      <p>Return a new structure that is optimally aligned to the reference structure.</p>
 
-
-<details class="note" open>
-  <summary>Note</summary>
-  <p>By default the object will be saved as a <code>json</code> file. If the file extension
-is <code>.yaml</code> or <code>.yml</code>, the object will be saved as a <code>yaml</code> file. If the file
-extension is <code>.toml</code>, the object will be saved as a <code>toml</code> file. If the file
-extension is <code>.xyz</code>, the object will be saved as an <code>xyz</code> file (for objects
-that support this format such as a <code>Structure</code> or an <code>OptimizationResults</code>
-which contains <code>.trajectory: list[Structure]</code>).</p>
-<p>Additionally, padding will be added to the file by default to make it more
-human-readable. You can adjust the amount of padding added by changing the
-<code>indent</code> parameter. Pass <code>indent=None</code> to create a more compact file.</p>
-</details>
 
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>
@@ -1448,13 +1496,13 @@ human-readable. You can adjust the amount of padding added by changing the
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code>filepath</code></td>
+            <td><code>struct</code></td>
             <td>
-                  <code><span title="typing.Union">Union</span>[<span title="pathlib.Path">Path</span>, str]</code>
+                  <code><a class="autorefs autorefs-internal" title="qcio.models.Structure" href="../structure/#qcio.Structure">Structure</a></code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>The path to write the object to.</p>
+                <p>The structure to align.</p>
               </div>
             </td>
             <td>
@@ -1462,101 +1510,63 @@ human-readable. You can adjust the amount of padding added by changing the
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>exclude_none</code></td>
+            <td><code>refstruct</code></td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="qcio.models.Structure" href="../structure/#qcio.Structure">Structure</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The reference structure.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code>reorder_atoms</code></td>
             <td>
                   <code>bool</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>If True, attributes with a value of None will not be written.
-Changing default behavior from pydantic.model_dump() to True.</p>
+                <p>Reorder the atoms to match the reference structure. If False,
+the atoms will be aligned without changing their order.</p>
               </div>
             </td>
             <td>
                   <code>True</code>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td><code>exclude_unset</code></td>
-            <td>
-                  <code>bool</code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>If True, attributes that have not been set will not be
-written (i.e., values set to their default value).</p>
-              </div>
-            </td>
-            <td>
-                  <code>True</code>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td><code>indent</code></td>
-            <td>
-                  <code>int</code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>The number of spaces to use for indentation in the JSON file. 0
-creates a more compact JSON file, 4 is more human-readable.</p>
-              </div>
-            </td>
-            <td>
-                  <code>4</code>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td><code>**kwargs</code></td>
-            <td>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>Additional keyword arguments to pass to the serialization method.</p>
-              </div>
-            </td>
-            <td>
-                  <code>{}</code>
             </td>
           </tr>
       </tbody>
     </table>
 
 
-<details class="example" open>
-  <summary>Example</summary>
-  <div class="language-python highlight"><pre><span></span><code><span class="n">my_obj</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;path/to/file.json&quot;</span><span class="p">)</span>
-</code></pre></div>
-<div class="language-python highlight"><pre><span></span><code><span class="n">my_obj</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;path/to/file.yaml&quot;</span><span class="p">)</span>
-</code></pre></div>
-<div class="language-python highlight"><pre><span></span><code><span class="n">my_obj</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;path/to/file.toml&quot;</span><span class="p">)</span>
-</code></pre></div>
-<div class="language-python highlight"><pre><span></span><code><span class="n">my_obj</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;path/to/file.xyz&quot;</span><span class="p">)</span>
-</code></pre></div>
-</details>
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="typing.Tuple">Tuple</span>[<a class="autorefs autorefs-internal" title="qcio.models.Structure" href="../structure/#qcio.Structure">Structure</a>, float]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Tuple of the aligned structure and the RMSD in Angstroms.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
             <details class="quote">
-              <summary>Source code in <code>qcio/models/base_models.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 78</span>
-<span class="normal"> 79</span>
-<span class="normal"> 80</span>
-<span class="normal"> 81</span>
-<span class="normal"> 82</span>
-<span class="normal"> 83</span>
-<span class="normal"> 84</span>
-<span class="normal"> 85</span>
-<span class="normal"> 86</span>
-<span class="normal"> 87</span>
-<span class="normal"> 88</span>
-<span class="normal"> 89</span>
-<span class="normal"> 90</span>
-<span class="normal"> 91</span>
-<span class="normal"> 92</span>
-<span class="normal"> 93</span>
-<span class="normal"> 94</span>
-<span class="normal"> 95</span>
-<span class="normal"> 96</span>
-<span class="normal"> 97</span>
-<span class="normal"> 98</span>
+              <summary>Source code in <code>qcio/utils.py</code></summary>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 98</span>
 <span class="normal"> 99</span>
 <span class="normal">100</span>
 <span class="normal">101</span>
@@ -1611,82 +1621,96 @@ creates a more compact JSON file, 4 is more human-readable.</p>
 <span class="normal">150</span>
 <span class="normal">151</span>
 <span class="normal">152</span>
-<span class="normal">153</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">save</span><span class="p">(</span>
-    <span class="bp">self</span><span class="p">,</span>
-    <span class="n">filepath</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Path</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
-    <span class="n">exclude_none</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-    <span class="n">exclude_unset</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-    <span class="n">indent</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
-    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Save an object to disk as `json`, `yaml`, or `toml`. Objects such as `Structure`</span>
-<span class="sd">    and `OptimizationResults` can additionally be saved as `xyz` files.</span>
-
-<span class="sd">    Note:</span>
-<span class="sd">        By default the object will be saved as a `json` file. If the file extension</span>
-<span class="sd">        is `.yaml` or `.yml`, the object will be saved as a `yaml` file. If the file</span>
-<span class="sd">        extension is `.toml`, the object will be saved as a `toml` file. If the file</span>
-<span class="sd">        extension is `.xyz`, the object will be saved as an `xyz` file (for objects</span>
-<span class="sd">        that support this format such as a `Structure` or an `OptimizationResults`</span>
-<span class="sd">        which contains `.trajectory: list[Structure]`).</span>
-
-<span class="sd">        Additionally, padding will be added to the file by default to make it more</span>
-<span class="sd">        human-readable. You can adjust the amount of padding added by changing the</span>
-<span class="sd">        `indent` parameter. Pass `indent=None` to create a more compact file.</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">align</span><span class="p">(</span>
+    <span class="n">struct</span><span class="p">:</span> <span class="n">Structure</span><span class="p">,</span> <span class="n">refstruct</span><span class="p">:</span> <span class="n">Structure</span><span class="p">,</span> <span class="n">reorder_atoms</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Structure</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a new structure that is optimally aligned to the reference structure.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        filepath: The path to write the object to.</span>
-<span class="sd">        exclude_none: If True, attributes with a value of None will not be written.</span>
-<span class="sd">            Changing default behavior from pydantic.model_dump() to True.</span>
-<span class="sd">        exclude_unset: If True, attributes that have not been set will not be</span>
-<span class="sd">            written (i.e., values set to their default value).</span>
-<span class="sd">        indent: The number of spaces to use for indentation in the JSON file. 0</span>
-<span class="sd">            creates a more compact JSON file, 4 is more human-readable.</span>
-<span class="sd">        **kwargs: Additional keyword arguments to pass to the serialization method.</span>
+<span class="sd">        struct: The structure to align.</span>
+<span class="sd">        refstruct: The reference structure.</span>
+<span class="sd">        reorder_atoms: Reorder the atoms to match the reference structure. If False,</span>
+<span class="sd">            the atoms will be aligned without changing their order.</span>
 
-<span class="sd">    Example:</span>
-<span class="sd">        ```python</span>
-<span class="sd">        my_obj.save(&quot;path/to/file.json&quot;)</span>
-<span class="sd">        ```</span>
-
-<span class="sd">        ```python</span>
-<span class="sd">        my_obj.save(&quot;path/to/file.yaml&quot;)</span>
-<span class="sd">        ```</span>
-
-<span class="sd">        ```python</span>
-<span class="sd">        my_obj.save(&quot;path/to/file.toml&quot;)</span>
-<span class="sd">        ```</span>
-
-<span class="sd">        ```python</span>
-<span class="sd">        my_obj.save(&quot;path/to/file.xyz&quot;)</span>
-<span class="sd">        ```</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        Tuple of the aligned structure and the RMSD in Angstroms.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">filepath</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
-    <span class="n">filepath</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">_assert_module_installed</span><span class="p">(</span><span class="s2">&quot;rdkit&quot;</span><span class="p">)</span>
+    <span class="kn">from</span> <span class="nn">rdkit.Chem</span> <span class="kn">import</span> <span class="n">rdDetermineBonds</span><span class="p">,</span> <span class="n">rdMolAlign</span>
 
-    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">extras</span><span class="p">:</span>
-        <span class="c1"># Ensure pydantic knows the field has been set</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__pydantic_fields_set__</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;extras&quot;</span><span class="p">)</span>
+    <span class="c1"># Create RDKit molecules</span>
+    <span class="n">mol</span> <span class="o">=</span> <span class="n">_rdkit_mol_from_structure</span><span class="p">(</span><span class="n">struct</span><span class="p">)</span>
+    <span class="n">refmol</span> <span class="o">=</span> <span class="n">_rdkit_mol_from_structure</span><span class="p">(</span><span class="n">refstruct</span><span class="p">)</span>
 
-    <span class="n">model_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(</span>
-        <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;json&quot;</span><span class="p">,</span>
-        <span class="n">exclude_none</span><span class="o">=</span><span class="n">exclude_none</span><span class="p">,</span>
-        <span class="n">exclude_unset</span><span class="o">=</span><span class="n">exclude_unset</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="c1"># Determine connectivity</span>
+    <span class="n">rdDetermineBonds</span><span class="o">.</span><span class="n">DetermineConnectivity</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">charge</span><span class="o">=</span><span class="n">struct</span><span class="o">.</span><span class="n">charge</span><span class="p">)</span>
+    <span class="n">rdDetermineBonds</span><span class="o">.</span><span class="n">DetermineConnectivity</span><span class="p">(</span><span class="n">refmol</span><span class="p">,</span> <span class="n">charge</span><span class="o">=</span><span class="n">refstruct</span><span class="o">.</span><span class="n">charge</span><span class="p">)</span>
+
+    <span class="c1"># Compute RMSD and align mol to refmol</span>
+    <span class="k">if</span> <span class="n">reorder_atoms</span><span class="p">:</span>
+        <span class="n">rmsd</span><span class="p">,</span> <span class="n">trnsfm_matrix</span><span class="p">,</span> <span class="n">atm_map</span> <span class="o">=</span> <span class="n">rdMolAlign</span><span class="o">.</span><span class="n">GetBestAlignmentTransform</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">refmol</span><span class="p">)</span>  <span class="c1"># type: ignore # noqa: E501</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">rmsd</span><span class="p">,</span> <span class="n">trnsfm_matrix</span> <span class="o">=</span> <span class="n">rdMolAlign</span><span class="o">.</span><span class="n">GetAlignmentTransform</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">refmol</span><span class="p">)</span>
+
+    <span class="c1"># Convert to homogeneous coordinates in Angstroms</span>
+    <span class="n">coords_homogeneous</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">struct</span><span class="o">.</span><span class="n">geometry_angstrom</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">struct</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">))]</span>
     <span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">filepath</span><span class="o">.</span><span class="n">suffix</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;.yaml&quot;</span><span class="p">,</span> <span class="s2">&quot;.yml&quot;</span><span class="p">]:</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">model_dict</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="n">indent</span><span class="p">)</span>
+    <span class="c1"># Apply the transformation matrix</span>
+    <span class="n">transformed_coords_homogeneous</span> <span class="o">=</span> <span class="n">coords_homogeneous</span> <span class="o">@</span> <span class="n">trnsfm_matrix</span><span class="o">.</span><span class="n">T</span>
 
-    <span class="k">elif</span> <span class="n">filepath</span><span class="o">.</span><span class="n">suffix</span> <span class="o">==</span> <span class="s2">&quot;.toml&quot;</span><span class="p">:</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="n">toml</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">model_dict</span><span class="p">)</span>
+    <span class="c1"># Extract the transformed 3D coordinates and convert to Bohr</span>
+    <span class="n">transformed_coords</span> <span class="o">=</span> <span class="n">transformed_coords_homogeneous</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">ANGSTROM_TO_BOHR</span>
 
+    <span class="c1"># Reorder the atoms to match the reference structure</span>
+    <span class="k">if</span> <span class="n">reorder_atoms</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">Counter</span><span class="p">(</span><span class="n">struct</span><span class="o">.</span><span class="n">symbols</span><span class="p">)</span> <span class="o">!=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">refstruct</span><span class="o">.</span><span class="n">symbols</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Structures must have the same number and type of atoms for &quot;</span>
+                <span class="s2">&quot;`reorder_atoms=True` at this time. Pass &quot;</span>
+                <span class="s2">&quot;`reorder_atoms=False` to align structures with different atom &quot;</span>
+                <span class="s2">&quot;counts.&quot;</span>
+            <span class="p">)</span>
+        <span class="n">symbols</span> <span class="o">=</span> <span class="n">refstruct</span><span class="o">.</span><span class="n">symbols</span>
+        <span class="n">geometry</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">atm_map</span><span class="p">),</span> <span class="mi">3</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">probe_idx</span><span class="p">,</span> <span class="n">ref_idx</span> <span class="ow">in</span> <span class="n">atm_map</span><span class="p">:</span>
+            <span class="n">geometry</span><span class="p">[</span><span class="n">ref_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">transformed_coords</span><span class="p">[</span><span class="n">probe_idx</span><span class="p">]</span>  <span class="c1"># works</span>
+
+    <span class="c1"># Otherwise, keep the original atom order</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="c1"># Write data to json regardless of file extension</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">model_dict</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="n">indent</span><span class="p">)</span>
+        <span class="n">symbols</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">symbols</span>
+        <span class="n">geometry</span> <span class="o">=</span> <span class="n">transformed_coords</span>
 
-    <span class="n">filepath</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">Structure</span><span class="p">(</span>
+            <span class="n">symbols</span><span class="o">=</span><span class="n">symbols</span><span class="p">,</span>
+            <span class="n">geometry</span><span class="o">=</span><span class="n">geometry</span><span class="p">,</span>
+            <span class="n">charge</span><span class="o">=</span><span class="n">struct</span><span class="o">.</span><span class="n">charge</span><span class="p">,</span>
+            <span class="n">multiplicity</span><span class="o">=</span><span class="n">struct</span><span class="o">.</span><span class="n">multiplicity</span><span class="p">,</span>
+            <span class="n">connectivity</span><span class="o">=</span><span class="n">struct</span><span class="o">.</span><span class="n">connectivity</span><span class="p">,</span>
+            <span class="n">identifiers</span><span class="o">=</span><span class="n">struct</span><span class="o">.</span><span class="n">identifiers</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">rmsd</span><span class="p">,</span>
+    <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
