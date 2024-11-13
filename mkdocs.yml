@@ -105,10 +105,11 @@ nav:
       - Structure: api/structure.md
       - Inputs: api/inputs.md
       - Outputs: api/outputs.md
+      - Utilities: api/utils.md
       - Constants and Periodic Table:
           - Constants: api/constants.md
       - Visualizations:
-        - View: api/view.md
+          - View: api/view.md
       - Additional Models:
           - Files: api/files.md
           - CalcType: api/calctype.md

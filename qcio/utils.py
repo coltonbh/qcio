@@ -1,3 +1,5 @@
+"""Utility functions for working with qcio objects."""
+
 import json
 from collections import Counter
 from typing import List, Tuple, Union
@@ -67,7 +69,7 @@ def rmsd(
             two structures before calculating the RMSD. If False, the RMSD will be
             calculated without alignment.
         numthreads: The number of threads to use for the RMSD calculation. Applies only
-            to the alignment step if align=True.
+            to the alignment step if `align=True`.
 
 
     Returns:
@@ -105,7 +107,7 @@ def align(
             the atoms will be aligned without changing their order.
 
     Returns:
-        The aligned structure.
+        Tuple of the aligned structure and the RMSD in Angstroms.
     """
     _assert_module_installed("rdkit")
     from rdkit.Chem import rdDetermineBonds, rdMolAlign

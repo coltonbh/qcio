@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+## [0.11.16] - 2024-11-13
+
+### Added
+
+- `utils.rmsd()` and `utils.align()` functions for computing `rmsd` between structures and aligning structures.
+
 ## [0.11.15] - 2024-11-11
 
 ### Added
@@ -463,7 +469,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `SinglePointComputedProperties`
   - `Wavefunction`
 
-[unreleased]: https://github.com/coltonbh/qcio/compare/0.11.15...HEAD
+[unreleased]: https://github.com/coltonbh/qcio/compare/0.11.16...HEAD
+[0.11.16]: https://github.com/coltonbh/qcio/releases/tag/0.11.16
 [0.11.15]: https://github.com/coltonbh/qcio/releases/tag/0.11.15
 [0.11.14]: https://github.com/coltonbh/qcio/releases/tag/0.11.14
 [0.11.13]: https://github.com/coltonbh/qcio/releases/tag/0.11.13
