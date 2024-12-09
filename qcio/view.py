@@ -602,6 +602,8 @@ def program_outputs(
     *prog_outputs: ProgramOutput[Union[ProgramInput, DualProgramInput], Results],
     animate: bool = True,
     struct_viewer: bool = True,
+    conformer_rmsd_threshold: Optional[float] = None,
+    conformer_rmsd_kwargs: Optional[Dict] = None,
     **kwargs,
 ) -> None:
     """
@@ -610,6 +612,11 @@ def program_outputs(
     Args:
         *prog_outputs: The ProgramOutput objects to display.
         animate: Whether to animate the structure if it is an optimization.
+        struct_viewer: Whether to display the structure viewer.
+        conformer_rmsd_threshold: The threshold for RMSD to determine if conformers are
+            unique. Defaults to 0.5 Å.
+        conformer_rmsd_kwargs: Additional keyword arguments to pass to the conformer
+            RMSD filtering function.
         **kwargs: Additional keyword arguments to pass to the viewer functions.
 
     Returns:
@@ -624,13 +631,24 @@ def program_outputs(
         final_html.append(generate_output_table(po))
 
         if isinstance(po.results, ConformerSearchResults):
-            structures = [po.input_data.structure] + po.results.conformers
+            structures = [po.input_data.structure]
+
+            if conformer_rmsd_threshold is not None:
+                conformers, energies_rel = po.results.conformers_filtered(
+                    threshold=conformer_rmsd_threshold,
+                    **(conformer_rmsd_kwargs or {}),
+                )
+            else:
+                conformers = po.results.conformers
+                energies_rel = po.results.conformer_energies_relative
+
+            structures += conformers
             titles_extra = ["Initial Structure"] + [
-                f"Conformer {i}" for i in range(len(po.results.conformers))
+                f"Conformer {i}" for i in range(len(conformers))
             ]
             subtitles = ["Rel Energy: Unknown"] + [
                 f"Rel Energy: +{re * constants.HARTREE_TO_KCAL_PER_MOL:.3f} kcal/mol"
-                for re in po.results.conformer_energies_relative
+                for re in energies_rel
             ]
             conf_viewer = generate_structure_viewer_html(
                 *structures, titles_extra=titles_extra, subtitles=subtitles, **kwargs

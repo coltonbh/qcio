@@ -4,9 +4,6 @@ import pytest
 from qcio import Structure, align, rmsd
 from qcio.constants import ANGSTROM_TO_BOHR
 
-# Assuming the functions rmsd and align are defined in the same file for this test
-# Include your rmsd and align functions here or import them from your module
-
 
 # Test cases
 def test_rmsd_identical_structures():
@@ -28,7 +25,7 @@ def test_rmsd_identical_structures():
     struct1 = Structure(symbols=symbols, geometry=geometry)
     struct2 = Structure(symbols=symbols, geometry=geometry)
 
-    calculated_rmsd = rmsd(struct1, struct2, align=False)
+    calculated_rmsd = rmsd(struct1, struct2, best=False)
     assert np.isclose(
         calculated_rmsd, 0.0, atol=1e-6
     ), "RMSD should be zero for identical structures"
@@ -62,14 +59,14 @@ def test_rmsd_rotated_structures():
     struct1 = Structure(symbols=symbols, geometry=geometry)
     struct2 = Structure(symbols=symbols, geometry=rotated_geometry)
 
-    # Without alignment
-    calculated_rmsd_no_align = rmsd(struct1, struct2, align=False)
-    assert (
-        calculated_rmsd_no_align > 0.1
-    ), "RMSD should be greater than zero without alignment"
+    # Aligned by atom index (which match in this case)
+    calculated_rmsd_no_align = rmsd(struct1, struct2, best=False)
+    assert np.isclose(
+        calculated_rmsd_no_align, 0.0, atol=1e-6
+    ), "RMSD should be zero after alignment"
 
     # With alignment
-    calculated_rmsd_align = rmsd(struct1, struct2, align=True)
+    calculated_rmsd_align = rmsd(struct1, struct2, best=True)
     assert np.isclose(
         calculated_rmsd_align, 0.0, atol=1e-6
     ), "RMSD should be zero after alignment"
@@ -169,7 +166,7 @@ def test_align_with_atom_reordering():
 
     # With atom reordering
     aligned_struct_reorder, rmsd_reorder = align(struct1, struct2, reorder_atoms=True)
-    rmsd_reorder = rmsd(aligned_struct_reorder, struct2, align=False)
+    rmsd_reorder = rmsd(aligned_struct_reorder, struct2, best=False)
     assert (
         aligned_struct_reorder.symbols == struct2.symbols
     ), "Symbols should be reordered"
@@ -231,8 +228,8 @@ def test_rmsd_with_numthreads():
     struct1 = Structure(symbols=symbols, geometry=geometry)
     struct2 = Structure(symbols=symbols, geometry=geometry)
 
-    rmsd_single_thread = rmsd(struct1, struct2, align=True, numthreads=1)
-    rmsd_multi_thread = rmsd(struct1, struct2, align=True, numthreads=4)
+    rmsd_single_thread = rmsd(struct1, struct2, best=True, numthreads=1)
+    rmsd_multi_thread = rmsd(struct1, struct2, best=True, numthreads=4)
 
     assert np.isclose(
         rmsd_single_thread, 0.0, atol=1e-6

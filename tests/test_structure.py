@@ -269,6 +269,7 @@ def test_to_smiles_rdkit(water):
 def test_smiles_charges_rdkit():
     s = Structure.from_smiles("CC[O-]")
     assert s.charge == -1
+    # Using robust method
     assert s.to_smiles(program="rdkit") == "CC[O-]"
 
 

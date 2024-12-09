@@ -29,7 +29,7 @@ from qcio.helper_types import SerializableNDArray
 from .base_models import CalcType, Files, Provenance, QCIOModelBase
 from .inputs import DualProgramInput, FileInput, Inputs, InputType, ProgramInput
 from .structure import Structure
-from .utils import deprecated_class
+from .utils import deprecated_class, rmsd
 
 if TYPE_CHECKING:  # pragma: no cover
     pass
@@ -356,6 +356,34 @@ class ConformerSearchResults(Files):
         if self.rotamer_energies.size == 0:
             return np.array([])
         return self.rotamer_energies - self.rotamer_energies.min()
+
+    def conformers_filtered(
+        self, threshold: float = 0.5, **rmsd_kwargs
+    ) -> Tuple[List[Structure], SerializableNDArray]:
+        """Filter conformers to only unique Structures within rmsd of `threshold`.
+
+        Args:
+            threshold: The RMSD threshold in Angstrom for filtering conformers.
+            **rmsd_kwargs: Additional keyword arguments to pass to the rmsd function.
+
+        Returns:
+            Tuple of the filtered conformers and their relative energies.
+        """
+        filtered = set()
+
+        for i in range(len(self.conformers)):
+            if i not in filtered:
+                for j in range(i + 1, len(self.conformers)):
+                    if (
+                        rmsd(self.conformers[i], self.conformers[j], **rmsd_kwargs)
+                        < threshold
+                    ):
+                        filtered.add(j)
+
+        keep_indices = [i for i in range(len(self.conformers)) if i not in filtered]
+        return [
+            self.conformers[i] for i in keep_indices
+        ], self.conformer_energies_relative[keep_indices]
 
 
 Results = Union[Files, SinglePointResults, OptimizationResults, ConformerSearchResults]

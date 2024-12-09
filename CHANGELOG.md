@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+### Changed
+
+- `structure_to_smiles()` (and by extension `Structure.to_smiles()`) now use the Hueckel method by default for `rdkit's` `DetermineBonds` function. This is more robust than the default `connect-the-dots` method. Parameters for `use_hueckel`, `use_vdw` and `allow_charged_fragments` are now available for more optionality when determining the bonding in a structure (a prerequisite to generating the SMILES string). Default changed to `use_hueckel` since this should be the most robust.
+  - This may result in structures that could formerly use `struct.to_smiles()` directly needing to update the arguments they pass to get the same result. `struct.to_smiles(use_hueckel=False, allow_charged_fragments=True, robust=False)` will result in the same behavior as before.
+  - Default behavior to `.structure_to_smiles()` is to use `robust=True` mode which will try to determine the bonds with the user-supplied (or default) values first and then iterate through other possible methods (Van der Waals, varying whether charged fragments are allowed or not, trying the connect-the-dots method) to see if one method can successfully determine the bonding.
+- `rmsd` function `align` parameter changed to `best`.
+- `rmsd` function with `best=False` now does a naive alignment of structures with no determination of connectivity though it will try to align the structures by making the assumption that the atom indices are are the same between the two structures.
+
 ## [0.11.16] - 2024-11-13
 
 ### Added

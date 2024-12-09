@@ -19,6 +19,7 @@
         "hostcpus",
         "hostmem",
         "htmlcov",
+        "Hueckel",
         "inchi",
         "inchikey",
         "isinstance",
@@ -58,6 +59,7 @@
         "trnsfm",
         "vibmodes",
         "viewergrid",
+        "Waals",
         "wavenumber",
         "wavenumbers"
     ]
