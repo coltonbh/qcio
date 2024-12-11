@@ -2,6 +2,7 @@
 
 import importlib
 import warnings
+from pathlib import Path
 from typing import TYPE_CHECKING, Any, Dict
 
 import numpy as np
@@ -199,11 +200,131 @@ def smiles_to_structure(
     }
 
 
+def _rdkit_determine_bonds(
+    structure: "Structure",
+    charge: int,
+    robust: bool = True,
+    use_hueckel: bool = True,
+    use_vdw: bool = False,
+    cov_factor: float = 1.3,
+    allow_charged_fragments: bool = False,
+) -> "rdkit.Chem.Mol":  # type: ignore # noqa: F821
+    """
+    Determine the bonds in an RDKit molecule, using robust fallback parameters.
+
+    Hueckel method is most robust; may useVdw=True use VdW radii; default method
+    is connect-the-dots (fastest but least robust)"""
+    _assert_module_installed("rdkit")
+    from rdkit import Chem
+    from rdkit.Chem import rdDetermineBonds
+
+    mol = Chem.MolFromXYZBlock(structure.to_xyz())  # type: ignore
+
+    try:
+        # Execute the wrapped code block
+        if robust:
+            try:  # Original parameters
+                rdDetermineBonds.DetermineBonds(
+                    mol,
+                    charge=charge,
+                    useHueckel=use_hueckel,
+                    useVdw=use_vdw,
+                    covFactor=cov_factor,
+                    allowChargedFragments=allow_charged_fragments,
+                )
+            except Exception as e:  # noqa: E722
+                mol = Chem.MolFromXYZBlock(structure.to_xyz())  # type: ignore
+                try:  # Swap allow_charged_fragments
+                    rdDetermineBonds.DetermineBonds(
+                        mol,
+                        charge=charge,
+                        useHueckel=use_hueckel,
+                        useVdw=use_vdw,
+                        covFactor=cov_factor,
+                        allowChargedFragments=not allow_charged_fragments,
+                    )
+                except Exception:  # noqa: E722
+                    mol = Chem.MolFromXYZBlock(structure.to_xyz())  # type: ignore
+                    try:  # Swap method
+                        rdDetermineBonds.DetermineBonds(
+                            mol,
+                            charge=charge,
+                            useHueckel=not use_hueckel,
+                            useVdw=not use_vdw,
+                            covFactor=cov_factor,
+                            allowChargedFragments=allow_charged_fragments,
+                        )
+                    except Exception:  # noqa: E722
+                        mol = Chem.MolFromXYZBlock(structure.to_xyz())  # type: ignore
+                        try:  # Swap method and allow_charged_fragments
+                            rdDetermineBonds.DetermineBonds(
+                                mol,
+                                charge=charge,
+                                useHueckel=not use_hueckel,
+                                useVdw=not use_vdw,
+                                covFactor=cov_factor,
+                                allowChargedFragments=not allow_charged_fragments,
+                            )
+                        except Exception:
+                            mol = Chem.MolFromXYZBlock(  # type: ignore
+                                structure.to_xyz()
+                            )
+                            try:  # Try connect-the-dots method
+                                rdDetermineBonds.DetermineBonds(
+                                    mol,
+                                    charge=charge,
+                                    useHueckel=False,
+                                    useVdw=False,
+                                    covFactor=cov_factor,
+                                    allowChargedFragments=True,
+                                )
+                            except Exception:
+                                mol = Chem.MolFromXYZBlock(  # type: ignore
+                                    structure.to_xyz()
+                                )
+                                try:  # Swap allow_charged_fragments
+                                    rdDetermineBonds.DetermineBonds(
+                                        mol,
+                                        charge=charge,
+                                        useHueckel=False,
+                                        useVdw=False,
+                                        covFactor=cov_factor,
+                                        allowChargedFragments=False,
+                                    )
+                                except Exception:
+                                    raise e
+        else:
+            rdDetermineBonds.DetermineBonds(
+                mol,
+                charge=charge,
+                useHueckel=use_hueckel,
+                useVdw=use_vdw,
+                covFactor=cov_factor,
+                allowChargedFragments=allow_charged_fragments,
+            )
+    finally:
+        # Delete the run.out and nul files created by rdkit
+        # Remove run.out and nul files if they exist
+        for filename in ["run.out", "nul"]:
+            file = Path(filename)
+            if file.exists():
+                try:
+                    file.unlink()
+                except Exception:
+                    pass
+    return mol
+
+
 def structure_to_smiles(
     structure: "Structure",
     *,
     program: str = "rdkit",
     hydrogens: bool = False,
+    robust: bool = True,
+    use_hueckel: bool = True,
+    use_vdw: bool = False,
+    cov_factor: float = 1.3,
+    allow_charged_fragments: bool = False,
 ) -> str:
     """Convert a Structure to a SMILES string.
 
@@ -211,22 +332,47 @@ def structure_to_smiles(
         structure: The Structure object to convert.
         program: The program to use for the conversion. Can be 'rdkit' or 'openbabel'.
         hydrogens: Whether to include hydrogens in the SMILES string.
+        robust: Whether to use a robust method for bond determination by trying
+            different parameters for the DetermineBonds function automatically (RDKit
+            only).
+        use_hueckel: Whether to use the Hueckel method for bond determination (RDKit
+            only).
+        use_vdw: Whether to use van der Waals radii for bond determination (RDKit only).
+        cov_factor: The scaling factor for the covalent radii when determining
+            connectivity (RDKit only).
+        allow_charged_fragments: Whether to allow charged fragments in the bond
+            determination step (RDKit only). When allow_charged_fragments=False, RDKit
+            avoids assigning formal charges and instead satisfies valence with radicals
+            (unpaired electrons) if necessary. Bonding and valence will be reconciled
+            without fragments. When True, RDKit will assign formal charges to atoms and
+            reconcile bonding and valence with charged fragments.
+
 
     Returns:
         The SMILES string.
     """
+    if use_hueckel and use_vdw:
+        raise ValueError(
+            "Cannot use both the Hueckel and Van der Waals methods for bond detection. "
+            "Pass use_hueckel=False if you want to use the VdW method. Hueckel method "
+            "is used by default."
+        )
 
     if program == "rdkit":
         _assert_module_installed(program)
         from rdkit import Chem
-        from rdkit.Chem import rdDetermineBonds
 
         # Details: https://greglandrum.github.io/rdkit-blog/posts/2022-12-18-introducing-rdDetermineBonds.html  # noqa: E501
-        # Create RDKit molecule
-        mol = Chem.MolFromXYZBlock(structure.to_xyz())  # type: ignore
-
-        # Use rdDetermineBonds to infer bond information
-        rdDetermineBonds.DetermineBonds(mol, charge=structure.charge)
+        # Create RDKit molecule and use rdDetermineBonds module to infer bonds
+        mol = _rdkit_determine_bonds(
+            structure,
+            charge=structure.charge,
+            robust=robust,
+            use_hueckel=use_hueckel,
+            use_vdw=use_vdw,
+            cov_factor=cov_factor,
+            allow_charged_fragments=allow_charged_fragments,
+        )
 
         # Remove hydrogens if necessary
         if not hydrogens:
@@ -280,3 +426,134 @@ def structure_to_smiles(
 
     else:
         raise ValueError(f"Unsupported program: '{program}'.")
+
+
+def _rdkit_mol_from_structure(
+    struct: "Structure",
+) -> "rdkit.Chem.Mol":  # type: ignore # noqa: F821
+    """Create an RDKit molecule from a Structure object."""
+    _assert_module_installed("rdkit")
+    from rdkit import Chem
+
+    # Create RDKit molecule
+    mol = Chem.MolFromXYZBlock(struct.to_xyz())  # type: ignore
+
+    if mol is None:
+        raise ValueError("Failed create rdkit Molecule from xyz string.")
+
+    # Ensure molecule has conformers
+    if mol.GetNumConformers() == 0:
+        raise ValueError("Molecule lacks 3D coordinates.")
+
+    return mol
+
+
+def _rdkit_determine_connectivity(
+    mol: "rdkit.Chem.Mol",  # type: ignore # noqa: F821
+    charge: int,
+    use_hueckel: bool = True,
+    use_vdw: bool = True,
+    cov_factor: float = 1.3,
+) -> None:
+    """Determine connectivity for an RDKit molecule.
+
+    Args:
+        mol: The RDKit molecule.
+        charge: The charge of the molecule.
+        use_hueckel: Whether to use Hueckel method when determining connectivity.
+        use_vdw: Whether to use Van der Waals radii when determining connectivity.
+        cov_factor: The scaling factor for the covalent radii when determining
+            connectivity.
+    """
+    _assert_module_installed("rdkit")
+    from rdkit.Chem import rdDetermineBonds
+
+    try:
+        rdDetermineBonds.DetermineConnectivity(
+            mol,
+            charge=charge,
+            useHueckel=use_hueckel,
+            useVdw=use_vdw,
+            covFactor=cov_factor,
+        )
+    finally:
+        # Delete the run.out and nul files created by rdkit
+        for filename in ["run.out", "nul"]:
+            file = Path(filename)
+            if file.exists():
+                try:
+                    file.unlink()
+                except Exception:
+                    pass
+
+
+def rmsd(
+    struct1: "Structure",
+    struct2: "Structure",
+    best: bool = True,
+    numthreads: int = 1,
+    use_hueckel: bool = True,
+    use_vdw: bool = False,
+    cov_factor: float = 1.3,
+) -> float:
+    """
+    Calculate the root mean square deviation between two structures in Angstrom.
+
+    Args:
+        struct1: The first structure.
+        struct2: The second structure.
+        best: Whether to consider structure symmetries and align the structures before
+            calculating the RMSD, including atom renumbering. This relies on the RDKit
+            `DetermineConnectivity` and `GetBestRMS` functions. If False, the RMSD is
+            calculated without alignment or atom renumbering, i.e., naively assuming the
+            atom indices are already correctly indexed and possibly aligned.
+        numthreads: The number of threads to use for the RMSD calculation. Applies only
+            to the alignment step if `best=True`.
+        use_hueckel: Whether to use Hueckel method when determining connectivity.
+            Applies only to `best=True`.
+        use_vdw: Whether to use Van der Waals radii when determining connectivity.
+            Applies only to `best=True`.
+        cov_factor: The scaling factor for the covalent radii when determining
+            connectivity. Applies only to `best=True`.
+
+    Returns:
+        The RMSD between the two structures in Angstroms.
+    """
+    _assert_module_installed("rdkit")
+    from rdkit.Chem import rdMolAlign
+
+    # Create RDKit molecules
+    mol1 = _rdkit_mol_from_structure(struct1)
+    mol2 = _rdkit_mol_from_structure(struct2)
+
+    # Compute RMSD
+    if best:
+        # Determine connectivity
+        _rdkit_determine_connectivity(
+            mol1,
+            charge=struct1.charge,
+            use_hueckel=use_hueckel,
+            use_vdw=use_vdw,
+            cov_factor=cov_factor,
+        )
+
+        _rdkit_determine_connectivity(
+            mol2,
+            charge=struct2.charge,
+            use_hueckel=use_hueckel,
+            use_vdw=use_vdw,
+            cov_factor=cov_factor,
+        )
+        # Take symmetry into account, align the two molecules, compute RMSD
+        try:
+            rmsd = rdMolAlign.GetBestRMS(mol2, mol1, numThreads=numthreads)
+        except RuntimeError as e:  # Possible failure to make substructure match
+            try:  # Swap the order of the molecules and try again.
+                rmsd = rdMolAlign.GetBestRMS(mol1, mol2, numThreads=numthreads)
+            except RuntimeError:  # If it fails again, raise the original error
+                raise e
+
+    else:  # Do not take symmetry into account. Structs aligned by atom index.
+        rmsd, _ = rdMolAlign.GetAlignmentTransform(mol2, mol1)
+
+    return rmsd

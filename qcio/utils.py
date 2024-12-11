@@ -9,7 +9,11 @@ from pydantic import BaseModel
 
 from .constants import ANGSTROM_TO_BOHR
 from .models import Structure
-from .models.utils import _assert_module_installed
+from .models.utils import (
+    _assert_module_installed,
+    _rdkit_determine_connectivity,
+    _rdkit_mol_from_structure,
+)
 
 # Helper Structures
 water = Structure(
@@ -35,68 +39,13 @@ def json_dumps(obj: Union[BaseModel, List[BaseModel]]) -> str:
     return obj.model_dump_json()
 
 
-def _rdkit_mol_from_structure(
-    struct: Structure,
-) -> "rdkit.Chem.Mol":  # type: ignore # noqa: F821
-    """Create an RDKit molecule from a Structure object."""
-    _assert_module_installed("rdkit")
-    from rdkit import Chem
-
-    # Create RDKit molecule
-    mol = Chem.MolFromXYZBlock(struct.to_xyz())  # type: ignore
-
-    if mol is None:
-        raise ValueError("Failed create rdkit Molecule from xyz string.")
-
-    # Ensure molecule has conformers
-    if mol.GetNumConformers() == 0:
-        raise ValueError("Molecule lacks 3D coordinates.")
-
-    return mol
-
-
-def rmsd(
-    struct1: Structure, struct2: Structure, align: bool = True, numthreads: int = 1
-) -> float:
-    """
-    Calculate the root mean square deviation between two structures in Angstrom.
-
-    Args:
-        struct1: The first structure.
-        struct2: The second structure.
-        align: Whether to align the structures before calculating the RMSD including
-            atom renumbering. If True, rdkit will compute the optimal alignment of the
-            two structures before calculating the RMSD. If False, the RMSD will be
-            calculated without alignment.
-        numthreads: The number of threads to use for the RMSD calculation. Applies only
-            to the alignment step if `align=True`.
-
-
-    Returns:
-        The RMSD between the two structures in Angstroms.
-    """
-    _assert_module_installed("rdkit")
-    from rdkit.Chem import rdDetermineBonds, rdMolAlign
-
-    # Create RDKit molecules
-    mol1 = _rdkit_mol_from_structure(struct1)
-    mol2 = _rdkit_mol_from_structure(struct2)
-
-    # Determine connectivity
-    rdDetermineBonds.DetermineConnectivity(mol1, charge=struct1.charge)
-    rdDetermineBonds.DetermineConnectivity(mol2, charge=struct2.charge)
-
-    # Compute RMSD
-    if align:
-        rmsd = rdMolAlign.GetBestRMS(mol2, mol1, numThreads=numthreads)
-    else:
-        rmsd = rdMolAlign.CalcRMS(mol2, mol1)
-
-    return rmsd
-
-
 def align(
-    struct: Structure, refstruct: Structure, reorder_atoms: bool = True
+    struct: Structure,
+    refstruct: Structure,
+    reorder_atoms: bool = True,
+    use_hueckel: bool = True,
+    use_vdw: bool = False,
+    cov_factor: float = 1.3,
 ) -> Tuple[Structure, float]:
     """Return a new structure that is optimally aligned to the reference structure.
 
@@ -105,26 +54,44 @@ def align(
         refstruct: The reference structure.
         reorder_atoms: Reorder the atoms to match the reference structure. If False,
             the atoms will be aligned without changing their order.
+        use_hueckel: Whether to use Hueckel method when determining connectivity.
+            Applies only to `best=True`.
+        use_vdw: Whether to use Van der Waals radii when determining connectivity.
+            Applies only to `best=True`.
+        cov_factor: The scaling factor for the covalent radii when determining
+            connectivity. Applies only to `best=True`.
 
     Returns:
         Tuple of the aligned structure and the RMSD in Angstroms.
     """
     _assert_module_installed("rdkit")
-    from rdkit.Chem import rdDetermineBonds, rdMolAlign
+    from rdkit.Chem import rdMolAlign
 
     # Create RDKit molecules
     mol = _rdkit_mol_from_structure(struct)
     refmol = _rdkit_mol_from_structure(refstruct)
 
     # Determine connectivity
-    rdDetermineBonds.DetermineConnectivity(mol, charge=struct.charge)
-    rdDetermineBonds.DetermineConnectivity(refmol, charge=refstruct.charge)
+    _rdkit_determine_connectivity(
+        mol,
+        charge=struct.charge,
+        use_hueckel=use_hueckel,
+        use_vdw=use_vdw,
+        cov_factor=cov_factor,
+    )
+    _rdkit_determine_connectivity(
+        refmol,
+        charge=refstruct.charge,
+        use_hueckel=use_hueckel,
+        use_vdw=use_vdw,
+        cov_factor=cov_factor,
+    )
 
     # Compute RMSD and align mol to refmol
     if reorder_atoms:
-        rmsd, trnsfm_matrix, atm_map = rdMolAlign.GetBestAlignmentTransform(mol, refmol)  # type: ignore # noqa: E501
+        rmsd_val, trnsfm_matrix, atm_map = rdMolAlign.GetBestAlignmentTransform(mol, refmol)  # type: ignore # noqa: E501
     else:
-        rmsd, trnsfm_matrix = rdMolAlign.GetAlignmentTransform(mol, refmol)
+        rmsd_val, trnsfm_matrix = rdMolAlign.GetAlignmentTransform(mol, refmol)
 
     # Convert to homogeneous coordinates in Angstroms
     coords_homogeneous = np.hstack(
@@ -166,5 +133,5 @@ def align(
             connectivity=struct.connectivity,
             identifiers=struct.identifiers,
         ),
-        rmsd,
+        rmsd_val,
     )

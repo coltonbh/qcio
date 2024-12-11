@@ -2,10 +2,11 @@
 from importlib import metadata
 
 from .models import *  # noqa: F403
-from .utils import json_dumps
+from .models.utils import rmsd
+from .utils import align, json_dumps
 
 __version__ = metadata.version(__name__)
-from .utils import align, rmsd
+
 
 __all__ = [  # noqa: F405
     # Core Models

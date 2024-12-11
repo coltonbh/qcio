@@ -419,13 +419,23 @@ class Structure(QCIOModelBase):
             return float(distance * BOHR_TO_ANGSTROM)
         return float(distance)
 
-    def to_smiles(self, program: str = "rdkit", hydrogens: bool = False) -> str:
+    def to_smiles(
+        self,
+        program: str = "rdkit",
+        hydrogens: bool = False,
+        robust: bool = True,
+        **kwargs,
+    ) -> str:
         """Generate the canonical SMILES representation of the structure.
 
         Args:
             program: The program to use for the conversion. Defaults to "rdkit".
             hydrogens: Whether to include hydrogens in the SMILES string. Defaults to
                 False.
+            robust: Will try multiple methods to generate the SMILES if True. If False,
+                will only use the specified (or default) arguments and a single attempt.
+            kwargs: See `models.utils.structure_to_smiles` for additional keyword
+                arguments.
 
         Returns:
             The canonical SMILES representation of the structure.
@@ -436,7 +446,9 @@ class Structure(QCIOModelBase):
             'CN1C=NC2=C1C(=O)N(C(=O)N2C)C'
             ```
         """
-        return structure_to_smiles(self, program=program, hydrogens=hydrogens)
+        return structure_to_smiles(
+            self, program=program, hydrogens=hydrogens, robust=robust, **kwargs
+        )
 
     def to_xyz(self, precision: int = 17) -> str:
         """Return an xyz string representation of the structure.
