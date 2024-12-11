@@ -1496,25 +1496,7 @@ objects or one or more lists of Structure objects.</p>
 
             <details class="quote">
               <summary>Source code in <code>qcio/view.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">708</span>
-<span class="normal">709</span>
-<span class="normal">710</span>
-<span class="normal">711</span>
-<span class="normal">712</span>
-<span class="normal">713</span>
-<span class="normal">714</span>
-<span class="normal">715</span>
-<span class="normal">716</span>
-<span class="normal">717</span>
-<span class="normal">718</span>
-<span class="normal">719</span>
-<span class="normal">720</span>
-<span class="normal">721</span>
-<span class="normal">722</span>
-<span class="normal">723</span>
-<span class="normal">724</span>
-<span class="normal">725</span>
-<span class="normal">726</span>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">726</span>
 <span class="normal">727</span>
 <span class="normal">728</span>
 <span class="normal">729</span>
@@ -1527,7 +1509,25 @@ objects or one or more lists of Structure objects.</p>
 <span class="normal">736</span>
 <span class="normal">737</span>
 <span class="normal">738</span>
-<span class="normal">739</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">view</span><span class="p">(</span>
+<span class="normal">739</span>
+<span class="normal">740</span>
+<span class="normal">741</span>
+<span class="normal">742</span>
+<span class="normal">743</span>
+<span class="normal">744</span>
+<span class="normal">745</span>
+<span class="normal">746</span>
+<span class="normal">747</span>
+<span class="normal">748</span>
+<span class="normal">749</span>
+<span class="normal">750</span>
+<span class="normal">751</span>
+<span class="normal">752</span>
+<span class="normal">753</span>
+<span class="normal">754</span>
+<span class="normal">755</span>
+<span class="normal">756</span>
+<span class="normal">757</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">view</span><span class="p">(</span>
     <span class="o">*</span><span class="n">objs</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ProgramOutput</span><span class="p">,</span> <span class="n">Structure</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Structure</span><span class="p">]],</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -1579,6 +1579,8 @@ objects or one or more lists of Structure objects.</p>
     <span class="p">],</span>
     <span class="n">animate</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">struct_viewer</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">conformer_rmsd_threshold</span><span class="p">:</span> <span class="n"><span title="typing.Optional">Optional</span></span><span class="p">[</span><span class="n">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">conformer_rmsd_kwargs</span><span class="p">:</span> <span class="n"><span title="typing.Optional">Optional</span></span><span class="p">[</span><span class="n"><span title="typing.Dict">Dict</span></span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
@@ -1625,6 +1627,50 @@ objects or one or more lists of Structure objects.</p>
             </td>
             <td>
                   <code>True</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code>struct_viewer</code></td>
+            <td>
+                  <code>bool</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Whether to display the structure viewer.</p>
+              </div>
+            </td>
+            <td>
+                  <code>True</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code>conformer_rmsd_threshold</code></td>
+            <td>
+                  <code><span title="typing.Optional">Optional</span>[float]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The threshold for RMSD to determine if conformers are
+unique. Defaults to 0.5 Å.</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code>conformer_rmsd_kwargs</code></td>
+            <td>
+                  <code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Additional keyword arguments to pass to the conformer
+RMSD filtering function.</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -1772,10 +1818,30 @@ objects or one or more lists of Structure objects.</p>
 <span class="normal">702</span>
 <span class="normal">703</span>
 <span class="normal">704</span>
-<span class="normal">705</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">program_outputs</span><span class="p">(</span>
+<span class="normal">705</span>
+<span class="normal">706</span>
+<span class="normal">707</span>
+<span class="normal">708</span>
+<span class="normal">709</span>
+<span class="normal">710</span>
+<span class="normal">711</span>
+<span class="normal">712</span>
+<span class="normal">713</span>
+<span class="normal">714</span>
+<span class="normal">715</span>
+<span class="normal">716</span>
+<span class="normal">717</span>
+<span class="normal">718</span>
+<span class="normal">719</span>
+<span class="normal">720</span>
+<span class="normal">721</span>
+<span class="normal">722</span>
+<span class="normal">723</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">program_outputs</span><span class="p">(</span>
     <span class="o">*</span><span class="n">prog_outputs</span><span class="p">:</span> <span class="n">ProgramOutput</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">ProgramInput</span><span class="p">,</span> <span class="n">DualProgramInput</span><span class="p">],</span> <span class="n">Results</span><span class="p">],</span>
     <span class="n">animate</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">struct_viewer</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">conformer_rmsd_threshold</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">conformer_rmsd_kwargs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1784,6 +1850,11 @@ objects or one or more lists of Structure objects.</p>
 <span class="sd">    Args:</span>
 <span class="sd">        *prog_outputs: The ProgramOutput objects to display.</span>
 <span class="sd">        animate: Whether to animate the structure if it is an optimization.</span>
+<span class="sd">        struct_viewer: Whether to display the structure viewer.</span>
+<span class="sd">        conformer_rmsd_threshold: The threshold for RMSD to determine if conformers are</span>
+<span class="sd">            unique. Defaults to 0.5 Å.</span>
+<span class="sd">        conformer_rmsd_kwargs: Additional keyword arguments to pass to the conformer</span>
+<span class="sd">            RMSD filtering function.</span>
 <span class="sd">        **kwargs: Additional keyword arguments to pass to the viewer functions.</span>
 
 <span class="sd">    Returns:</span>
@@ -1798,13 +1869,24 @@ objects or one or more lists of Structure objects.</p>
         <span class="n">final_html</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">generate_output_table</span><span class="p">(</span><span class="n">po</span><span class="p">))</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">po</span><span class="o">.</span><span class="n">results</span><span class="p">,</span> <span class="n">ConformerSearchResults</span><span class="p">):</span>
-            <span class="n">structures</span> <span class="o">=</span> <span class="p">[</span><span class="n">po</span><span class="o">.</span><span class="n">input_data</span><span class="o">.</span><span class="n">structure</span><span class="p">]</span> <span class="o">+</span> <span class="n">po</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">conformers</span>
+            <span class="n">structures</span> <span class="o">=</span> <span class="p">[</span><span class="n">po</span><span class="o">.</span><span class="n">input_data</span><span class="o">.</span><span class="n">structure</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="n">conformer_rmsd_threshold</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">conformers</span><span class="p">,</span> <span class="n">energies_rel</span> <span class="o">=</span> <span class="n">po</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">conformers_filtered</span><span class="p">(</span>
+                    <span class="n">threshold</span><span class="o">=</span><span class="n">conformer_rmsd_threshold</span><span class="p">,</span>
+                    <span class="o">**</span><span class="p">(</span><span class="n">conformer_rmsd_kwargs</span> <span class="ow">or</span> <span class="p">{}),</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">conformers</span> <span class="o">=</span> <span class="n">po</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">conformers</span>
+                <span class="n">energies_rel</span> <span class="o">=</span> <span class="n">po</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">conformer_energies_relative</span>
+
+            <span class="n">structures</span> <span class="o">+=</span> <span class="n">conformers</span>
             <span class="n">titles_extra</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Initial Structure&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span>
-                <span class="sa">f</span><span class="s2">&quot;Conformer </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">po</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">conformers</span><span class="p">))</span>
+                <span class="sa">f</span><span class="s2">&quot;Conformer </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">conformers</span><span class="p">))</span>
             <span class="p">]</span>
             <span class="n">subtitles</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Rel Energy: Unknown&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span>
                 <span class="sa">f</span><span class="s2">&quot;Rel Energy: +</span><span class="si">{</span><span class="n">re</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">constants</span><span class="o">.</span><span class="n">HARTREE_TO_KCAL_PER_MOL</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> kcal/mol&quot;</span>
-                <span class="k">for</span> <span class="n">re</span> <span class="ow">in</span> <span class="n">po</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">conformer_energies_relative</span>
+                <span class="k">for</span> <span class="n">re</span> <span class="ow">in</span> <span class="n">energies_rel</span>
             <span class="p">]</span>
             <span class="n">conf_viewer</span> <span class="o">=</span> <span class="n">generate_structure_viewer_html</span><span class="p">(</span>
                 <span class="o">*</span><span class="n">structures</span><span class="p">,</span> <span class="n">titles_extra</span><span class="o">=</span><span class="n">titles_extra</span><span class="p">,</span> <span class="n">subtitles</span><span class="o">=</span><span class="n">subtitles</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>

@@ -84,7 +84,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#qcio.utils" class="md-skip">
+        <a href="#qcio.json_dumps" class="md-skip">
           Skip to content
         </a>
       
@@ -609,44 +609,29 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#qcio.utils" class="md-nav__link">
-    <span class="md-ellipsis">
-      <code class="doc-symbol doc-symbol-toc doc-symbol-module"></code>&nbsp;utils
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label=" utils">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#qcio.utils.json_dumps" class="md-nav__link">
+  <a href="#qcio.json_dumps" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;json_dumps
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#qcio.utils.rmsd" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#qcio.rmsd" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;rmsd
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#qcio.utils.align" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#qcio.align" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;align
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1144,44 +1129,29 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#qcio.utils" class="md-nav__link">
-    <span class="md-ellipsis">
-      <code class="doc-symbol doc-symbol-toc doc-symbol-module"></code>&nbsp;utils
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label=" utils">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#qcio.utils.json_dumps" class="md-nav__link">
+  <a href="#qcio.json_dumps" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;json_dumps
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#qcio.utils.rmsd" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#qcio.rmsd" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;rmsd
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#qcio.utils.align" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#qcio.align" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;align
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1205,54 +1175,28 @@
 
   <h1>Utilities</h1>
 
-<div class="doc doc-object doc-module">
-
-
-
-<h2 id="qcio.utils" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>            <span class="doc doc-object-name doc-module-name">qcio.utils</span>
-
-
-<a href="#qcio.utils" class="headerlink" title="Permanent link">&para;</a></h2>
-
-    <div class="doc doc-contents first">
-
-      <p>Utility functions for working with qcio objects.</p>
-
-
-
-  <div class="doc doc-children">
-
-
-
-
-
-
-
-
-
 <div class="doc doc-object doc-function">
 
 
-<h3 id="qcio.utils.json_dumps" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">json_dumps</span>
+<h2 id="qcio.json_dumps" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">qcio.json_dumps</span>
 
 
-<a href="#qcio.utils.json_dumps" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#qcio.json_dumps" class="headerlink" title="Permanent link">&para;</a></h2>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span class="nf">json_dumps</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n"><span title="typing.Union">Union</span></span><span class="p">[</span><span class="n"><span title="pydantic.BaseModel">BaseModel</span></span><span class="p">,</span> <span class="n"><span title="typing.List">List</span></span><span class="p">[</span><span class="n"><span title="pydantic.BaseModel">BaseModel</span></span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">str</span>
 </code></pre></div>
 
-    <div class="doc doc-contents ">
+    <div class="doc doc-contents first">
 
       <p>Serialization helper for lists of pydantic objects.</p>
 
             <details class="quote">
               <summary>Source code in <code>qcio/utils.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">31</span>
-<span class="normal">32</span>
-<span class="normal">33</span>
-<span class="normal">34</span>
-<span class="normal">35</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">json_dumps</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">json_dumps</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Serialization helper for lists of pydantic objects.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">([</span><span class="n">o</span><span class="o">.</span><span class="n">model_dump</span><span class="p">()</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">obj</span><span class="p">])</span>
@@ -1266,20 +1210,23 @@
 <div class="doc doc-object doc-function">
 
 
-<h3 id="qcio.utils.rmsd" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">rmsd</span>
+<h2 id="qcio.rmsd" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">qcio.rmsd</span>
 
 
-<a href="#qcio.utils.rmsd" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#qcio.rmsd" class="headerlink" title="Permanent link">&para;</a></h2>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span class="nf">rmsd</span><span class="p">(</span>
-    <span class="n">struct1</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="qcio.models.Structure" href="../structure/#qcio.Structure">Structure</a></span><span class="p">,</span>
-    <span class="n">struct2</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="qcio.models.Structure" href="../structure/#qcio.Structure">Structure</a></span><span class="p">,</span>
-    <span class="n">align</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">struct1</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="qcio.models.structure.Structure" href="../structure/#qcio.Structure">Structure</a></span><span class="p">,</span>
+    <span class="n">struct2</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="qcio.models.structure.Structure" href="../structure/#qcio.Structure">Structure</a></span><span class="p">,</span>
+    <span class="n">best</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">numthreads</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">use_hueckel</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">use_vdw</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">cov_factor</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="mf">1.3</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">float</span>
 </code></pre></div>
 
-    <div class="doc doc-contents ">
+    <div class="doc doc-contents first">
 
       <p>Calculate the root mean square deviation between two structures in Angstrom.</p>
 
@@ -1298,7 +1245,7 @@
           <tr class="doc-section-item">
             <td><code>struct1</code></td>
             <td>
-                  <code><a class="autorefs autorefs-internal" title="qcio.models.Structure" href="../structure/#qcio.Structure">Structure</a></code>
+                  <code><a class="autorefs autorefs-internal" title="qcio.models.structure.Structure" href="../structure/#qcio.Structure">Structure</a></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -1312,7 +1259,7 @@
           <tr class="doc-section-item">
             <td><code>struct2</code></td>
             <td>
-                  <code><a class="autorefs autorefs-internal" title="qcio.models.Structure" href="../structure/#qcio.Structure">Structure</a></code>
+                  <code><a class="autorefs autorefs-internal" title="qcio.models.structure.Structure" href="../structure/#qcio.Structure">Structure</a></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -1324,16 +1271,17 @@
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>align</code></td>
+            <td><code>best</code></td>
             <td>
                   <code>bool</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>Whether to align the structures before calculating the RMSD including
-atom renumbering. If True, rdkit will compute the optimal alignment of the
-two structures before calculating the RMSD. If False, the RMSD will be
-calculated without alignment.</p>
+                <p>Whether to consider structure symmetries and align the structures before
+calculating the RMSD, including atom renumbering. This relies on the RDKit
+<code>DetermineConnectivity</code> and <code>GetBestRMS</code> functions. If False, the RMSD is
+calculated without alignment or atom renumbering, i.e., naively assuming the
+atom indices are already correctly indexed and possibly aligned.</p>
               </div>
             </td>
             <td>
@@ -1348,11 +1296,56 @@ calculated without alignment.</p>
             <td>
               <div class="doc-md-description">
                 <p>The number of threads to use for the RMSD calculation. Applies only
-to the alignment step if <code>align=True</code>.</p>
+to the alignment step if <code>best=True</code>.</p>
               </div>
             </td>
             <td>
                   <code>1</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code>use_hueckel</code></td>
+            <td>
+                  <code>bool</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Whether to use Hueckel method when determining connectivity.
+Applies only to <code>best=True</code>.</p>
+              </div>
+            </td>
+            <td>
+                  <code>True</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code>use_vdw</code></td>
+            <td>
+                  <code>bool</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Whether to use Van der Waals radii when determining connectivity.
+Applies only to <code>best=True</code>.</p>
+              </div>
+            </td>
+            <td>
+                  <code>False</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code>cov_factor</code></td>
+            <td>
+                  <code>float</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The scaling factor for the covalent radii when determining
+connectivity. Applies only to <code>best=True</code>.</p>
+              </div>
+            </td>
+            <td>
+                  <code>1.3</code>
             </td>
           </tr>
       </tbody>
@@ -1382,46 +1375,84 @@ to the alignment step if <code>align=True</code>.</p>
     </table>
 
             <details class="quote">
-              <summary>Source code in <code>qcio/utils.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">58</span>
-<span class="normal">59</span>
-<span class="normal">60</span>
-<span class="normal">61</span>
-<span class="normal">62</span>
-<span class="normal">63</span>
-<span class="normal">64</span>
-<span class="normal">65</span>
-<span class="normal">66</span>
-<span class="normal">67</span>
-<span class="normal">68</span>
-<span class="normal">69</span>
-<span class="normal">70</span>
-<span class="normal">71</span>
-<span class="normal">72</span>
-<span class="normal">73</span>
-<span class="normal">74</span>
-<span class="normal">75</span>
-<span class="normal">76</span>
-<span class="normal">77</span>
-<span class="normal">78</span>
-<span class="normal">79</span>
-<span class="normal">80</span>
-<span class="normal">81</span>
-<span class="normal">82</span>
-<span class="normal">83</span>
-<span class="normal">84</span>
-<span class="normal">85</span>
-<span class="normal">86</span>
-<span class="normal">87</span>
-<span class="normal">88</span>
-<span class="normal">89</span>
-<span class="normal">90</span>
-<span class="normal">91</span>
-<span class="normal">92</span>
-<span class="normal">93</span>
-<span class="normal">94</span>
-<span class="normal">95</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">rmsd</span><span class="p">(</span>
-    <span class="n">struct1</span><span class="p">:</span> <span class="n">Structure</span><span class="p">,</span> <span class="n">struct2</span><span class="p">:</span> <span class="n">Structure</span><span class="p">,</span> <span class="n">align</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">numthreads</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+              <summary>Source code in <code>qcio/models/utils.py</code></summary>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">490</span>
+<span class="normal">491</span>
+<span class="normal">492</span>
+<span class="normal">493</span>
+<span class="normal">494</span>
+<span class="normal">495</span>
+<span class="normal">496</span>
+<span class="normal">497</span>
+<span class="normal">498</span>
+<span class="normal">499</span>
+<span class="normal">500</span>
+<span class="normal">501</span>
+<span class="normal">502</span>
+<span class="normal">503</span>
+<span class="normal">504</span>
+<span class="normal">505</span>
+<span class="normal">506</span>
+<span class="normal">507</span>
+<span class="normal">508</span>
+<span class="normal">509</span>
+<span class="normal">510</span>
+<span class="normal">511</span>
+<span class="normal">512</span>
+<span class="normal">513</span>
+<span class="normal">514</span>
+<span class="normal">515</span>
+<span class="normal">516</span>
+<span class="normal">517</span>
+<span class="normal">518</span>
+<span class="normal">519</span>
+<span class="normal">520</span>
+<span class="normal">521</span>
+<span class="normal">522</span>
+<span class="normal">523</span>
+<span class="normal">524</span>
+<span class="normal">525</span>
+<span class="normal">526</span>
+<span class="normal">527</span>
+<span class="normal">528</span>
+<span class="normal">529</span>
+<span class="normal">530</span>
+<span class="normal">531</span>
+<span class="normal">532</span>
+<span class="normal">533</span>
+<span class="normal">534</span>
+<span class="normal">535</span>
+<span class="normal">536</span>
+<span class="normal">537</span>
+<span class="normal">538</span>
+<span class="normal">539</span>
+<span class="normal">540</span>
+<span class="normal">541</span>
+<span class="normal">542</span>
+<span class="normal">543</span>
+<span class="normal">544</span>
+<span class="normal">545</span>
+<span class="normal">546</span>
+<span class="normal">547</span>
+<span class="normal">548</span>
+<span class="normal">549</span>
+<span class="normal">550</span>
+<span class="normal">551</span>
+<span class="normal">552</span>
+<span class="normal">553</span>
+<span class="normal">554</span>
+<span class="normal">555</span>
+<span class="normal">556</span>
+<span class="normal">557</span>
+<span class="normal">558</span>
+<span class="normal">559</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">rmsd</span><span class="p">(</span>
+    <span class="n">struct1</span><span class="p">:</span> <span class="s2">&quot;Structure&quot;</span><span class="p">,</span>
+    <span class="n">struct2</span><span class="p">:</span> <span class="s2">&quot;Structure&quot;</span><span class="p">,</span>
+    <span class="n">best</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">numthreads</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">use_hueckel</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">use_vdw</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">cov_factor</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.3</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculate the root mean square deviation between two structures in Angstrom.</span>
@@ -1429,33 +1460,59 @@ to the alignment step if <code>align=True</code>.</p>
 <span class="sd">    Args:</span>
 <span class="sd">        struct1: The first structure.</span>
 <span class="sd">        struct2: The second structure.</span>
-<span class="sd">        align: Whether to align the structures before calculating the RMSD including</span>
-<span class="sd">            atom renumbering. If True, rdkit will compute the optimal alignment of the</span>
-<span class="sd">            two structures before calculating the RMSD. If False, the RMSD will be</span>
-<span class="sd">            calculated without alignment.</span>
+<span class="sd">        best: Whether to consider structure symmetries and align the structures before</span>
+<span class="sd">            calculating the RMSD, including atom renumbering. This relies on the RDKit</span>
+<span class="sd">            `DetermineConnectivity` and `GetBestRMS` functions. If False, the RMSD is</span>
+<span class="sd">            calculated without alignment or atom renumbering, i.e., naively assuming the</span>
+<span class="sd">            atom indices are already correctly indexed and possibly aligned.</span>
 <span class="sd">        numthreads: The number of threads to use for the RMSD calculation. Applies only</span>
-<span class="sd">            to the alignment step if `align=True`.</span>
-
+<span class="sd">            to the alignment step if `best=True`.</span>
+<span class="sd">        use_hueckel: Whether to use Hueckel method when determining connectivity.</span>
+<span class="sd">            Applies only to `best=True`.</span>
+<span class="sd">        use_vdw: Whether to use Van der Waals radii when determining connectivity.</span>
+<span class="sd">            Applies only to `best=True`.</span>
+<span class="sd">        cov_factor: The scaling factor for the covalent radii when determining</span>
+<span class="sd">            connectivity. Applies only to `best=True`.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The RMSD between the two structures in Angstroms.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">_assert_module_installed</span><span class="p">(</span><span class="s2">&quot;rdkit&quot;</span><span class="p">)</span>
-    <span class="kn">from</span> <span class="nn">rdkit.Chem</span> <span class="kn">import</span> <span class="n">rdDetermineBonds</span><span class="p">,</span> <span class="n">rdMolAlign</span>
+    <span class="kn">from</span> <span class="nn">rdkit.Chem</span> <span class="kn">import</span> <span class="n">rdMolAlign</span>
 
     <span class="c1"># Create RDKit molecules</span>
     <span class="n">mol1</span> <span class="o">=</span> <span class="n">_rdkit_mol_from_structure</span><span class="p">(</span><span class="n">struct1</span><span class="p">)</span>
     <span class="n">mol2</span> <span class="o">=</span> <span class="n">_rdkit_mol_from_structure</span><span class="p">(</span><span class="n">struct2</span><span class="p">)</span>
 
-    <span class="c1"># Determine connectivity</span>
-    <span class="n">rdDetermineBonds</span><span class="o">.</span><span class="n">DetermineConnectivity</span><span class="p">(</span><span class="n">mol1</span><span class="p">,</span> <span class="n">charge</span><span class="o">=</span><span class="n">struct1</span><span class="o">.</span><span class="n">charge</span><span class="p">)</span>
-    <span class="n">rdDetermineBonds</span><span class="o">.</span><span class="n">DetermineConnectivity</span><span class="p">(</span><span class="n">mol2</span><span class="p">,</span> <span class="n">charge</span><span class="o">=</span><span class="n">struct2</span><span class="o">.</span><span class="n">charge</span><span class="p">)</span>
-
     <span class="c1"># Compute RMSD</span>
-    <span class="k">if</span> <span class="n">align</span><span class="p">:</span>
-        <span class="n">rmsd</span> <span class="o">=</span> <span class="n">rdMolAlign</span><span class="o">.</span><span class="n">GetBestRMS</span><span class="p">(</span><span class="n">mol2</span><span class="p">,</span> <span class="n">mol1</span><span class="p">,</span> <span class="n">numThreads</span><span class="o">=</span><span class="n">numthreads</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">rmsd</span> <span class="o">=</span> <span class="n">rdMolAlign</span><span class="o">.</span><span class="n">CalcRMS</span><span class="p">(</span><span class="n">mol2</span><span class="p">,</span> <span class="n">mol1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">best</span><span class="p">:</span>
+        <span class="c1"># Determine connectivity</span>
+        <span class="n">_rdkit_determine_connectivity</span><span class="p">(</span>
+            <span class="n">mol1</span><span class="p">,</span>
+            <span class="n">charge</span><span class="o">=</span><span class="n">struct1</span><span class="o">.</span><span class="n">charge</span><span class="p">,</span>
+            <span class="n">use_hueckel</span><span class="o">=</span><span class="n">use_hueckel</span><span class="p">,</span>
+            <span class="n">use_vdw</span><span class="o">=</span><span class="n">use_vdw</span><span class="p">,</span>
+            <span class="n">cov_factor</span><span class="o">=</span><span class="n">cov_factor</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">_rdkit_determine_connectivity</span><span class="p">(</span>
+            <span class="n">mol2</span><span class="p">,</span>
+            <span class="n">charge</span><span class="o">=</span><span class="n">struct2</span><span class="o">.</span><span class="n">charge</span><span class="p">,</span>
+            <span class="n">use_hueckel</span><span class="o">=</span><span class="n">use_hueckel</span><span class="p">,</span>
+            <span class="n">use_vdw</span><span class="o">=</span><span class="n">use_vdw</span><span class="p">,</span>
+            <span class="n">cov_factor</span><span class="o">=</span><span class="n">cov_factor</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="c1"># Take symmetry into account, align the two molecules, compute RMSD</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">rmsd</span> <span class="o">=</span> <span class="n">rdMolAlign</span><span class="o">.</span><span class="n">GetBestRMS</span><span class="p">(</span><span class="n">mol2</span><span class="p">,</span> <span class="n">mol1</span><span class="p">,</span> <span class="n">numThreads</span><span class="o">=</span><span class="n">numthreads</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">RuntimeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>  <span class="c1"># Possible failure to make substructure match</span>
+            <span class="k">try</span><span class="p">:</span>  <span class="c1"># Swap the order of the molecules and try again.</span>
+                <span class="n">rmsd</span> <span class="o">=</span> <span class="n">rdMolAlign</span><span class="o">.</span><span class="n">GetBestRMS</span><span class="p">(</span><span class="n">mol1</span><span class="p">,</span> <span class="n">mol2</span><span class="p">,</span> <span class="n">numThreads</span><span class="o">=</span><span class="n">numthreads</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">RuntimeError</span><span class="p">:</span>  <span class="c1"># If it fails again, raise the original error</span>
+                <span class="k">raise</span> <span class="n">e</span>
+
+    <span class="k">else</span><span class="p">:</span>  <span class="c1"># Do not take symmetry into account. Structs aligned by atom index.</span>
+        <span class="n">rmsd</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">rdMolAlign</span><span class="o">.</span><span class="n">GetAlignmentTransform</span><span class="p">(</span><span class="n">mol2</span><span class="p">,</span> <span class="n">mol1</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">rmsd</span>
 </code></pre></div></td></tr></table></div>
@@ -1467,19 +1524,22 @@ to the alignment step if <code>align=True</code>.</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="qcio.utils.align" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">align</span>
+<h2 id="qcio.align" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">qcio.align</span>
 
 
-<a href="#qcio.utils.align" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#qcio.align" class="headerlink" title="Permanent link">&para;</a></h2>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span class="nf">align</span><span class="p">(</span>
     <span class="n">struct</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="qcio.models.Structure" href="../structure/#qcio.Structure">Structure</a></span><span class="p">,</span>
     <span class="n">refstruct</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="qcio.models.Structure" href="../structure/#qcio.Structure">Structure</a></span><span class="p">,</span>
     <span class="n">reorder_atoms</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">use_hueckel</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">use_vdw</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">cov_factor</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="mf">1.3</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="typing.Tuple">Tuple</span></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="qcio.models.Structure" href="../structure/#qcio.Structure">Structure</a></span><span class="p">,</span> <span class="n">float</span><span class="p">]</span>
 </code></pre></div>
 
-    <div class="doc doc-contents ">
+    <div class="doc doc-contents first">
 
       <p>Return a new structure that is optimally aligned to the reference structure.</p>
 
@@ -1538,6 +1598,51 @@ the atoms will be aligned without changing their order.</p>
                   <code>True</code>
             </td>
           </tr>
+          <tr class="doc-section-item">
+            <td><code>use_hueckel</code></td>
+            <td>
+                  <code>bool</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Whether to use Hueckel method when determining connectivity.
+Applies only to <code>best=True</code>.</p>
+              </div>
+            </td>
+            <td>
+                  <code>True</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code>use_vdw</code></td>
+            <td>
+                  <code>bool</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Whether to use Van der Waals radii when determining connectivity.
+Applies only to <code>best=True</code>.</p>
+              </div>
+            </td>
+            <td>
+                  <code>False</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code>cov_factor</code></td>
+            <td>
+                  <code>float</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The scaling factor for the covalent radii when determining
+connectivity. Applies only to <code>best=True</code>.</p>
+              </div>
+            </td>
+            <td>
+                  <code>1.3</code>
+            </td>
+          </tr>
       </tbody>
     </table>
 
@@ -1566,7 +1671,63 @@ the atoms will be aligned without changing their order.</p>
 
             <details class="quote">
               <summary>Source code in <code>qcio/utils.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 98</span>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 42</span>
+<span class="normal"> 43</span>
+<span class="normal"> 44</span>
+<span class="normal"> 45</span>
+<span class="normal"> 46</span>
+<span class="normal"> 47</span>
+<span class="normal"> 48</span>
+<span class="normal"> 49</span>
+<span class="normal"> 50</span>
+<span class="normal"> 51</span>
+<span class="normal"> 52</span>
+<span class="normal"> 53</span>
+<span class="normal"> 54</span>
+<span class="normal"> 55</span>
+<span class="normal"> 56</span>
+<span class="normal"> 57</span>
+<span class="normal"> 58</span>
+<span class="normal"> 59</span>
+<span class="normal"> 60</span>
+<span class="normal"> 61</span>
+<span class="normal"> 62</span>
+<span class="normal"> 63</span>
+<span class="normal"> 64</span>
+<span class="normal"> 65</span>
+<span class="normal"> 66</span>
+<span class="normal"> 67</span>
+<span class="normal"> 68</span>
+<span class="normal"> 69</span>
+<span class="normal"> 70</span>
+<span class="normal"> 71</span>
+<span class="normal"> 72</span>
+<span class="normal"> 73</span>
+<span class="normal"> 74</span>
+<span class="normal"> 75</span>
+<span class="normal"> 76</span>
+<span class="normal"> 77</span>
+<span class="normal"> 78</span>
+<span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
 <span class="normal"> 99</span>
 <span class="normal">100</span>
 <span class="normal">101</span>
@@ -1605,41 +1766,13 @@ the atoms will be aligned without changing their order.</p>
 <span class="normal">134</span>
 <span class="normal">135</span>
 <span class="normal">136</span>
-<span class="normal">137</span>
-<span class="normal">138</span>
-<span class="normal">139</span>
-<span class="normal">140</span>
-<span class="normal">141</span>
-<span class="normal">142</span>
-<span class="normal">143</span>
-<span class="normal">144</span>
-<span class="normal">145</span>
-<span class="normal">146</span>
-<span class="normal">147</span>
-<span class="normal">148</span>
-<span class="normal">149</span>
-<span class="normal">150</span>
-<span class="normal">151</span>
-<span class="normal">152</span>
-<span class="normal">153</span>
-<span class="normal">154</span>
-<span class="normal">155</span>
-<span class="normal">156</span>
-<span class="normal">157</span>
-<span class="normal">158</span>
-<span class="normal">159</span>
-<span class="normal">160</span>
-<span class="normal">161</span>
-<span class="normal">162</span>
-<span class="normal">163</span>
-<span class="normal">164</span>
-<span class="normal">165</span>
-<span class="normal">166</span>
-<span class="normal">167</span>
-<span class="normal">168</span>
-<span class="normal">169</span>
-<span class="normal">170</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">align</span><span class="p">(</span>
-    <span class="n">struct</span><span class="p">:</span> <span class="n">Structure</span><span class="p">,</span> <span class="n">refstruct</span><span class="p">:</span> <span class="n">Structure</span><span class="p">,</span> <span class="n">reorder_atoms</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="normal">137</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">align</span><span class="p">(</span>
+    <span class="n">struct</span><span class="p">:</span> <span class="n">Structure</span><span class="p">,</span>
+    <span class="n">refstruct</span><span class="p">:</span> <span class="n">Structure</span><span class="p">,</span>
+    <span class="n">reorder_atoms</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">use_hueckel</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">use_vdw</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">cov_factor</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.3</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Structure</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a new structure that is optimally aligned to the reference structure.</span>
 
@@ -1648,26 +1781,44 @@ the atoms will be aligned without changing their order.</p>
 <span class="sd">        refstruct: The reference structure.</span>
 <span class="sd">        reorder_atoms: Reorder the atoms to match the reference structure. If False,</span>
 <span class="sd">            the atoms will be aligned without changing their order.</span>
+<span class="sd">        use_hueckel: Whether to use Hueckel method when determining connectivity.</span>
+<span class="sd">            Applies only to `best=True`.</span>
+<span class="sd">        use_vdw: Whether to use Van der Waals radii when determining connectivity.</span>
+<span class="sd">            Applies only to `best=True`.</span>
+<span class="sd">        cov_factor: The scaling factor for the covalent radii when determining</span>
+<span class="sd">            connectivity. Applies only to `best=True`.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Tuple of the aligned structure and the RMSD in Angstroms.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">_assert_module_installed</span><span class="p">(</span><span class="s2">&quot;rdkit&quot;</span><span class="p">)</span>
-    <span class="kn">from</span> <span class="nn">rdkit.Chem</span> <span class="kn">import</span> <span class="n">rdDetermineBonds</span><span class="p">,</span> <span class="n">rdMolAlign</span>
+    <span class="kn">from</span> <span class="nn">rdkit.Chem</span> <span class="kn">import</span> <span class="n">rdMolAlign</span>
 
     <span class="c1"># Create RDKit molecules</span>
     <span class="n">mol</span> <span class="o">=</span> <span class="n">_rdkit_mol_from_structure</span><span class="p">(</span><span class="n">struct</span><span class="p">)</span>
     <span class="n">refmol</span> <span class="o">=</span> <span class="n">_rdkit_mol_from_structure</span><span class="p">(</span><span class="n">refstruct</span><span class="p">)</span>
 
     <span class="c1"># Determine connectivity</span>
-    <span class="n">rdDetermineBonds</span><span class="o">.</span><span class="n">DetermineConnectivity</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">charge</span><span class="o">=</span><span class="n">struct</span><span class="o">.</span><span class="n">charge</span><span class="p">)</span>
-    <span class="n">rdDetermineBonds</span><span class="o">.</span><span class="n">DetermineConnectivity</span><span class="p">(</span><span class="n">refmol</span><span class="p">,</span> <span class="n">charge</span><span class="o">=</span><span class="n">refstruct</span><span class="o">.</span><span class="n">charge</span><span class="p">)</span>
+    <span class="n">_rdkit_determine_connectivity</span><span class="p">(</span>
+        <span class="n">mol</span><span class="p">,</span>
+        <span class="n">charge</span><span class="o">=</span><span class="n">struct</span><span class="o">.</span><span class="n">charge</span><span class="p">,</span>
+        <span class="n">use_hueckel</span><span class="o">=</span><span class="n">use_hueckel</span><span class="p">,</span>
+        <span class="n">use_vdw</span><span class="o">=</span><span class="n">use_vdw</span><span class="p">,</span>
+        <span class="n">cov_factor</span><span class="o">=</span><span class="n">cov_factor</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">_rdkit_determine_connectivity</span><span class="p">(</span>
+        <span class="n">refmol</span><span class="p">,</span>
+        <span class="n">charge</span><span class="o">=</span><span class="n">refstruct</span><span class="o">.</span><span class="n">charge</span><span class="p">,</span>
+        <span class="n">use_hueckel</span><span class="o">=</span><span class="n">use_hueckel</span><span class="p">,</span>
+        <span class="n">use_vdw</span><span class="o">=</span><span class="n">use_vdw</span><span class="p">,</span>
+        <span class="n">cov_factor</span><span class="o">=</span><span class="n">cov_factor</span><span class="p">,</span>
+    <span class="p">)</span>
 
     <span class="c1"># Compute RMSD and align mol to refmol</span>
     <span class="k">if</span> <span class="n">reorder_atoms</span><span class="p">:</span>
-        <span class="n">rmsd</span><span class="p">,</span> <span class="n">trnsfm_matrix</span><span class="p">,</span> <span class="n">atm_map</span> <span class="o">=</span> <span class="n">rdMolAlign</span><span class="o">.</span><span class="n">GetBestAlignmentTransform</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">refmol</span><span class="p">)</span>  <span class="c1"># type: ignore # noqa: E501</span>
+        <span class="n">rmsd_val</span><span class="p">,</span> <span class="n">trnsfm_matrix</span><span class="p">,</span> <span class="n">atm_map</span> <span class="o">=</span> <span class="n">rdMolAlign</span><span class="o">.</span><span class="n">GetBestAlignmentTransform</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">refmol</span><span class="p">)</span>  <span class="c1"># type: ignore # noqa: E501</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">rmsd</span><span class="p">,</span> <span class="n">trnsfm_matrix</span> <span class="o">=</span> <span class="n">rdMolAlign</span><span class="o">.</span><span class="n">GetAlignmentTransform</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">refmol</span><span class="p">)</span>
+        <span class="n">rmsd_val</span><span class="p">,</span> <span class="n">trnsfm_matrix</span> <span class="o">=</span> <span class="n">rdMolAlign</span><span class="o">.</span><span class="n">GetAlignmentTransform</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">refmol</span><span class="p">)</span>
 
     <span class="c1"># Convert to homogeneous coordinates in Angstroms</span>
     <span class="n">coords_homogeneous</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">(</span>
@@ -1709,18 +1860,10 @@ the atoms will be aligned without changing their order.</p>
             <span class="n">connectivity</span><span class="o">=</span><span class="n">struct</span><span class="o">.</span><span class="n">connectivity</span><span class="p">,</span>
             <span class="n">identifiers</span><span class="o">=</span><span class="n">struct</span><span class="o">.</span><span class="n">identifiers</span><span class="p">,</span>
         <span class="p">),</span>
-        <span class="n">rmsd</span><span class="p">,</span>
+        <span class="n">rmsd_val</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
-    </div>
-
-</div>
-
-
-
-  </div>
-
     </div>
 
 </div>
