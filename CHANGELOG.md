@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+## [0.11.17] - 2024-12-11
+
 ### Changed
 
 - `structure_to_smiles()` (and by extension `Structure.to_smiles()`) now use the Hueckel method by default for `rdkit's` `DetermineBonds` function. This is more robust than the default `connect-the-dots` method. Parameters for `use_hueckel`, `use_vdw` and `allow_charged_fragments` are now available for more optionality when determining the bonding in a structure (a prerequisite to generating the SMILES string). Default changed to `use_hueckel` since this should be the most robust.
@@ -477,7 +479,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `SinglePointComputedProperties`
   - `Wavefunction`
 
-[unreleased]: https://github.com/coltonbh/qcio/compare/0.11.16...HEAD
+[unreleased]: https://github.com/coltonbh/qcio/compare/0.11.17...HEAD
+[0.11.17]: https://github.com/coltonbh/qcio/releases/tag/0.11.17
 [0.11.16]: https://github.com/coltonbh/qcio/releases/tag/0.11.16
 [0.11.15]: https://github.com/coltonbh/qcio/releases/tag/0.11.15
 [0.11.14]: https://github.com/coltonbh/qcio/releases/tag/0.11.14
