@@ -2,7 +2,7 @@
 
 import warnings
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Optional, Union
 
 from pydantic import BaseModel, field_serializer
 from typing_extensions import Self, TypeVar
@@ -32,7 +32,7 @@ class FileInput(Files):
             schema development and scratch space.
     """
 
-    cmdline_args: List[str] = []
+    cmdline_args: list[str] = []
 
     @classmethod
     def from_directory(cls, directory: Union[Path, str], **kwargs) -> Self:
@@ -44,7 +44,7 @@ class FileInput(Files):
 
 
 class _KeywordsMixin(BaseModel):
-    keywords: Dict[str, Any] = {}
+    keywords: dict[str, Any] = {}
 
 
 class _StructureKeywordsMixin(_KeywordsMixin):

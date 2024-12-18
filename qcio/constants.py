@@ -8,7 +8,7 @@ References:
 
 import csv
 from pathlib import Path
-from typing import List, Optional
+from typing import Optional
 
 from pydantic import BaseModel
 
@@ -83,7 +83,7 @@ class PeriodicTable:
 
         group_and_period_data = {}
 
-        with open(_DATA_DIR / "group_period.csv", mode="r") as file:
+        with open(_DATA_DIR / "group_period.csv") as file:
             reader = csv.DictReader(file)
             for row in reader:
                 group_and_period_data[row["Symbol"]] = {
@@ -91,7 +91,7 @@ class PeriodicTable:
                     "period": int(row["Period"]),
                 }
 
-        with open(_DATA_DIR / "pubchem.csv", mode="r") as file:
+        with open(_DATA_DIR / "pubchem.csv") as file:
             reader = csv.DictReader(file)
             for row in reader:
                 symbol = row["Symbol"]
@@ -108,7 +108,7 @@ class PeriodicTable:
                 setattr(instance, symbol, atom)
         return instance
 
-    def group(self, group_number: int) -> List[Atom]:
+    def group(self, group_number: int) -> list[Atom]:
         """Return all atoms in a group."""
         assert 1 <= group_number <= 18, "Group number must be between 1 and 18."
         return [
@@ -117,7 +117,7 @@ class PeriodicTable:
             if isinstance(atom, Atom) and atom.group == group_number
         ]
 
-    def period(self, period_number: int) -> List[Atom]:
+    def period(self, period_number: int) -> list[Atom]:
         """Return all atoms in a period."""
         assert 1 <= period_number <= 7, "Period number must be between 1 and 7."
         return [
@@ -134,7 +134,6 @@ class PeriodicTable:
         raise ValueError(f"No atom with atomic number {number}.")
 
 
-# ruff: noqa
 periodic_table = PeriodicTable.from_pubchem()
 """Periodic table data from PubChem.
 
@@ -150,16 +149,15 @@ periodic_table = PeriodicTable.from_pubchem()
         Atom(symbol='Ni', number=28, name='Nickel', mass=58.6934, group=10, period=4, block='d', electron_config='[Ar] 3d8 4s2')
 
         >>> pt.group(1)
-        [Atom(symbol='H', number=1, name='Hydrogen', mass=1.00784, group=1, period=1, block='s', electron_config='1s1'),
-        Atom(symbol='Li', number=3, name='Lithium', mass=6.94, group=1, period=2, block='s', electron_config='[He] 2s1'),
-        Atom(symbol='Na', number=11, name='Sodium', mass=22.98976928, group=1, period=3, block='s', electron_config='[Ne] 3s1'),
-        Atom(symbol='K', number=19, name='Potassium', mass=39.0983, group=1, period=4, block='s', electron_config='[Ar] 4s1'),
-        Atom(symbol='Rb', number=37, name='Rubidium', mass=85.4678, group=1, period=5, block='s', electron_config='[Kr] 5s1'),
-        Atom(symbol='Cs', number=55, name='Cesium', mass=132.90545196, group=1, period=6, block='s', electron_config='[Xe] 6s1'),
-        Atom(symbol='Fr', number=87, name='Francium', mass=223.0, group=1, period=7, block='s', electron_config='[Rn] 7s1')]
+        [Atom(symbol='H', number=1, name='Hydrogen', mass=1.00784, group=1, period=1, block='s', electron_config='1s1'),  # noqa: E501
+        Atom(symbol='Li', number=3, name='Lithium', mass=6.94, group=1, period=2, block='s', electron_config='[He] 2s1'),  # noqa: E501
+        Atom(symbol='Na', number=11, name='Sodium', mass=22.98976928, group=1, period=3, block='s', electron_config='[Ne] 3s1'),  # noqa: E501
+        Atom(symbol='K', number=19, name='Potassium', mass=39.0983, group=1, period=4, block='s', electron_config='[Ar] 4s1'),  # noqa: E501
+        Atom(symbol='Rb', number=37, name='Rubidium', mass=85.4678, group=1, period=5, block='s', electron_config='[Kr] 5s1'),  # noqa: E501
+        Atom(symbol='Cs', number=55, name='Cesium', mass=132.90545196, group=1, period=6, block='s', electron_config='[Xe] 6s1'),  # noqa: E501
+        Atom(symbol='Fr', number=87, name='Francium', mass=223.0, group=1, period=7, block='s', electron_config='[Rn] 7s1')]  # noqa: E501
         ```
 """
-# ruff: noqa: enable
 
 # https://depts.washington.edu/eooptic/linkfiles/dielectric_chart%5B1%5D.pdf
 _SOLVENTS_DIELECTRIC = {

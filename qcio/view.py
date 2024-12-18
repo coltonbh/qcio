@@ -26,7 +26,7 @@ import io
 import math
 from contextlib import contextmanager
 from itertools import zip_longest
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Optional, Union
 
 import numpy as np
 
@@ -73,16 +73,16 @@ DEFAULT_HEIGHT: int = 450
 
 
 def generate_structure_viewer_html(
-    *structs: Union["Structure", List["Structure"]],
+    *structs: Union["Structure", list["Structure"]],
     width: Optional[int] = None,
     height: Optional[int] = None,
-    titles: Optional[List[str]] = None,
-    subtitles: Optional[List[str]] = None,
-    titles_extra: Optional[List[str]] = None,
-    subtitles_extra: Optional[List[str]] = None,
-    distances: Optional[List[Tuple[int, int]]] = None,
+    titles: Optional[list[str]] = None,
+    subtitles: Optional[list[str]] = None,
+    titles_extra: Optional[list[str]] = None,
+    subtitles_extra: Optional[list[str]] = None,
+    distances: Optional[list[tuple[int, int]]] = None,
     distance_units: DistanceUnits = DistanceUnits.bohr,
-    style: Optional[Dict] = None,
+    style: Optional[dict] = None,
     show_indices: bool = False,
     same_viewer: bool = False,
     view_2d: bool = False,
@@ -295,7 +295,7 @@ def generate_structure_viewer_html(
     return "".join(html_parts)
 
 
-def generate_dictionary_string(dictionary: Dict[str, Any]) -> str:
+def generate_dictionary_string(dictionary: dict[str, Any]) -> str:
     """
     Generate an HTML string displaying a dictionary without explicit row colors.
 
@@ -313,7 +313,7 @@ def generate_dictionary_string(dictionary: Dict[str, Any]) -> str:
     return f"<table class='inner-table'>{rows}</table>"
 
 
-def generate_files_string(files: Dict[str, Union[str, bytes]]) -> str:
+def generate_files_string(files: dict[str, Union[str, bytes]]) -> str:
     """
     Generate an HTML string displaying a dictionary of files substituting <str> or
     <bytes> for the actual file data
@@ -477,7 +477,7 @@ def generate_optimization_plot(
     )
     plt.title("Energy Optimization by Cycle", pad=20)
     ax1.legend(loc="upper right")
-    fig.tight_layout(rect=[0, 0, 1, 0.95])
+    fig.tight_layout(rect=(0, 0, 1, 0.95))
 
     buf = io.BytesIO()
     plt.savefig(buf, format="png", bbox_inches="tight")
@@ -581,7 +581,7 @@ def generate_results_table(results: Files) -> str:
 
 
 def structures(
-    *structs: Union[Structure, List[Structure]],
+    *structs: Union[Structure, list[Structure]],
     **kwargs,
 ) -> None:
     """
@@ -603,7 +603,7 @@ def program_outputs(
     animate: bool = True,
     struct_viewer: bool = True,
     conformer_rmsd_threshold: Optional[float] = None,
-    conformer_rmsd_kwargs: Optional[Dict] = None,
+    conformer_rmsd_kwargs: Optional[dict] = None,
     **kwargs,
 ) -> None:
     """
@@ -670,7 +670,7 @@ def program_outputs(
 
                 # Determine the Structure to use
                 if isinstance(po.results, OptimizationResults):
-                    for_viewer: Union[Structure, List[Structure]]
+                    for_viewer: Union[Structure, list[Structure]]
                     if animate:
                         for_viewer = po.results.structures
                     else:
@@ -724,7 +724,7 @@ def program_outputs(
 
 
 def view(
-    *objs: Union[ProgramOutput, Structure, List[Structure]],
+    *objs: Union[ProgramOutput, Structure, list[Structure]],
     **kwargs,
 ) -> None:
     """

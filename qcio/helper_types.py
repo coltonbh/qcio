@@ -1,10 +1,9 @@
 from pathlib import Path
-from typing import List, Union
+from typing import Annotated, Union
 
 import numpy as np
 from pydantic import BeforeValidator, GetPydanticSchema, PlainSerializer, SkipValidation
 from pydantic_core import core_schema
-from typing_extensions import Annotated
 
 StrOrPath = Annotated[Union[str, Path], PlainSerializer(lambda x: str(x))]
 
@@ -17,6 +16,6 @@ SerializableNDArray = Annotated[
     PlainSerializer(lambda x: np.array(x).tolist()),
     # Describe json schema as a list of floats (numbers). Required for ChemCloud docs.
     GetPydanticSchema(
-        lambda tp, handler: core_schema.with_default_schema(handler(List[float]))
+        lambda tp, handler: core_schema.with_default_schema(handler(list[float]))
     ),
 ]

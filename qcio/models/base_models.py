@@ -5,7 +5,7 @@ from abc import ABC
 from base64 import b64decode, b64encode
 from enum import Enum
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Dict, List, Optional, Union
+from typing import TYPE_CHECKING, Any, Optional, Union
 
 import numpy as np
 import toml
@@ -34,7 +34,7 @@ class QCIOModelBase(BaseModel, ABC):
     # NOTE: No version for now until we have a stable schema
     # Or maybe have version be version of qcio that generated the object?
     # version: ClassVar[Literal["v1"]] = "v1"
-    extras: Dict[str, Any] = {}
+    extras: dict[str, Any] = {}
 
     model_config = {
         # Raises an error if extra fields are passed to model.
@@ -49,7 +49,7 @@ class QCIOModelBase(BaseModel, ABC):
     }
 
     @classmethod
-    def open(cls, filepath: Union[Path, str]) -> Union[Self, List[Self]]:
+    def open(cls, filepath: Union[Path, str]) -> Union[Self, list[Self]]:
         """Instantiate an object from data saved to disk.
 
         Args:
@@ -185,7 +185,7 @@ class Files(QCIOModelBase):
         files: A dict mapping filename to str or bytes data.
     """
 
-    files: Dict[str, Union[str, bytes]] = {}
+    files: dict[str, Union[str, bytes]] = {}
 
     @field_validator("files")
     def _convert_base64_to_bytes(cls, value):
@@ -196,7 +196,7 @@ class Files(QCIOModelBase):
         return value
 
     @field_serializer("files")
-    def _serialize_files(self, files, _info) -> Dict[str, str]:
+    def _serialize_files(self, files, _info) -> dict[str, str]:
         """Serialize files to a dict of filename to base64 encoded string."""
         return {
             filename: (
@@ -246,7 +246,7 @@ class Files(QCIOModelBase):
         self,
         directory: StrOrPath,
         recursive: bool = False,
-        exclude: Optional[List[str]] = None,
+        exclude: Optional[list[str]] = None,
     ) -> None:
         """Add all files in a directory to the object.
 
