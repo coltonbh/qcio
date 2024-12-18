@@ -2,7 +2,7 @@
 
 import json
 from collections import Counter
-from typing import List, Tuple, Union
+from typing import Union
 
 import numpy as np
 from pydantic import BaseModel
@@ -32,7 +32,7 @@ water = Structure(
 )
 
 
-def json_dumps(obj: Union[BaseModel, List[BaseModel]]) -> str:
+def json_dumps(obj: Union[BaseModel, list[BaseModel]]) -> str:
     """Serialization helper for lists of pydantic objects."""
     if isinstance(obj, list):
         return json.dumps([o.model_dump() for o in obj])
@@ -46,7 +46,7 @@ def align(
     use_hueckel: bool = True,
     use_vdw: bool = False,
     cov_factor: float = 1.3,
-) -> Tuple[Structure, float]:
+) -> tuple[Structure, float]:
     """Return a new structure that is optimally aligned to the reference structure.
 
     Args:

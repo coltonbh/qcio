@@ -2,7 +2,7 @@ import warnings
 from collections import Counter
 from enum import Enum
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, ClassVar, Dict, List, Optional, Tuple, Union
+from typing import TYPE_CHECKING, Any, ClassVar, Optional, Union
 
 import numpy as np
 from pydantic import field_serializer, model_validator
@@ -116,12 +116,12 @@ class Structure(QCIOModelBase):
             System.
     """
 
-    symbols: List[str]
+    symbols: list[str]
     geometry: SerializableNDArray  # Coerced to 2D array
     charge: int = 0
     multiplicity: int = 1
     identifiers: Identifiers = Identifiers()
-    connectivity: List[Tuple[int, int, float]] = []
+    connectivity: list[tuple[int, int, float]] = []
     _xyz_comment_key: ClassVar[str] = "xyz_comments"
 
     def __init__(self, **data: Any):
@@ -159,7 +159,7 @@ class Structure(QCIOModelBase):
         filepath: Union[Path, str],
         charge: Optional[int] = None,
         multiplicity: Optional[int] = None,
-    ) -> Union["Structure", List["Structure"]]:
+    ) -> Union["Structure", list["Structure"]]:
         """Open a structure or structures from a file.
 
         Args:
@@ -318,9 +318,9 @@ class Structure(QCIOModelBase):
         num_atoms = int(lines[0])
 
         # Collect comments
-        structure_kwargs: Dict[str, Any] = {}
-        identifier_kwargs: Dict[str, Any] = {}
-        other_comments: List[str] = []
+        structure_kwargs: dict[str, Any] = {}
+        identifier_kwargs: dict[str, Any] = {}
+        other_comments: list[str] = []
 
         for item in lines[1].strip().split():
             if item.startswith("qcio__identifiers_"):
@@ -368,7 +368,7 @@ class Structure(QCIOModelBase):
         xyz_str: str,
         charge: Optional[int] = None,
         multiplicity: Optional[int] = None,
-    ) -> List["Structure"]:
+    ) -> list["Structure"]:
         """Parse a multi-structure XYZ file into a list of Structure objects.
 
         Args:
@@ -535,7 +535,7 @@ class Structure(QCIOModelBase):
         # Ensure pydantic knows the field has been set
         self.__pydantic_fields_set__.add("identifiers")
 
-    def add_identifiers(self, identifiers: Dict[str, str]) -> None:
+    def add_identifiers(self, identifiers: dict[str, str]) -> None:
         """Add an identifier to the structure.
 
         Args:
@@ -580,7 +580,7 @@ class Structure(QCIOModelBase):
         return values
 
     @field_serializer("connectivity")
-    def _serialize_connectivity(self, connectivity, _info) -> List[List[float]]:
+    def _serialize_connectivity(self, connectivity, _info) -> list[list[float]]:
         """Serialize connectivity to a list of tuples.
 
         Cannot have homogeneous data types in .toml files so must cast all values to
@@ -594,7 +594,7 @@ class Structure(QCIOModelBase):
         return self.geometry * BOHR_TO_ANGSTROM
 
     @property
-    def atomic_numbers(self) -> List[int]:
+    def atomic_numbers(self) -> list[int]:
         """Return the atomic numbers of the atoms in the structure."""
         return [getattr(pt, symbol).number for symbol in self.symbols]
 
@@ -621,7 +621,7 @@ class Structure(QCIOModelBase):
             for element, count in sorted_elements
         )
 
-    def model_dump(self, **kwargs) -> Dict[str, Any]:
+    def model_dump(self, **kwargs) -> dict[str, Any]:
         """Handle tuple in connectivity"""
         as_dict = super().model_dump(**kwargs)
         # Connectivity may be empty and super().dict() will remove empty values
@@ -632,7 +632,7 @@ class Structure(QCIOModelBase):
             ]
         return as_dict
 
-    def swap_indices(self, indices: List[Tuple[int, int]]) -> None:
+    def swap_indices(self, indices: list[tuple[int, int]]) -> None:
         """Swap the indices in the symbols and geometry list.
 
         Args:

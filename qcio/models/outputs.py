@@ -9,12 +9,8 @@ from pathlib import Path
 from typing import (
     TYPE_CHECKING,
     Any,
-    Dict,
     Generic,
-    List,
     Literal,
-    Optional,
-    Tuple,
     TypeVar,
     Union,
     get_args,
@@ -59,10 +55,10 @@ class Wavefunction(QCIOModelBase):
         scf_occupations_b: The SCF beta-spin orbital occupations.
     """
 
-    scf_eigenvalues_a: Optional[SerializableNDArray] = None
-    scf_eigenvalues_b: Optional[SerializableNDArray] = None
-    scf_occupations_a: Optional[SerializableNDArray] = None
-    scf_occupations_b: Optional[SerializableNDArray] = None
+    scf_eigenvalues_a: SerializableNDArray | None = None
+    scf_eigenvalues_b: SerializableNDArray | None = None
+    scf_occupations_a: SerializableNDArray | None = None
+    scf_occupations_b: SerializableNDArray | None = None
 
     @field_validator(
         "scf_eigenvalues_a",
@@ -71,7 +67,7 @@ class Wavefunction(QCIOModelBase):
         "scf_occupations_b",
     )
     @classmethod
-    def to_numpy(cls, val, _info) -> Optional[np.ndarray]:
+    def to_numpy(cls, val, _info) -> np.ndarray | None:
         return np.asarray(val) if val is not None else None
 
 
@@ -106,28 +102,28 @@ class SinglePointResults(Files):
     """
 
     # calcinfo contains general information about the calculation
-    calcinfo_natoms: Optional[int] = None
-    calcinfo_nbasis: Optional[int] = None
-    calcinfo_nmo: Optional[int] = None
-    calcinfo_nalpha: Optional[int] = None
-    calcinfo_nbeta: Optional[int] = None
+    calcinfo_natoms: int | None = None
+    calcinfo_nbasis: int | None = None
+    calcinfo_nmo: int | None = None
+    calcinfo_nalpha: int | None = None
+    calcinfo_nbeta: int | None = None
 
     # Core properties
-    energy: Optional[float] = None
-    gradient: Optional[SerializableNDArray] = None  # Coerced to 2D array
-    hessian: Optional[SerializableNDArray] = None  # Coerced to 2D array
-    nuclear_repulsion_energy: Optional[float] = None
+    energy: float | None = None
+    gradient: SerializableNDArray | None = None  # Coerced to 2D array
+    hessian: SerializableNDArray | None = None  # Coerced to 2D array
+    nuclear_repulsion_energy: float | None = None
 
     # Wavefunction data
-    wavefunction: Optional[Wavefunction] = None
+    wavefunction: Wavefunction | None = None
 
     # Frequency data
-    freqs_wavenumber: List[float] = []
-    normal_modes_cartesian: Optional[SerializableNDArray] = None  # Coerced to 3D array
-    gibbs_free_energy: Optional[float] = None
+    freqs_wavenumber: list[float] = []
+    normal_modes_cartesian: SerializableNDArray | None = None  # Coerced to 3D array
+    gibbs_free_energy: float | None = None
 
     # SCF results
-    scf_dipole_moment: Optional[List[float]] = None
+    scf_dipole_moment: list[float] | None = None
 
     @field_validator("normal_modes_cartesian")
     @classmethod
@@ -153,7 +149,7 @@ class SinglePointResults(Files):
             n = int(np.sqrt(v.size))
             return v.reshape((n, n))
 
-    def return_result(self, calctype: CalcType) -> Union[float, SerializableNDArray]:
+    def return_result(self, calctype: CalcType) -> float | SerializableNDArray:
         """Return the primary result of the calculation."""
         return getattr(self, calctype.value)
 
@@ -185,11 +181,11 @@ class OptimizationResults(Files):
         trajectory: The SinglePointOutput objects for each step of the optimization.
     """
 
-    trajectory: List[
-        Union[
-            ProgramOutput[ProgramInput, SinglePointResults],
-            ProgramOutput[ProgramInput, Files],
-        ]
+    trajectory: list[
+        (
+            ProgramOutput[ProgramInput, SinglePointResults] |
+            ProgramOutput[ProgramInput, Files]
+        )
     ] = []
 
     @property
@@ -208,7 +204,7 @@ class OptimizationResults(Files):
         return self.final_structure
 
     @property
-    def final_energy(self) -> Optional[float]:  # Optional for np.nan
+    def final_energy(self) -> float | None:  # Optional for np.nan
         """
         The final energy in the optimization. Is `np.nan` if final calculation failed.
         """
@@ -228,12 +224,12 @@ class OptimizationResults(Files):
         )
 
     @property
-    def structures(self) -> List[Structure]:
+    def structures(self) -> list[Structure]:
         """The Structure objects for each step of the optimization."""
         return [output.input_data.structure for output in self.trajectory]
 
     @property
-    def molecules(self) -> List[Structure]:
+    def molecules(self) -> list[Structure]:
         """The Structure objects for each step of the optimization."""
         warnings.warn(
             ".molecules is being depreciated and will be removed in a future. "
@@ -243,7 +239,7 @@ class OptimizationResults(Files):
         )
         return self.structures
 
-    def return_result(self, calctype: CalcType) -> Optional[Structure]:
+    def return_result(self, calctype: CalcType) -> Structure | None:
         """Return the primary result of the calculation."""
         return self.final_structure
 
@@ -264,11 +260,11 @@ class OptimizationResults(Files):
 
     def save(
         self,
-        filepath: Union[Path, str],
+        filepath: Path | str,
         exclude_none: bool = True,
         exclude_unset: bool = True,
         indent: int = 4,
-        **kwargs: Dict[str, Any],
+        **kwargs: dict[str, Any],
     ) -> None:
         """Save an OptimizationOutput to a file.
 
@@ -303,13 +299,13 @@ class ConformerSearchResults(Files):
         rotamer_energies: The energies for each rotamer.
     """
 
-    conformers: List[Structure] = []
+    conformers: list[Structure] = []
     conformer_energies: SerializableNDArray = np.array([])
-    rotamers: List[Structure] = []
+    rotamers: list[Structure] = []
     rotamer_energies: SerializableNDArray = np.array([])
 
     @model_validator(mode="after")
-    def _energies_size(self) -> "ConformerSearchResults":
+    def _energies_size(self) -> ConformerSearchResults:
         """Ensure the energies are the same size as the conformers and rotamers."""
         if self.conformer_energies.size > 0 and (
             self.conformer_energies.size != len(self.conformers)
@@ -326,7 +322,7 @@ class ConformerSearchResults(Files):
         return self
 
     @model_validator(mode="after")
-    def _sort_by_energy(self) -> "ConformerSearchResults":
+    def _sort_by_energy(self) -> ConformerSearchResults:
         """Sort conformers and rotamers by energy."""
 
         # Sort conformers and their energies together
@@ -359,7 +355,7 @@ class ConformerSearchResults(Files):
 
     def conformers_filtered(
         self, threshold: float = 0.5, **rmsd_kwargs
-    ) -> Tuple[List[Structure], SerializableNDArray]:
+    ) -> tuple[list[Structure], SerializableNDArray]:
         """Filter conformers to only unique Structures within rmsd of `threshold`.
 
         Args:
@@ -410,8 +406,8 @@ class ProgramOutput(QCIOModelBase, Generic[InputType, ResultsType]):
     input_data: InputType
     success: Literal[True, False]
     results: ResultsType
-    stdout: Optional[str] = None
-    traceback: Optional[str] = None
+    stdout: str | None = None
+    traceback: str | None = None
     provenance: Provenance
 
     def __init__(self, **data: Any):
@@ -484,7 +480,7 @@ class ProgramOutput(QCIOModelBase, Generic[InputType, ResultsType]):
         """Print the traceback text"""
         print(self.traceback)
 
-    def __repr_args__(self) -> List[Tuple[str, Any]]:
+    def __repr_args__(self) -> list[tuple[str, Any]]:
         """Exclude stdout and traceback from the repr and ensure success is first"""
         args = super().__repr_args__()
 
@@ -499,7 +495,7 @@ class ProgramOutput(QCIOModelBase, Generic[InputType, ResultsType]):
         return success_arg + other_args
 
     @property
-    def files(self) -> Dict[str, Union[str, bytes]]:
+    def files(self) -> dict[str, str | bytes]:
         """Return the files attribute."""
         # Depreciation warning
         warnings.warn(
@@ -511,7 +507,7 @@ class ProgramOutput(QCIOModelBase, Generic[InputType, ResultsType]):
         return self.results.files
 
     @property
-    def return_result(self) -> Union[float, SerializableNDArray, Optional[Structure]]:
+    def return_result(self) -> float | SerializableNDArray | Structure | None:
         """Return the primary result of the calculation."""
         warnings.warn(
             ".return_result is being depreciated and will be removed in a future. "
@@ -529,13 +525,13 @@ class ProgramOutput(QCIOModelBase, Generic[InputType, ResultsType]):
 @deprecated_class("ProgramOutput[StructuredInputs, OptimizationResults]")
 class OptimizationOutput(ProgramOutput[DualProgramInput, OptimizationResults]):
     success: Literal[True] = True
-    traceback: Optional[str] = None
+    traceback: str | None = None
 
 
 @deprecated_class("ProgramOutput[ProgramInput, SinglePointResults]")
 class SinglePointOutput(ProgramOutput[ProgramInput, SinglePointResults]):
     success: Literal[True] = True
-    traceback: Optional[str] = None
+    traceback: str | None = None
 
 
 @deprecated_class("ProgramOutput[StructuredInputs, Results]")

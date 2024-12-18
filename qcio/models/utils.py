@@ -3,7 +3,7 @@
 import importlib
 import warnings
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Dict
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
 
@@ -106,7 +106,7 @@ def _assert_module_installed(module: str):
 
 def smiles_to_structure(
     smiles: str, program: str = "rdkit", force_field: str = "MMFF94s"
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Convert a SMILES string to a Structure object in dictionary form.
 
     Args:

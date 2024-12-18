@@ -1,11 +1,11 @@
 """Compatibility layer for QCElemental (QCSchema)."""
 
-from typing import Any, Dict
+from typing import Any
 
 from qcio import ProgramInput, SinglePointResults, Wavefunction
 
 
-def to_qcel_input(prog_input: ProgramInput) -> Dict[str, Any]:
+def to_qcel_input(prog_input: ProgramInput) -> dict[str, Any]:
     """Return the QCElemental v1 input schema representation of the input
     (AtomicInput dict).
 
@@ -39,7 +39,7 @@ def to_qcel_input(prog_input: ProgramInput) -> Dict[str, Any]:
 
 
 def from_qcel_output_results(
-    qcel_output: Dict[str, Any],
+    qcel_output: dict[str, Any],
 ) -> SinglePointResults:
     """Create a SinglePointSuccessfulOutput or SinglePointFailedOutput from the
     QCElemental v1 output schema representation of the output (AtomicResult dict).
