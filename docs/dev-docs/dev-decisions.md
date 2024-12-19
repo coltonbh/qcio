@@ -4,7 +4,6 @@
 
 - Deal with `pubchem` data API later. There are a few packages on `pypi` that do this. `qcel` has its own interface as well. I think I only need a very basic lookup so I'll probably just do it myself inside one `@classmethod` on `Molecule`
 - It would be nice to have type safety around the shapes of numpy arrays; however, this is still a [work in progress](https://github.com/numpy/numpy/issues/16544). For now, shapes are enforced by validators and noted as comments.
-- When python 3.8 reaches end of life I can change annotations to native types (`list[type]`) instead of using the `typing` module.
 
 ## Design Decisions
 
