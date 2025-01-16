@@ -65,7 +65,7 @@ def align(
         Tuple of the aligned structure and the RMSD in Angstroms.
     """
     _assert_module_installed("rdkit")
-    from rdkit.Chem import rdMolAlign
+    from rdkit.Chem import rdMolAlign  # type: ignore
 
     # Create RDKit molecules
     mol = _rdkit_mol_from_structure(struct)

@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "qcio"
-version = "0.12.0"
+version = "0.12.1"
 description = "Beautiful and user friendly data structures for quantum chemistry."
 authors = ["Colton Hicks <github@coltonhicks.com>"]
 license = "MIT"
@@ -25,6 +25,7 @@ matplotlib = { version = ">=3.0.0", optional = true }
 ipython = { version = ">=8.0.0", optional = true }
 py3Dmol = { version = ">=2.2.1", optional = true }
 openbabel-wheel = { version = "^3.1.1.19", optional = true }
+eval-type-backport = "^0.2.0"
 
 [tool.poetry.extras]
 rdkit = ["rdkit"]
@@ -42,10 +43,8 @@ qcelemental = ">=0.26.0"
 types-toml = "^0.10.8.6"
 types-pyyaml = "^6.0.12.10"
 rdkit = ">=2022.9.5"
-rdkit-stubs = "^0.7"
 jupyterlab = "^4.2.4"
 matplotlib = ">=3.0.0"
-eval-type-backport = "^0.2.0"
 
 
 [tool.poetry.group.docs.dependencies]

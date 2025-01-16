@@ -171,7 +171,7 @@ def generate_structure_viewer_html(
                     "unpack your list with *my_list_of_structures."
                 )
             adjusted_width, adjusted_height = int(width * 0.75), int(height * 0.75)
-            mol = Chem.MolFromSmiles(struct.ids.smiles or struct.to_smiles())
+            mol = Chem.MolFromSmiles(struct.ids.smiles or struct.to_smiles())  # type: ignore
             img = Draw.MolToImage(mol, size=(adjusted_width, adjusted_height))
             buf = io.BytesIO()
             img.save(buf, format="PNG")

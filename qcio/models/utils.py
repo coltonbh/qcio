@@ -126,14 +126,14 @@ def smiles_to_structure(
                 "Please provide a single molecule or use openbabel for the program."
             )
         _assert_module_installed(program)
-        from rdkit import Chem
-        from rdkit.Chem import AllChem
+        from rdkit import Chem  # type: ignore
+        from rdkit.Chem import AllChem  # type: ignore
 
         # Convert SMILES to RDKit Mol object
-        mol = Chem.MolFromSmiles(smiles)
+        mol = Chem.MolFromSmiles(smiles)  # type: ignore
         assert mol is not None, f"Failed to convert SMILES to RDKit Mol: {smiles}"
-        canonical_smiles = Chem.MolToSmiles(mol, canonical=True)
-        mol = Chem.AddHs(mol)
+        canonical_smiles = Chem.MolToSmiles(mol, canonical=True)  # type: ignore
+        mol = Chem.AddHs(mol)  # type: ignore
 
         # Generate 3D coordinates
         AllChem.EmbedMolecule(mol, AllChem.ETKDG())
@@ -156,7 +156,7 @@ def smiles_to_structure(
         geometry_bohr = geometry_angstrom * ANGSTROM_TO_BOHR
 
         # Get charge
-        charge = Chem.GetFormalCharge(mol)
+        charge = Chem.GetFormalCharge(mol)  # type: ignore
 
     elif program == "openbabel":
         _assert_module_installed(program)
@@ -376,9 +376,9 @@ def structure_to_smiles(
 
         # Remove hydrogens if necessary
         if not hydrogens:
-            mol = Chem.RemoveHs(mol)
+            mol = Chem.RemoveHs(mol)  # type: ignore
 
-        return Chem.MolToSmiles(mol, canonical=True)
+        return Chem.MolToSmiles(mol, canonical=True)  # type: ignore
 
     elif program == "openbabel":
         _assert_module_installed(program)
@@ -520,7 +520,7 @@ def rmsd(
         The RMSD between the two structures in Angstroms.
     """
     _assert_module_installed("rdkit")
-    from rdkit.Chem import rdMolAlign
+    from rdkit.Chem import rdMolAlign  # type: ignore
 
     # Create RDKit molecules
     mol1 = _rdkit_mol_from_structure(struct1)

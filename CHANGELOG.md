@@ -6,6 +6,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+## [0.12.1] - 2025-01-15
+
+### Removed
+
+- `rdkit-stubs`
+
+### Added
+
+- `eval-type-backport` package to dependencies to support the `type | type` syntax in the package.
+- `type: ignore` statements for `rdkit` function calls and imports which lack annotations in the `rdkit` package.
+
 ## [0.12.0] - 2024-12-18
 
 ### Removed
@@ -489,7 +500,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `SinglePointComputedProperties`
   - `Wavefunction`
 
-[unreleased]: https://github.com/coltonbh/qcio/compare/0.12.0...HEAD
+[unreleased]: https://github.com/coltonbh/qcio/compare/0.12.1...HEAD
+[0.12.1]: https://github.com/coltonbh/qcio/releases/tag/0.12.1
 [0.12.0]: https://github.com/coltonbh/qcio/releases/tag/0.12.0
 [0.11.17]: https://github.com/coltonbh/qcio/releases/tag/0.11.17
 [0.11.16]: https://github.com/coltonbh/qcio/releases/tag/0.11.16

@@ -3204,20 +3204,6 @@ numpy = "*"
 Pillow = "*"
 
 [[package]]
-name = "rdkit-stubs"
-version = "0.7"
-description = "type stubs for rdkit"
-optional = false
-python-versions = "*"
-files = [
-    {file = "rdkit-stubs-0.7.tar.gz", hash = "sha256:9dd5a91d9c005c9f17b443d1b87ba54e713111eb025c4e6fc8b7353a761bbd32"},
-    {file = "rdkit_stubs-0.7-py3-none-any.whl", hash = "sha256:39f2a9660e7d498fee0d1473252da409c59dc6b5e537b4d58c09dc4213b64ffb"},
-]
-
-[package.dependencies]
-rdkit = "*"
-
-[[package]]
 name = "referencing"
 version = "0.35.1"
 description = "JSON Referencing + Python"
@@ -3959,4 +3945,4 @@ view = ["ipython", "matplotlib", "py3Dmol", "rdkit"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "f149b04d708e33a9e738e2ce2e79442d030399169fe65b92b3b326ea4ec6242b"
+content-hash = "aba29bb616b9cfb6918e8f93228bd46120e8e2d21fa68ef7cc4901a3c0b5ca5d"
