@@ -136,10 +136,10 @@ def smiles_to_structure(
         mol = Chem.AddHs(mol)  # type: ignore
 
         # Generate 3D coordinates
-        AllChem.EmbedMolecule(mol, AllChem.ETKDG())
+        AllChem.EmbedMolecule(mol, AllChem.ETKDG())  # type: ignore
         # Optimize the molecule using the specified force field
         if force_field.upper() == "UFF":
-            AllChem.UFFOptimizeMolecule(mol)
+            AllChem.UFFOptimizeMolecule(mol)  # type: ignore
         elif force_field.upper() == "MMFF94":
             AllChem.MMFFOptimizeMolecule(mol, mmffVariant="MMFF94")  # type: ignore
         elif force_field.upper() == "MMFF94S":

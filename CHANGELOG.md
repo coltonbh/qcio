@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+- Updated `numpy` dependency to support both `numpy` `v1` or `v2`. `qcio` does not rely upon any updated `numpy 2` API so no changes were made to the code.
+
 ## [0.12.1] - 2025-01-15
 
 ### Removed
