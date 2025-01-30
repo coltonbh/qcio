@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+## [0.12.3] - 2025-01-29
+
 ### Added
 
 - `qcio.models.utils.to_multi_xyz()` function that accepts an array of structures and converts them to a multi-xyz string.
@@ -510,7 +512,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `SinglePointComputedProperties`
   - `Wavefunction`
 
-[unreleased]: https://github.com/coltonbh/qcio/compare/0.12.2...HEAD
+[unreleased]: https://github.com/coltonbh/qcio/compare/0.12.3...HEAD
+[0.12.3]: https://github.com/coltonbh/qcio/releases/tag/0.12.3
 [0.12.2]: https://github.com/coltonbh/qcio/releases/tag/0.12.2
 [0.12.1]: https://github.com/coltonbh/qcio/releases/tag/0.12.1
 [0.12.0]: https://github.com/coltonbh/qcio/releases/tag/0.12.0
