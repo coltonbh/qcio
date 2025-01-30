@@ -2,7 +2,7 @@
 from importlib import metadata
 
 from .models import *  # noqa: F403
-from .models.utils import rmsd
+from .models.utils import rmsd, to_multi_xyz
 from .utils import align, json_dumps
 
 __version__ = metadata.version(__name__)
@@ -29,4 +29,5 @@ __all__ = [  # noqa: F405
     "json_dumps",
     "rmsd",
     "align",
+    "to_multi_xyz",
 ]
