@@ -6,7 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+### Added
+
+- `qcio.models.utils.to_multi_xyz()` function that accepts an array of structures and converts them to a multi-xyz string.
+
 ## [0.12.2] - 2025-01-29
+
+### Changed
 
 - Updated `numpy` dependency to support both `numpy` `v1` or `v2`. `qcio` does not rely upon any updated `numpy 2` API so no changes were made to the code.
 
