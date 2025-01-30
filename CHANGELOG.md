@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+## [0.12.2] - 2025-01-29
+
 - Updated `numpy` dependency to support both `numpy` `v1` or `v2`. `qcio` does not rely upon any updated `numpy 2` API so no changes were made to the code.
 
 ## [0.12.1] - 2025-01-15
@@ -502,7 +504,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `SinglePointComputedProperties`
   - `Wavefunction`
 
-[unreleased]: https://github.com/coltonbh/qcio/compare/0.12.1...HEAD
+[unreleased]: https://github.com/coltonbh/qcio/compare/0.12.2...HEAD
+[0.12.2]: https://github.com/coltonbh/qcio/releases/tag/0.12.2
 [0.12.1]: https://github.com/coltonbh/qcio/releases/tag/0.12.1
 [0.12.0]: https://github.com/coltonbh/qcio/releases/tag/0.12.0
 [0.11.17]: https://github.com/coltonbh/qcio/releases/tag/0.11.17
