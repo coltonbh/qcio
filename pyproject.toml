@@ -71,7 +71,12 @@ branch = true
 omit = ["*/tests/*", "*__init__.py"]
 
 [tool.pytest.ini_options]
-filterwarnings = ["ignore::FutureWarning"]
+filterwarnings = [
+    "ignore::FutureWarning",
+    "ignore:builtin type SwigPyObject has no __module__ attribute:DeprecationWarning",
+    "ignore:builtin type SwigPyPacked has no __module__ attribute:DeprecationWarning",
+    "ignore:builtin type swigvarlink has no __module__ attribute:DeprecationWarning",
+]
 
 [tool.mypy]
 plugins = ["pydantic.mypy"]

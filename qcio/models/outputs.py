@@ -25,7 +25,7 @@ from qcio.helper_types import SerializableNDArray
 from .base_models import CalcType, Files, Provenance, QCIOModelBase
 from .inputs import DualProgramInput, FileInput, Inputs, InputType, ProgramInput
 from .structure import Structure
-from .utils import deprecated_class, rmsd
+from .utils import deprecated_class, rmsd, to_multi_xyz
 
 if TYPE_CHECKING:  # pragma: no cover
     pass
@@ -183,8 +183,8 @@ class OptimizationResults(Files):
 
     trajectory: list[
         (
-            ProgramOutput[ProgramInput, SinglePointResults] |
-            ProgramOutput[ProgramInput, Files]
+            ProgramOutput[ProgramInput, SinglePointResults]
+            | ProgramOutput[ProgramInput, Files]
         )
     ] = []
 
@@ -254,8 +254,8 @@ class OptimizationResults(Files):
 
     def to_xyz(self) -> str:
         """Return the trajectory as an `xyz` string."""
-        return "".join(
-            prog_output.input_data.structure.to_xyz() for prog_output in self.trajectory
+        return to_multi_xyz(
+            prog_output.input_data.structure for prog_output in self.trajectory
         )
 
     def save(
