@@ -17,7 +17,7 @@ from typing import (
 )
 
 import numpy as np
-from pydantic import field_validator, model_validator
+from pydantic import ValidationInfo, field_validator, model_validator
 from typing_extensions import Self
 
 from qcio.helper_types import SerializableNDArray
@@ -91,7 +91,7 @@ class SinglePointResults(Files):
 
         freqs_wavenumber: The frequencies of the structure in wavenumbers.
         normal_modes_cartesian: 3D n_vibmodes x n_atoms x 3 array containing
-            un-mass-weighted Cartesian displacements of each normal mode.
+            un-mass-weighted Cartesian displacements of each normal mode in Bohr.
         gibbs_free_energy: Gibbs free energy (i.e. thermochemical analysis) in Hartrees
             of a system where translation / rotation / vibration degrees of freedom are
             approximated using ideal gas / rigid rotor / harmonic oscillator
@@ -127,11 +127,16 @@ class SinglePointResults(Files):
 
     @field_validator("normal_modes_cartesian")
     @classmethod
-    def _validate_normal_modes_cartesian_shape(cls, v: SerializableNDArray):
+    def _validate_normal_modes_cartesian_shape(
+        cls, v: SerializableNDArray, info: ValidationInfo
+    ):
         if v is not None:
-            # Assume array has length of the number of normal modes
-            n_normal_modes = len(v)
+            # Array must have length of the number of normal modes
+            freqs = info.data.get("freqs_wavenumber")
+            # Fallback to len(v) if we must
+            n_normal_modes = len(freqs) if freqs else len(v)
             return np.asarray(v).reshape(n_normal_modes, -1, 3)
+        return v
 
     @field_validator("gradient")
     @classmethod
