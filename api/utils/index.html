@@ -635,6 +635,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#qcio.to_multi_xyz" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;to_multi_xyz
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -936,6 +945,27 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lengthunit/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    LengthUnit
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1155,6 +1185,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#qcio.to_multi_xyz" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;to_multi_xyz
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1215,12 +1254,17 @@
 
 
 <a href="#qcio.rmsd" class="headerlink" title="Permanent link">&para;</a></h2>
-<div class="language-python doc-signature highlight"><pre><span></span><code><span class="nf">rmsd</span><span class="p">(</span><span class="n">struct1</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="qcio.models.structure.Structure" href="../structure/#qcio.Structure">Structure</a></span><span class="p">,</span> <span class="n">struct2</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="qcio.models.structure.Structure" href="../structure/#qcio.Structure">Structure</a></span><span class="p">,</span> <span class="n">best</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">numthreads</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">use_hueckel</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">use_vdw</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">cov_factor</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="mf">1.3</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">float</span>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span class="nf">rmsd</span><span class="p">(</span><span class="n">struct1</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="qcio.models.structure.Structure" href="../structure/#qcio.Structure">Structure</a></span><span class="p">,</span> <span class="n">struct2</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="qcio.models.structure.Structure" href="../structure/#qcio.Structure">Structure</a></span><span class="p">,</span> <span class="n">symmetry</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">numthreads</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">use_hueckel</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">use_vdw</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">cov_factor</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="mf">1.3</span><span class="p">,</span> <span class="n">length_unit</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="qcio.models.LengthUnit" href="../lengthunit/#qcio.LengthUnit">LengthUnit</a></span> <span class="o">=</span> <span class="n">LengthUnit</span><span class="o">.</span><span class="n">BOHR</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">float</span>
 </code></pre></div>
 
     <div class="doc doc-contents first">
 
-      <p>Calculate the root mean square deviation between two structures in Angstrom.</p>
+      <p>Calculate the root mean square deviation between two structures in Bohr or Angstrom.</p>
+<p>May lead to a 'combinatorial explosion' especially if many molecule symmetries
+(e.g., many hydrogens) are present.If this function is taking a long time to
+compute, consider passing <code>symmetry=False</code> to disable symmetry consideration. Or
+pass <code>numthreads=an_integer</code> to increase the number of threads used for the
+symmetry consideration step.</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -1263,17 +1307,17 @@
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>best</code></td>
+            <td><code>symmetry</code></td>
             <td>
                   <code>bool</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>Whether to consider structure symmetries and align the structures before
-calculating the RMSD, including atom renumbering. This relies on the RDKit
+                <p>Whether to consider symmetries in the structures before calculating
+the RMSD, i.e., to allow atom renumbering. This relies on the  RDKit
 <code>DetermineConnectivity</code> and <code>GetBestRMS</code> functions. If False, the RMSD is
-calculated without alignment or atom renumbering, i.e., naively assuming the
-atom indices are already correctly indexed and possibly aligned.</p>
+calculated with alignment but without considering symmetry, i.e., naively
+assuming the atoms are already correctly indexed across structures.</p>
               </div>
             </td>
             <td>
@@ -1288,7 +1332,7 @@ atom indices are already correctly indexed and possibly aligned.</p>
             <td>
               <div class="doc-md-description">
                 <p>The number of threads to use for the RMSD calculation. Applies only
-to the alignment step if <code>best=True</code>.</p>
+to the alignment step if <code>symmetry=True</code>.</p>
               </div>
             </td>
             <td>
@@ -1303,7 +1347,7 @@ to the alignment step if <code>best=True</code>.</p>
             <td>
               <div class="doc-md-description">
                 <p>Whether to use Hueckel method when determining connectivity.
-Applies only to <code>best=True</code>.</p>
+Applies only to <code>symmetry=True</code>.</p>
               </div>
             </td>
             <td>
@@ -1318,7 +1362,7 @@ Applies only to <code>best=True</code>.</p>
             <td>
               <div class="doc-md-description">
                 <p>Whether to use Van der Waals radii when determining connectivity.
-Applies only to <code>best=True</code>.</p>
+Applies only to <code>symmetry=True</code>.</p>
               </div>
             </td>
             <td>
@@ -1333,11 +1377,26 @@ Applies only to <code>best=True</code>.</p>
             <td>
               <div class="doc-md-description">
                 <p>The scaling factor for the covalent radii when determining
-connectivity. Applies only to <code>best=True</code>.</p>
+connectivity. Applies only to <code>symmetry=True</code>.</p>
               </div>
             </td>
             <td>
                   <code>1.3</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code>length_unit</code></td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="qcio.models.LengthUnit" href="../lengthunit/#qcio.LengthUnit">LengthUnit</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The unit of length to use for the RMSD calculation. Default is
+"bohr". If "angstrom", the RMSD will be in Angstroms.</p>
+              </div>
+            </td>
+            <td>
+                  <code><span title="qcio.models.LengthUnit.BOHR">BOHR</span></code>
             </td>
           </tr>
       </tbody>
@@ -1368,8 +1427,7 @@ connectivity. Applies only to <code>best=True</code>.</p>
 
             <details class="quote">
               <summary>Source code in <code>qcio/models/utils.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">491</span>
-<span class="normal">492</span>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">492</span>
 <span class="normal">493</span>
 <span class="normal">494</span>
 <span class="normal">495</span>
@@ -1437,34 +1495,53 @@ connectivity. Applies only to <code>best=True</code>.</p>
 <span class="normal">557</span>
 <span class="normal">558</span>
 <span class="normal">559</span>
-<span class="normal">560</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">rmsd</span><span class="p">(</span>
+<span class="normal">560</span>
+<span class="normal">561</span>
+<span class="normal">562</span>
+<span class="normal">563</span>
+<span class="normal">564</span>
+<span class="normal">565</span>
+<span class="normal">566</span>
+<span class="normal">567</span>
+<span class="normal">568</span>
+<span class="normal">569</span>
+<span class="normal">570</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">rmsd</span><span class="p">(</span>
     <span class="n">struct1</span><span class="p">:</span> <span class="s2">&quot;Structure&quot;</span><span class="p">,</span>
     <span class="n">struct2</span><span class="p">:</span> <span class="s2">&quot;Structure&quot;</span><span class="p">,</span>
-    <span class="n">best</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">symmetry</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">numthreads</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
     <span class="n">use_hueckel</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">use_vdw</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">cov_factor</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.3</span><span class="p">,</span>
+    <span class="n">length_unit</span><span class="p">:</span> <span class="n">LengthUnit</span> <span class="o">=</span> <span class="n">LengthUnit</span><span class="o">.</span><span class="n">BOHR</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Calculate the root mean square deviation between two structures in Angstrom.</span>
+<span class="sd">    Calculate the root mean square deviation between two structures in Bohr or Angstrom.</span>
+
+<span class="sd">    May lead to a &#39;combinatorial explosion&#39; especially if many molecule symmetries</span>
+<span class="sd">    (e.g., many hydrogens) are present.If this function is taking a long time to</span>
+<span class="sd">    compute, consider passing `symmetry=False` to disable symmetry consideration. Or</span>
+<span class="sd">    pass `numthreads=an_integer` to increase the number of threads used for the</span>
+<span class="sd">    symmetry consideration step.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        struct1: The first structure.</span>
 <span class="sd">        struct2: The second structure.</span>
-<span class="sd">        best: Whether to consider structure symmetries and align the structures before</span>
-<span class="sd">            calculating the RMSD, including atom renumbering. This relies on the RDKit</span>
+<span class="sd">        symmetry: Whether to consider symmetries in the structures before calculating</span>
+<span class="sd">            the RMSD, i.e., to allow atom renumbering. This relies on the  RDKit</span>
 <span class="sd">            `DetermineConnectivity` and `GetBestRMS` functions. If False, the RMSD is</span>
-<span class="sd">            calculated without alignment or atom renumbering, i.e., naively assuming the</span>
-<span class="sd">            atom indices are already correctly indexed and possibly aligned.</span>
+<span class="sd">            calculated with alignment but without considering symmetry, i.e., naively</span>
+<span class="sd">            assuming the atoms are already correctly indexed across structures.</span>
 <span class="sd">        numthreads: The number of threads to use for the RMSD calculation. Applies only</span>
-<span class="sd">            to the alignment step if `best=True`.</span>
+<span class="sd">            to the alignment step if `symmetry=True`.</span>
 <span class="sd">        use_hueckel: Whether to use Hueckel method when determining connectivity.</span>
-<span class="sd">            Applies only to `best=True`.</span>
+<span class="sd">            Applies only to `symmetry=True`.</span>
 <span class="sd">        use_vdw: Whether to use Van der Waals radii when determining connectivity.</span>
-<span class="sd">            Applies only to `best=True`.</span>
+<span class="sd">            Applies only to `symmetry=True`.</span>
 <span class="sd">        cov_factor: The scaling factor for the covalent radii when determining</span>
-<span class="sd">            connectivity. Applies only to `best=True`.</span>
+<span class="sd">            connectivity. Applies only to `symmetry=True`.</span>
+<span class="sd">        length_unit: The unit of length to use for the RMSD calculation. Default is</span>
+<span class="sd">            &quot;bohr&quot;. If &quot;angstrom&quot;, the RMSD will be in Angstroms.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The RMSD between the two structures in Angstroms.</span>
@@ -1477,7 +1554,7 @@ connectivity. Applies only to <code>best=True</code>.</p>
     <span class="n">mol2</span> <span class="o">=</span> <span class="n">_rdkit_mol_from_structure</span><span class="p">(</span><span class="n">struct2</span><span class="p">)</span>
 
     <span class="c1"># Compute RMSD</span>
-    <span class="k">if</span> <span class="n">best</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">symmetry</span><span class="p">:</span>
         <span class="c1"># Determine connectivity</span>
         <span class="n">_rdkit_determine_connectivity</span><span class="p">(</span>
             <span class="n">mol1</span><span class="p">,</span>
@@ -1506,7 +1583,7 @@ connectivity. Applies only to <code>best=True</code>.</p>
     <span class="k">else</span><span class="p">:</span>  <span class="c1"># Do not take symmetry into account. Structs aligned by atom index.</span>
         <span class="n">rmsd</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">rdMolAlign</span><span class="o">.</span><span class="n">GetAlignmentTransform</span><span class="p">(</span><span class="n">mol2</span><span class="p">,</span> <span class="n">mol1</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">rmsd</span>
+    <span class="k">return</span> <span class="n">rmsd</span> <span class="o">*</span> <span class="n">ANGSTROM_TO_BOHR</span> <span class="k">if</span> <span class="n">length_unit</span> <span class="o">==</span> <span class="n">LengthUnit</span><span class="o">.</span><span class="n">BOHR</span> <span class="k">else</span> <span class="n">rmsd</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -1521,12 +1598,16 @@ connectivity. Applies only to <code>best=True</code>.</p>
 
 
 <a href="#qcio.align" class="headerlink" title="Permanent link">&para;</a></h2>
-<div class="language-python doc-signature highlight"><pre><span></span><code><span class="nf">align</span><span class="p">(</span><span class="n">struct</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="qcio.models.Structure" href="../structure/#qcio.Structure">Structure</a></span><span class="p">,</span> <span class="n">refstruct</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="qcio.models.Structure" href="../structure/#qcio.Structure">Structure</a></span><span class="p">,</span> <span class="n">reorder_atoms</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">use_hueckel</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">use_vdw</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">cov_factor</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="mf">1.3</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">tuple</span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="qcio.models.Structure" href="../structure/#qcio.Structure">Structure</a></span><span class="p">,</span> <span class="n">float</span><span class="p">]</span>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span class="nf">align</span><span class="p">(</span><span class="n">struct</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="qcio.models.Structure" href="../structure/#qcio.Structure">Structure</a></span><span class="p">,</span> <span class="n">refstruct</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="qcio.models.Structure" href="../structure/#qcio.Structure">Structure</a></span><span class="p">,</span> <span class="n">symmetry</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">use_hueckel</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">use_vdw</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">cov_factor</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="mf">1.3</span><span class="p">,</span> <span class="n">length_unit</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="qcio.models.LengthUnit" href="../lengthunit/#qcio.LengthUnit">LengthUnit</a></span> <span class="o">=</span> <span class="n">LengthUnit</span><span class="o">.</span><span class="n">BOHR</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">tuple</span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="qcio.models.Structure" href="../structure/#qcio.Structure">Structure</a></span><span class="p">,</span> <span class="n">float</span><span class="p">]</span>
 </code></pre></div>
 
     <div class="doc doc-contents first">
 
-      <p>Return a new structure that is optimally aligned to the reference structure.</p>
+      <p>Return a new structure that is optimally aligned to the reference structure and
+the RMSD between the two structures in Bohr or Angstroms.</p>
+<p>May lead to a 'combinatorial explosion' especially if many molecule symmetries
+(e.g., many hydrogens) are present.If this function is taking a long time to
+compute, consider passing <code>symmetry=False</code> to disable symmetry consideration.</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -1569,14 +1650,17 @@ connectivity. Applies only to <code>best=True</code>.</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>reorder_atoms</code></td>
+            <td><code>symmetry</code></td>
             <td>
                   <code>bool</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>Reorder the atoms to match the reference structure. If False,
-the atoms will be aligned without changing their order.</p>
+                <p>Whether to consider symmetries in the structures before aligning and
+calculating the RMSD, i.e., to allow atom renumbering. This relies on the
+RDKit's <code>GetBestAlignmentTransform</code> method and <code>GetBestRMS</code> functions. If False, the RMSD is
+calculated with alignment but without considering symmetry, i.e., naively
+assuming the atoms are already correctly indexed across structures.</p>
               </div>
             </td>
             <td>
@@ -1626,6 +1710,21 @@ connectivity. Applies only to <code>best=True</code>.</p>
             </td>
             <td>
                   <code>1.3</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code>length_unit</code></td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="qcio.models.LengthUnit" href="../lengthunit/#qcio.LengthUnit">LengthUnit</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The unit of length to use for the RMSD calculation. Default is
+"bohr". If "angstrom", the RMSD will be in Angstroms.</p>
+              </div>
+            </td>
+            <td>
+                  <code><span title="qcio.models.LengthUnit.BOHR">BOHR</span></code>
             </td>
           </tr>
       </tbody>
@@ -1751,27 +1850,53 @@ connectivity. Applies only to <code>best=True</code>.</p>
 <span class="normal">134</span>
 <span class="normal">135</span>
 <span class="normal">136</span>
-<span class="normal">137</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">align</span><span class="p">(</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">align</span><span class="p">(</span>
     <span class="n">struct</span><span class="p">:</span> <span class="n">Structure</span><span class="p">,</span>
     <span class="n">refstruct</span><span class="p">:</span> <span class="n">Structure</span><span class="p">,</span>
-    <span class="n">reorder_atoms</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">symmetry</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">use_hueckel</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">use_vdw</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">cov_factor</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.3</span><span class="p">,</span>
+    <span class="n">length_unit</span><span class="p">:</span> <span class="n">LengthUnit</span> <span class="o">=</span> <span class="n">LengthUnit</span><span class="o">.</span><span class="n">BOHR</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Structure</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a new structure that is optimally aligned to the reference structure.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return a new structure that is optimally aligned to the reference structure and</span>
+<span class="sd">    the RMSD between the two structures in Bohr or Angstroms.</span>
+
+<span class="sd">    May lead to a &#39;combinatorial explosion&#39; especially if many molecule symmetries</span>
+<span class="sd">    (e.g., many hydrogens) are present.If this function is taking a long time to</span>
+<span class="sd">    compute, consider passing `symmetry=False` to disable symmetry consideration.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        struct: The structure to align.</span>
 <span class="sd">        refstruct: The reference structure.</span>
-<span class="sd">        reorder_atoms: Reorder the atoms to match the reference structure. If False,</span>
-<span class="sd">            the atoms will be aligned without changing their order.</span>
+<span class="sd">        symmetry: Whether to consider symmetries in the structures before aligning and</span>
+<span class="sd">            calculating the RMSD, i.e., to allow atom renumbering. This relies on the</span>
+<span class="sd">            RDKit&#39;s `GetBestAlignmentTransform` method and `GetBestRMS` functions. If False, the RMSD is</span>
+<span class="sd">            calculated with alignment but without considering symmetry, i.e., naively</span>
+<span class="sd">            assuming the atoms are already correctly indexed across structures.</span>
 <span class="sd">        use_hueckel: Whether to use Hueckel method when determining connectivity.</span>
 <span class="sd">            Applies only to `best=True`.</span>
 <span class="sd">        use_vdw: Whether to use Van der Waals radii when determining connectivity.</span>
 <span class="sd">            Applies only to `best=True`.</span>
 <span class="sd">        cov_factor: The scaling factor for the covalent radii when determining</span>
 <span class="sd">            connectivity. Applies only to `best=True`.</span>
+<span class="sd">        length_unit: The unit of length to use for the RMSD calculation. Default is</span>
+<span class="sd">            &quot;bohr&quot;. If &quot;angstrom&quot;, the RMSD will be in Angstroms.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Tuple of the aligned structure and the RMSD in Angstroms.</span>
@@ -1800,8 +1925,10 @@ connectivity. Applies only to <code>best=True</code>.</p>
     <span class="p">)</span>
 
     <span class="c1"># Compute RMSD and align mol to refmol</span>
-    <span class="k">if</span> <span class="n">reorder_atoms</span><span class="p">:</span>
-        <span class="n">rmsd_val</span><span class="p">,</span> <span class="n">trnsfm_matrix</span><span class="p">,</span> <span class="n">atm_map</span> <span class="o">=</span> <span class="n">rdMolAlign</span><span class="o">.</span><span class="n">GetBestAlignmentTransform</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">refmol</span><span class="p">)</span>  <span class="c1"># type: ignore # noqa: E501</span>
+    <span class="k">if</span> <span class="n">symmetry</span><span class="p">:</span>
+        <span class="n">rmsd_val</span><span class="p">,</span> <span class="n">trnsfm_matrix</span><span class="p">,</span> <span class="n">atm_map</span> <span class="o">=</span> <span class="n">rdMolAlign</span><span class="o">.</span><span class="n">GetBestAlignmentTransform</span><span class="p">(</span>
+            <span class="n">mol</span><span class="p">,</span> <span class="n">refmol</span>
+        <span class="p">)</span>  <span class="c1"># type: ignore # noqa: E501</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">rmsd_val</span><span class="p">,</span> <span class="n">trnsfm_matrix</span> <span class="o">=</span> <span class="n">rdMolAlign</span><span class="o">.</span><span class="n">GetAlignmentTransform</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">refmol</span><span class="p">)</span>
 
@@ -1817,7 +1944,7 @@ connectivity. Applies only to <code>best=True</code>.</p>
     <span class="n">transformed_coords</span> <span class="o">=</span> <span class="n">transformed_coords_homogeneous</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">ANGSTROM_TO_BOHR</span>
 
     <span class="c1"># Reorder the atoms to match the reference structure</span>
-    <span class="k">if</span> <span class="n">reorder_atoms</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">symmetry</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">Counter</span><span class="p">(</span><span class="n">struct</span><span class="o">.</span><span class="n">symbols</span><span class="p">)</span> <span class="o">!=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">refstruct</span><span class="o">.</span><span class="n">symbols</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="s2">&quot;Structures must have the same number and type of atoms for &quot;</span>
@@ -1829,7 +1956,7 @@ connectivity. Applies only to <code>best=True</code>.</p>
         <span class="n">geometry</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">atm_map</span><span class="p">),</span> <span class="mi">3</span><span class="p">))</span>
 
         <span class="k">for</span> <span class="n">probe_idx</span><span class="p">,</span> <span class="n">ref_idx</span> <span class="ow">in</span> <span class="n">atm_map</span><span class="p">:</span>
-            <span class="n">geometry</span><span class="p">[</span><span class="n">ref_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">transformed_coords</span><span class="p">[</span><span class="n">probe_idx</span><span class="p">]</span>  <span class="c1"># works</span>
+            <span class="n">geometry</span><span class="p">[</span><span class="n">ref_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">transformed_coords</span><span class="p">[</span><span class="n">probe_idx</span><span class="p">]</span>
 
     <span class="c1"># Otherwise, keep the original atom order</span>
     <span class="k">else</span><span class="p">:</span>
@@ -1845,8 +1972,102 @@ connectivity. Applies only to <code>best=True</code>.</p>
             <span class="n">connectivity</span><span class="o">=</span><span class="n">struct</span><span class="o">.</span><span class="n">connectivity</span><span class="p">,</span>
             <span class="n">identifiers</span><span class="o">=</span><span class="n">struct</span><span class="o">.</span><span class="n">identifiers</span><span class="p">,</span>
         <span class="p">),</span>
-        <span class="n">rmsd_val</span><span class="p">,</span>
+        <span class="n">rmsd_val</span> <span class="o">*</span> <span class="n">ANGSTROM_TO_BOHR</span> <span class="k">if</span> <span class="n">length_unit</span> <span class="o">==</span> <span class="n">LengthUnit</span><span class="o">.</span><span class="n">BOHR</span> <span class="k">else</span> <span class="n">rmsd_val</span><span class="p">,</span>
     <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="qcio.to_multi_xyz" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">qcio.to_multi_xyz</span>
+
+
+<a href="#qcio.to_multi_xyz" class="headerlink" title="Permanent link">&para;</a></h2>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span class="nf">to_multi_xyz</span><span class="p">(</span><span class="n">structures</span><span class="p">:</span> <span class="n"><span title="collections.abc.Iterable">Iterable</span></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="qcio.models.structure.Structure" href="../structure/#qcio.Structure">Structure</a></span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">str</span>
+</code></pre></div>
+
+    <div class="doc doc-contents first">
+
+      <p>Create a multi-structure XYZ string from a list of structures.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td><code>structures</code></td>
+            <td>
+                  <code><span title="collections.abc.Iterable">Iterable</span>[<a class="autorefs autorefs-internal" title="qcio.models.structure.Structure" href="../structure/#qcio.Structure">Structure</a>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>An Iterable of Structure objects.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code>str</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The multi-structure XYZ string.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+            <details class="quote">
+              <summary>Source code in <code>qcio/models/utils.py</code></summary>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">573</span>
+<span class="normal">574</span>
+<span class="normal">575</span>
+<span class="normal">576</span>
+<span class="normal">577</span>
+<span class="normal">578</span>
+<span class="normal">579</span>
+<span class="normal">580</span>
+<span class="normal">581</span>
+<span class="normal">582</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">to_multi_xyz</span><span class="p">(</span><span class="n">structures</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="s2">&quot;Structure&quot;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a multi-structure XYZ string from a list of structures.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        structures: An Iterable of Structure objects.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The multi-structure XYZ string.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">struct</span><span class="o">.</span><span class="n">to_xyz</span><span class="p">()</span> <span class="k">for</span> <span class="n">struct</span> <span class="ow">in</span> <span class="n">structures</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>

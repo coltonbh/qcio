@@ -1007,6 +1007,27 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lengthunit/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    LengthUnit
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1333,7 +1354,7 @@
 <details class="design-decisions" open>
   <summary>Design Decisions</summary>
   <ul>
-<li>The view function is the top-level method for viewing all qcio objects. It can 
+<li>The view function is the top-level method for viewing all qcio objects. It can
     accept one or many objects and will determine the appropriate viewer to use.</li>
 <li>All functions that begin with "generate" will return a string of HTML. If users
     want to use this HTML to create a custom view, they can do so. If they want to
@@ -1346,7 +1367,7 @@
     | Structure      | Success | Calculation Type | Program | Model | Keywords |
     ----------------------------------------------------------------------------
     |                                    |                                     |
-    |      Structure Viewer (Optional)   |        Results Table or Plot        | 
+    |      Structure Viewer (Optional)   |        Results Table or Plot        |
     |                                    |                                     |
     ----------------------------------------------------------------------------</li>
 </ul>
@@ -2081,7 +2102,7 @@ passed the structures will be animated.</p>
 
 
 <a href="#qcio.view.generate_structure_viewer_html" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="language-python doc-signature highlight"><pre><span></span><code><span class="nf">generate_structure_viewer_html</span><span class="p">(</span><span class="o">*</span><span class="n">structs</span><span class="p">:</span> <span class="n"><span title="typing.Union">Union</span></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="qcio.Structure" href="../structure/#qcio.Structure">Structure</a></span><span class="p">,</span> <span class="n">list</span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="qcio.Structure" href="../structure/#qcio.Structure">Structure</a></span><span class="p">]],</span> <span class="n">width</span><span class="p">:</span> <span class="n"><span title="typing.Optional">Optional</span></span><span class="p">[</span><span class="n">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="n"><span title="typing.Optional">Optional</span></span><span class="p">[</span><span class="n">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">titles</span><span class="p">:</span> <span class="n"><span title="typing.Optional">Optional</span></span><span class="p">[</span><span class="n">list</span><span class="p">[</span><span class="n">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">subtitles</span><span class="p">:</span> <span class="n"><span title="typing.Optional">Optional</span></span><span class="p">[</span><span class="n">list</span><span class="p">[</span><span class="n">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">titles_extra</span><span class="p">:</span> <span class="n"><span title="typing.Optional">Optional</span></span><span class="p">[</span><span class="n">list</span><span class="p">[</span><span class="n">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">subtitles_extra</span><span class="p">:</span> <span class="n"><span title="typing.Optional">Optional</span></span><span class="p">[</span><span class="n">list</span><span class="p">[</span><span class="n">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">distances</span><span class="p">:</span> <span class="n"><span title="typing.Optional">Optional</span></span><span class="p">[</span><span class="n">list</span><span class="p">[</span><span class="n">tuple</span><span class="p">[</span><span class="n">int</span><span class="p">,</span> <span class="n">int</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">distance_units</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="qcio.DistanceUnits" href="../structure/#qcio.DistanceUnits">DistanceUnits</a></span> <span class="o">=</span> <span class="n">DistanceUnits</span><span class="o">.</span><span class="n">bohr</span><span class="p">,</span> <span class="n">style</span><span class="p">:</span> <span class="n"><span title="typing.Optional">Optional</span></span><span class="p">[</span><span class="n">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">show_indices</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">same_viewer</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">view_2d</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">interval</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">str</span>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span class="nf">generate_structure_viewer_html</span><span class="p">(</span><span class="o">*</span><span class="n">structs</span><span class="p">:</span> <span class="n"><span title="typing.Union">Union</span></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="qcio.Structure" href="../structure/#qcio.Structure">Structure</a></span><span class="p">,</span> <span class="n">list</span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="qcio.Structure" href="../structure/#qcio.Structure">Structure</a></span><span class="p">]],</span> <span class="n">width</span><span class="p">:</span> <span class="n"><span title="typing.Optional">Optional</span></span><span class="p">[</span><span class="n">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="n"><span title="typing.Optional">Optional</span></span><span class="p">[</span><span class="n">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">titles</span><span class="p">:</span> <span class="n"><span title="typing.Optional">Optional</span></span><span class="p">[</span><span class="n">list</span><span class="p">[</span><span class="n">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">subtitles</span><span class="p">:</span> <span class="n"><span title="typing.Optional">Optional</span></span><span class="p">[</span><span class="n">list</span><span class="p">[</span><span class="n">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">titles_extra</span><span class="p">:</span> <span class="n"><span title="typing.Optional">Optional</span></span><span class="p">[</span><span class="n">list</span><span class="p">[</span><span class="n">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">subtitles_extra</span><span class="p">:</span> <span class="n"><span title="typing.Optional">Optional</span></span><span class="p">[</span><span class="n">list</span><span class="p">[</span><span class="n">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">distances</span><span class="p">:</span> <span class="n"><span title="typing.Optional">Optional</span></span><span class="p">[</span><span class="n">list</span><span class="p">[</span><span class="n">tuple</span><span class="p">[</span><span class="n">int</span><span class="p">,</span> <span class="n">int</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">length_unit</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="qcio.LengthUnit" href="../lengthunit/#qcio.LengthUnit">LengthUnit</a></span> <span class="o">=</span> <span class="n">LengthUnit</span><span class="o">.</span><span class="n">BOHR</span><span class="p">,</span> <span class="n">style</span><span class="p">:</span> <span class="n"><span title="typing.Optional">Optional</span></span><span class="p">[</span><span class="n">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">show_indices</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">same_viewer</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">view_2d</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">interval</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">str</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -2217,9 +2238,9 @@ text after an autogenerated subtitle such as relative energy.</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>distance_units</code></td>
+            <td><code>length_unit</code></td>
             <td>
-                  <code><a class="autorefs autorefs-internal" title="qcio.DistanceUnits" href="../structure/#qcio.DistanceUnits">DistanceUnits</a></code>
+                  <code><a class="autorefs autorefs-internal" title="qcio.LengthUnit" href="../lengthunit/#qcio.LengthUnit">LengthUnit</a></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -2228,7 +2249,7 @@ pass 'angstrom' to display in angstroms.</p>
               </div>
             </td>
             <td>
-                  <code><span title="qcio.DistanceUnits.bohr">bohr</span></code>
+                  <code><span title="qcio.LengthUnit.BOHR">BOHR</span></code>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -2568,7 +2589,7 @@ dictionary for AtomStyleSpec <a href="https://3dmol.org/doc/AtomStyleSpec.html">
     <span class="n">titles_extra</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">subtitles_extra</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">distances</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">distance_units</span><span class="p">:</span> <span class="n">DistanceUnits</span> <span class="o">=</span> <span class="n">DistanceUnits</span><span class="o">.</span><span class="n">bohr</span><span class="p">,</span>
+    <span class="n">length_unit</span><span class="p">:</span> <span class="n">LengthUnit</span> <span class="o">=</span> <span class="n">LengthUnit</span><span class="o">.</span><span class="n">BOHR</span><span class="p">,</span>
     <span class="n">style</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">show_indices</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">same_viewer</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -2591,7 +2612,7 @@ dictionary for AtomStyleSpec <a href="https://3dmol.org/doc/AtomStyleSpec.html">
 <span class="sd">        subtitles_extra: Extra text to display after the subtitle. Useful for adding</span>
 <span class="sd">            text after an autogenerated subtitle such as relative energy.</span>
 <span class="sd">        distances: A list of tuples of atom indices to display distances between.</span>
-<span class="sd">        distance_units: The units to display the distances in. Defaults to bohr. May</span>
+<span class="sd">        length_unit: The units to display the distances in. Defaults to bohr. May</span>
 <span class="sd">            pass &#39;angstrom&#39; to display in angstroms.</span>
 <span class="sd">        style: A dictionary of styles to apply to the viewer (for py3Dmol). Should be a</span>
 <span class="sd">            dictionary for AtomStyleSpec &lt;https://3dmol.org/doc/AtomStyleSpec.html&gt;</span>
@@ -2739,10 +2760,10 @@ dictionary for AtomStyleSpec <a href="https://3dmol.org/doc/AtomStyleSpec.html">
                     <span class="p">)</span>
                     <span class="c1"># Add a label showing the distance</span>
                     <span class="n">midpoint</span> <span class="o">=</span> <span class="p">(</span><span class="n">a1_coords</span> <span class="o">+</span> <span class="n">a2_coords</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
-                    <span class="n">distance</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">distance</span><span class="p">(</span><span class="n">atom1</span><span class="p">,</span> <span class="n">atom2</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="n">distance_units</span><span class="p">)</span>
+                    <span class="n">distance</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">distance</span><span class="p">(</span><span class="n">atom1</span><span class="p">,</span> <span class="n">atom2</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="n">length_unit</span><span class="p">)</span>
                     <span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;a₀&quot;</span>
 
-                    <span class="k">if</span> <span class="n">distance_units</span> <span class="o">==</span> <span class="n">DistanceUnits</span><span class="o">.</span><span class="n">angstrom</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">length_unit</span> <span class="o">==</span> <span class="n">LengthUnit</span><span class="o">.</span><span class="n">ANGSTROM</span><span class="p">:</span>
                         <span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;Å&quot;</span>
 
                     <span class="n">viewer</span><span class="o">.</span><span class="n">addLabel</span><span class="p">(</span>
