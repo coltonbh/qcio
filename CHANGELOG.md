@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+## [0.13.1] - 2025-02-18
+
 ### Changed
 
 - `Structure.add_identifiers(name="some_name", smiles="some_smiles")` (or other identifiers) rather than `Structure.add_identifiers({"name": "somename", "smiles": "some_smiles"})`
@@ -547,7 +549,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `SinglePointComputedProperties`
   - `Wavefunction`
 
-[unreleased]: https://github.com/coltonbh/qcio/compare/0.13.0...HEAD
+[unreleased]: https://github.com/coltonbh/qcio/compare/0.13.1...HEAD
+[0.13.1]: https://github.com/coltonbh/qcio/releases/tag/0.13.1
 [0.13.0]: https://github.com/coltonbh/qcio/releases/tag/0.13.0
 [0.12.4]: https://github.com/coltonbh/qcio/releases/tag/0.12.4
 [0.12.3]: https://github.com/coltonbh/qcio/releases/tag/0.12.3
