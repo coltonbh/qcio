@@ -97,7 +97,7 @@ def generate_structure_viewer_html(
         width: The width of the viewer in pixels. Defaults to 600.
         height: The height of the viewer in pixels. Defaults to 450.
         titles: The titles to display above the viewer. Will default to the Structure
-            name or SMILES if not provided.
+            name if not provided.
         subtitles: The subtitles to display below the viewer.
         titles_extra: Extra text to display after the title. This is useful for adding
             additional context to a default title.
@@ -136,7 +136,7 @@ def generate_structure_viewer_html(
     if not view_2d:
         # Create the viewer
         if len(structs) == 1 or same_viewer:
-            viewer = p3d.view(width=width, height=height, viewergrid=(1, 1))
+            viewer = p3d.view(width=width, height=height)
         else:
             # Determine the number of rows needed for multiple structures
             rows = math.ceil(len(structs) / 2)
@@ -153,12 +153,10 @@ def generate_structure_viewer_html(
         # Set the title and subtitle
         if isinstance(struct, list):
             name = struct[0].ids.name
-            smiles = struct[0].ids.smiles
         else:
             name = struct.ids.name
-            smiles = struct.ids.smiles
 
-        title = f"{title or name or smiles or ''}"
+        title = f"{title or name  or ''}"
         title_extra = f"{title_extra or ''}"
         subtitle = f"{subtitle or ''}"
         subtitle_extra = f"{subtitle_extra or ''}"
@@ -188,17 +186,20 @@ def generate_structure_viewer_html(
             )
         else:
             if same_viewer:
-                grid = (0, 0)
+                # No grid for single viewer (better performance than (1,1) grid)
+                viewer_kwargs = {}
             else:
-                grid = divmod(i, 2)
+                # Sets the viewer to the correct grid position
+                viewer_kwargs = {"viewer": divmod(i, 2)}
 
             if isinstance(struct, list):  # Animate lists of structures
                 combined_xyz = "".join(s.to_xyz() for s in struct)
-                viewer.addModelsAsFrames(combined_xyz, "xyz", viewer=grid)
-                viewer.animate({"loop": "forward", "interval": interval}, viewer=grid)
-                # viewer.animate({"loop": "forward"}, viewer=grid)
+                viewer.addModelsAsFrames(combined_xyz, "xyz", **viewer_kwargs)
+                viewer.animate(
+                    {"loop": "forward", "interval": interval}, **viewer_kwargs
+                )
             else:
-                viewer.addModel(struct.to_xyz(), "xyz", viewer=grid)
+                viewer.addModel(struct.to_xyz(), "xyz", **viewer_kwargs)
 
             viewer.addLabel(
                 f"{title} {title_extra}",
@@ -210,7 +211,7 @@ def generate_structure_viewer_html(
                     "fontColor": "black",
                     "useScreen": True,
                 },
-                viewer=grid,
+                **viewer_kwargs,
             )
 
             viewer.addLabel(
@@ -223,7 +224,7 @@ def generate_structure_viewer_html(
                     "fontColor": "black",
                     "useScreen": True,
                 },
-                viewer=grid,
+                **viewer_kwargs,
             )
             if distances:
                 assert isinstance(
@@ -248,7 +249,7 @@ def generate_structure_viewer_html(
                             "color": "red",
                             "linewidth": 2,
                         },
-                        viewer=grid,
+                        **viewer_kwargs,
                     )
                     # Add a label showing the distance
                     midpoint = (a1_coords + a2_coords) / 2
@@ -270,7 +271,7 @@ def generate_structure_viewer_html(
                             "fontSize": 14,
                             "fontColor": "black",
                         },
-                        viewer=grid,
+                        **viewer_kwargs,
                     )
 
             if show_indices:
@@ -283,7 +284,7 @@ def generate_structure_viewer_html(
                     viewer.addLabel(
                         str(j),
                         {"position": {"x": coord[0], "y": coord[1], "z": coord[2]}},
-                        viewer=grid,
+                        **viewer_kwargs,
                     )
 
     if not view_2d:
@@ -614,7 +615,7 @@ def program_outputs(
         animate: Whether to animate the structure if it is an optimization.
         struct_viewer: Whether to display the structure viewer.
         conformer_rmsd_threshold: The threshold for RMSD to determine if conformers are
-            unique. Defaults to 0.5 Å.
+            unique. Defaults to 1.0 Bohr (0.53 Å).
         conformer_rmsd_kwargs: Additional keyword arguments to pass to the conformer
             RMSD filtering function.
         **kwargs: Additional keyword arguments to pass to the viewer functions.
