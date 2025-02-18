@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+## [0.13.0] - 2025-02-17
+
 ### Changed
 
 - 🚨 The `rmsd` and `align` structures now return the `RMSD` in units of `Bohr` by default. To return in angstroms pass `length_unit="angstrom"`.
@@ -534,7 +536,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `SinglePointComputedProperties`
   - `Wavefunction`
 
-[unreleased]: https://github.com/coltonbh/qcio/compare/0.12.4...HEAD
+[unreleased]: https://github.com/coltonbh/qcio/compare/0.13.0...HEAD
+[0.13.0]: https://github.com/coltonbh/qcio/releases/tag/0.13.0
 [0.12.4]: https://github.com/coltonbh/qcio/releases/tag/0.12.4
 [0.12.3]: https://github.com/coltonbh/qcio/releases/tag/0.12.3
 [0.12.2]: https://github.com/coltonbh/qcio/releases/tag/0.12.2
