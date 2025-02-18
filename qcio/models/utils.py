@@ -10,6 +10,7 @@ import numpy as np
 
 from ..constants import ANGSTROM_TO_BOHR
 from ..constants import periodic_table as pt
+from ..models import LengthUnit
 
 if TYPE_CHECKING:
     from qcio.models.structure import Structure
@@ -491,31 +492,40 @@ def _rdkit_determine_connectivity(
 def rmsd(
     struct1: "Structure",
     struct2: "Structure",
-    best: bool = True,
+    symmetry: bool = True,
     numthreads: int = 1,
     use_hueckel: bool = True,
     use_vdw: bool = False,
     cov_factor: float = 1.3,
+    length_unit: LengthUnit = LengthUnit.BOHR,
 ) -> float:
     """
-    Calculate the root mean square deviation between two structures in Angstrom.
+    Calculate the root mean square deviation between two structures in Bohr or Angstrom.
+
+    May lead to a 'combinatorial explosion' especially if many molecule symmetries
+    (e.g., many hydrogens) are present.If this function is taking a long time to
+    compute, consider passing `symmetry=False` to disable symmetry consideration. Or
+    pass `numthreads=an_integer` to increase the number of threads used for the
+    symmetry consideration step.
 
     Args:
         struct1: The first structure.
         struct2: The second structure.
-        best: Whether to consider structure symmetries and align the structures before
-            calculating the RMSD, including atom renumbering. This relies on the RDKit
+        symmetry: Whether to consider symmetries in the structures before calculating
+            the RMSD, i.e., to allow atom renumbering. This relies on the  RDKit
             `DetermineConnectivity` and `GetBestRMS` functions. If False, the RMSD is
-            calculated without alignment or atom renumbering, i.e., naively assuming the
-            atom indices are already correctly indexed and possibly aligned.
+            calculated with alignment but without considering symmetry, i.e., naively
+            assuming the atoms are already correctly indexed across structures.
         numthreads: The number of threads to use for the RMSD calculation. Applies only
-            to the alignment step if `best=True`.
+            to the alignment step if `symmetry=True`.
         use_hueckel: Whether to use Hueckel method when determining connectivity.
-            Applies only to `best=True`.
+            Applies only to `symmetry=True`.
         use_vdw: Whether to use Van der Waals radii when determining connectivity.
-            Applies only to `best=True`.
+            Applies only to `symmetry=True`.
         cov_factor: The scaling factor for the covalent radii when determining
-            connectivity. Applies only to `best=True`.
+            connectivity. Applies only to `symmetry=True`.
+        length_unit: The unit of length to use for the RMSD calculation. Default is
+            "bohr". If "angstrom", the RMSD will be in Angstroms.
 
     Returns:
         The RMSD between the two structures in Angstroms.
@@ -528,7 +538,7 @@ def rmsd(
     mol2 = _rdkit_mol_from_structure(struct2)
 
     # Compute RMSD
-    if best:
+    if symmetry:
         # Determine connectivity
         _rdkit_determine_connectivity(
             mol1,
@@ -557,7 +567,7 @@ def rmsd(
     else:  # Do not take symmetry into account. Structs aligned by atom index.
         rmsd, _ = rdMolAlign.GetAlignmentTransform(mol2, mol1)
 
-    return rmsd
+    return rmsd * ANGSTROM_TO_BOHR if length_unit == LengthUnit.BOHR else rmsd
 
 
 def to_multi_xyz(structures: Iterable["Structure"]) -> str:

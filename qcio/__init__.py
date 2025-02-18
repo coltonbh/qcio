@@ -30,4 +30,5 @@ __all__ = [  # noqa: F405
     "rmsd",
     "align",
     "to_multi_xyz",
+    "LengthUnit",
 ]

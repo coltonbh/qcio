@@ -4,7 +4,7 @@ import numpy as np
 import pytest
 from pydantic import ValidationError
 
-from qcio import ConformerSearchResults
+from qcio import ConformerSearchResults, constants
 
 
 def test_energies_size(water):
@@ -96,7 +96,9 @@ def test_conformer_search_results_sorting(water):
 def test_conformers_filtered(test_data_dir):
     # Catalyst/Na+ conformer search
     po_conf = ConformerSearchResults.open(test_data_dir / "conf_search.json")
-    conf_filtered, energy_filtered = po_conf.conformers_filtered(threshold=0.47)
+    conf_filtered, energy_filtered = po_conf.conformers_filtered(
+        threshold=0.47 * constants.ANGSTROM_TO_BOHR
+    )
     assert len(conf_filtered) == 6
     selected = [0, 5, 7, 8, 9, 10]
     for i, conf in enumerate(conf_filtered):
