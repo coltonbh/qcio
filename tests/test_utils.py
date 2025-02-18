@@ -25,7 +25,7 @@ def test_rmsd_identical_structures():
     struct1 = Structure(symbols=symbols, geometry=geometry)
     struct2 = Structure(symbols=symbols, geometry=geometry)
 
-    calculated_rmsd = rmsd(struct1, struct2, best=False)
+    calculated_rmsd = rmsd(struct1, struct2, symmetry=False)
     assert np.isclose(
         calculated_rmsd, 0.0, atol=1e-6
     ), "RMSD should be zero for identical structures"
@@ -60,13 +60,13 @@ def test_rmsd_rotated_structures():
     struct2 = Structure(symbols=symbols, geometry=rotated_geometry)
 
     # Aligned by atom index (which match in this case)
-    calculated_rmsd_no_align = rmsd(struct1, struct2, best=False)
+    calculated_rmsd_no_align = rmsd(struct1, struct2, symmetry=False)
     assert np.isclose(
         calculated_rmsd_no_align, 0.0, atol=1e-6
     ), "RMSD should be zero after alignment"
 
     # With alignment
-    calculated_rmsd_align = rmsd(struct1, struct2, best=True)
+    calculated_rmsd_align = rmsd(struct1, struct2, symmetry=True)
     assert np.isclose(
         calculated_rmsd_align, 0.0, atol=1e-6
     ), "RMSD should be zero after alignment"
@@ -90,7 +90,7 @@ def test_align_identical_structures():
     struct = Structure(symbols=symbols, geometry=geometry)
     refstruct = Structure(symbols=symbols, geometry=geometry)
 
-    aligned_struct, rmsd = align(struct, refstruct, reorder_atoms=False)
+    aligned_struct, rmsd = align(struct, refstruct, symmetry=False)
 
     assert np.allclose(
         aligned_struct.geometry, geometry
@@ -125,7 +125,7 @@ def test_align_rotated_structure():
     struct = Structure(symbols=symbols, geometry=rotated_geometry)
     refstruct = Structure(symbols=symbols, geometry=geometry)
 
-    aligned_struct, rmsd = align(struct, refstruct, reorder_atoms=False)
+    aligned_struct, rmsd = align(struct, refstruct, symmetry=False)
 
     assert np.allclose(
         aligned_struct.geometry, geometry, atol=1e-6
@@ -156,7 +156,7 @@ def test_align_with_atom_reordering():
 
     # Without atom reordering
     aligned_struct_no_reorder, rmsd_no_reorder = align(
-        struct1, struct2, reorder_atoms=False
+        struct1, struct2, symmetry=False
     )
     assert (
         aligned_struct_no_reorder.symbols == struct1.symbols
@@ -165,14 +165,14 @@ def test_align_with_atom_reordering():
     assert rmsd_no_reorder > 0.1, "RMSD should be high without atom reordering"
 
     # With atom reordering
-    aligned_struct_reorder, rmsd_reorder = align(struct1, struct2, reorder_atoms=True)
-    rmsd_reorder = rmsd(aligned_struct_reorder, struct2, best=False)
+    aligned_struct_reorder, rmsd_reorder = align(struct1, struct2, symmetry=True)
+    rmsd_reorder = rmsd(aligned_struct_reorder, struct2, symmetry=False)
     assert (
         aligned_struct_reorder.symbols == struct2.symbols
     ), "Symbols should be reordered"
 
     assert np.isclose(
-        rmsd_reorder, 0.0, atol=1e-3
+        rmsd_reorder, 0.0, atol=1e-2
     ), "RMSD should be zero with atom reordering"
 
 
@@ -228,8 +228,8 @@ def test_rmsd_with_numthreads():
     struct1 = Structure(symbols=symbols, geometry=geometry)
     struct2 = Structure(symbols=symbols, geometry=geometry)
 
-    rmsd_single_thread = rmsd(struct1, struct2, best=True, numthreads=1)
-    rmsd_multi_thread = rmsd(struct1, struct2, best=True, numthreads=4)
+    rmsd_single_thread = rmsd(struct1, struct2, symmetry=True, numthreads=1)
+    rmsd_multi_thread = rmsd(struct1, struct2, symmetry=True, numthreads=4)
 
     assert np.isclose(
         rmsd_single_thread, 0.0, atol=1e-6
@@ -260,7 +260,7 @@ def test_align_incorrect_atom_mapping():
     struct2 = Structure(symbols=symbols2, geometry=geometry)
 
     with pytest.raises(RuntimeError):  # Raised by RDKit
-        align(struct1, struct2, reorder_atoms=False)
+        align(struct1, struct2, symmetry=False)
 
 
 def test_align_large_molecule():
@@ -271,5 +271,5 @@ def test_align_large_molecule():
     struct1 = Structure(symbols=symbols, geometry=geometry)
     struct2 = Structure(symbols=symbols, geometry=geometry + 0.1)  # Slightly shifted
 
-    aligned_struct, calculated_rmsd = align(struct1, struct2, reorder_atoms=False)
+    aligned_struct, calculated_rmsd = align(struct1, struct2, symmetry=False)
     assert calculated_rmsd < 0.2, "RMSD should be low for slightly shifted structures"

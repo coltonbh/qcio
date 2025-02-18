@@ -19,7 +19,24 @@ if TYPE_CHECKING:  # pragma: no cover
     from pydantic.typing import ReprArgs
 
 
-__all__ = ["Files", "Provenance", "Model", "CalcType"]
+__all__ = ["Files", "Provenance", "Model", "CalcType", "LengthUnit"]
+
+
+class LengthUnit(str, Enum):
+    """The unit of length.
+
+    Attributes:
+        BOHR (str):  Bohr.
+        ANGSTROM (str): Angstroms.
+
+    """
+
+    BOHR = "bohr"
+    ANGSTROM = "angstrom"
+
+    def __repr__(self) -> str:
+        """Custom repr for LengthUnit"""
+        return f"'{self.name}'"  # pragma: no cover
 
 
 class QCIOModelBase(BaseModel, ABC):

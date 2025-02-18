@@ -6,6 +6,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+### Changed
+
+- 🚨 The `rmsd` and `align` structures now return the `RMSD` in units of `Bohr` by default. To return in angstroms pass `length_unit="angstrom"`.
+- 🚨 Standardized nomenclature across package using `symmetry` and `length_unit` for kwargs:
+  - `best` kwarg to `rmsd` has been changed to `symmetry`.
+  - `reorder_atoms` kwarg to `align` has been changed to `symmetry`.
+  - `generate_structure_viewer_html` (and by extension `view.view`) kwarg `distance_units` renamed to `length_unit`.
+
+### Added
+
+- `LengthUnit` enum model with attributes `BOHR` and `ANGSTROM`.
+
+### Removed
+
+- `DistanceUnits` enum in favor of `LengthUnit`.
+
 ## [0.12.4] - 2025-02-05
 
 ### Fixed

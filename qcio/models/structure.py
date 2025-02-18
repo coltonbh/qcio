@@ -1,6 +1,5 @@
 import warnings
 from collections import Counter
-from enum import Enum
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, ClassVar, Optional, Union
 
@@ -12,26 +11,13 @@ from qcio.constants import BOHR_TO_ANGSTROM
 from qcio.constants import periodic_table as pt
 from qcio.helper_types import SerializableNDArray
 
-from .base_models import QCIOModelBase
+from .base_models import LengthUnit, QCIOModelBase
 from .utils import renamed_class, smiles_to_structure, structure_to_smiles
 
 if TYPE_CHECKING:
     from pydantic.typing import ReprArgs
 
-__all__ = ["Structure", "Identifiers", "Molecule", "DistanceUnits"]
-
-
-class DistanceUnits(str, Enum):
-    """Distance units for the Structure.distance method.
-
-    Attributes:
-        bohr (str): The distance in Bohr.
-        angstrom (str): The distance in Angstrom.
-
-    """
-
-    bohr = "bohr"
-    angstrom = "angstrom"
+__all__ = ["Structure", "Identifiers", "Molecule"]
 
 
 class Identifiers(QCIOModelBase):
@@ -394,9 +380,7 @@ class Structure(QCIOModelBase):
 
         return structures
 
-    def distance(
-        self, i: int, j: int, units: DistanceUnits = DistanceUnits.bohr
-    ) -> float:
+    def distance(self, i: int, j: int, units: LengthUnit = LengthUnit.BOHR) -> float:
         """Calculate the distance between two atoms.
 
         Args:
@@ -415,7 +399,7 @@ class Structure(QCIOModelBase):
             ```
         """
         distance = np.linalg.norm(self.geometry[i] - self.geometry[j])
-        if units == DistanceUnits.angstrom:
+        if units == LengthUnit.ANGSTROM:
             return float(distance * BOHR_TO_ANGSTROM)
         return float(distance)
 

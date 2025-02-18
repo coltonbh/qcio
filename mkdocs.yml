@@ -116,6 +116,7 @@ nav:
           - Model: api/model.md
           - Provenance: api/provenance.md
           - QCIOModelBase: api/qciomodelbase.md
+          - LengthUnit: api/lengthunit.md
   - ✨Visualizations✨:
       - Overview: visualizations/overview.md
       - Structure: visualizations/structure.ipynb
