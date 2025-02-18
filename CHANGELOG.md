@@ -6,6 +6,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+### Changed
+
+- `Structure.add_identifiers(name="some_name", smiles="some_smiles")` (or other identifiers) rather than `Structure.add_identifiers({"name": "somename", "smiles": "some_smiles"})`
+- No longer using `viewer=grid` for single Py3dMol viewers. This gives better performance as per David Koes, the package maintainer.
+- Removed automatic use of SMILES for `view` titles. It was an eyesore for longer SMILES.
+- Updated documentation to make it clear when `Bohr`/`Angstroms` where being used. Further standardized on `Bohr`.
+
+### Removed
+
+- `view.view()` no longer uses `Structure.ids.smiles` as a default title.
+
 ## [0.13.0] - 2025-02-17
 
 ### Changed

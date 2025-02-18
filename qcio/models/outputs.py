@@ -359,12 +359,13 @@ class ConformerSearchResults(Files):
         return self.rotamer_energies - self.rotamer_energies.min()
 
     def conformers_filtered(
-        self, threshold: float = 0.5, **rmsd_kwargs
+        self, threshold: float = 1.0, **rmsd_kwargs
     ) -> tuple[list[Structure], SerializableNDArray]:
         """Filter conformers to only unique Structures within rmsd of `threshold`.
 
         Args:
-            threshold: The RMSD threshold in Angstrom for filtering conformers.
+            threshold: The RMSD threshold in Bohr for filtering conformers. Defaults to
+                1.0 Bohr (0.53 Angstroms).
             **rmsd_kwargs: Additional keyword arguments to pass to the rmsd function.
 
         Returns:

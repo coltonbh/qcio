@@ -515,11 +515,11 @@ class Structure(QCIOModelBase):
             identifiers["canonical_smiles"] = smiles
 
         identifiers["canonical_smiles_program"] = program
-        self.add_identifiers(identifiers)
+        self.add_identifiers(**identifiers)
         # Ensure pydantic knows the field has been set
         self.__pydantic_fields_set__.add("identifiers")
 
-    def add_identifiers(self, identifiers: dict[str, str]) -> None:
+    def add_identifiers(self, **identifiers) -> None:
         """Add an identifier to the structure.
 
         Args:
@@ -527,13 +527,13 @@ class Structure(QCIOModelBase):
 
         Example:
             ```python
-            struct.add_identifiers({"name": "water"})
+            struct.add_identifiers(name="water")
             struct.ids.name
             'water'
             ```
 
             ```python
-            struct.add_identifier({"smiles": "CCO"})
+            struct.add_identifier(smiles="CCO")
             struct.ids.smiles
             'CCO'
             ```
