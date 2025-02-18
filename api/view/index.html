@@ -1514,8 +1514,7 @@ objects or one or more lists of Structure objects.</p>
 
             <details class="quote">
               <summary>Source code in <code>qcio/view.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">726</span>
-<span class="normal">727</span>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">727</span>
 <span class="normal">728</span>
 <span class="normal">729</span>
 <span class="normal">730</span>
@@ -1545,7 +1544,8 @@ objects or one or more lists of Structure objects.</p>
 <span class="normal">754</span>
 <span class="normal">755</span>
 <span class="normal">756</span>
-<span class="normal">757</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">view</span><span class="p">(</span>
+<span class="normal">757</span>
+<span class="normal">758</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">view</span><span class="p">(</span>
     <span class="o">*</span><span class="n">objs</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ProgramOutput</span><span class="p">,</span> <span class="n">Structure</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="n">Structure</span><span class="p">]],</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -1660,7 +1660,7 @@ objects or one or more lists of Structure objects.</p>
             <td>
               <div class="doc-md-description">
                 <p>The threshold for RMSD to determine if conformers are
-unique. Defaults to 0.5 Å.</p>
+unique. Defaults to 1.0 Bohr (0.53 Å).</p>
               </div>
             </td>
             <td>
@@ -1723,8 +1723,7 @@ RMSD filtering function.</p>
 
             <details class="quote">
               <summary>Source code in <code>qcio/view.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">601</span>
-<span class="normal">602</span>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">602</span>
 <span class="normal">603</span>
 <span class="normal">604</span>
 <span class="normal">605</span>
@@ -1845,7 +1844,8 @@ RMSD filtering function.</p>
 <span class="normal">720</span>
 <span class="normal">721</span>
 <span class="normal">722</span>
-<span class="normal">723</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">program_outputs</span><span class="p">(</span>
+<span class="normal">723</span>
+<span class="normal">724</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">program_outputs</span><span class="p">(</span>
     <span class="o">*</span><span class="n">prog_outputs</span><span class="p">:</span> <span class="n">ProgramOutput</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">ProgramInput</span><span class="p">,</span> <span class="n">DualProgramInput</span><span class="p">],</span> <span class="n">Results</span><span class="p">],</span>
     <span class="n">animate</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">struct_viewer</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
@@ -1861,7 +1861,7 @@ RMSD filtering function.</p>
 <span class="sd">        animate: Whether to animate the structure if it is an optimization.</span>
 <span class="sd">        struct_viewer: Whether to display the structure viewer.</span>
 <span class="sd">        conformer_rmsd_threshold: The threshold for RMSD to determine if conformers are</span>
-<span class="sd">            unique. Defaults to 0.5 Å.</span>
+<span class="sd">            unique. Defaults to 1.0 Bohr (0.53 Å).</span>
 <span class="sd">        conformer_rmsd_kwargs: Additional keyword arguments to pass to the conformer</span>
 <span class="sd">            RMSD filtering function.</span>
 <span class="sd">        **kwargs: Additional keyword arguments to pass to the viewer functions.</span>
@@ -2057,8 +2057,7 @@ passed the structures will be animated.</p>
 
             <details class="quote">
               <summary>Source code in <code>qcio/view.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">583</span>
-<span class="normal">584</span>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">584</span>
 <span class="normal">585</span>
 <span class="normal">586</span>
 <span class="normal">587</span>
@@ -2072,7 +2071,8 @@ passed the structures will be animated.</p>
 <span class="normal">595</span>
 <span class="normal">596</span>
 <span class="normal">597</span>
-<span class="normal">598</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">structures</span><span class="p">(</span>
+<span class="normal">598</span>
+<span class="normal">599</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">structures</span><span class="p">(</span>
     <span class="o">*</span><span class="n">structs</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Structure</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="n">Structure</span><span class="p">]],</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -2172,7 +2172,7 @@ or 2D PNG images. These keywords may be passed to high level viewer functions.</
             <td>
               <div class="doc-md-description">
                 <p>The titles to display above the viewer. Will default to the Structure
-name or SMILES if not provided.</p>
+name if not provided.</p>
               </div>
             </td>
             <td>
@@ -2580,7 +2580,8 @@ dictionary for AtomStyleSpec <a href="https://3dmol.org/doc/AtomStyleSpec.html">
 <span class="normal">292</span>
 <span class="normal">293</span>
 <span class="normal">294</span>
-<span class="normal">295</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">generate_structure_viewer_html</span><span class="p">(</span>
+<span class="normal">295</span>
+<span class="normal">296</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">generate_structure_viewer_html</span><span class="p">(</span>
     <span class="o">*</span><span class="n">structs</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="s2">&quot;Structure&quot;</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="s2">&quot;Structure&quot;</span><span class="p">]],</span>
     <span class="n">width</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">height</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -2605,7 +2606,7 @@ dictionary for AtomStyleSpec <a href="https://3dmol.org/doc/AtomStyleSpec.html">
 <span class="sd">        width: The width of the viewer in pixels. Defaults to 600.</span>
 <span class="sd">        height: The height of the viewer in pixels. Defaults to 450.</span>
 <span class="sd">        titles: The titles to display above the viewer. Will default to the Structure</span>
-<span class="sd">            name or SMILES if not provided.</span>
+<span class="sd">            name if not provided.</span>
 <span class="sd">        subtitles: The subtitles to display below the viewer.</span>
 <span class="sd">        titles_extra: Extra text to display after the title. This is useful for adding</span>
 <span class="sd">            additional context to a default title.</span>
@@ -2644,7 +2645,7 @@ dictionary for AtomStyleSpec <a href="https://3dmol.org/doc/AtomStyleSpec.html">
     <span class="k">if</span> <span class="ow">not</span> <span class="n">view_2d</span><span class="p">:</span>
         <span class="c1"># Create the viewer</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">structs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">same_viewer</span><span class="p">:</span>
-            <span class="n">viewer</span> <span class="o">=</span> <span class="n">p3d</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">,</span> <span class="n">viewergrid</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="n">viewer</span> <span class="o">=</span> <span class="n">p3d</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># Determine the number of rows needed for multiple structures</span>
             <span class="n">rows</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">structs</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
@@ -2661,12 +2662,10 @@ dictionary for AtomStyleSpec <a href="https://3dmol.org/doc/AtomStyleSpec.html">
         <span class="c1"># Set the title and subtitle</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">struct</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
             <span class="n">name</span> <span class="o">=</span> <span class="n">struct</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">ids</span><span class="o">.</span><span class="n">name</span>
-            <span class="n">smiles</span> <span class="o">=</span> <span class="n">struct</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">ids</span><span class="o">.</span><span class="n">smiles</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">name</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">ids</span><span class="o">.</span><span class="n">name</span>
-            <span class="n">smiles</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">ids</span><span class="o">.</span><span class="n">smiles</span>
 
-        <span class="n">title</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">title</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="n">smiles</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">title</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="n">name</span><span class="w">  </span><span class="ow">or</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="n">title_extra</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">title_extra</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="n">subtitle</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">subtitle</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="n">subtitle_extra</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">subtitle_extra</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="si">}</span><span class="s2">&quot;</span>
@@ -2696,17 +2695,20 @@ dictionary for AtomStyleSpec <a href="https://3dmol.org/doc/AtomStyleSpec.html">
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">same_viewer</span><span class="p">:</span>
-                <span class="n">grid</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+                <span class="c1"># No grid for single viewer (better performance than (1,1) grid)</span>
+                <span class="n">viewer_kwargs</span> <span class="o">=</span> <span class="p">{}</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">grid</span> <span class="o">=</span> <span class="nb">divmod</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+                <span class="c1"># Sets the viewer to the correct grid position</span>
+                <span class="n">viewer_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;viewer&quot;</span><span class="p">:</span> <span class="nb">divmod</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">2</span><span class="p">)}</span>
 
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">struct</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>  <span class="c1"># Animate lists of structures</span>
                 <span class="n">combined_xyz</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">to_xyz</span><span class="p">()</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">struct</span><span class="p">)</span>
-                <span class="n">viewer</span><span class="o">.</span><span class="n">addModelsAsFrames</span><span class="p">(</span><span class="n">combined_xyz</span><span class="p">,</span> <span class="s2">&quot;xyz&quot;</span><span class="p">,</span> <span class="n">viewer</span><span class="o">=</span><span class="n">grid</span><span class="p">)</span>
-                <span class="n">viewer</span><span class="o">.</span><span class="n">animate</span><span class="p">({</span><span class="s2">&quot;loop&quot;</span><span class="p">:</span> <span class="s2">&quot;forward&quot;</span><span class="p">,</span> <span class="s2">&quot;interval&quot;</span><span class="p">:</span> <span class="n">interval</span><span class="p">},</span> <span class="n">viewer</span><span class="o">=</span><span class="n">grid</span><span class="p">)</span>
-                <span class="c1"># viewer.animate({&quot;loop&quot;: &quot;forward&quot;}, viewer=grid)</span>
+                <span class="n">viewer</span><span class="o">.</span><span class="n">addModelsAsFrames</span><span class="p">(</span><span class="n">combined_xyz</span><span class="p">,</span> <span class="s2">&quot;xyz&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">viewer_kwargs</span><span class="p">)</span>
+                <span class="n">viewer</span><span class="o">.</span><span class="n">animate</span><span class="p">(</span>
+                    <span class="p">{</span><span class="s2">&quot;loop&quot;</span><span class="p">:</span> <span class="s2">&quot;forward&quot;</span><span class="p">,</span> <span class="s2">&quot;interval&quot;</span><span class="p">:</span> <span class="n">interval</span><span class="p">},</span> <span class="o">**</span><span class="n">viewer_kwargs</span>
+                <span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">viewer</span><span class="o">.</span><span class="n">addModel</span><span class="p">(</span><span class="n">struct</span><span class="o">.</span><span class="n">to_xyz</span><span class="p">(),</span> <span class="s2">&quot;xyz&quot;</span><span class="p">,</span> <span class="n">viewer</span><span class="o">=</span><span class="n">grid</span><span class="p">)</span>
+                <span class="n">viewer</span><span class="o">.</span><span class="n">addModel</span><span class="p">(</span><span class="n">struct</span><span class="o">.</span><span class="n">to_xyz</span><span class="p">(),</span> <span class="s2">&quot;xyz&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">viewer_kwargs</span><span class="p">)</span>
 
             <span class="n">viewer</span><span class="o">.</span><span class="n">addLabel</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">title_extra</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
@@ -2718,7 +2720,7 @@ dictionary for AtomStyleSpec <a href="https://3dmol.org/doc/AtomStyleSpec.html">
                     <span class="s2">&quot;fontColor&quot;</span><span class="p">:</span> <span class="s2">&quot;black&quot;</span><span class="p">,</span>
                     <span class="s2">&quot;useScreen&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
                 <span class="p">},</span>
-                <span class="n">viewer</span><span class="o">=</span><span class="n">grid</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">viewer_kwargs</span><span class="p">,</span>
             <span class="p">)</span>
 
             <span class="n">viewer</span><span class="o">.</span><span class="n">addLabel</span><span class="p">(</span>
@@ -2731,7 +2733,7 @@ dictionary for AtomStyleSpec <a href="https://3dmol.org/doc/AtomStyleSpec.html">
                     <span class="s2">&quot;fontColor&quot;</span><span class="p">:</span> <span class="s2">&quot;black&quot;</span><span class="p">,</span>
                     <span class="s2">&quot;useScreen&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
                 <span class="p">},</span>
-                <span class="n">viewer</span><span class="o">=</span><span class="n">grid</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">viewer_kwargs</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="k">if</span> <span class="n">distances</span><span class="p">:</span>
                 <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span>
@@ -2756,7 +2758,7 @@ dictionary for AtomStyleSpec <a href="https://3dmol.org/doc/AtomStyleSpec.html">
                             <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="s2">&quot;red&quot;</span><span class="p">,</span>
                             <span class="s2">&quot;linewidth&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
                         <span class="p">},</span>
-                        <span class="n">viewer</span><span class="o">=</span><span class="n">grid</span><span class="p">,</span>
+                        <span class="o">**</span><span class="n">viewer_kwargs</span><span class="p">,</span>
                     <span class="p">)</span>
                     <span class="c1"># Add a label showing the distance</span>
                     <span class="n">midpoint</span> <span class="o">=</span> <span class="p">(</span><span class="n">a1_coords</span> <span class="o">+</span> <span class="n">a2_coords</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
@@ -2778,7 +2780,7 @@ dictionary for AtomStyleSpec <a href="https://3dmol.org/doc/AtomStyleSpec.html">
                             <span class="s2">&quot;fontSize&quot;</span><span class="p">:</span> <span class="mi">14</span><span class="p">,</span>
                             <span class="s2">&quot;fontColor&quot;</span><span class="p">:</span> <span class="s2">&quot;black&quot;</span><span class="p">,</span>
                         <span class="p">},</span>
-                        <span class="n">viewer</span><span class="o">=</span><span class="n">grid</span><span class="p">,</span>
+                        <span class="o">**</span><span class="n">viewer_kwargs</span><span class="p">,</span>
                     <span class="p">)</span>
 
             <span class="k">if</span> <span class="n">show_indices</span><span class="p">:</span>
@@ -2791,7 +2793,7 @@ dictionary for AtomStyleSpec <a href="https://3dmol.org/doc/AtomStyleSpec.html">
                     <span class="n">viewer</span><span class="o">.</span><span class="n">addLabel</span><span class="p">(</span>
                         <span class="nb">str</span><span class="p">(</span><span class="n">j</span><span class="p">),</span>
                         <span class="p">{</span><span class="s2">&quot;position&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="n">coord</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="n">coord</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;z&quot;</span><span class="p">:</span> <span class="n">coord</span><span class="p">[</span><span class="mi">2</span><span class="p">]}},</span>
-                        <span class="n">viewer</span><span class="o">=</span><span class="n">grid</span><span class="p">,</span>
+                        <span class="o">**</span><span class="n">viewer_kwargs</span><span class="p">,</span>
                     <span class="p">)</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">view_2d</span><span class="p">:</span>
@@ -2876,8 +2878,7 @@ dictionary for AtomStyleSpec <a href="https://3dmol.org/doc/AtomStyleSpec.html">
 
             <details class="quote">
               <summary>Source code in <code>qcio/view.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">332</span>
-<span class="normal">333</span>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">333</span>
 <span class="normal">334</span>
 <span class="normal">335</span>
 <span class="normal">336</span>
@@ -2973,7 +2974,8 @@ dictionary for AtomStyleSpec <a href="https://3dmol.org/doc/AtomStyleSpec.html">
 <span class="normal">426</span>
 <span class="normal">427</span>
 <span class="normal">428</span>
-<span class="normal">429</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">generate_output_table</span><span class="p">(</span><span class="o">*</span><span class="n">prog_outputs</span><span class="p">:</span> <span class="n">ProgramOutput</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="normal">429</span>
+<span class="normal">430</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">generate_output_table</span><span class="p">(</span><span class="o">*</span><span class="n">prog_outputs</span><span class="p">:</span> <span class="n">ProgramOutput</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generate an HTML table displaying the basic parameters for ProgramOutput objects.</span>
 
@@ -3172,8 +3174,7 @@ dictionary for AtomStyleSpec <a href="https://3dmol.org/doc/AtomStyleSpec.html">
 
             <details class="quote">
               <summary>Source code in <code>qcio/view.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">432</span>
-<span class="normal">433</span>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">433</span>
 <span class="normal">434</span>
 <span class="normal">435</span>
 <span class="normal">436</span>
@@ -3231,7 +3232,8 @@ dictionary for AtomStyleSpec <a href="https://3dmol.org/doc/AtomStyleSpec.html">
 <span class="normal">488</span>
 <span class="normal">489</span>
 <span class="normal">490</span>
-<span class="normal">491</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">generate_optimization_plot</span><span class="p">(</span>
+<span class="normal">491</span>
+<span class="normal">492</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">generate_optimization_plot</span><span class="p">(</span>
     <span class="n">prog_output</span><span class="p">:</span> <span class="n">ProgramOutput</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">6.4</span><span class="p">,</span> <span class="mf">4.8</span><span class="p">),</span> <span class="n">grid</span><span class="o">=</span><span class="kc">True</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -3366,8 +3368,7 @@ dictionary for AtomStyleSpec <a href="https://3dmol.org/doc/AtomStyleSpec.html">
 
             <details class="quote">
               <summary>Source code in <code>qcio/view.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">541</span>
-<span class="normal">542</span>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">542</span>
 <span class="normal">543</span>
 <span class="normal">544</span>
 <span class="normal">545</span>
@@ -3405,7 +3406,8 @@ dictionary for AtomStyleSpec <a href="https://3dmol.org/doc/AtomStyleSpec.html">
 <span class="normal">577</span>
 <span class="normal">578</span>
 <span class="normal">579</span>
-<span class="normal">580</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">generate_results_table</span><span class="p">(</span><span class="n">results</span><span class="p">:</span> <span class="n">Files</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="normal">580</span>
+<span class="normal">581</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">generate_results_table</span><span class="p">(</span><span class="n">results</span><span class="p">:</span> <span class="n">Files</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generate an HTML table displaying the results.</span>
 

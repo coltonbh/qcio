@@ -1596,8 +1596,7 @@ schema development and scratch space.</p>
 
                   <details class="quote">
                     <summary>Source code in <code>qcio/models/outputs.py</code></summary>
-                    <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">418</span>
-<span class="normal">419</span>
+                    <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">419</span>
 <span class="normal">420</span>
 <span class="normal">421</span>
 <span class="normal">422</span>
@@ -1615,7 +1614,8 @@ schema development and scratch space.</p>
 <span class="normal">434</span>
 <span class="normal">435</span>
 <span class="normal">436</span>
-<span class="normal">437</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">data</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+<span class="normal">437</span>
+<span class="normal">438</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">data</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Backwards compatibility for files attribute.&quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="s2">&quot;files&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
@@ -2407,7 +2407,7 @@ multi-structure <code>xyz</code> file.</p>
 
 
 <a href="#qcio.ConformerSearchResults.conformers_filtered" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="language-python doc-signature highlight"><pre><span></span><code><span class="nf">conformers_filtered</span><span class="p">(</span><span class="n">threshold</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="o">**</span><span class="n">rmsd_kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">tuple</span><span class="p">[</span><span class="n">list</span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="qcio.models.structure.Structure" href="../structure/#qcio.Structure">Structure</a></span><span class="p">],</span> <span class="n"><span title="qcio.helper_types.SerializableNDArray">SerializableNDArray</span></span><span class="p">]</span>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span class="nf">conformers_filtered</span><span class="p">(</span><span class="n">threshold</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="o">**</span><span class="n">rmsd_kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">tuple</span><span class="p">[</span><span class="n">list</span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="qcio.models.structure.Structure" href="../structure/#qcio.Structure">Structure</a></span><span class="p">],</span> <span class="n"><span title="qcio.helper_types.SerializableNDArray">SerializableNDArray</span></span><span class="p">]</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -2433,11 +2433,12 @@ multi-structure <code>xyz</code> file.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>The RMSD threshold in Angstrom for filtering conformers.</p>
+                <p>The RMSD threshold in Bohr for filtering conformers. Defaults to
+1.0 Bohr (0.53 Angstroms).</p>
               </div>
             </td>
             <td>
-                  <code>0.5</code>
+                  <code>1.0</code>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -2507,13 +2508,15 @@ multi-structure <code>xyz</code> file.</p>
 <span class="normal">384</span>
 <span class="normal">385</span>
 <span class="normal">386</span>
-<span class="normal">387</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">conformers_filtered</span><span class="p">(</span>
-    <span class="bp">self</span><span class="p">,</span> <span class="n">threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="o">**</span><span class="n">rmsd_kwargs</span>
+<span class="normal">387</span>
+<span class="normal">388</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">conformers_filtered</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span> <span class="n">threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="o">**</span><span class="n">rmsd_kwargs</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">Structure</span><span class="p">],</span> <span class="n">SerializableNDArray</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Filter conformers to only unique Structures within rmsd of `threshold`.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        threshold: The RMSD threshold in Angstrom for filtering conformers.</span>
+<span class="sd">        threshold: The RMSD threshold in Bohr for filtering conformers. Defaults to</span>
+<span class="sd">            1.0 Bohr (0.53 Angstroms).</span>
 <span class="sd">        **rmsd_kwargs: Additional keyword arguments to pass to the rmsd function.</span>
 
 <span class="sd">    Returns:</span>

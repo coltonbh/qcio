@@ -2614,7 +2614,7 @@ False.</p>
         <span class="n">identifiers</span><span class="p">[</span><span class="s2">&quot;canonical_smiles&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">smiles</span>
 
     <span class="n">identifiers</span><span class="p">[</span><span class="s2">&quot;canonical_smiles_program&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">program</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">add_identifiers</span><span class="p">(</span><span class="n">identifiers</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">add_identifiers</span><span class="p">(</span><span class="o">**</span><span class="n">identifiers</span><span class="p">)</span>
     <span class="c1"># Ensure pydantic knows the field has been set</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__pydantic_fields_set__</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;identifiers&quot;</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
