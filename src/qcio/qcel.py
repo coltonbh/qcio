@@ -2,7 +2,18 @@
 
 from typing import Any
 
+import numpy as np
+
 from qcio import ProgramInput, SinglePointResults, Wavefunction
+
+# ---------------------------------------------------------------------------
+# Compatibility shim: NumPy 2.0 removed `np.core.defchararray`; everything
+# now lives under `np.char`.  qcelemental still imports from the old path.
+# ---------------------------------------------------------------------------
+ # True on NumPy 2.0+
+if not hasattr(np.core, "defchararray"): # type: ignore
+    # simple one-line alias
+    np.core.defchararray = np.char # type: ignore 
 
 
 def to_qcel_input(prog_input: ProgramInput) -> dict[str, Any]:

@@ -168,3 +168,6 @@ cython_debug/
 # rdkit artifacts
 nul
 run.out
+
+# Fake files for testing
+fake*.py

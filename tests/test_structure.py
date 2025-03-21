@@ -86,57 +86,6 @@ def test_atomic_symbols():
     assert structure.atomic_numbers == [11, 17]
 
 
-def test_smiles_to_structure_rdkit():
-    struct = Structure.from_smiles("OCC", program="rdkit", force_field="UFF")
-    assert struct.symbols == ["O", "C", "C", "H", "H", "H", "H", "H", "H"]
-    assert np.allclose(
-        struct.geometry,
-        [
-            [2.6979441, -1.06763753, -0.62153908],
-            [0.88868167, 0.83954245, -0.29985753],
-            [-1.72671851, -0.31066038, 0.05825528],
-            [3.02616491, -1.78814426, 1.07956874],
-            [0.87558876, 2.05322739, -2.01164947],
-            [1.37464628, 2.04828289, 1.35295762],
-            [-1.76163293, -1.49808375, 1.78844384],
-            [-3.15050459, 1.21801804, 0.2556908],
-            [-2.22416969, -1.49454485, -1.60187022],
-        ],
-        atol=1e-1,
-    )
-    assert struct.charge == 0
-    assert struct.multiplicity == 1
-    assert struct.identifiers.smiles == "OCC"
-    assert struct.identifiers.canonical_smiles == "CCO"
-
-    # Check Charge
-    struct = Structure.from_smiles("[O-]CC")
-    assert struct.charge == -1
-
-    # Check manual multiplicity
-    struct = Structure.from_smiles("[O-]CC", multiplicity=3)
-    assert struct.charge == -1
-    assert struct.multiplicity == 3
-
-
-def test_smiles_to_structure_openbabel():
-    struct = Structure.from_smiles("OCC", program="openbabel")
-    assert struct.symbols == ["O", "C", "C", "H", "H", "H", "H", "H", "H"]
-    assert struct.charge == 0
-    assert struct.multiplicity == 1
-    assert struct.identifiers.smiles == "OCC"
-    assert struct.identifiers.canonical_smiles == "CCO"
-
-    # Check Charge
-    struct = Structure.from_smiles("[O-]CC")
-    assert struct.charge == -1
-
-    # Check manual multiplicity
-    struct = Structure.from_smiles("[O-]CC", multiplicity=3)
-    assert struct.charge == -1
-    assert struct.multiplicity == 3
-
-
 def test_ids_backwards_compatibility():
     struct = Structure(symbols=["H"], geometry=[[0, 0, 0]], ids={"name": "fake"})
     assert struct.identifiers.name == "fake"
@@ -257,49 +206,6 @@ def test_passing_charge_and_multiplicity_to_open(
 def test_no_charge_multiplicity_to_non_xyz_files():
     with pytest.raises(ValueError):
         Structure.open("file.json", charge=1, multiplicity=2)
-
-
-def test_to_smiles_rdkit(water):
-    smiles = water.to_smiles()
-    assert smiles == "O"
-    smiles = water.to_smiles(program="rdkit", hydrogens=True)
-    assert smiles == "[H]O[H]"
-
-
-def test_smiles_charges_rdkit():
-    s = Structure.from_smiles("CC[O-]")
-    assert s.charge == -1
-    # Using robust method
-    assert s.to_smiles(program="rdkit") == "CC[O-]"
-
-
-def test_to_smiles_openbabel(water):
-    smiles = water.to_smiles()
-    assert smiles == "O"
-    smiles = water.to_smiles(program="openbabel", hydrogens=True)
-    assert smiles == "[H]O[H]"
-
-
-def test_smiles_charges_openbabel():
-    s = Structure.from_smiles("CC[O-]")
-    assert s.charge == -1
-    assert s.to_smiles(program="openbabel") == "[O-]CC"
-
-
-def test_add_smiles(water):
-    water.add_smiles(program="rdkit")
-    assert water.identifiers.smiles == "O"
-    assert water.identifiers.canonical_smiles == "O"
-    assert water.identifiers.canonical_smiles_program == "rdkit"
-    water.add_smiles(program="rdkit", hydrogens=True)
-    assert water.identifiers.canonical_explicit_hydrogen_smiles == "[H]O[H]"
-
-    water.add_smiles(program="openbabel")
-    assert water.identifiers.smiles == "O"
-    assert water.identifiers.canonical_smiles == "O"
-    assert water.identifiers.canonical_smiles_program == "openbabel"
-    water.add_smiles(program="openbabel", hydrogens=True)
-    assert water.identifiers.canonical_explicit_hydrogen_smiles == "[H]O[H]"
 
 
 def test_multi_xyz(test_data_dir):

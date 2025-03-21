@@ -24,7 +24,7 @@ from qcio.helper_types import SerializableNDArray
 from .base_models import CalcType, Files, Provenance, QCIOModelBase
 from .inputs import FileInput, Inputs, InputType, ProgramInput
 from .structure import Structure
-from .utils import rmsd, to_multi_xyz
+from .utils import to_multi_xyz
 
 __all__ = [
     "SinglePointResults",
@@ -233,16 +233,6 @@ class OptimizationResults(Files, CalcInfoMixin):
         """The Structure objects for each step of the optimization."""
         return [output.input_data.structure for output in self.trajectory]
 
-    @property
-    def molecules(self) -> list[Structure]:
-        """The Structure objects for each step of the optimization."""
-        warnings.warn(
-            ".molecules is being depreciated and will be removed in a future. "
-            "Please use .structures instead.",
-            category=FutureWarning,
-            stacklevel=2,
-        )
-        return self.structures
 
     def return_result(self, calctype: CalcType) -> Structure | None:
         """Return the primary result of the calculation."""
@@ -359,34 +349,45 @@ class ConformerSearchResults(Files):
         return self.rotamer_energies - self.rotamer_energies.min()
 
     def conformers_filtered(
-        self, threshold: float = 1.0, **rmsd_kwargs
-    ) -> tuple[list[Structure], SerializableNDArray]:
-        """Filter conformers to only unique Structures within rmsd of `threshold`.
-
-        Args:
-            threshold: The RMSD threshold in Bohr for filtering conformers. Defaults to
-                1.0 Bohr (0.53 Angstroms).
-            **rmsd_kwargs: Additional keyword arguments to pass to the rmsd function.
-
-        Returns:
-            Tuple of the filtered conformers and their relative energies.
+        self,
+        threshold: float = 1.0,
+        **rmsd_kwargs,
+    ) -> tuple[list["Structure"], "SerializableNDArray"]:
         """
-        filtered = set()
+        !!! warning "Moved since *qcio* 0.15.0"
+            This convenience method has moved to  
+            [`qcinf.filter_conformers`][qcinf.filter_conformers]  
+            and this stub will be **removed** from *qcio* in a future release.
 
-        for i in range(len(self.conformers)):
-            if i not in filtered:
-                for j in range(i + 1, len(self.conformers)):
-                    if (
-                        rmsd(self.conformers[i], self.conformers[j], **rmsd_kwargs)
-                        < threshold
-                    ):
-                        filtered.add(j)
+            ```python
+            from qcinf import filter_conformers
 
-        keep_indices = [i for i in range(len(self.conformers)) if i not in filtered]
-        return [
-            self.conformers[i] for i in keep_indices
-        ], self.conformer_energies_relative[keep_indices]
+            filtered_csr = filter_conformers(
+                conformers=csr
+                threshold=1.0,          # Bohr
+                backend="qcinf",      # or "rdkit",
+                **rmsd_kwargs,
+            )
+            ```
+        """
+        
 
+        warnings.warn(
+            "`ConformerSearchResults.conformers_filtered()` is deprecated. "
+            "Install *qcinf* and use `qcinf.filter_conformers` instead.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
+        raise NotImplementedError(
+            "Method removed.  Replace with:\n\n"
+            "    from qcinf import filter_conformers\n\n"
+            "    filtered_csr = filter_conformers(\n"
+            "        prog_output.results,\n"
+            "        threshold=1.0,\n"
+            "        backend='qcinf',\n"
+            "        **rmsd_kwargs\n"
+            "    )"
+        )
 
 StructuredResults = Union[
     SinglePointResults, OptimizationResults, ConformerSearchResults
