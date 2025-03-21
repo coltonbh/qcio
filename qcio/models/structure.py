@@ -1,18 +1,20 @@
 import warnings
 from collections import Counter
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, ClassVar, Optional, Union
+from typing import TYPE_CHECKING, Any, Callable, ClassVar, Optional, Union
 
 import numpy as np
 from pydantic import field_serializer, model_validator
+from qcutils import periodic_table as pt
+from qcutils.constants import BOHR_TO_ANGSTROM
 from typing_extensions import Self
 
-from qcio.constants import BOHR_TO_ANGSTROM
-from qcio.constants import periodic_table as pt
 from qcio.helper_types import SerializableNDArray
 
 from .base_models import LengthUnit, QCIOModelBase
-from .utils import renamed_class, smiles_to_structure, structure_to_smiles
+
+# from qcutils.algorithms import smiles_to_structure, structure_to_smiles
+from .utils import renamed_class
 
 if TYPE_CHECKING:
     from pydantic.typing import ReprArgs
@@ -62,22 +64,6 @@ class Identifiers(QCIOModelBase):
     pubchem_conformerid: Optional[str] = None
 
 
-class IDs2(Identifiers):
-    """Second one"""
-
-
-# class Bond(QCIOModelBase):
-#     """A bond object.
-
-#     Attributes:
-#         indices: The indices of the atoms in the bond.
-#         order: The order of the bond.
-#     """
-
-#     indices: Tuple[int, int]
-#     order: Optional[float]
-
-
 class Structure(QCIOModelBase):
     """A Structure object with atoms and their corresponding cartesian coordinates,
         charge, multiplicity, and identifiers such as name, smiles, etc.
@@ -110,6 +96,10 @@ class Structure(QCIOModelBase):
     connectivity: list[tuple[int, int, float]] = []
     _xyz_comment_key: ClassVar[str] = "xyz_comments"
 
+    # Placeholder for the from_smiles classmethod
+    _from_smiles_method: ClassVar[Optional[Callable]] = None
+    _to_smiles_method: ClassVar[Optional[staticmethod]] = None
+
     def __init__(self, **data: Any):
         """Create a new Structure object.
 
@@ -122,7 +112,7 @@ class Structure(QCIOModelBase):
                 geometry=[[0.0, 0.0, 0.0], [0.0, 0.0, 1.0], [0.0, 0.0, 2.0]],
                 charge=0,  # optional; defaults to 0
                 multiplicity=1,  # optional; defaults to 1
-                identifiers={"smiles": "CCO"},  # optional
+                identifiers={"smiles": "O"},  # optional
             )
 
             ```
@@ -236,6 +226,49 @@ class Structure(QCIOModelBase):
         """Shortcut to access the identifiers."""
         return self.identifiers
 
+    # @classmethod
+    # def from_smiles(
+    #     cls,
+    #     smiles: str,
+    #     *,
+    #     program: str = "rdkit",
+    #     force_field: str = "MMFF94s",
+    #     multiplicity: int = 1,
+    # ) -> Self:
+    #     """Create a new Structure object from a SMILES string.
+
+    #     Args:
+    #         smiles: The SMILES string.
+    #         program: The program to use for the conversion. Defaults to "rdkit".
+    #         force_field: The force field to use. E.g., UFF, MMFF94, MMFF94s, etc.
+    #         multiplicity: The multiplicity of the structure.
+
+    #     Returns:
+    #         A Structure object with identifiers for SMILES and canonical SMILES.
+
+    #     Example:
+    #         ```python
+    #         struct = Structure.from_smiles("CN1C=NC2=C1C(=O)N(C(=O)N2C)C")
+
+    #         print(struct.ids.smiles)
+    #         # Output: 'CN1C=NC2=C1C(=O)N(C(=O)N2C)C'
+
+    #         print(struct.ids.canonical_smiles)
+    #         # Output: 'CN1C=NC2=C1C(=O)N(C(=O)N2C)C'
+    #         ```
+    #     """
+    #     dict_repr = smiles_to_structure(smiles, program, force_field)
+    #     dict_repr["multiplicity"] = multiplicity
+    #     return cls(**dict_repr)
+
+    @classmethod
+    def register_from_smiles(cls, method: Callable):
+        cls._from_smiles_method = method
+
+    @classmethod
+    def register_to_smiles(cls, method: Callable):
+        cls._to_smiles_method = staticmethod(method)
+
     @classmethod
     def from_smiles(
         cls,
@@ -267,9 +300,17 @@ class Structure(QCIOModelBase):
             # Output: 'CN1C=NC2=C1C(=O)N(C(=O)N2C)C'
             ```
         """
-        dict_repr = smiles_to_structure(smiles, program, force_field)
-        dict_repr["multiplicity"] = multiplicity
-        return cls(**dict_repr)
+        if cls._from_smiles_method is None:
+            raise NotImplementedError(
+                "The from_smiles method requires qcutils to be installed. "
+                "Please install qcutils with `pip install qcutils` to use "
+                "Structure.from_smiles."
+            )
+
+        # Call the registered method
+        data = cls._from_smiles_method(smiles, program=program, force_field=force_field)
+        data["multiplicity"] = multiplicity
+        return cls(**data)
 
     @classmethod
     def from_xyz(
@@ -430,7 +471,13 @@ class Structure(QCIOModelBase):
             'CN1C=NC2=C1C(=O)N(C(=O)N2C)C'
             ```
         """
-        return structure_to_smiles(
+        if self._to_smiles_method is None:
+            raise NotImplementedError(
+                "The to_smiles method requires qcutils to be installed. "
+                "Please install qcutils with `pip install qcutils` to use "
+                ".to_smiles()."
+            )
+        return self._to_smiles_method(
             self, program=program, hydrogens=hydrogens, robust=robust, **kwargs
         )
 

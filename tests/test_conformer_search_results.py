@@ -3,8 +3,9 @@ import copy
 import numpy as np
 import pytest
 from pydantic import ValidationError
+from qcutils import constants
 
-from qcio import ConformerSearchResults, constants
+from qcio import ConformerSearchResults
 
 
 def test_energies_size(water):

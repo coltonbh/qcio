@@ -29,6 +29,7 @@ from itertools import zip_longest
 from typing import Any, Optional, Union
 
 import numpy as np
+from qcutils import constants
 
 from qcio import (
     ConformerSearchResults,
@@ -41,7 +42,6 @@ from qcio import (
     Results,
     SinglePointResults,
     Structure,
-    constants,
 )
 
 # View dependencies

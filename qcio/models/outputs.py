@@ -9,8 +9,11 @@ from pathlib import Path
 from typing import (
     TYPE_CHECKING,
     Any,
+    Callable,
+    ClassVar,
     Generic,
     Literal,
+    Optional,
     TypeVar,
     Union,
     get_args,
@@ -25,7 +28,9 @@ from qcio.helper_types import SerializableNDArray
 from .base_models import CalcType, Files, Provenance, QCIOModelBase
 from .inputs import DualProgramInput, FileInput, Inputs, InputType, ProgramInput
 from .structure import Structure
-from .utils import deprecated_class, rmsd, to_multi_xyz
+from .utils import deprecated_class, to_multi_xyz
+
+# from qcutils.algorithms import rmsd
 
 if TYPE_CHECKING:  # pragma: no cover
     pass
@@ -309,6 +314,13 @@ class ConformerSearchResults(Files):
     rotamers: list[Structure] = []
     rotamer_energies: SerializableNDArray = np.array([])
 
+    # RMSD method to use for filtering conformers
+    _rmsd_method: ClassVar[Optional[staticmethod]] = None
+
+    @classmethod
+    def register_rmsd(cls, method: Callable):
+        cls._rmsd_method = staticmethod(method)
+
     @model_validator(mode="after")
     def _energies_size(self) -> ConformerSearchResults:
         """Ensure the energies are the same size as the conformers and rotamers."""
@@ -371,13 +383,21 @@ class ConformerSearchResults(Files):
         Returns:
             Tuple of the filtered conformers and their relative energies.
         """
-        filtered = set()
+        if self._rmsd_method is None:
+            raise NotImplementedError(
+                "The conformers_filtered method requires qcutils to be installed. "
+                "Please install qcutils with `pip install qcutils` to use "
+                ".conformers_filtered()."
+            )
 
+        filtered = set()
         for i in range(len(self.conformers)):
             if i not in filtered:
                 for j in range(i + 1, len(self.conformers)):
                     if (
-                        rmsd(self.conformers[i], self.conformers[j], **rmsd_kwargs)
+                        self._rmsd_method(
+                            self.conformers[i], self.conformers[j], **rmsd_kwargs
+                        )
                         < threshold
                     ):
                         filtered.add(j)
