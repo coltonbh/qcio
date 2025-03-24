@@ -408,8 +408,12 @@ class ConformerSearchResults(Files):
         ], self.conformer_energies_relative[keep_indices]
 
 
-Results = Union[Files, SinglePointResults, OptimizationResults, ConformerSearchResults]
+StructuredResults = Union[
+    SinglePointResults, OptimizationResults, ConformerSearchResults
+]
+Results = Union[Files, StructuredResults]
 ResultsType = TypeVar("ResultsType", bound=Results)
+StructuredResultsType = TypeVar("StructuredResultsType", bound=StructuredResults)
 
 
 class ProgramOutput(QCIOModelBase, Generic[InputType, ResultsType]):
