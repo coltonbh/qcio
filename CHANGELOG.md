@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+## [0.14.0] - 2025-04-01
+
 ### Changed
 
 - Factored out `CalcInfoMixin` from `SinglePointResults`. Both `SinglePointResults` and `OptimizationResults` now inherit these attributes.
@@ -564,7 +566,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `SinglePointComputedProperties`
   - `Wavefunction`
 
-[unreleased]: https://github.com/coltonbh/qcio/compare/0.13.1...HEAD
+[unreleased]: https://github.com/coltonbh/qcio/compare/0.14.0...HEAD
+[0.14.0]: https://github.com/coltonbh/qcio/releases/tag/0.14.0
 [0.13.1]: https://github.com/coltonbh/qcio/releases/tag/0.13.1
 [0.13.0]: https://github.com/coltonbh/qcio/releases/tag/0.13.0
 [0.12.4]: https://github.com/coltonbh/qcio/releases/tag/0.12.4
