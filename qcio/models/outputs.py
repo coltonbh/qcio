@@ -7,7 +7,6 @@ import warnings
 from itertools import product
 from pathlib import Path
 from typing import (
-    TYPE_CHECKING,
     Any,
     Generic,
     Literal,
@@ -17,30 +16,25 @@ from typing import (
 )
 
 import numpy as np
-from pydantic import ValidationInfo, field_validator, model_validator
+from pydantic import BaseModel, ValidationInfo, field_validator, model_validator
 from typing_extensions import Self
 
 from qcio.helper_types import SerializableNDArray
 
 from .base_models import CalcType, Files, Provenance, QCIOModelBase
-from .inputs import DualProgramInput, FileInput, Inputs, InputType, ProgramInput
+from .inputs import FileInput, Inputs, InputType, ProgramInput
 from .structure import Structure
-from .utils import deprecated_class, rmsd, to_multi_xyz
-
-if TYPE_CHECKING:  # pragma: no cover
-    pass
-
+from .utils import rmsd, to_multi_xyz
 
 __all__ = [
     "SinglePointResults",
     "Wavefunction",
     "OptimizationResults",
     "ProgramOutput",
+    "StructuredResults",
+    "StructuredResultsType",
     "ResultsType",
     "Results",
-    "SinglePointOutput",
-    "ProgramFailure",
-    "OptimizationOutput",
     "ConformerSearchResults",
 ]
 
@@ -71,8 +65,8 @@ class Wavefunction(QCIOModelBase):
         return np.asarray(val) if val is not None else None
 
 
-class SinglePointResults(Files):
-    """The computed results from a single point calculation.
+class CalcInfoMixin(BaseModel):
+    """Mixin for calcinfo attributes.
 
     Attributes:
         calcinfo_natoms: The number of atoms as computed by the program.
@@ -80,7 +74,20 @@ class SinglePointResults(Files):
         calcinfo_nbeta: The number of beta electrons as computed by the program.
         calcinfo_nbasis: The number of basis functions in the calculation.
         calcinfo_nmo: The number of molecular orbitals in the calculation.
+    """
 
+    # calcinfo contains general information about the calculation
+    calcinfo_natoms: int | None = None
+    calcinfo_nalpha: int | None = None
+    calcinfo_nbeta: int | None = None
+    calcinfo_nbasis: int | None = None
+    calcinfo_nmo: int | None = None
+
+
+class SinglePointResults(Files, CalcInfoMixin):
+    """The computed results from a single point calculation.
+
+    Attributes:
         energy: The electronic energy of the structure in `Hartrees`.
         gradient: The gradient of the structure in `Hartrees/Bohr`.
         hessian: The hessian of the structure in `Hartrees/Bohr^2`.
@@ -100,13 +107,6 @@ class SinglePointResults(Files):
             in units of e a0 (NOT Debye!).
 
     """
-
-    # calcinfo contains general information about the calculation
-    calcinfo_natoms: int | None = None
-    calcinfo_nbasis: int | None = None
-    calcinfo_nmo: int | None = None
-    calcinfo_nalpha: int | None = None
-    calcinfo_nbeta: int | None = None
 
     # Core properties
     energy: float | None = None
@@ -176,14 +176,14 @@ class SinglePointResults(Files):
         return self
 
 
-class OptimizationResults(Files):
+class OptimizationResults(Files, CalcInfoMixin):
     """Computed properties for an optimization.
 
     Attributes:
         energies: The energies for each step of the optimization.
         structures: The Structure objects for each step of the optimization.
         final_structure: The final, optimized Structure.
-        trajectory: The SinglePointOutput objects for each step of the optimization.
+        trajectory: The ProgramOutput objects for each step of the optimization.
     """
 
     trajectory: list[
@@ -388,7 +388,11 @@ class ConformerSearchResults(Files):
         ], self.conformer_energies_relative[keep_indices]
 
 
-Results = Union[Files, SinglePointResults, OptimizationResults, ConformerSearchResults]
+StructuredResults = Union[
+    SinglePointResults, OptimizationResults, ConformerSearchResults
+]
+StructuredResultsType = TypeVar("StructuredResultsType", bound=StructuredResults)
+Results = Union[Files, StructuredResults]
 ResultsType = TypeVar("ResultsType", bound=Results)
 
 
@@ -525,24 +529,6 @@ class ProgramOutput(QCIOModelBase, Generic[InputType, ResultsType]):
         assert self.results is not None, "No results exist on this ProgramOutput"
         assert type(self.input_data) is not FileInput, "FileInputs have no results."
         return self.results.return_result(self.input_data.calctype)  # type: ignore
-
-
-# For compatibility with old API
-@deprecated_class("ProgramOutput[StructuredInputs, OptimizationResults]")
-class OptimizationOutput(ProgramOutput[DualProgramInput, OptimizationResults]):
-    success: Literal[True] = True
-    traceback: str | None = None
-
-
-@deprecated_class("ProgramOutput[ProgramInput, SinglePointResults]")
-class SinglePointOutput(ProgramOutput[ProgramInput, SinglePointResults]):
-    success: Literal[True] = True
-    traceback: str | None = None
-
-
-@deprecated_class("ProgramOutput[StructuredInputs, Results]")
-class ProgramFailure(ProgramOutput[Inputs, Results]):
-    success: Literal[False] = False
 
 
 # Register the concrete classes for serialization

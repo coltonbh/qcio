@@ -6,6 +6,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+### Changed
+
+- Factored out `CalcInfoMixin` from `SinglePointResults`. Both `SinglePointResults` and `OptimizationResults` now inherit these attributes.
+- 🚨 `Structure.open()` now only returns a single `Structure` object. `Structure.open_multi()` handles multi-structure xyz files and returns `list[Structure]`. This helps with type checking by having unambiguous values returned for each function.
+- `Provenance.scratch_dir` is now `Optional[Path]` instead of `Optional[StrOrPath]`.
+- `json_dumps` now excludes unset values by default and accepts `**model_dump_kwargs` for the `.model_dump()` method.
+
+### Removed
+
+- 🚨 Backwards compatibility classes `SinglePointOutput`, `OptimizationOutput`, `ProgramFailure`.
+
+### Added
+
+- `BaseModel.open_multi()` for opening lists of saved objects.
+
 ## [0.13.1] - 2025-02-18
 
 ### Changed

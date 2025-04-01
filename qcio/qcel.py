@@ -56,7 +56,7 @@ def from_qcel_output_results(
         "hessian": "return_hessian",
     }
     results = {}
-    for key in SinglePointResults.__annotations__:
+    for key in SinglePointResults.model_fields:
         if key in qcio_to_qcel:
             qcel_key = qcio_to_qcel[key]
         else:

@@ -32,11 +32,27 @@ water = Structure(
 )
 
 
-def json_dumps(obj: Union[BaseModel, list[BaseModel]]) -> str:
-    """Serialization helper for lists of pydantic objects."""
+def json_dumps(
+    obj: Union[BaseModel, list[BaseModel]],
+    exclude_unset: bool = True,
+    **model_dump_kwargs,
+) -> str:
+    """Serialization helper for lists of pydantic objects.
+
+    Args:
+        obj: The object to serialize. Either a single pydantic object or a list of pydantic
+            objects.
+        exclude_unset: Whether to exclude unset fields from the serialized output.
+        **model_dump_kwargs: Additional keyword arguments to pass to model_dump.
+    """
     if isinstance(obj, list):
-        return json.dumps([o.model_dump() for o in obj])
-    return obj.model_dump_json()
+        return json.dumps(
+            [
+                o.model_dump(exclude_unset=exclude_unset, **model_dump_kwargs)
+                for o in obj
+            ]
+        )
+    return obj.model_dump_json(exclude_unset=exclude_unset, **model_dump_kwargs)
 
 
 def align(
