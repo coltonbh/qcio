@@ -22,7 +22,6 @@ __all__ = [  # noqa: F405
     "DualProgramInput",
     "SinglePointResults",
     "OptimizationResults",
-    "SinglePointOutput",
     "Wavefunction",
     "ProgramArgs",
     "ProgramArgsSub",

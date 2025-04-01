@@ -66,15 +66,14 @@ class QCIOModelBase(BaseModel, ABC):
     }
 
     @classmethod
-    def open(cls, filepath: Union[Path, str]) -> Union[Self, list[Self]]:
+    def open(cls, filepath: Union[Path, str]) -> Self:
         """Instantiate an object from data saved to disk.
 
         Args:
             filepath: The path to the object on disk.
 
         Returns:
-            The instantiated object or a list of objects if the file contains multiple
-            objects (e.g., a multi-structure xyz file).
+            The instantiated object.
 
         Example:
             ```python
@@ -91,6 +90,32 @@ class QCIOModelBase(BaseModel, ABC):
 
         # Assume json for all other file extensions
         return cls.model_validate_json(data)
+
+    @classmethod
+    def open_multi(cls, filepath: Union[Path, str]) -> list[Self]:
+        """Instantiate a list of objects from data saved to disk.
+
+        Args:
+            filepath: The path to the object on disk. Must be a list of objects.
+
+        Returns:
+            A list of instantiated objects.
+
+        Example:
+            ```python
+            my_objs = MyModel().open_multi("path/to/file.json")
+            ```
+        """
+        filepath = Path(filepath)
+        data = filepath.read_text()
+
+        if filepath.suffix in [".yaml", ".yml"]:
+            return [cls.model_validate(d) for d in yaml.safe_load(data)]
+        elif filepath.suffix == ".toml":
+            return [cls.model_validate(d) for d in toml.loads(data)]
+
+        # Assume json for all other file extensions
+        return [cls.model_validate(d) for d in json.loads(data)]
 
     def save(
         self,
@@ -331,7 +356,7 @@ class Provenance(QCIOModelBase):
 
     program: str
     program_version: Optional[str] = None
-    scratch_dir: Optional[StrOrPath] = None
+    scratch_dir: Optional[Path] = None
     wall_time: Optional[float] = None
     hostname: Optional[str] = None
     hostcpus: Optional[int] = None

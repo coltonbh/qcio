@@ -145,8 +145,56 @@ class Structure(QCIOModelBase):
         filepath: Union[Path, str],
         charge: Optional[int] = None,
         multiplicity: Optional[int] = None,
-    ) -> Union["Structure", list["Structure"]]:
+    ) -> Self:
         """Open a structure or structures from a file.
+
+        Args:
+            filepath: The path to the file to open. May be a path to a formerly saved
+                Structure file or an XYZ file.
+            charge: The molecular charge of the structure. Only used when opening an XYZ
+                file and if not set in the file.
+            multiplicity: The molecular multiplicity of the structure. Only used when
+                opening an XYZ file and if not set in the file.
+
+        Returns:
+            A Structure object or a list of Structure objects for a multi-structure XYZ
+                file.
+
+        Example:
+            ```python
+            struct = Structure.open("path/to/structure.json")
+            ```
+
+            ```python
+            struct = Structure.open("path/to/structure.xyz", charge=-1, multiplicity=3)
+            ```
+
+            ```python
+            structures = Structure.open("path/to/structures.xyz")
+            ```
+        """
+        filepath = Path(filepath)
+
+        if (charge or multiplicity) and filepath.suffix != ".xyz":
+            raise ValueError(
+                "Charge and multiplicity can only be set when opening an XYZ file."
+            )
+
+        if filepath.suffix == ".xyz":
+            xyz_str = filepath.read_text()
+            structure = cls.from_xyz(xyz_str, charge=charge, multiplicity=multiplicity)
+            return structure
+
+        return super().open(filepath)
+
+    @classmethod
+    def open_multi(
+        cls,
+        filepath: Union[Path, str],
+        charge: Optional[int] = None,
+        multiplicity: Optional[int] = None,
+    ) -> list["Structure"]:
+        """Open a multi-structure file and return a list of Structure objects.
 
         Args:
             filepath: The path to the file to open. May be a path to a formerly saved
@@ -185,11 +233,10 @@ class Structure(QCIOModelBase):
             structures = cls.from_xyz_multi(
                 xyz_str, charge=charge, multiplicity=multiplicity
             )
-            if len(structures) == 1:
-                return structures[0]
             return structures
 
-        return super().open(filepath)
+        # Handle json, yaml, or toml list of structures
+        return super().open_multi(filepath)
 
     def save(
         self,
