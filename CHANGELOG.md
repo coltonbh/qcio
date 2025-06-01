@@ -6,6 +6,42 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+### Removed
+
+- All constants and periodic table data moved to `qcconst`.
+- All cheminformatics methods, including those that used `rdkit` and `openbabel` such as `rmsd` and `align`. Placed these algorithms into `qcinf` so that `qcio` can remain purely about data structures. All future algorithms will go into `qcinf`.
+
+  - `Structure.from_smiles()` method in favor of functional API using the `qcinf` `smiles_to_structure` function.
+
+    ```python
+    from qcinf import smiles_to_structure
+
+    struct = smiles_to_structure("CCO", backend="rdkit")
+    ```
+
+  - `Structure.to_smiles()` method in favor of functional API using the `qcinf` `structure_to_smiles` function.
+  - `Structure.add_smiles()` convenience method. Use `qcinf.structure_to_smiles` and `Structure.add_identifiers()` instead.
+
+    ```python
+    from qcinf import structure_to_smiles
+
+    smiles = structure_to_smiles(struct)
+    struct.add_identifiers(smiles=smiles)
+    ```
+
+  - `rmsd` and `align` methods now live in `qcinf`:
+    ```python
+    from qcinf import rmsd, align
+    # use functions the same way
+    ```
+
+- `ConformerSearchResults.conformers_filtered()` in favor of moving the cheminformatics method to `qcinf.filter_conformer_indices()`.
+- `OptimizationResults.molecules` backwards compatibility shim. Use `.structures` instead.
+
+### Changed
+
+- Package dependency system changed from `poetry` to `uv` and build system from `poetry` to `hatchling`.
+
 ## [0.14.0] - 2025-04-01
 
 ### Changed

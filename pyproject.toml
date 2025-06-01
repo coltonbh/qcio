@@ -1,61 +1,91 @@
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
-
-[tool.poetry]
+[project]
 name = "qcio"
 version = "0.14.0"
 description = "Beautiful and user friendly data structures for quantum chemistry."
-authors = ["Colton Hicks <github@coltonhicks.com>"]
-license = "MIT"
 readme = "README.md"
+authors = [{ name = "Colton Hicks", email = "github@coltonhicks.com" }]
+license = { file = "LICENSE" }
+requires-python = ">=3.9"
+keywords = ["quantum-chemistry", "data-structures", "cheminformatics"]
+dependencies = [
+    "pydantic>=2.0.0, !=2.0.1, !=2.1.0",
+    "numpy>=1.20",
+    "toml>=0.10.2",
+    "pyyaml>=6.0",
+    "typing-extensions>=4.7.1",
+    "eval-type-backport>=0.2.0",
+    "qcconst>=0.2.1",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Software Development :: Libraries",
+]
+[project.urls]
+Homepage = "https://github.com/coltonbh/qcio"
+Documentation = "https://qcio.coltonhicks.com"
+Source = "https://github.com/coltonbh/qcio"
+Changelog = "https://github.com/coltonbh/qcio/blob/master/CHANGELOG.md"
+"Bug Tracker" = "https://github.com/coltonbh/qcio/issues"
 repository = "https://github.com/coltonbh/qcio"
-homepage = "https://github.com/coltonbh/qcio"
-documentation = "https://qcio.coltonhicks.com"
-
-[tool.poetry.dependencies]
-python = "^3.9"
-pydantic = "^2.0.0,!=2.0.1,!=2.1.0"
-numpy = ">=1.20"
-toml = "^0.10.2"
-pyyaml = "^6.0"
-typing-extensions = "^4.7.1"
-rdkit = { version = ">=2022.3.3", optional = true }
-matplotlib = { version = ">=3.0.0", optional = true }
-ipython = { version = ">=8.0.0", optional = true }
-py3Dmol = { version = ">=2.2.1", optional = true }
-openbabel-wheel = { version = "^3.1.1.19", optional = true }
-eval-type-backport = "^0.2.0"
-
-[tool.poetry.extras]
-rdkit = ["rdkit"]
-openbabel = ["openbabel-wheel"]
-view = ["matplotlib", "ipython", "py3Dmol", "rdkit"]
-all = ["rdkit", "openbabel-wheel", "matplotlib", "ipython", "py3Dmol"]
-
-[tool.poetry.group.dev.dependencies]
-ruff = "^0.8.3"
-mypy = "^1.1.1"
-pytest = "^7.2.2"
-pre-commit = "^3.2.1"
-pytest-cov = "^4.0.0"
-qcelemental = ">=0.26.0"
-types-toml = "^0.10.8.6"
-types-pyyaml = "^6.0.12.10"
-rdkit = ">=2022.9.5"
-jupyterlab = "^4.2.4"
-matplotlib = ">=3.0.0"
-pint = "^0.24.4"
 
 
-[tool.poetry.group.docs.dependencies]
-mkdocs = "^1.6.0"
-mkdocs-material = "^9.5.30"
-markdown-include = "^0.8.1"
-pymdown-extensions = "^10.8.1"
-mkdocstrings = { extras = ["python"], version = "^0.25.2" }
-mkdocs-exclude = "^1.0.2"
-mknotebooks = "^0.8.0"
+[project.optional-dependencies]
+view = [
+    "matplotlib>=3.0.0",
+    "ipython>=8.0.0",
+    "py3Dmol>=2.2.1",
+    "rdkit>=2022.3.3",
+    "qcinf>=0.1.1",
+]
+all = [
+    "matplotlib>=3.0.0",
+    "ipython>=8.0.0",
+    "py3Dmol>=2.2.1",
+    "rdkit>=2022.3.3",
+    "qcinf>=0.1.1",
+]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.10.1",
+    "mypy>=1.1.1",
+    "pytest>=7.2.2",
+    "pre-commit>=3.2.1",
+    "pytest-cov>=4.0.0",
+    "qcelemental>=0.26.0",
+    "types-toml>=0.10.8.6",
+    "types-pyyaml>=6.0.12.10",
+    "rdkit>=2022.9.5",
+    "jupyterlab>=4.2.4",
+    "matplotlib>=3.0.0",
+    "py3Dmol>=2.2.1",
+    "pint>=0.24.4",
+    "qcinf>=0.1.1",
+]
+
+docs = [
+    "mkdocs>=1.6.0",
+    "mkdocs-material>=9.5.30",
+    "markdown-include>=0.8.1",
+    "pymdown-extensions>=10.8.1",
+    "mkdocstrings[python]>=0.25.2",
+    "mkdocs-exclude>=1.0.2",
+    "mknotebooks>=0.8.0",
+]
+
+[build-system]
+requires = ["hatchling>=1.22"]
+build-backend = "hatchling.build"
 
 [tool.ruff]
 line-length = 88

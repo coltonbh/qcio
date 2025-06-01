@@ -5,14 +5,16 @@ from typing import TYPE_CHECKING, Any, ClassVar, Optional, Union
 
 import numpy as np
 from pydantic import field_serializer, model_validator
+from qcconst import periodic_table as pt
+from qcconst.constants import BOHR_TO_ANGSTROM
 from typing_extensions import Self
 
-from qcio.constants import BOHR_TO_ANGSTROM
-from qcio.constants import periodic_table as pt
 from qcio.helper_types import SerializableNDArray
 
 from .base_models import LengthUnit, QCIOModelBase
-from .utils import renamed_class, smiles_to_structure, structure_to_smiles
+
+# from qcinf.algorithms import smiles_to_structure, structure_to_smiles
+from .utils import renamed_class
 
 if TYPE_CHECKING:
     from pydantic.typing import ReprArgs
@@ -62,22 +64,6 @@ class Identifiers(QCIOModelBase):
     pubchem_conformerid: Optional[str] = None
 
 
-class IDs2(Identifiers):
-    """Second one"""
-
-
-# class Bond(QCIOModelBase):
-#     """A bond object.
-
-#     Attributes:
-#         indices: The indices of the atoms in the bond.
-#         order: The order of the bond.
-#     """
-
-#     indices: Tuple[int, int]
-#     order: Optional[float]
-
-
 class Structure(QCIOModelBase):
     """A Structure object with atoms and their corresponding cartesian coordinates,
         charge, multiplicity, and identifiers such as name, smiles, etc.
@@ -122,7 +108,7 @@ class Structure(QCIOModelBase):
                 geometry=[[0.0, 0.0, 0.0], [0.0, 0.0, 1.0], [0.0, 0.0, 2.0]],
                 charge=0,  # optional; defaults to 0
                 multiplicity=1,  # optional; defaults to 1
-                identifiers={"smiles": "CCO"},  # optional
+                identifiers={"smiles": "O"},  # optional
             )
 
             ```
@@ -284,41 +270,6 @@ class Structure(QCIOModelBase):
         return self.identifiers
 
     @classmethod
-    def from_smiles(
-        cls,
-        smiles: str,
-        *,
-        program: str = "rdkit",
-        force_field: str = "MMFF94s",
-        multiplicity: int = 1,
-    ) -> Self:
-        """Create a new Structure object from a SMILES string.
-
-        Args:
-            smiles: The SMILES string.
-            program: The program to use for the conversion. Defaults to "rdkit".
-            force_field: The force field to use. E.g., UFF, MMFF94, MMFF94s, etc.
-            multiplicity: The multiplicity of the structure.
-
-        Returns:
-            A Structure object with identifiers for SMILES and canonical SMILES.
-
-        Example:
-            ```python
-            struct = Structure.from_smiles("CN1C=NC2=C1C(=O)N(C(=O)N2C)C")
-
-            print(struct.ids.smiles)
-            # Output: 'CN1C=NC2=C1C(=O)N(C(=O)N2C)C'
-
-            print(struct.ids.canonical_smiles)
-            # Output: 'CN1C=NC2=C1C(=O)N(C(=O)N2C)C'
-            ```
-        """
-        dict_repr = smiles_to_structure(smiles, program, force_field)
-        dict_repr["multiplicity"] = multiplicity
-        return cls(**dict_repr)
-
-    @classmethod
     def from_xyz(
         cls,
         xyz_str: str,
@@ -450,37 +401,6 @@ class Structure(QCIOModelBase):
             return float(distance * BOHR_TO_ANGSTROM)
         return float(distance)
 
-    def to_smiles(
-        self,
-        program: str = "rdkit",
-        hydrogens: bool = False,
-        robust: bool = True,
-        **kwargs,
-    ) -> str:
-        """Generate the canonical SMILES representation of the structure.
-
-        Args:
-            program: The program to use for the conversion. Defaults to "rdkit".
-            hydrogens: Whether to include hydrogens in the SMILES string. Defaults to
-                False.
-            robust: Will try multiple methods to generate the SMILES if True. If False,
-                will only use the specified (or default) arguments and a single attempt.
-            kwargs: See `models.utils.structure_to_smiles` for additional keyword
-                arguments.
-
-        Returns:
-            The canonical SMILES representation of the structure.
-
-        Example:
-            ```python
-            struct.to_smiles()
-            'CN1C=NC2=C1C(=O)N(C(=O)N2C)C'
-            ```
-        """
-        return structure_to_smiles(
-            self, program=program, hydrogens=hydrogens, robust=robust, **kwargs
-        )
-
     def to_xyz(self, precision: int = 17) -> str:
         """Return an xyz string representation of the structure.
 
@@ -531,40 +451,31 @@ class Structure(QCIOModelBase):
         ]
 
     def add_smiles(
-        self,
+        self: "Structure",
         *,
         program: str = "rdkit",
         hydrogens: bool = False,
     ) -> None:
-        """Add SMILES data to the identifiers. The SMILES will be generated from the
-            structure using the specified program.
-
-        Args:
-            program: The program to use to generate the SMILES. Defaults to "rdkit".
-            hydrogens: Whether to include hydrogens in the SMILES string. Defaults to
-                False.
-
-        Example:
-            ```python
-            struct.add_smiles()
-            struct.ids.smiles
-            'CCO'
-            struct.ids.canonical_smiles
-            'CCO'
-            ```
         """
-        smiles = self.to_smiles(program=program, hydrogens=hydrogens)
-        identifiers = {"smiles": smiles}
+        !! DEPRECATED !!
 
-        if hydrogens:
-            identifiers["canonical_explicit_hydrogen_smiles"] = smiles
-        else:
-            identifiers["canonical_smiles"] = smiles
-
-        identifiers["canonical_smiles_program"] = program
-        self.add_identifiers(**identifiers)
-        # Ensure pydantic knows the field has been set
-        self.__pydantic_fields_set__.add("identifiers")
+        This helper has been removed to **qcinf** (see `qcinf.structure_to_smiles`).
+        It will be removed from qcio in a future release.
+        """
+        warnings.warn(
+            "`Structure.add_smiles()` has moved to `qcinf` and is no longer "
+            "implemented here.\n\n"
+            "Install qcinf and replace your call with:\n\n"
+            "    from qcinf import structure_to_smiles\n"
+            "    smiles = structure_to_smiles(struct, backend='rdkit|openbabel')\n"
+            "    struct.add_identifiers(smiles=smiles)\n\n",
+            DeprecationWarning,  # use FutureWarning if you want it visible by default
+            stacklevel=2,
+        )
+        raise NotImplementedError(
+            "Structure.add_smiles() is removed. "
+            "Use qcinf.structure_to_smiles and struct.add_identifiers instead."
+        )
 
     def add_identifiers(self, **identifiers) -> None:
         """Add an identifier to the structure.
@@ -593,6 +504,8 @@ class Structure(QCIOModelBase):
 
         new_identifiers = self.identifiers.model_copy(update=identifiers)
         object.__setattr__(self, "identifiers", new_identifiers)
+        # Ensure pydantic knows the field has been set
+        self.__pydantic_fields_set__.add("identifiers")
 
     @model_validator(mode="before")
     def _validate_symbols_and_geometry(cls, values):

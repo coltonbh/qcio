@@ -8,13 +8,13 @@ repos:
         exclude: mkdocs.yml
       - id: check-added-large-files
         args: ["--maxkb=250"]
-        exclude: ^docs/visualizations/.*
+        exclude: ^(docs/visualizations/.*|uv\.lock)$
 
   - repo: https://github.com/Yelp/detect-secrets
     rev: v1.4.0
     hooks:
       - id: detect-secrets
-        stages: [commit]
+        stages: [pre-commit]
         exclude: '.*\.(lock|ipynb)$'
   - repo: https://github.com/charliermarsh/ruff-pre-commit
     # Ruff version.
@@ -36,8 +36,8 @@ repos:
     hooks:
       - id: tests
         name: tests
-        stages: [push]
+        stages: [pre-push]
         language: system
-        entry: poetry run pytest
+        entry: uv run pytest
         types: [python]
         pass_filenames: false

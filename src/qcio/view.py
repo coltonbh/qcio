@@ -29,6 +29,7 @@ from itertools import zip_longest
 from typing import Any, Optional, Union
 
 import numpy as np
+from qcconst import constants
 
 from qcio import (
     ConformerSearchResults,
@@ -41,7 +42,6 @@ from qcio import (
     Results,
     SinglePointResults,
     Structure,
-    constants,
 )
 
 # View dependencies
@@ -49,6 +49,7 @@ try:
     import matplotlib.pyplot as plt
     import py3Dmol as p3d
     from IPython.display import HTML, display
+    from qcinf import filter_conformers_indices
     from rdkit import Chem
     from rdkit.Chem import Draw
 except ImportError as e:
@@ -156,7 +157,7 @@ def generate_structure_viewer_html(
         else:
             name = struct.ids.name
 
-        title = f"{title or name  or ''}"
+        title = f"{title or name or ''}"
         title_extra = f"{title_extra or ''}"
         subtitle = f"{subtitle or ''}"
         subtitle_extra = f"{subtitle_extra or ''}"
@@ -227,9 +228,9 @@ def generate_structure_viewer_html(
                 **viewer_kwargs,
             )
             if distances:
-                assert isinstance(
-                    struct, Structure
-                ), "Displaying distances for lists of structures is not yet implemented"
+                assert isinstance(struct, Structure), (
+                    "Displaying distances for lists of structures is not yet implemented"
+                )
                 for atom1, atom2 in distances:
                     a1_coords = struct.geometry_angstrom[atom1]
                     a2_coords = struct.geometry_angstrom[atom2]
@@ -397,21 +398,30 @@ def generate_output_table(*prog_outputs: ProgramOutput) -> str:
         )
         base_row = f"""
         <tr>
-            <td>{generate_dictionary_string(
+            <td>{
+            generate_dictionary_string(
                 {
-                    "charge": po.input_data.structure.charge, 
-                    "multiplicity": po.input_data.structure.multiplicity, 
+                    "charge": po.input_data.structure.charge,
+                    "multiplicity": po.input_data.structure.multiplicity,
                     "name": po.input_data.structure.ids.name or "",
-                })}</td>
+                }
+            )
+        }</td>
             <td {success_style}>{po.success}</td>
             <td> {
-                _format_time(po.provenance.wall_time) if po.provenance.wall_time 
-                 else "No timing data"}</td>
+            _format_time(po.provenance.wall_time)
+            if po.provenance.wall_time
+            else "No timing data"
+        }</td>
             <td>{po.input_data.calctype.name}</td>
             <td>{f"{po.provenance.program} {po.provenance.program_version or ''}"}</td>
-            <td>{generate_dictionary_string(
+            <td>{
+            generate_dictionary_string(
                 po.input_data.model.model_dump(exclude=["extras"])
-                ) if po.input_data.model else ""}</td>
+            )
+            if po.input_data.model
+            else ""
+        }</td>
             <td>{generate_dictionary_string(po.input_data.keywords)}</td>
         """
         if po.input_data.files:
@@ -604,6 +614,7 @@ def program_outputs(
     animate: bool = True,
     struct_viewer: bool = True,
     conformer_rmsd_threshold: Optional[float] = None,
+    conformer_rmsd_backend: str = "qcinf",
     conformer_rmsd_kwargs: Optional[dict] = None,
     **kwargs,
 ) -> None:
@@ -635,10 +646,14 @@ def program_outputs(
             structures = [po.input_data.structure]
 
             if conformer_rmsd_threshold is not None:
-                conformers, energies_rel = po.results.conformers_filtered(
+                keep_indices = filter_conformers_indices(
+                    po.results.conformers,
+                    backend=conformer_rmsd_backend,
                     threshold=conformer_rmsd_threshold,
                     **(conformer_rmsd_kwargs or {}),
                 )
+                conformers = [po.results.conformers[i] for i in keep_indices]
+                energies_rel = po.results.conformer_energies_relative[keep_indices]
             else:
                 conformers = po.results.conformers
                 energies_rel = po.results.conformer_energies_relative
