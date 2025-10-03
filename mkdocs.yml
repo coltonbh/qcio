@@ -94,7 +94,7 @@ markdown_extensions:
   - markdown_include.include
 
 watch:
-  - qcio # Adjust this
+  - src/qcio # Adjust this
 
 nav:
   - Getting Started:
@@ -104,10 +104,8 @@ nav:
       - Overview: api/overview.md
       - Structure: api/structure.md
       - Inputs: api/inputs.md
-      - Outputs: api/outputs.md
+      - Results: api/results.md
       - Utilities: api/utils.md
-      - Constants and Periodic Table:
-          - Constants: api/constants.md
       - Visualizations:
           - View: api/view.md
       - Additional Models:
@@ -115,7 +113,7 @@ nav:
           - CalcType: api/calctype.md
           - Model: api/model.md
           - Provenance: api/provenance.md
-          - QCIOBaseModel: api/QCIOBaseModel.md
+          - QCIOBaseModel: api/qciobasemodel.md
           - LengthUnit: api/lengthunit.md
   - ✨Visualizations✨:
       - Overview: visualizations/overview.md

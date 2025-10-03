@@ -90,7 +90,7 @@ class CalcInfoData(BaseModel):
 
 
 class SinglePointData(Files, CalcInfoData):
-    """The computed results from a single point calculation.
+    """The computed data from a single point calculation.
 
     Attributes:
         energy: The electronic energy of the structure in `Hartrees`.
@@ -182,7 +182,7 @@ class SinglePointData(Files, CalcInfoData):
 
 
 class OptimizationData(Files, CalcInfoData):
-    """Computed properties for an optimization.
+    """Computed data for an optimization (may be for a minimum or transition state).
 
     Attributes:
         energies: The energies for each step of the optimization.
@@ -284,7 +284,7 @@ class OptimizationData(Files, CalcInfoData):
 
 
 class ConformerSearchData(Files):
-    """Results from a conformer search calculation.
+    """Data from a conformer search calculation.
 
     Conformers and rotamers are sorted by energy.
 
@@ -397,17 +397,17 @@ DataType = TypeVar("DataType", bound=Data)
 
 
 class Results(QCIOBaseModel, Generic[InputType, DataType]):
-    """The core output object from a quantum chemistry calculation.
+    """The core results object from a quantum chemistry calculation.
 
     Attributes:
         input_data: The input data for the calculation. Any of `qcio.Inputs`.
         success: Whether the calculation was successful.
-        data: The results of the calculation. Contains parsed values and files.
-            Any of `qcio.Results`.
+        data: The data from the calculation. Contains parsed values and files.
+            Any of `qcio.Data`.
         logs: The logs from the calculation.
         traceback: The traceback from the calculation, if it failed.
         provenance: The provenance information for the calculation.
-        extras Dict[str, Any]: Additional information to bundle with the object. Use for
+        extras Dict[str, Any]: Additional information to bundle with the results. Use for
             schema development and scratch space.
         plogs str: `@property` Print the logs.
         ptraceback str: `@property` Print the traceback.
@@ -421,7 +421,7 @@ class Results(QCIOBaseModel, Generic[InputType, DataType]):
     provenance: Provenance
 
     @model_validator(mode="before")
-    def backwards_compatibility(cls, payload: dict[str, Any]) -> dict[str, Any]:
+    def _backwards_compatibility(cls, payload: dict[str, Any]) -> dict[str, Any]:
         """Backwards compatibility for renamed attributes."""
 
         # Backwards compatibility for .stdout attribute:
@@ -484,7 +484,7 @@ class Results(QCIOBaseModel, Generic[InputType, DataType]):
 
     @property
     def stdout(self) -> str | None:
-        """Return the logs attribute."""
+        """Backwards compatibility for .stdout attribute."""
         warnings.warn(
             ".stdout has been renamed to .logs. Please update your code accordingly.",
             category=FutureWarning,
@@ -530,7 +530,7 @@ class Results(QCIOBaseModel, Generic[InputType, DataType]):
 
     @property
     def pstdout(self) -> None:
-        """Print the stdout text"""
+        """Print the logs"""
         warnings.warn(
             ".pstdout has been renamed to .plogs. Please update your code accordingly.",
             category=FutureWarning,
@@ -540,7 +540,7 @@ class Results(QCIOBaseModel, Generic[InputType, DataType]):
 
     @property
     def ptraceback(self) -> None:
-        """Print the traceback text"""
+        """Print the traceback"""
         print(self.traceback)
 
     def __repr_args__(self) -> list[tuple[str, Any]]:

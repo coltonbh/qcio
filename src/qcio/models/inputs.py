@@ -128,7 +128,7 @@ class SubCalcArgs(FileInput, _KeywordsMixin):
 
 
 class CalcInput(CalcArgs, _StructureKeywordsMixin):
-    """Input for a single quantum chemistry program. This is the most common input type.
+    """Input for a single quantum chemistry calculation. This is the most common input type.
 
     Attributes:
         calctype CalcType: The type of calculation to perform.
