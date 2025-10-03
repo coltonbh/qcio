@@ -10,7 +10,7 @@ Design Decisions:
         after importing `from IPython.display import HTML, display`.
     - The basic layout for viewing results (all Results objects) is a table of
         basic parameters followed by a structure viewer and results table or plot.
-        DualProgramInputs add details for the subprogram.
+        CompositeCalcInputs add details for the subprogram.
         ----------------------------------------------------------------------------
         | Structure      | Success | Calculation Type | Program | Model | Keywords |
         ----------------------------------------------------------------------------
@@ -32,13 +32,13 @@ import numpy as np
 from qcconst import constants
 
 from qcio import (
+    CalcInput,
+    CompositeCalcInput,
     ConformerSearchData,
     Data,
-    DualProgramInput,
     Files,
     LengthUnit,
     OptimizationData,
-    ProgramInput,
     Results,
     SinglePointData,
     Structure,
@@ -381,7 +381,7 @@ def generate_output_table(*prog_outputs: Results) -> str:
     if any(po.input_data.files for po in prog_outputs):
         table_header += "<th>Input Files</th>"
 
-    if any(isinstance(po.input_data, DualProgramInput) for po in prog_outputs):
+    if any(isinstance(po.input_data, CompositeCalcInput) for po in prog_outputs):
         table_header += """
             <th>Subprogram</th>
             <th>Subprogram Model</th>
@@ -427,7 +427,7 @@ def generate_output_table(*prog_outputs: Results) -> str:
         if po.input_data.files:
             base_row += f"<td>{generate_files_string(po.input_data.files)}</td>"
 
-        if isinstance(po.input_data, DualProgramInput):
+        if isinstance(po.input_data, CompositeCalcInput):
             base_row += f"""
             <td>{po.input_data.subprogram}</td>
             <td>{po.input_data.subprogram_args.model}</td>
@@ -610,7 +610,7 @@ def structures(
 
 
 def program_outputs(
-    *prog_outputs: Results[Union[ProgramInput, DualProgramInput], Data],
+    *prog_outputs: Results[Union[CalcInput, CompositeCalcInput], Data],
     animate: bool = True,
     struct_viewer: bool = True,
     conformer_rmsd_threshold: Optional[float] = None,
