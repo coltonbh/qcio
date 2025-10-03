@@ -4,7 +4,7 @@ import numpy as np
 import pytest
 from pydantic import ValidationError
 
-from qcio import ConformerSearchResults
+from qcio import ConformerSearchData
 
 
 def test_energies_size(water):
@@ -13,23 +13,23 @@ def test_energies_size(water):
     w2 = copy.deepcopy(water)
 
     # No energies is fine
-    ConformerSearchResults(
+    ConformerSearchData(
         conformers=[w1, w2],
     )
 
     # No energies is fine
-    ConformerSearchResults(
+    ConformerSearchData(
         rotamers=[w1, w2],
     )
 
     with pytest.raises(ValidationError):
-        ConformerSearchResults(
+        ConformerSearchData(
             conformers=[w1, w2],
             conformer_energies=[-1.0],
         )
 
     with pytest.raises(ValidationError):
-        ConformerSearchResults(
+        ConformerSearchData(
             rotamers=[w1, w2],
             rotamer_energies=[-1.0, -2.0, -3.0],
         )
@@ -41,14 +41,14 @@ def test_relative_energies(water):
     w3 = copy.deepcopy(water)
 
     # No energies returns empty array
-    csr = ConformerSearchResults(
+    csr = ConformerSearchData(
         conformers=[w1, w2, w3],
     )
 
     np.testing.assert_array_equal(csr.conformer_energies_relative, np.array([]))
 
     # Energies are relative to the lowest energy
-    csr = ConformerSearchResults(
+    csr = ConformerSearchData(
         conformers=[w1, w2, w3],
         conformer_energies=[-1.0, -2.0, -3.0],
     )
@@ -57,14 +57,14 @@ def test_relative_energies(water):
     )
 
     # No energies returns empty array
-    csr = ConformerSearchResults(
+    csr = ConformerSearchData(
         rotamers=[w1, w2, w3],
     )
 
     np.testing.assert_array_equal(csr.conformer_energies_relative, np.array([]))
 
     # Energies are relative to the lowest energy
-    csr = ConformerSearchResults(
+    csr = ConformerSearchData(
         rotamers=[w1, w2, w3],
         rotamer_energies=[-1.0, -2.0, -3.0],
     )
@@ -78,7 +78,7 @@ def test_conformer_search_results_sorting(water):
     w2 = copy.deepcopy(water)
     w3 = copy.deepcopy(water)
 
-    csr = ConformerSearchResults(
+    csr = ConformerSearchData(
         conformers=[w1, w2, w3],
         conformer_energies=[-1.0, -2.0, -3.0],
     )

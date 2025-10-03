@@ -41,6 +41,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 
 - Package dependency system changed from `poetry` to `uv` and build system from `poetry` to `hatchling`.
+- Renamed `ProgramOutput` -> `Results` to better match basic parlance ("The program produced these results").
+- Renamed `Results.results` (formerly `ProgramOutput.results`) attribute to `.data`. "The program produced this data."
+- Renamed `SinglePointResults` -> `SinglePointData`.
+- Renamed `OptimizationResults` -> `OptimizationData`.
+- Renamed `ConformerSearchResults` -> `ConformerSearchData`.
+- Added compatibility classes so old imports looking for these names still work but emit a `FutureWarning`.
+- Renamed `QCIOModelBase` -> `QCIOBaseModel` to match `pydantic` semantics for `BaseModel`.
+- Renamed `ProgramInput` -> `CalcInput`.
+- 
 
 ## [0.14.0] - 2025-04-01
 

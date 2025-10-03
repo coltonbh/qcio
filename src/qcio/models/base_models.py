@@ -39,7 +39,7 @@ class LengthUnit(str, Enum):
         return f"'{self.name}'"  # pragma: no cover
 
 
-class QCIOModelBase(BaseModel, ABC):
+class QCIOBaseModel(BaseModel, ABC):
     """Base Model for all QCIO objects.
 
     Attributes:
@@ -218,7 +218,7 @@ class QCIOModelBase(BaseModel, ABC):
         return False
 
 
-class Files(QCIOModelBase):
+class Files(QCIOBaseModel):
     """File model for handling string and binary data.
 
     Binary data is encoded as base64 strings during serialization.
@@ -338,7 +338,7 @@ class Files(QCIOModelBase):
         ]
 
 
-class Provenance(QCIOModelBase):
+class Provenance(QCIOBaseModel):
     """Provenance information for a QC program.
 
     Attributes:
@@ -387,7 +387,7 @@ class CalcType(str, Enum):
         return f"'{self.name}'"  # pragma: no cover
 
 
-class Model(QCIOModelBase):
+class Model(QCIOBaseModel):
     """The model for the quantum chemistry calculation.
 
     Attributes:

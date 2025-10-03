@@ -8,14 +8,14 @@ Design Decisions:
         want to use this HTML to create a custom view, they can do so. If they want to
         display the HTML in a Jupyter Notebook, they can call display(HTML(html_string))
         after importing `from IPython.display import HTML, display`.
-    - The basic layout for viewing results (all ProgramOutput objects) is a table of
+    - The basic layout for viewing results (all Results objects) is a table of
         basic parameters followed by a structure viewer and results table or plot.
         DualProgramInputs add details for the subprogram.
         ----------------------------------------------------------------------------
         | Structure      | Success | Calculation Type | Program | Model | Keywords |
         ----------------------------------------------------------------------------
         |                                    |                                     |
-        |      Structure Viewer (Optional)   |        Results Table or Plot        |
+        |      Structure Viewer (Optional)   |        Data Table or Plot        |
         |                                    |                                     |
         ----------------------------------------------------------------------------
 """
@@ -32,15 +32,15 @@ import numpy as np
 from qcconst import constants
 
 from qcio import (
-    ConformerSearchResults,
+    ConformerSearchData,
+    Data,
     DualProgramInput,
     Files,
     LengthUnit,
-    OptimizationResults,
+    OptimizationData,
     ProgramInput,
-    ProgramOutput,
     Results,
-    SinglePointResults,
+    SinglePointData,
     Structure,
 )
 
@@ -331,15 +331,15 @@ def generate_files_string(files: dict[str, Union[str, bytes]]) -> str:
     return generate_dictionary_string(viewer_dict)
 
 
-def generate_output_table(*prog_outputs: ProgramOutput) -> str:
+def generate_output_table(*prog_outputs: Results) -> str:
     """
-    Generate an HTML table displaying the basic parameters for ProgramOutput objects.
+    Generate an HTML table displaying the basic parameters for Results objects.
 
     Args:
-        *prog_outputs: The ProgramOutput objects to display.
+        *prog_outputs: The Results objects to display.
 
     Returns:
-        str: A string of HTML displaying the ProgramOutput objects in a table.
+        str: A string of HTML displaying the Results objects in a table.
     """
     styles = """
     <style>
@@ -441,13 +441,13 @@ def generate_output_table(*prog_outputs: ProgramOutput) -> str:
 
 
 def generate_optimization_plot(
-    prog_output: ProgramOutput, figsize=(6.4, 4.8), grid=True
+    prog_output: Results, figsize=(6.4, 4.8), grid=True
 ) -> str:
     """
-    Generate a plot of the energy optimization by cycle for a single ProgramOutput.
+    Generate a plot of the energy optimization by cycle for a single Results.
 
     Args:
-        prog_output: The ProgramOutput to generate the plot for.
+        prog_output: The Results to generate the plot for.
         figsize: The size of the figure in inches.
         grid: Whether to display grid lines on the plot.
 
@@ -554,7 +554,7 @@ def generate_results_table(results: Files) -> str:
     Generate an HTML table displaying the results.
 
     Args:
-        results: The Results object to display.
+        results: The Data object to display.
 
     Returns:
         str: A string of HTML displaying the results in a table.
@@ -610,7 +610,7 @@ def structures(
 
 
 def program_outputs(
-    *prog_outputs: ProgramOutput[Union[ProgramInput, DualProgramInput], Results],
+    *prog_outputs: Results[Union[ProgramInput, DualProgramInput], Data],
     animate: bool = True,
     struct_viewer: bool = True,
     conformer_rmsd_threshold: Optional[float] = None,
@@ -619,10 +619,10 @@ def program_outputs(
     **kwargs,
 ) -> None:
     """
-    Display one or many ProgramOutput objects.
+    Display one or many Results objects.
 
     Args:
-        *prog_outputs: The ProgramOutput objects to display.
+        *prog_outputs: The Results objects to display.
         animate: Whether to animate the structure if it is an optimization.
         struct_viewer: Whether to display the structure viewer.
         conformer_rmsd_threshold: The threshold for RMSD to determine if conformers are
@@ -632,7 +632,7 @@ def program_outputs(
         **kwargs: Additional keyword arguments to pass to the viewer functions.
 
     Returns:
-        None. Displays the ProgramOutput objects in the Jupyter Notebook.
+        None. Displays the Results objects in the Jupyter Notebook.
     """
 
     width = kwargs.get("width", DEFAULT_WIDTH)
@@ -642,7 +642,7 @@ def program_outputs(
         final_html = []
         final_html.append(generate_output_table(po))
 
-        if isinstance(po.results, ConformerSearchResults):
+        if isinstance(po.results, ConformerSearchData):
             structures = [po.input_data.structure]
 
             if conformer_rmsd_threshold is not None:
@@ -685,7 +685,7 @@ def program_outputs(
                     title_extra = ""
 
                 # Determine the Structure to use
-                if isinstance(po.results, OptimizationResults):
+                if isinstance(po.results, OptimizationData):
                     for_viewer: Union[Structure, list[Structure]]
                     if animate:
                         for_viewer = po.results.structures
@@ -693,7 +693,7 @@ def program_outputs(
                         for_viewer = po.results.final_structure
                         title_extra += " (Final Structure)"
 
-                elif isinstance(po.results, SinglePointResults):
+                elif isinstance(po.results, SinglePointData):
                     for_viewer = po.input_data.structure
 
                 elif isinstance(po.results, Files):
@@ -710,7 +710,7 @@ def program_outputs(
                 )
 
             # Create results table or plot
-            if isinstance(po.results, OptimizationResults):
+            if isinstance(po.results, OptimizationData):
                 results_html = generate_optimization_plot(
                     po, figsize=(width / 100, height / 100)
                 )
@@ -740,7 +740,7 @@ def program_outputs(
 
 
 def view(
-    *objs: Union[ProgramOutput, Structure, list[Structure]],
+    *objs: Union[Results, Structure, list[Structure]],
     **kwargs,
 ) -> None:
     """
@@ -748,7 +748,7 @@ def view(
     need to use to view any qcio object.
 
     Args:
-        *objs: The ProgramOutput or Structure objects to view. May pass one or more
+        *objs: The Results or Structure objects to view. May pass one or more
             objects or one or more lists of Structure objects.
         **kwargs: Additional keyword arguments to pass to the viewer functions.
 
@@ -766,7 +766,7 @@ def view(
         if isinstance(obj, Structure) or isinstance(obj, list):
             structures(*objs, **kwargs)  # type: ignore
 
-        elif isinstance(obj, ProgramOutput):
+        elif isinstance(obj, Results):
             program_outputs(obj, **kwargs)
 
         else:

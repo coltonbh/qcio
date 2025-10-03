@@ -1,1 +1,1 @@
-::: qcio.models.base_models.QCIOModelBase
+::: qcio.models.base_models.QCIOBaseModel

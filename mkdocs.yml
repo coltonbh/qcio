@@ -115,7 +115,7 @@ nav:
           - CalcType: api/calctype.md
           - Model: api/model.md
           - Provenance: api/provenance.md
-          - QCIOModelBase: api/qciomodelbase.md
+          - QCIOBaseModel: api/QCIOBaseModel.md
           - LengthUnit: api/lengthunit.md
   - ✨Visualizations✨:
       - Overview: visualizations/overview.md

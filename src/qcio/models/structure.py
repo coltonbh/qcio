@@ -11,7 +11,7 @@ from typing_extensions import Self
 
 from qcio.helper_types import SerializableNDArray
 
-from .base_models import LengthUnit, QCIOModelBase
+from .base_models import LengthUnit, QCIOBaseModel
 
 # from qcinf.algorithms import smiles_to_structure, structure_to_smiles
 from .utils import renamed_class
@@ -22,7 +22,7 @@ if TYPE_CHECKING:
 __all__ = ["Structure", "Identifiers", "Molecule"]
 
 
-class Identifiers(QCIOModelBase):
+class Identifiers(QCIOBaseModel):
     """Structure identifiers.
 
     Attributes:
@@ -64,7 +64,7 @@ class Identifiers(QCIOModelBase):
     pubchem_conformerid: Optional[str] = None
 
 
-class Structure(QCIOModelBase):
+class Structure(QCIOBaseModel):
     """A Structure object with atoms and their corresponding cartesian coordinates,
         charge, multiplicity, and identifiers such as name, smiles, etc.
 

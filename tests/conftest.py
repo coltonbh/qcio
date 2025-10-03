@@ -4,13 +4,13 @@ import numpy as np
 import pytest
 
 from qcio import (
-    DualProgramInput,
+    CalcInput,
+    CompositeCalcInput,
     FileInput,
     Files,
-    OptimizationResults,
-    ProgramInput,
-    ProgramOutput,
-    SinglePointResults,
+    OptimizationData,
+    Results,
+    SinglePointData,
 )
 from qcio.utils import water as water_struct
 
@@ -42,7 +42,7 @@ def input_data(request, file_input, prog_input, dprog_input):
         return file_input
     elif request.param == "prog_input":
         return prog_input("energy")
-    elif request.param == "dprog_input":  # DualProgramInput
+    elif request.param == "dprog_input":  # CompositeCalcInput
         return dprog_input
     else:
         raise ValueError(f"Unknown input data type: {request.param}")
@@ -50,10 +50,10 @@ def input_data(request, file_input, prog_input, dprog_input):
 
 @pytest.fixture
 def prog_input(water):
-    """Function that returns ProgramInput of calctype."""
+    """Function that returns CalcInput of calctype."""
 
     def _create_prog_input(calctype):
-        return ProgramInput(
+        return CalcInput(
             structure=water,
             calctype=calctype,
             model={"method": "hf", "basis": "sto-3g"},
@@ -71,10 +71,10 @@ def prog_input(water):
 
 @pytest.fixture
 def dprog_input(water):
-    """Function that returns DualProgramInput of calctype."""
+    """Function that returns CompositeCalcInput of calctype."""
 
     def _create_prog_input(calctype):
-        return DualProgramInput(
+        return CompositeCalcInput(
             structure=water,
             calctype=calctype,
             keywords={
@@ -99,7 +99,7 @@ def sp_results():
         hessian = np.arange(n_atoms**2 * 3**2, dtype=np.float64).reshape(
             n_atoms * 3, n_atoms * 3
         )
-        return SinglePointResults(
+        return SinglePointData(
             energy=1.0,
             gradient=gradient,
             hessian=hessian,
@@ -115,11 +115,11 @@ def prog_output(prog_input, sp_results):
     pi_energy = prog_input("energy")
     sp_results = sp_results(pi_energy.structure)
 
-    return ProgramOutput[ProgramInput, SinglePointResults](
+    return Results[CalcInput, SinglePointData](
         input_data=pi_energy,
         success=True,
         stdout="program standard out...",
-        results=sp_results,
+        data=sp_results,
         provenance={"program": "qcio-test-suite", "scratch_dir": "/tmp/qcio"},
         extras={"some_extra": 1},
     )
@@ -130,11 +130,11 @@ def prog_output_failure(prog_input, sp_results):
     """Failed ProgramOutput object"""
     pi_energy = prog_input("energy")
 
-    return ProgramOutput[ProgramInput, Files](
+    return Results[CalcInput, Files](
         input_data=pi_energy,
         success=False,
         traceback="Traceback...",
-        results=Files(),
+        data=Files(),
         provenance={"program": "qcio-test-suite", "scratch_dir": "/tmp/qcio"},
         extras={"some_extra": 1},
     )
@@ -142,4 +142,4 @@ def prog_output_failure(prog_input, sp_results):
 
 @pytest.fixture
 def opt_results(prog_output):
-    return OptimizationResults(trajectory=[prog_output])
+    return OptimizationData(trajectory=[prog_output])

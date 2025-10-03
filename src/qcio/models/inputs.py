@@ -9,16 +9,21 @@ from typing_extensions import Self, TypeVar
 
 from .base_models import CalcType, Files, Model
 from .structure import Structure
+from .utils import deprecated_class
 
 __all__ = [
     "FileInput",
-    "ProgramInput",
-    "DualProgramInput",
-    "ProgramArgs",
+    "CalcInput",
+    "CompositeCalcInput",
+    "CalcArgs",
     "Inputs",
     "InputType",
     "StructuredInputs",
+    "SubCalcArgs",
+    "ProgramInput",
+    "ProgramArgs",
     "ProgramArgsSub",
+    "DualProgramInput",
 ]
 
 
@@ -50,7 +55,7 @@ class _KeywordsMixin(BaseModel):
 class _StructureKeywordsMixin(_KeywordsMixin):
     """
     Attributes:
-        structure: The structure to be used in the calculation or SMILES string.
+        structure: The structure to be used in the calculation.
     """
 
     structure: Structure
@@ -79,10 +84,10 @@ class _StructureKeywordsMixin(_KeywordsMixin):
         return self.structure
 
 
-class ProgramArgs(FileInput, _KeywordsMixin):
-    """Generic arguments for a program without a calctype or structure specification.
+class CalcArgs(FileInput, _KeywordsMixin):
+    """Generic arguments for a calculation without a calctype or structure specification.
 
-    This class is used by `DualProgramInput` or multi-step calculations to
+    This class is used by `CompositeCalcInput` or multi-step calculations to
     specify `subprogram_args` or a basic program arguments multistep algorithm in
     BigChem. It is not intended to be used directly for single-step calculations since
     it lacks a `calctype` and `structure`.
@@ -100,8 +105,8 @@ class ProgramArgs(FileInput, _KeywordsMixin):
     model: Model
 
 
-class ProgramArgsSub(FileInput, _KeywordsMixin):
-    """Generic arguments for a program that also calls a subprogram.
+class SubCalcArgs(FileInput, _KeywordsMixin):
+    """Generic arguments for a calculation that also calls a sub-calculation.
 
     This class is needed for multi-step calculations where the calctype and structure
     are specified only once for the entire calculation, e.g., multistep_opt in BigChem.
@@ -119,10 +124,10 @@ class ProgramArgsSub(FileInput, _KeywordsMixin):
 
     model: Optional[Model] = None
     subprogram: str
-    subprogram_args: ProgramArgs
+    subprogram_args: CalcArgs
 
 
-class ProgramInput(ProgramArgs, _StructureKeywordsMixin):
+class CalcInput(CalcArgs, _StructureKeywordsMixin):
     """Input for a single quantum chemistry program. This is the most common input type.
 
     Attributes:
@@ -137,11 +142,11 @@ class ProgramInput(ProgramArgs, _StructureKeywordsMixin):
 
     Example:
         ```python
-        from qcio.models import ProgramInput, Structure
+        from qcio.models import CalcInput, Structure
 
         struct = Structure.open("path/to/structure.xyz")
 
-        prog_inp = ProgramInput(
+        prog_inp = CalcInput(
             calctype = "energy",
             structure = struct,
             model = {"method": "hf", "basis": "6-31G"},
@@ -159,7 +164,7 @@ class ProgramInput(ProgramArgs, _StructureKeywordsMixin):
         return calctype.value
 
 
-class DualProgramInput(ProgramArgsSub, ProgramInput):
+class CompositeCalcInput(SubCalcArgs, CalcInput):
     """Input for a two program calculation.
 
     Attributes:
@@ -176,11 +181,11 @@ class DualProgramInput(ProgramArgsSub, ProgramInput):
 
     Example:
         ```python
-        from qcio.models import DualProgramInput, Structure
+        from qcio.models import CompositeCalcInput, Structure
 
         struct = Structure.open("path/to/structure.xyz")
 
-        prog_inp = DualProgramInput(
+        prog_inp = CompositeCalcInput(
             calctype = "optimization",
             structure = struct,
             keywords = {"maxiter": "250"},  # Optional
@@ -194,6 +199,50 @@ class DualProgramInput(ProgramArgsSub, ProgramInput):
     """
 
 
-Inputs = Union[FileInput, ProgramInput, DualProgramInput]
+Inputs = Union[FileInput, CalcInput, CompositeCalcInput]
 InputType = TypeVar("InputType", bound=Inputs)
-StructuredInputs = Union[ProgramInput, DualProgramInput]
+StructuredInputs = Union[CalcInput, CompositeCalcInput]
+
+
+@deprecated_class("CalcInput")
+class ProgramInput(CalcInput):
+    """Deprecated alias for CalcInput.
+
+    This class is deprecated and will be removed in a future release. Please use
+    `CalcInput` instead.
+    """
+
+    pass
+
+
+@deprecated_class("ProgramArgs")
+class ProgramArgs(CalcArgs):
+    """Deprecated alias for CalcArgs.
+
+    This class is deprecated and will be removed in a future release. Please use
+    `CalcArgs` instead.
+    """
+
+    pass
+
+
+@deprecated_class("SubCalcArgs")
+class ProgramArgsSub(SubCalcArgs):
+    """Deprecated alias for SubCalcArgs.
+
+    This class is deprecated and will be removed in a future release. Please use
+    `SubCalcArgs` instead.
+    """
+
+    pass
+
+
+@deprecated_class("CompositeCalcInput")
+class DualProgramInput(CompositeCalcInput):
+    """Deprecated alias for CompositeCalcInput.
+
+    This class is deprecated and will be removed in a future release. Please use
+    `CompositeCalcInput` instead.
+    """
+
+    pass
