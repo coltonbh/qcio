@@ -139,15 +139,15 @@ def test_successful_result_serialization(results):
     serialized = results.model_dump_json()
     deserialized = Results.model_validate_json(serialized)
     assert deserialized == results
-    assert deserialized.data == results.results
+    assert deserialized.data == results.data
     assert deserialized.input_data == results.input_data
     assert deserialized.provenance.program == "qcio-test-suite"
     assert deserialized.logs == results.logs
     assert deserialized.extras == results.extras
-    # assert deserialized.return_result == prog_output.return_result
-    assert deserialized.data.energy == results.results.energy
-    assert np.array_equal(deserialized.data.gradient, results.results.gradient)
-    assert np.array_equal(deserialized.data.hessian, results.results.hessian)
+    assert deserialized.return_result == results.return_result
+    assert deserialized.data.energy == results.data.energy
+    assert np.array_equal(deserialized.data.gradient, results.data.gradient)
+    assert np.array_equal(deserialized.data.hessian, results.data.hessian)
 
 
 def test_wavefunction_to_numpy():

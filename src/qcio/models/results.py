@@ -1,4 +1,4 @@
-"""End user output and results objects from a calculation."""
+"""End user results and data objects."""
 
 from __future__ import annotations
 

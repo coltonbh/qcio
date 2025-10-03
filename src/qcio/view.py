@@ -331,12 +331,12 @@ def generate_files_string(files: dict[str, Union[str, bytes]]) -> str:
     return generate_dictionary_string(viewer_dict)
 
 
-def generate_output_table(*prog_outputs: Results) -> str:
+def generate_output_table(*results: Results) -> str:
     """
     Generate an HTML table displaying the basic parameters for Results objects.
 
     Args:
-        *prog_outputs: The Results objects to display.
+        *results: The Results objects to display.
 
     Returns:
         str: A string of HTML displaying the Results objects in a table.
@@ -378,10 +378,10 @@ def generate_output_table(*prog_outputs: Results) -> str:
             <th>Model</th>
             <th>Keywords</th>
     """
-    if any(po.input_data.files for po in prog_outputs):
+    if any(po.input_data.files for po in results):
         table_header += "<th>Input Files</th>"
 
-    if any(isinstance(po.input_data, CompositeCalcInput) for po in prog_outputs):
+    if any(isinstance(po.input_data, CompositeCalcInput) for po in results):
         table_header += """
             <th>Subprogram</th>
             <th>Subprogram Model</th>
@@ -390,7 +390,7 @@ def generate_output_table(*prog_outputs: Results) -> str:
     table_header += "</tr>"
 
     table_rows = []
-    for po in prog_outputs:
+    for po in results:
         success_style = (
             'style="color: green; font-weight: bold;"'
             if po.success
@@ -549,7 +549,7 @@ def _format_time(seconds_float: float) -> str:
     return formatted_time
 
 
-def generate_results_table(results: Files) -> str:
+def generate_data_table(data: Files) -> str:
     """
     Generate an HTML table displaying the results.
 
@@ -561,7 +561,7 @@ def generate_results_table(results: Files) -> str:
     """
 
     rows = ""
-    for key, value in results.__dict__.items():
+    for key, value in data.__dict__.items():
         if _not_empty(value):
             if key != "files":
                 with _numpy_print_options(
@@ -571,9 +571,9 @@ def generate_results_table(results: Files) -> str:
                     rows += f"<tr><td>{key}</td><td>{value}</td></tr>"
 
     # Add the files to the bottom table
-    if _not_empty(results.files):
+    if _not_empty(data.files):
         rows += (
-            f"<tr><td>Files</td><td>{generate_files_string(results.files)}</td></tr>"
+            f"<tr><td>Files</td><td>{generate_files_string(data.files)}</td></tr>"
         )
 
     return f"""
@@ -610,7 +610,7 @@ def structures(
 
 
 def program_outputs(
-    *prog_outputs: Results[Union[CalcInput, CompositeCalcInput], Data],
+    *results: Results[Union[CalcInput, CompositeCalcInput], Data],
     animate: bool = True,
     struct_viewer: bool = True,
     conformer_rmsd_threshold: Optional[float] = None,
@@ -622,7 +622,7 @@ def program_outputs(
     Display one or many Results objects.
 
     Args:
-        *prog_outputs: The Results objects to display.
+        *results: The Results objects to display.
         animate: Whether to animate the structure if it is an optimization.
         struct_viewer: Whether to display the structure viewer.
         conformer_rmsd_threshold: The threshold for RMSD to determine if conformers are
@@ -638,25 +638,25 @@ def program_outputs(
     width = kwargs.get("width", DEFAULT_WIDTH)
     height = kwargs.get("height", DEFAULT_HEIGHT)
 
-    for i, po in enumerate(prog_outputs):
+    for i, result in enumerate(results):
         final_html = []
-        final_html.append(generate_output_table(po))
+        final_html.append(generate_output_table(result))
 
-        if isinstance(po.results, ConformerSearchData):
-            structures = [po.input_data.structure]
+        if isinstance(result.data, ConformerSearchData):
+            structures = [result.input_data.structure]
 
             if conformer_rmsd_threshold is not None:
                 keep_indices = filter_conformers_indices(
-                    po.results.conformers,
+                    result.data.conformers,
                     backend=conformer_rmsd_backend,
                     threshold=conformer_rmsd_threshold,
                     **(conformer_rmsd_kwargs or {}),
                 )
-                conformers = [po.results.conformers[i] for i in keep_indices]
-                energies_rel = po.results.conformer_energies_relative[keep_indices]
+                conformers = [result.data.conformers[i] for i in keep_indices]
+                energies_rel = result.data.conformer_energies_relative[keep_indices]
             else:
-                conformers = po.results.conformers
-                energies_rel = po.results.conformer_energies_relative
+                conformers = result.data.conformers
+                energies_rel = result.data.conformer_energies_relative
 
             structures += conformers
             titles_extra = ["Initial Structure"] + [
@@ -685,22 +685,22 @@ def program_outputs(
                     title_extra = ""
 
                 # Determine the Structure to use
-                if isinstance(po.results, OptimizationData):
+                if isinstance(result.data, OptimizationData):
                     for_viewer: Union[Structure, list[Structure]]
                     if animate:
-                        for_viewer = po.results.structures
+                        for_viewer = result.data.structures
                     else:
-                        for_viewer = po.results.final_structure
+                        for_viewer = result.data.final_structure
                         title_extra += " (Final Structure)"
 
-                elif isinstance(po.results, SinglePointData):
-                    for_viewer = po.input_data.structure
+                elif isinstance(result.data, SinglePointData):
+                    for_viewer = result.input_data.structure
 
-                elif isinstance(po.results, Files):
-                    for_viewer = po.input_data.structure
+                elif isinstance(result.data, Files):
+                    for_viewer = result.input_data.structure
                 else:
                     raise NotImplementedError(
-                        f"Viewing of {type(po.results)} is not yet implemented."
+                        f"Viewing of {type(result.data)} is not yet implemented."
                     )
 
                 structure_html = generate_structure_viewer_html(
@@ -709,13 +709,13 @@ def program_outputs(
                     **kwargs,
                 )
 
-            # Create results table or plot
-            if isinstance(po.results, OptimizationData):
-                results_html = generate_optimization_plot(
-                    po, figsize=(width / 100, height / 100)
+            # Create data table or plot
+            if isinstance(result.data, OptimizationData):
+                data_html = generate_optimization_plot(
+                    result, figsize=(width / 100, height / 100)
                 )
             else:
-                results_html = generate_results_table(po.results)
+                data_html = generate_data_table(result.data)
 
             final_html.append(
                 f"""
@@ -729,7 +729,7 @@ def program_outputs(
                 </div>
                 <div style="width: {width}px; height: {height}px; text-align: center; 
                     margin-left: 20px; flex: 1; overflow: auto;">
-                    {results_html}
+                    {data_html}
                 </div>
             </div>
         </div>
