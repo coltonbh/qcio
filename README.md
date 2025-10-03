@@ -6,17 +6,15 @@
 [![Actions status](https://github.com/coltonbh/qcio/workflows/Tests/badge.svg)](https://github.com/coltonbh/qcio/actions)
 [![Actions status](https://github.com/coltonbh/qcio/workflows/Basic%20Code%20Quality/badge.svg)](https://github.com/coltonbh/qcio/actions)
 
-Elegant and intuitive data structures for quantum chemistry, featuring seamless Jupyter Notebook visualizations. Also featuring NIST/CODATA2022 core physical constants and a Periodic Table.
-
-Inspired by [QCElemental](https://github.com/MolSSI/QCElemental). Built for consistency and rapid development.
+Elegant and intuitive data structures for quantum chemistry, featuring seamless Jupyter Notebook visualizations.
 
 `qcio` works in harmony with a suite of other quantum chemistry tools for fast, structured, and interoperable quantum chemistry.
 
 ## The QC Suite of Programs
 
-- [qcconst](https://github.com/coltonbh/qcconst) - Physical constants, conversion factors, and a periodic table with clear source information for every value.
+- [qcconst](https://github.com/coltonbh/qcconst) - NIST/CODATA2022 core physical constants, conversion factors, and a periodic table with clear source information for every value.
 - [qcio](https://github.com/coltonbh/qcio) - Elegant and intuitive data structures for quantum chemistry, featuring seamless Jupyter Notebook visualizations. [Documentation](https://qcio.coltonhicks.com)
-- [qcparse](https://github.com/coltonbh/qcparse) - A library for efficient parsing of quantum chemistry data into structured `qcio` objects.
+- [qccodec](https://github.com/coltonbh/qccodec) - A translation layer between quantum chemistry program inputs and outputs and structured `qcio` objects.
 - [qcop](https://github.com/coltonbh/qcop) - A package for operating quantum chemistry programs using `qcio` standardized data structures. Compatible with `TeraChem`, `psi4`, `QChem`, `NWChem`, `ORCA`, `Molpro`, `geomeTRIC` and many more.
 - [BigChem](https://github.com/mtzgroup/bigchem) - A distributed application for running quantum chemistry calculations at scale across clusters of computers or the cloud. Bring multi-node scaling to your favorite quantum chemistry program.
 - `ChemCloud` - A [web application](https://github.com/mtzgroup/chemcloud-server) and associated [Python client](https://github.com/mtzgroup/chemcloud-client) for exposing a BigChem cluster securely over the internet.
@@ -24,12 +22,12 @@ Inspired by [QCElemental](https://github.com/MolSSI/QCElemental). Built for cons
 ## Installation
 
 ```bash
-pip install qcio
+python -m pip install qcio
 ```
 
 ## Quickstart
 
-`qcio` is built around a simple mental model: `Input` objects are used to define inputs for a quantum chemistry program, and `Output` objects are used to capture the outputs from a quantum chemistry program.
+`qcio` is built around a simple mental model: `Input` objects define quantum chemistry calculations, and a `Results` object defines the results.
 
 All `qcio` objects can be serialized and saved to disk by calling `.save("filename.json")` and loaded from disk by calling `.open("filename.json")`. `qcio` supports `json`, `yaml`, and `toml` file formats. Binary data will be automatically base64 encoded and decoded when saving and loading.
 
@@ -70,7 +68,7 @@ caffeine.save("caffeine.toml")
 
 #### CompositeCalcInput - Input object for a workflow that uses multiple QC calculations.
 
-`CompositeCalcInput` objects can be used to power workflows that require multiple QC programs. For example, a geometry optimization workflow might use `geomeTRIC` to power the optimization and use `terachem` to compute the energies and gradients.
+`CompositeCalcInput` objects can be used to power workflows that require multiple calculations. For example, a geometry optimization workflow might use `geomeTRIC` to power the optimization and use `terachem` to compute the energies and gradients.
 
 ```python
 from qcio import Structure, CompositeCalcInput
@@ -130,14 +128,12 @@ new_input_dict["model"]["method"] = "b3lyp"
 new_prog_input = CalcInput(**new_input_dict)
 ```
 
-### Results Objects
+### Results
 
-#### Results
-
-Calculation values are stored in a `Results` object. `Results` may contain data, files, logs, and additional details of the calculation. A `Results` object has the following attributes:
+Calculation values are stored in a `Results` object. `Results` may contain parsed data, files, logs, and additional details of the calculation. A `Results` object has the following attributes:
 
 ```python
-output.input_data # Input data used by the QC program
+output.input_data # Input data used for the calculation
 output.success # Whether the calculation succeeded or failed
 output.data # All structured data from the calculation
 output.data.files # Any files returned by the calculation
@@ -162,13 +158,13 @@ Visualize all your results with a single line of code!
 First install the visualization module:
 
 ```sh
-pip install qcio[view]
+python -m pip install qcio[view]
 ```
 
 or if your shell requires `''` around arguments with brackets:
 
 ```sh
-pip install 'qcio[view]'
+python -m pip install 'qcio[view]'
 ```
 
 Then in a Jupyter notebook import the `qcio` view module and call `view.view(...)` passing it one or any number of `qcio` objects you want to visualizing including `Structure` objects or any `Results` object. You may also pass an array of `titles` and/or `subtitles` to add additional information to the molecular structure display. If no titles are passed `qcio` with look for `Structure` identifiers such as a name or SMILES to label the `Structure`.
@@ -181,7 +177,7 @@ Seamless visualizations for `Results` objects make results analysis easy!
 
 Single point calculations display their results in a table.
 
-![Single Point Viewer](https://public.coltonhicks.com/assets/qcio/single_point_viewer.png)
+![Single Point Viewer](./docs/assets/single_point_viewer.png)
 
 If you want to use the HTML generated by the viewer to build your own dashboards use the functions inside of `qcio.view.py` that begin with the word `generate_` to create HTML you can insert into any dashboard.
 
