@@ -170,9 +170,9 @@ def test_wavefunction_to_numpy():
 
 def test_correct_generic_instantiates_and_equality_checks_pass(results, tmp_path):
     """
-    This test checks the ProgramOutput.model_post_init method to ensure that the
+    This test checks the Results.model_post_init method to ensure that the
     correct generic types are instantiated and that equality checks pass. It also
-    tests the serialization and deserialization of the ProgramOutput class with and
+    tests the serialization and deserialization of the Results class with and
     without types. The point is that end users should be able to ignore generics
     specification for common tasks like opening files and the correct types will be
     set for them.
@@ -263,9 +263,9 @@ def test_pickle_serialization_of_program_output_parametrized(
     request,
 ):
     """This test checks that all the dynamic types are correctly set when
-    deserializing a ProgramOutput object. It also checks that the equality
+    deserializing a Results object. It also checks that the equality
     checks pass for the deserialized object. It also ensure that the types
-    set can be looked up by pickle in qcio.models.outputs.ProgramOutput.s
+    set can be looked up by pickle in qcio.models.outputs.Results.s
     """
 
     provenance = Provenance(program="qcio-test-suite")
@@ -273,7 +273,7 @@ def test_pickle_serialization_of_program_output_parametrized(
     if success is False:
         traceback = "Fake traceback"
 
-    # Generics specified at instantiation of ProgramOutput
+    # Generics specified at instantiation of Results
     prog_output = Results[type(input_data), type(data)](
         input_data=input_data,
         data=data,
@@ -285,7 +285,7 @@ def test_pickle_serialization_of_program_output_parametrized(
     deserialized = pickle.loads(serialized)
     assert deserialized == prog_output
 
-    # Generics not specified at instantiation of ProgramOutput
+    # Generics not specified at instantiation of Results
     prog_output = Results(
         input_data=input_data,
         data=data,
@@ -297,7 +297,7 @@ def test_pickle_serialization_of_program_output_parametrized(
     deserialized = pickle.loads(serialized)
     assert deserialized == prog_output
 
-    # Generics not specified at instantiation of ProgramOutput
+    # Generics not specified at instantiation of Results
     unspecified_po = Results(**prog_output.model_dump())
     serialized = pickle.dumps(prog_output)
     deserialized = pickle.loads(serialized)
@@ -350,12 +350,12 @@ def test_pickle_serialization_of_program_output():
         provenance={"program": "qcio-test-suite", "scratch_dir": "/tmp/qcio"},
         extras={"some_extra": 1},
     )
-    # Generics specified at instantiation of ProgramOutput
+    # Generics specified at instantiation of Results
     serialized = pickle.dumps(prog_output)
     deserialized = pickle.loads(serialized)
     assert deserialized == prog_output
 
-    # Generics not specified at instantiation of ProgramOutput
+    # Generics not specified at instantiation of Results
     unspecified_po = Results(**prog_output.model_dump())
     serialized = pickle.dumps(prog_output)
     deserialized = pickle.loads(serialized)
@@ -403,7 +403,7 @@ def test_compatibility_layer_for_files_on_results(calc_input):
 
 
 def test_compatibility_layer_for_noresults_prog_outputs(test_data_dir):
-    """Ensure old ProgramOutput with NoResults can still be loaded."""
+    """Ensure old Results with NoResults can still be loaded."""
     Results.model_validate_json((test_data_dir / "po_noresults.json").read_text())
 
 

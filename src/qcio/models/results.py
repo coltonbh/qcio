@@ -39,6 +39,7 @@ __all__ = [
     "SinglePointResults",
     "OptimizationResults",
     "ConformerSearchResults",
+    "Results",
     "ProgramOutput",
 ]
 
@@ -187,7 +188,7 @@ class OptimizationData(Files, CalcInfoData):
         energies: The energies for each step of the optimization.
         structures: The Structure objects for each step of the optimization.
         final_structure: The final, optimized Structure.
-        trajectory: The ProgramOutput objects for each step of the optimization.
+        trajectory: The Results objects for each step of the optimization.
     """
 
     trajectory: list[
@@ -578,7 +579,7 @@ class Results(QCIOBaseModel, Generic[InputType, DataType]):
             stacklevel=2,
         )
         # For mypy
-        assert self.data is not None, "No data exist on this ProgramOutput"
+        assert self.data is not None, "No data exist on this Results object."
         assert type(self.input_data) is not FileInput, "FileInputs have no data."
         return self.data.return_result(self.input_data.calctype)  # type: ignore
 
@@ -608,7 +609,7 @@ def _register_program_output_classes():
     """Required so that pickle can find the concrete classes for serialization."""
     for input_type, results_type in product(get_args(Inputs), get_args(Data)):
         # TODO: Remove ProgramOutput when compatibility is no longer needed
-        for ClassType in [Results, ProgramOutput]:
+        for ClassType in [Results, Results]:
             _class = ClassType[input_type, results_type]
             name = _class.__name__
             this_module = sys.modules[__name__]
