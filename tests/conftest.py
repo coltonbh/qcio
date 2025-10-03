@@ -36,23 +36,23 @@ def file_input():
 
 
 @pytest.fixture
-def input_data(request, file_input, prog_input, dprog_input):
+def input_data(request, file_input, calc_input, ccalc_input):
     """Input data fixture"""
     if request.param == "file_input":
         return file_input
-    elif request.param == "prog_input":
-        return prog_input("energy")
-    elif request.param == "dprog_input":  # CompositeCalcInput
-        return dprog_input
+    elif request.param == "calc_input":
+        return calc_input("energy")
+    elif request.param == "ccalc_input":  # CompositeCalcInput
+        return ccalc_input
     else:
         raise ValueError(f"Unknown input data type: {request.param}")
 
 
 @pytest.fixture
-def prog_input(water):
+def calc_input(water):
     """Function that returns CalcInput of calctype."""
 
-    def _create_prog_input(calctype):
+    def _create_calc_input(calctype):
         return CalcInput(
             structure=water,
             calctype=calctype,
@@ -66,14 +66,14 @@ def prog_input(water):
             },
         )
 
-    return _create_prog_input
+    return _create_calc_input
 
 
 @pytest.fixture
-def dprog_input(water):
+def ccalc_input(water):
     """Function that returns CompositeCalcInput of calctype."""
 
-    def _create_prog_input(calctype):
+    def _create_calc_input(calctype):
         return CompositeCalcInput(
             structure=water,
             calctype=calctype,
@@ -86,14 +86,14 @@ def dprog_input(water):
             subprogram_args={"model": {"method": "hf", "basis": "sto-3g"}},
         )
 
-    return _create_prog_input
+    return _create_calc_input
 
 
 @pytest.fixture
-def sp_results():
-    """SinglePointResults object"""
+def sp_data():
+    """SinglePointData object"""
 
-    def _create_sp_results(structure):
+    def _create_sp_data(structure):
         n_atoms = len(structure.symbols)
         gradient = np.arange(n_atoms * 3, dtype=np.float64).reshape(n_atoms, 3)
         hessian = np.arange(n_atoms**2 * 3**2, dtype=np.float64).reshape(
@@ -106,32 +106,32 @@ def sp_results():
             extras={"some_extra_result": 1},
         )
 
-    return _create_sp_results
+    return _create_sp_data
 
 
 @pytest.fixture
-def prog_output(prog_input, sp_results):
-    """Successful ProgramOutput object"""
-    pi_energy = prog_input("energy")
-    sp_results = sp_results(pi_energy.structure)
+def results(calc_input, sp_data):
+    """Successful Results object"""
+    pi_energy = calc_input("energy")
+    sp_data = sp_data(pi_energy.structure)
 
     return Results[CalcInput, SinglePointData](
         input_data=pi_energy,
         success=True,
-        stdout="program standard out...",
-        data=sp_results,
+        logs="program standard out...",
+        data=sp_data,
         provenance={"program": "qcio-test-suite", "scratch_dir": "/tmp/qcio"},
         extras={"some_extra": 1},
     )
 
 
 @pytest.fixture
-def prog_output_failure(prog_input, sp_results):
-    """Failed ProgramOutput object"""
-    pi_energy = prog_input("energy")
+def results_failure(calc_input, sp_data):
+    """Failed Results object"""
+    ci_energy = calc_input("energy")
 
     return Results[CalcInput, Files](
-        input_data=pi_energy,
+        input_data=ci_energy,
         success=False,
         traceback="Traceback...",
         data=Files(),
@@ -141,5 +141,5 @@ def prog_output_failure(prog_input, sp_results):
 
 
 @pytest.fixture
-def opt_results(prog_output):
-    return OptimizationData(trajectory=[prog_output])
+def opt_data(results):
+    return OptimizationData(trajectory=[results])

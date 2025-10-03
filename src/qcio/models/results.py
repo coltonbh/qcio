@@ -403,38 +403,50 @@ class Results(QCIOBaseModel, Generic[InputType, DataType]):
         success: Whether the calculation was successful.
         data: The results of the calculation. Contains parsed values and files.
             Any of `qcio.Results`.
-        stdout: The standard output from the calculation.
+        logs: The logs from the calculation.
         traceback: The traceback from the calculation, if it failed.
         provenance: The provenance information for the calculation.
         extras Dict[str, Any]: Additional information to bundle with the object. Use for
             schema development and scratch space.
-        pstdout str: `@property` Print the stdout text.
-        ptraceback str: `@property` Print the traceback text.
+        plogs str: `@property` Print the logs.
+        ptraceback str: `@property` Print the traceback.
     """
 
     input_data: InputType
     success: Literal[True, False]
     data: DataType
-    stdout: str | None = None
+    logs: str | None = None
     traceback: str | None = None
     provenance: Provenance
 
-    def __init__(self, **data: Any):
-        """Backwards compatibility for files attribute."""
+    @model_validator(mode="before")
+    def backwards_compatibility(cls, payload: dict[str, Any]) -> dict[str, Any]:
+        """Backwards compatibility for renamed attributes."""
+
+        # Backwards compatibility for .stdout attribute:
+        if "stdout" in payload:
+            warnings.warn(
+                "The 'stdout' attribute has been renamed to 'logs'. Please update your "
+                "code accordingly.",
+                category=FutureWarning,
+                stacklevel=2,
+            )
+            if "logs" not in payload:
+                payload["logs"] = payload.pop("stdout")
 
         # Backwards compatibility for .results attribute:
-        if "results" in data:
+        if "results" in payload:
             warnings.warn(
                 "The 'results' attribute has been renamed to 'data'. Please update "
                 "your code accordingly.",
                 category=FutureWarning,
                 stacklevel=2,
             )
-            if isinstance(data["results"], dict):
-                data["data"] = data.pop("results")
+            if isinstance(payload["results"], dict):
+                payload["data"] = payload.pop("results")
 
         # Backwards compatibility for .files attribute:
-        if "files" in data:
+        if "files" in payload:
             warnings.warn(
                 "The 'files' attribute has been moved to 'data.files'. Please "
                 "update your code accordingly.",
@@ -442,14 +454,14 @@ class Results(QCIOBaseModel, Generic[InputType, DataType]):
                 stacklevel=2,
             )
             # This moves files from the top level to the data attribute
-            if isinstance(data["data"], dict):
-                data_files_dict = data["data"].get("files", {})
+            if isinstance(payload["data"], dict):
+                data_files_dict = payload["data"].get("files", {})
             else:  # data["data"] is Files, SinglePointData, OptimizationData
-                data_files_dict = data["data"].files
+                data_files_dict = payload["data"].files
 
-            data_files_dict.update(**data.pop("files"))
+            data_files_dict.update(**payload.pop("files"))
 
-        super().__init__(**data)
+        return payload
 
     def model_post_init(self, __context) -> None:
         """Parameterize the class (if not set explicitly)."""
@@ -468,6 +480,16 @@ class Results(QCIOBaseModel, Generic[InputType, DataType]):
             stacklevel=2,
         )
         return self.data
+
+    @property
+    def stdout(self) -> str | None:
+        """Return the logs attribute."""
+        warnings.warn(
+            ".stdout has been renamed to .logs. Please update your code accordingly.",
+            category=FutureWarning,
+            stacklevel=2,
+        )
+        return self.logs
 
     @model_validator(mode="after")
     def ensure_traceback_on_failure(self) -> Self:
@@ -501,9 +523,19 @@ class Results(QCIOBaseModel, Generic[InputType, DataType]):
         return self
 
     @property
+    def plogs(self) -> None:
+        """Print the logs"""
+        print(self.logs)
+
+    @property
     def pstdout(self) -> None:
         """Print the stdout text"""
-        print(self.stdout)
+        warnings.warn(
+            ".pstdout has been renamed to .plogs. Please update your code accordingly.",
+            category=FutureWarning,
+            stacklevel=2,
+        )
+        print(self.logs)
 
     @property
     def ptraceback(self) -> None:

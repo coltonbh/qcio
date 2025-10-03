@@ -17,65 +17,50 @@ from qcio import (
 )
 
 
-def test_results_gradient_converted_np_array():
-    """Test that SinglePointResult converts gradient to np array"""
+def test_gradient_converted_np_array():
+    """Test that SinglePointData converts gradient to np array"""
     gradient = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
-    results = SinglePointData(gradient=gradient)
-    assert isinstance(results.gradient, np.ndarray)
-    assert results.gradient.dtype == np.float64
+    data = SinglePointData(gradient=gradient)
+    assert isinstance(data.gradient, np.ndarray)
+    assert data.gradient.dtype == np.float64
 
 
-def test_results_hessian_converted_np_array():
-    """Test that SinglePointResult converts gradient to np array"""
+def test_hessian_converted_np_array():
+    """Test that SinglePointData converts hessian to np array"""
     hessian = [float(i) for i in range(9)]
-    results = SinglePointData(hessian=hessian)
-    assert isinstance(results.hessian, np.ndarray)
-    assert results.hessian.dtype == np.float64
+    data = SinglePointData(hessian=hessian)
+    assert isinstance(data.hessian, np.ndarray)
+    assert data.hessian.dtype == np.float64
 
 
-def test_single_point_success_casts_gradient_to_n_by_3(prog_input):
-    """Test that SinglePointSuccess casts gradient to n by 3"""
-    pi_gradient = prog_input("gradient")
-    n_atoms = len(pi_gradient.structure.symbols)
+def test_single_point_casts_gradient_to_n_by_3(calc_input):
+    """Test that SinglePointData casts gradient to n by 3"""
+    ci_gradient = calc_input("gradient")
+    n_atoms = len(ci_gradient.structure.symbols)
     gradient = [float(i) for i in range(n_atoms * 3)]
-    output = Results(
-        input_data=pi_gradient,
-        success=True,
-        data={
-            "gradient": gradient,
-        },
-        provenance={"program": "qcio-test-suite"},
-    )
-    assert output.data.gradient.shape == (n_atoms, 3)
+    data = SinglePointData(gradient=gradient)
+    assert data.gradient.shape == (n_atoms, 3)
     # Assert that gradient is numpy array of floats
-    assert output.data.gradient.dtype == np.float64
+    assert data.gradient.dtype == np.float64
 
 
-def test_single_point_success_casts_hessian_to_3n_by_3n(prog_input):
-    """Test that SinglePointSuccess casts hessian to 3n x 3n"""
-    pi_hessian = prog_input("hessian")
+def test_single_point_success_casts_hessian_to_3n_by_3n(calc_input):
+    """Test that SinglePointData casts hessian to 3n x 3n"""
+    pi_hessian = calc_input("hessian")
     n_atoms = len(pi_hessian.structure.symbols)
     hessian = [float(i) for i in range(n_atoms**2 * 3**2)]
-
-    po = Results(
-        input_data=pi_hessian,
-        success=True,
-        data={
-            "hessian": hessian,
-        },
-        provenance={"program": "qcio-test-suite"},
-    )
-    assert po.data.hessian.shape == (n_atoms * 3, n_atoms * 3)
+    data = SinglePointData(hessian=hessian)
+    assert data.hessian.shape == (n_atoms * 3, n_atoms * 3)
     # Assert that hessian is numpy array of floats
-    assert po.data.hessian.dtype == np.float64
+    assert data.hessian.dtype == np.float64
 
 
-def test_single_point_results_normal_modes_cartesian_shape(prog_input):
-    """Test that SinglePointResults normal_modes_cartesian are n_modes x n_atoms x 3"""
-    pi_energy = prog_input("energy")
-    n_atoms = len(pi_energy.structure.symbols)
+def test_single_point_data_normal_modes_cartesian_shape(calc_input):
+    """Test that SinglePointData normal_modes_cartesian are n_modes x n_atoms x 3"""
+    ci_energy = calc_input("energy")
+    n_atoms = len(ci_energy.structure.symbols)
     n_atoms * 3
-    results = SinglePointData(
+    data = SinglePointData(
         energy=-1.0,
         freqs_wavenumber=[1.0, 2.0, 3.0],  # Given so there are 3 normal modes
         # fmt: off
@@ -112,20 +97,20 @@ def test_single_point_results_normal_modes_cartesian_shape(prog_input):
         ),
         # fmt: on
     )
-    assert results.normal_modes_cartesian.shape == (3, 3, 3)
+    assert data.normal_modes_cartesian.shape == (3, 3, 3)
 
 
-def test_return_result(prog_input):
+def test_return_result(calc_input):
     """Test that return_result returns the requested result"""
-    # TODO: Remove this test once you depreciate .return_result
-    prog_input_energy = prog_input("energy")
+    # TODO: Remove this test once I depreciate .return_result
+    calc_input_energy = calc_input("energy")
     energy = 1.0
-    n_atoms = len(prog_input_energy.structure.symbols)
+    n_atoms = len(calc_input_energy.structure.symbols)
     gradient = np.arange(n_atoms * 3).reshape(n_atoms, 3)
     hessian = np.arange(n_atoms**2 * 3**2).reshape(n_atoms * 3, n_atoms * 3)
 
-    output = Results(
-        input_data=prog_input_energy,
+    results = Results(
+        input_data=calc_input_energy,
         success=True,
         data={
             "energy": energy,
@@ -134,35 +119,35 @@ def test_return_result(prog_input):
         },
         provenance={"program": "qcio-test-suite"},
     )
-    assert output.return_result == energy
-    assert output.return_result == output.data.energy
+    assert results.return_result == energy
+    assert results.return_result == results.data.energy
 
-    pi_gradient = prog_input("gradient")
-    output = Results(**{**output.model_dump(), **{"input_data": pi_gradient}})  # noqa: E501
-    assert np.array_equal(output.return_result, gradient)
-    assert np.array_equal(output.return_result, output.data.gradient)
+    ci_gradient = calc_input("gradient")
+    results = Results(**{**results.model_dump(), **{"input_data": ci_gradient}})  # noqa: E501
+    assert np.array_equal(results.return_result, gradient)
+    assert np.array_equal(results.return_result, results.data.gradient)
 
-    pi_hessian = prog_input("hessian")
-    output = Results(**{**output.model_dump(), **{"input_data": pi_hessian}})
+    pi_hessian = calc_input("hessian")
+    results = Results(**{**results.model_dump(), **{"input_data": pi_hessian}})
 
-    assert np.array_equal(output.return_result, hessian)
-    assert np.array_equal(output.return_result, output.data.hessian)
+    assert np.array_equal(results.return_result, hessian)
+    assert np.array_equal(results.return_result, results.data.hessian)
 
 
-def test_successful_output_serialization(prog_output):
+def test_successful_result_serialization(results):
     """Test that successful result serializes and deserializes"""
-    serialized = prog_output.model_dump_json()
+    serialized = results.model_dump_json()
     deserialized = Results.model_validate_json(serialized)
-    assert deserialized == prog_output
-    assert deserialized.data == prog_output.results
-    assert deserialized.input_data == prog_output.input_data
+    assert deserialized == results
+    assert deserialized.data == results.results
+    assert deserialized.input_data == results.input_data
     assert deserialized.provenance.program == "qcio-test-suite"
-    assert deserialized.stdout == prog_output.stdout
-    assert deserialized.extras == prog_output.extras
+    assert deserialized.logs == results.logs
+    assert deserialized.extras == results.extras
     # assert deserialized.return_result == prog_output.return_result
-    assert deserialized.data.energy == prog_output.results.energy
-    assert np.array_equal(deserialized.data.gradient, prog_output.results.gradient)
-    assert np.array_equal(deserialized.data.hessian, prog_output.results.hessian)
+    assert deserialized.data.energy == results.results.energy
+    assert np.array_equal(deserialized.data.gradient, results.results.gradient)
+    assert np.array_equal(deserialized.data.hessian, results.results.hessian)
 
 
 def test_wavefunction_to_numpy():
@@ -183,7 +168,7 @@ def test_wavefunction_to_numpy():
     assert wavefunction.scf_occupations_b.dtype == np.float64
 
 
-def test_correct_generic_instantiates_and_equality_checks_pass(prog_output, tmp_path):
+def test_correct_generic_instantiates_and_equality_checks_pass(results, tmp_path):
     """
     This test checks the ProgramOutput.model_post_init method to ensure that the
     correct generic types are instantiated and that equality checks pass. It also
@@ -192,20 +177,20 @@ def test_correct_generic_instantiates_and_equality_checks_pass(prog_output, tmp_
     specification for common tasks like opening files and the correct types will be
     set for them.
     """
-    output_dict = prog_output.model_dump()
+    results_dict = results.model_dump()
     ## SinglePointResults
     # Do not pass types
-    wo_types = Results(**output_dict)
+    wo_types = Results(**results_dict)
     # Pass types
-    w_types = Results[CalcInput, SinglePointData](**output_dict)
+    w_types = Results[CalcInput, SinglePointData](**results_dict)
 
     ## OptimizationResults
-    output_dict["input_data"]["calctype"] = "optimization"
-    output_dict["data"] = OptimizationData(trajectory=[wo_types])
+    results_dict["input_data"]["calctype"] = "optimization"
+    results_dict["data"] = OptimizationData(trajectory=[wo_types])
     # Do not pass types
-    wo_types_opt = Results(**output_dict)
+    wo_types_opt = Results(**results_dict)
     # Pass types
-    w_types_opt = Results[CalcInput, OptimizationData](**output_dict)
+    w_types_opt = Results[CalcInput, OptimizationData](**results_dict)
 
     # Serialize and Save
     wo_types.save(tmp_path / "out.json")
@@ -226,21 +211,21 @@ def test_correct_generic_instantiates_and_equality_checks_pass(prog_output, tmp_
     assert wo_types_opt == w_types_opt == wo_types_opened_opt == w_types_opened_opt
 
 
-def test_non_file_success_always_has_result(prog_input):
-    pi_energy = prog_input("energy")
+def test_non_file_success_always_has_result(calc_input):
+    ci_energy = calc_input("energy")
     with pytest.raises(ValidationError):
         Results[CalcInput, SinglePointData](
             success=True,
-            input_data=pi_energy,
-            stdout="program standard out...",
+            input_data=ci_energy,
+            logs="program standard out...",
             data=None,
             provenance={"program": "qcio-test-suite"},
         )
 
 
-def test_primary_result_must_be_present_on_success(prog_output):
+def test_primary_result_must_be_present_on_success(results):
     for calctype in ["energy", "gradient", "hessian"]:
-        po_dict = prog_output.model_dump()
+        po_dict = results.model_dump()
         po_dict["input_data"]["calctype"] = calctype
         po_dict["data"][calctype] = None
         with pytest.raises(ValidationError):
@@ -357,7 +342,7 @@ def test_pickle_serialization_of_program_output():
         ),
         success=True,
         # traceback="Traceback: ...",
-        stdout="program standard out...",
+        logs="program standard out...",
         data=SinglePointData(
             energy=1.0,
             extras={"some_extra_result": 1},
@@ -401,9 +386,9 @@ def test_ensure_result_present_on_single_point_data_validator():
         SinglePointData()
 
 
-def test_compatibility_layer_for_files_on_results(prog_input):
+def test_compatibility_layer_for_files_on_results(calc_input):
     """Test that the compatibility layer for files on Results works"""
-    energy_input = prog_input("energy")
+    energy_input = calc_input("energy")
     # Passing Files as a dictionary
     files = {"file1": "file1.txt", "file2": "file2.txt"}
 
@@ -422,16 +407,31 @@ def test_compatibility_layer_for_noresults_prog_outputs(test_data_dir):
     Results.model_validate_json((test_data_dir / "po_noresults.json").read_text())
 
 
-def test_compatibility_layer_for_results_on_program_output(prog_input):
+def test_compatibility_layer_for_results_on_program_output(calc_input):
     """Test that the compatibility layer for files on Results works"""
-    energy_input = prog_input("energy")
+    energy_input = calc_input("energy")
     # Passing Files as a dictionary
     files = {"file1": "file1.txt", "file2": "file2.txt"}
     results_dict = {
         "input_data": energy_input,
         "success": True,
-        "results": {"energy": -1.0  },
+        "results": {"energy": -1.0},
         "provenance": {"program": "qcio-test-suite"},
     }
     po = Results(**results_dict)
     assert po.data.energy == -1.0
+
+
+def test_compatibility_layer_for_stdout_on_results(calc_input):
+    """Test that the compatibility layer for stdout on Results works"""
+    energy_input = calc_input("energy")
+    logs = "program standard out..."
+    results_dict = {
+        "input_data": energy_input,
+        "success": True,
+        "results": {"energy": -1.0},
+        "provenance": {"program": "qcio-test-suite"},
+        "stdout": logs,
+    }
+    results = Results(**results_dict)
+    assert results.logs == logs
