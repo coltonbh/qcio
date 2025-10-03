@@ -41,15 +41,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 
 - Package dependency system changed from `poetry` to `uv` and build system from `poetry` to `hatchling`.
-- Renamed `ProgramOutput` -> `Results` to better match basic parlance ("The program produced these results").
-- Renamed `Results.results` (formerly `ProgramOutput.results`) attribute to `.data`. "The program produced this data."
-- Renamed `SinglePointResults` -> `SinglePointData`.
-- Renamed `OptimizationResults` -> `OptimizationData`.
-- Renamed `ConformerSearchResults` -> `ConformerSearchData`.
-- Added compatibility classes so old imports looking for these names still work but emit a `FutureWarning`.
-- Renamed `QCIOModelBase` -> `QCIOBaseModel` to match `pydantic` semantics for `BaseModel`.
-- Renamed `ProgramInput` -> `CalcInput`.
-- 
+- Renamed `ProgramOutput` -> `Results` to better match basic parlance ("The program produced these results"). [#90](https://github.com/coltonbh/qcio/pull/90)
+- Renamed `Results.results` (formerly `ProgramOutput.results`) attribute to `.data`. "The program produced this data." [#90](https://github.com/coltonbh/qcio/pull/90)
+- Renamed `SinglePointResults` -> `SinglePointData`. [#90](https://github.com/coltonbh/qcio/pull/90)
+- Renamed `OptimizationResults` -> `OptimizationData`. [#90](https://github.com/coltonbh/qcio/pull/90)
+- Renamed `ConformerSearchResults` -> `ConformerSearchData`. [#90](https://github.com/coltonbh/qcio/pull/90)
+- Added compatibility classes so old imports looking for these names still work but emit a `FutureWarning`. [#90](https://github.com/coltonbh/qcio/pull/90)
+- Renamed `QCIOModelBase` -> `QCIOBaseModel` to match `pydantic` semantics for `BaseModel`. [#90](https://github.com/coltonbh/qcio/pull/90)
+- Renamed `ProgramInput` -> `CalcInput` and added a compatibility shim. [#90](https://github.com/coltonbh/qcio/pull/90)
+- Renamed `ProgramArgs` -> `CalcArgs` and added a compatibility shim. [#90](https://github.com/coltonbh/qcio/pull/90)
+- Renamed `ProgramArgsSub` -> `SubCalcArgs` and added a compatibility shim. [#90](https://github.com/coltonbh/qcio/pull/90)
+- Renamed `DualProgramInput` -> `CompositeCalcInput` and added a compatibility shim. [#90](https://github.com/coltonbh/qcio/pull/90)
 
 ## [0.14.0] - 2025-04-01
 
@@ -282,7 +284,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   pt.He.group
   pt.He.period
   pt.He.block
-  pt.He.electron_confg
+  pt.He.electron_config
 
   group_6 = pt.group(6)
   period_3 = pt.period(3)
