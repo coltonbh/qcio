@@ -32,7 +32,7 @@ jobs:
         run: uv pip install --system --group dev
 
       - name: Run tests
-        run: bash scripts/tests.sh
+        run: pytest --cov-report=term-missing --cov-report html:htmlcov --cov-config=pyproject.toml --cov=qcio --cov=tests .
 
       - name: Upload coverage HTML
         if: ${{ matrix.coverage == true }}
