@@ -4,7 +4,7 @@ import warnings
 from pathlib import Path
 from typing import Any, Optional, Union
 
-from pydantic import BaseModel, field_serializer
+from pydantic import BaseModel, field_serializer, model_validator
 from typing_extensions import Self, TypeVar
 
 from .base_models import CalcType, Files, Model
@@ -12,22 +12,23 @@ from .structure import Structure
 from .utils import deprecated_class
 
 __all__ = [
-    "FileInput",
-    "CalcInput",
-    "CompositeCalcInput",
-    "CalcArgs",
-    "Inputs",
-    "InputType",
-    "StructuredInputs",
-    "SubCalcArgs",
+    "FileSpec",
+    "CalcSpec",
+    "CompositeCalcSpec",
+    "CoreSpec",
+    "Specs",
+    "SpecType",
+    "StructuredSpecs",
+    "SubCalcSpec",
     "ProgramInput",
     "ProgramArgs",
     "ProgramArgsSub",
     "DualProgramInput",
+    "FileInput",
 ]
 
 
-class FileInput(Files):
+class FileSpec(Files):
     """File and command line argument inputs for a calculation.
 
     Attributes:
@@ -41,7 +42,7 @@ class FileInput(Files):
 
     @classmethod
     def from_directory(cls, directory: Union[Path, str], **kwargs) -> Self:
-        """Create a new FileInput and collect all files in the directory."""
+        """Create a new FileSpec and collect all files in the directory."""
         obj = cls(**kwargs)
         directory = Path(directory)
         obj.add_files(directory)
@@ -49,6 +50,13 @@ class FileInput(Files):
 
 
 class _KeywordsMixin(BaseModel):
+    """Mixin for keywords attribute.
+
+    Attributes:
+        Keywords: dict[str, Any]: A dict of keywords to be passed to the program
+            excluding model and calctype. Defaults to an empty dict.
+    """
+
     keywords: dict[str, Any] = {}
 
 
@@ -84,11 +92,11 @@ class _StructureKeywordsMixin(_KeywordsMixin):
         return self.structure
 
 
-class CalcArgs(FileInput, _KeywordsMixin):
-    """Generic arguments for a calculation without a calctype or structure specification.
+class CoreSpec(FileSpec, _KeywordsMixin):
+    """Core arguments for a calculation without a calctype or structure specification.
 
-    This class is used by `CompositeCalcInput` or multi-step calculations to
-    specify `subprogram_args` or a basic program arguments multistep algorithm in
+    This class is used by `CompositeCalcSpec` or multi-step calculations to
+    specify `subprogram_spec` or basic program arguments for a multistep algorithm in
     BigChem. It is not intended to be used directly for single-step calculations since
     it lacks a `calctype` and `structure`.
 
@@ -105,30 +113,58 @@ class CalcArgs(FileInput, _KeywordsMixin):
     model: Model
 
 
-class SubCalcArgs(FileInput, _KeywordsMixin):
+class SubCalcSpec(FileSpec, _KeywordsMixin):
     """Generic arguments for a calculation that also calls a sub-calculation.
 
     This class is needed for multi-step calculations where the calctype and structure
     are specified only once for the entire calculation, e.g., multistep_opt in BigChem.
 
     Attributes:
+        model: The model for the quantum chemistry calculation
         keywords: A dict of keywords to be passed to the program excluding model and
             calctype. Defaults to an empty dict.
         files: Files to be passed to the QC program.
-        model: The model for the quantum chemistry calculation
         subprogram: The name of the subprogram to use.
-        subprogram_args: The ProgramArgs for the subprogram.
+        subprogram_spec: The CoreSpec for the subprogram.
         extras: Additional information to bundle with the object. Use for schema
             development and scratch space.
     """
 
     model: Optional[Model] = None
     subprogram: str
-    subprogram_args: CalcArgs
+    subprogram_spec: CoreSpec
+
+    @model_validator(mode="before")
+    @classmethod
+    def _backcompat(cls, payload: dict[str, Any]) -> dict[str, Any]:
+        """Backwards compatibility for 'subprogram_args' attribute."""
+        if (
+            isinstance(payload, dict)
+            and "subprogram_args" in payload
+            and "subprogram_spec" not in payload
+        ):
+            payload = dict(payload)
+            payload["subprogram_spec"] = payload.pop("subprogram_args")
+            warnings.warn(
+                "'subprogram_args' has been renamed to 'subprogram_spec' (CoreSpec).",
+                FutureWarning,
+                stacklevel=2,
+            )
+        return payload
+
+    @property
+    def subprogram_args(self) -> CoreSpec:
+        """Backwards compatibility for 'subprogram_args' attribute."""
+        warnings.warn(
+            "'subprogram_args' has been renamed to 'subprogram_spec' (CoreSpec).",
+            FutureWarning,
+            stacklevel=2,
+        )
+        return self.subprogram_spec
 
 
-class CalcInput(CalcArgs, _StructureKeywordsMixin):
-    """Input for a single quantum chemistry calculation. This is the most common input type.
+class CalcSpec(CoreSpec, _StructureKeywordsMixin):
+    """Specification for a quantum chemistry calculation. This is the most common input type.
 
     Attributes:
         calctype CalcType: The type of calculation to perform.
@@ -142,11 +178,11 @@ class CalcInput(CalcArgs, _StructureKeywordsMixin):
 
     Example:
         ```python
-        from qcio.models import CalcInput, Structure
+        from qcio.models import CalcSpec, Structure
 
         struct = Structure.open("path/to/structure.xyz")
 
-        prog_inp = CalcInput(
+        prog_inp = CalcSpec(
             calctype = "energy",
             structure = struct,
             model = {"method": "hf", "basis": "6-31G"},
@@ -164,7 +200,7 @@ class CalcInput(CalcArgs, _StructureKeywordsMixin):
         return calctype.value
 
 
-class CompositeCalcInput(SubCalcArgs, CalcInput):
+class CompositeCalcSpec(SubCalcSpec, CalcSpec):
     """Input for a two program calculation.
 
     Attributes:
@@ -175,22 +211,22 @@ class CompositeCalcInput(SubCalcArgs, CalcInput):
         structure Structure: The structure to be used in the calculation.
         files Files: Files to be passed to the QC program.
         subprogram: The name of the subprogram to use.
-        subprogram_args ProgramArgs: The ProgramArgs for the subprogram.
+        subprogram_spec ProgramArgs: The ProgramArgs for the subprogram.
         extras Dict[str, Any]: Additional information to bundle with the object. Use
             for schema development and scratch space.
 
     Example:
         ```python
-        from qcio.models import CompositeCalcInput, Structure
+        from qcio.models import CompositeCalcSpec, Structure
 
         struct = Structure.open("path/to/structure.xyz")
 
-        prog_inp = CompositeCalcInput(
+        prog_inp = CompositeCalcSpec(
             calctype = "optimization",
             structure = struct,
             keywords = {"maxiter": "250"},  # Optional
             subprogram = "orca",
-            subprogram_args = ProgramArgs(
+            subprogram_spec = ProgramArgs(
                 model = {"method": "wb97x-d3", "basis": "def2-SVP"},
                 keywords = {"convthre": "1e-6"},  # Optional
             )
@@ -199,50 +235,61 @@ class CompositeCalcInput(SubCalcArgs, CalcInput):
     """
 
 
-Inputs = Union[FileInput, CalcInput, CompositeCalcInput]
-InputType = TypeVar("InputType", bound=Inputs)
-StructuredInputs = Union[CalcInput, CompositeCalcInput]
+Specs = Union[FileSpec, CalcSpec, CompositeCalcSpec]
+SpecType = TypeVar("SpecType", bound=Specs)
+StructuredSpecs = Union[CalcSpec, CompositeCalcSpec]
 
 
-@deprecated_class("CalcInput")
-class ProgramInput(CalcInput):
-    """Deprecated alias for CalcInput.
+@deprecated_class("CalcSpec")
+class ProgramInput(CalcSpec):
+    """Deprecated alias for CalcSpec.
 
     This class is deprecated and will be removed in a future release. Please use
-    `CalcInput` instead.
+    `CalcSpec` instead.
     """
 
     pass
 
 
-@deprecated_class("ProgramArgs")
-class ProgramArgs(CalcArgs):
+@deprecated_class("CoreSpec")
+class ProgramArgs(CoreSpec):
     """Deprecated alias for CalcArgs.
 
     This class is deprecated and will be removed in a future release. Please use
-    `CalcArgs` instead.
+    `CoreSpec` instead.
     """
 
     pass
 
 
-@deprecated_class("SubCalcArgs")
-class ProgramArgsSub(SubCalcArgs):
-    """Deprecated alias for SubCalcArgs.
+@deprecated_class("SubCalcSpec")
+class ProgramArgsSub(SubCalcSpec):
+    """Deprecated alias for SubCalcSpec.
 
     This class is deprecated and will be removed in a future release. Please use
-    `SubCalcArgs` instead.
+    `SubCalcSpec` instead.
     """
 
     pass
 
 
-@deprecated_class("CompositeCalcInput")
-class DualProgramInput(CompositeCalcInput):
-    """Deprecated alias for CompositeCalcInput.
+@deprecated_class("CompositeCalcSpec")
+class DualProgramInput(CompositeCalcSpec):
+    """Deprecated alias for CompositeCalcSpec.
 
     This class is deprecated and will be removed in a future release. Please use
-    `CompositeCalcInput` instead.
+    `CompositeCalcSpec` instead.
+    """
+
+    pass
+
+
+@deprecated_class("FileSpec")
+class FileInput(FileSpec):
+    """Deprecated alias for FileSpec.
+
+    This class is deprecated and will be removed in a future release. Please use
+    `FileSpec` instead.
     """
 
     pass

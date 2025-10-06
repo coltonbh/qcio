@@ -4,10 +4,10 @@ import numpy as np
 import pytest
 
 from qcio import (
-    CalcInput,
-    CompositeCalcInput,
-    FileInput,
+    CalcSpec,
+    CompositeCalcSpec,
     Files,
+    FileSpec,
     OptimizationData,
     Results,
     SinglePointData,
@@ -29,7 +29,7 @@ def water():
 
 @pytest.fixture
 def file_input():
-    return FileInput(
+    return FileSpec(
         files={"binary": b"binary data", "text": "text data"},
         cmdline_args=["-i", "input.dat", "-o", "output.dat"],
     )
@@ -42,7 +42,7 @@ def input_data(request, file_input, calc_input, ccalc_input):
         return file_input
     elif request.param == "calc_input":
         return calc_input("energy")
-    elif request.param == "ccalc_input":  # CompositeCalcInput
+    elif request.param == "ccalc_input":  # CompositeCalcSpec
         return ccalc_input
     else:
         raise ValueError(f"Unknown input data type: {request.param}")
@@ -50,10 +50,10 @@ def input_data(request, file_input, calc_input, ccalc_input):
 
 @pytest.fixture
 def calc_input(water):
-    """Function that returns CalcInput of calctype."""
+    """Function that returns CalcSpec of calctype."""
 
     def _create_calc_input(calctype):
-        return CalcInput(
+        return CalcSpec(
             structure=water,
             calctype=calctype,
             model={"method": "hf", "basis": "sto-3g"},
@@ -71,10 +71,10 @@ def calc_input(water):
 
 @pytest.fixture
 def ccalc_input(water):
-    """Function that returns CompositeCalcInput of calctype."""
+    """Function that returns CompositeCalcSpec of calctype."""
 
     def _create_calc_input(calctype):
-        return CompositeCalcInput(
+        return CompositeCalcSpec(
             structure=water,
             calctype=calctype,
             keywords={
@@ -115,7 +115,7 @@ def results(calc_input, sp_data):
     pi_energy = calc_input("energy")
     sp_data = sp_data(pi_energy.structure)
 
-    return Results[CalcInput, SinglePointData](
+    return Results[CalcSpec, SinglePointData](
         input_data=pi_energy,
         success=True,
         logs="program standard out...",
@@ -130,7 +130,7 @@ def results_failure(calc_input, sp_data):
     """Failed Results object"""
     ci_energy = calc_input("energy")
 
-    return Results[CalcInput, Files](
+    return Results[CalcSpec, Files](
         input_data=ci_energy,
         success=False,
         traceback="Traceback...",

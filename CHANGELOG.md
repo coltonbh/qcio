@@ -49,10 +49,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Renamed `ConformerSearchResults` -> `ConformerSearchData`. [#90](https://github.com/coltonbh/qcio/pull/90)
 - Added compatibility classes so old imports looking for these names still work but emit a `FutureWarning`. [#90](https://github.com/coltonbh/qcio/pull/90)
 - Renamed `QCIOModelBase` -> `QCIOBaseModel` to match `pydantic` semantics for `BaseModel`. [#90](https://github.com/coltonbh/qcio/pull/90)
-- Renamed `ProgramInput` -> `CalcInput` and added a compatibility shim. [#90](https://github.com/coltonbh/qcio/pull/90)
-- Renamed `ProgramArgs` -> `CalcArgs` and added a compatibility shim. [#90](https://github.com/coltonbh/qcio/pull/90)
-- Renamed `ProgramArgsSub` -> `SubCalcArgs` and added a compatibility shim. [#90](https://github.com/coltonbh/qcio/pull/90)
-- Renamed `DualProgramInput` -> `CompositeCalcInput` and added a compatibility shim. [#90](https://github.com/coltonbh/qcio/pull/90)
+- Renamed `ProgramInput` -> `CalcSpec` and added a compatibility shim. [#90](https://github.com/coltonbh/qcio/pull/90)
+- Renamed `ProgramArgs` -> `CoreSpec` and added a compatibility shim. [#90](https://github.com/coltonbh/qcio/pull/90)
+- Renamed `ProgramArgsSub` -> `SubCalcSpec` and added a compatibility shim. [#90](https://github.com/coltonbh/qcio/pull/90)
+- Renamed `DualProgramInput` -> `CompositeCalcSpec` and added a compatibility shim. [#90](https://github.com/coltonbh/qcio/pull/90)
+- Renamed `FileInput` -> `FileSpec`. [#90](https://github.com/coltonbh/qcio/pull/90)
 - Backwards compatibility shim updated from `Results.__init__` override to `@model_validator(mode="before")`. [#90](https://github.com/coltonbh/qcio/pull/90)
 
 ## [0.14.0] - 2025-04-01

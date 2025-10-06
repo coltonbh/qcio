@@ -19,7 +19,7 @@ __all__ = [  # noqa: F405
     "Structure",
     "Molecule",
     "Files",
-    "FileInput",
+    "FileSpec",
     "ProgramInput",
     "ProgramOutput",
     "DualProgramInput",

@@ -48,7 +48,6 @@ plugins:
       handlers:
         python:
           options:
-            members_order: source
             separate_signature: true
             show_bases: false
             show_root_heading: true
@@ -103,7 +102,7 @@ nav:
   - API Documentation:
       - Overview: api/overview.md
       - Structure: api/structure.md
-      - Inputs: api/inputs.md
+      - Calculation Specification: api/calculation_specification.md
       - Results: api/results.md
       - Utilities: api/utils.md
       - Visualizations:
