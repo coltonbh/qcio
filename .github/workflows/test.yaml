@@ -29,7 +29,7 @@ jobs:
 
       # uv pip resolves & installs deps like pip (not an environment sync)
       - name: Install package + test deps (uv pip)
-        run: uv pip install --system ".[dev,all]"
+        run: uv pip install --system --group dev
 
       - name: Run tests
         run: bash scripts/tests.sh
