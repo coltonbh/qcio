@@ -2,10 +2,10 @@
 
 import warnings
 from pathlib import Path
-from typing import Any, Optional, Union
+from typing import Any, Optional, TypeVar, Union
 
 from pydantic import BaseModel, field_serializer, model_validator
-from typing_extensions import Self, TypeVar
+from typing_extensions import Self
 
 from .base_models import CalcType, Files, Model
 from .structure import Structure
