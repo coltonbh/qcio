@@ -1,10 +1,10 @@
 import json
 
-from qcio import FileInput
+from qcio import FileSpec
 
 
 def test_from_directory(test_data_dir):
-    file_inp = FileInput.from_directory(
+    file_inp = FileSpec.from_directory(
         directory=test_data_dir / "file_inputs",
         # program="terachem",
         extras={"my_extra": "123"},
@@ -23,7 +23,7 @@ def test_from_directory(test_data_dir):
 
 
 def test_to_directory(test_data_dir, tmp_path):
-    file_inp = FileInput.from_directory(
+    file_inp = FileSpec.from_directory(
         directory=test_data_dir / "file_inputs",
         # program="terachem",
         extras={"my_extra": "123"},
@@ -39,7 +39,7 @@ def test_to_directory(test_data_dir, tmp_path):
 
 
 def test_to_from_file_with_binary_data(test_data_dir, tmp_path):
-    file_inp = FileInput.from_directory(
+    file_inp = FileSpec.from_directory(
         directory=test_data_dir / "file_inputs",
         # program="terachem",
         extras={"my_extra": "123"},
@@ -52,6 +52,6 @@ def test_to_from_file_with_binary_data(test_data_dir, tmp_path):
     data = json.loads((tmp_path / "file_input.json").read_text())
     assert data["files"]["c0"].startswith("base64:")
     # Parse GenericInput from disk using deserialization
-    file_inp_reloaded = FileInput.open(tmp_path / "file_input.json")
+    file_inp_reloaded = FileSpec.open(tmp_path / "file_input.json")
     # Assure all data returned to correct bytes or str representation
     assert file_inp_reloaded == file_inp

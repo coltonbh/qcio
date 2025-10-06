@@ -48,7 +48,6 @@ plugins:
       handlers:
         python:
           options:
-            members_order: source
             separate_signature: true
             show_bases: false
             show_root_heading: true
@@ -94,7 +93,7 @@ markdown_extensions:
   - markdown_include.include
 
 watch:
-  - qcio # Adjust this
+  - src/qcio # Adjust this
 
 nav:
   - Getting Started:
@@ -103,11 +102,9 @@ nav:
   - API Documentation:
       - Overview: api/overview.md
       - Structure: api/structure.md
-      - Inputs: api/inputs.md
-      - Outputs: api/outputs.md
+      - Calculation Specification: api/calculation_specification.md
+      - Results: api/results.md
       - Utilities: api/utils.md
-      - Constants and Periodic Table:
-          - Constants: api/constants.md
       - Visualizations:
           - View: api/view.md
       - Additional Models:
@@ -115,11 +112,11 @@ nav:
           - CalcType: api/calctype.md
           - Model: api/model.md
           - Provenance: api/provenance.md
-          - QCIOModelBase: api/qciomodelbase.md
+          - QCIOBaseModel: api/qciobasemodel.md
           - LengthUnit: api/lengthunit.md
   - ✨Visualizations✨:
       - Overview: visualizations/overview.md
       - Structure: visualizations/structure.ipynb
-      - ProgramOutputs: visualizations/programoutputs.ipynb
+      - Results: visualizations/results.ipynb
       - Core Views: visualizations/coreviews.ipynb
   - Changelog: https://github.com/coltonbh/qcio/blob/master/CHANGELOG.md

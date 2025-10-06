@@ -6,17 +6,15 @@
 [![Actions status](https://github.com/coltonbh/qcio/workflows/Tests/badge.svg)](https://github.com/coltonbh/qcio/actions)
 [![Actions status](https://github.com/coltonbh/qcio/workflows/Basic%20Code%20Quality/badge.svg)](https://github.com/coltonbh/qcio/actions)
 
-Elegant and intuitive data structures for quantum chemistry, featuring seamless Jupyter Notebook visualizations. Also featuring NIST/CODATA2022 core physical constants and a Periodic Table.
-
-Inspired by [QCElemental](https://github.com/MolSSI/QCElemental). Built for consistency and rapid development.
+Elegant and intuitive data structures for quantum chemistry, featuring seamless Jupyter Notebook visualizations.
 
 `qcio` works in harmony with a suite of other quantum chemistry tools for fast, structured, and interoperable quantum chemistry.
 
 ## The QC Suite of Programs
 
-- [qcconst](https://github.com/coltonbh/qcconst) - Physical constants, conversion factors, and a periodic table with clear source information for every value.
+- [qcconst](https://github.com/coltonbh/qcconst) - NIST/CODATA2022 core physical constants, conversion factors, and a periodic table with clear source information for every value.
 - [qcio](https://github.com/coltonbh/qcio) - Elegant and intuitive data structures for quantum chemistry, featuring seamless Jupyter Notebook visualizations. [Documentation](https://qcio.coltonhicks.com)
-- [qcparse](https://github.com/coltonbh/qcparse) - A library for efficient parsing of quantum chemistry data into structured `qcio` objects.
+- [qccodec](https://github.com/coltonbh/qccodec) - A translation layer between quantum chemistry program inputs and outputs and structured `qcio` objects.
 - [qcop](https://github.com/coltonbh/qcop) - A package for operating quantum chemistry programs using `qcio` standardized data structures. Compatible with `TeraChem`, `psi4`, `QChem`, `NWChem`, `ORCA`, `Molpro`, `geomeTRIC` and many more.
 - [BigChem](https://github.com/mtzgroup/bigchem) - A distributed application for running quantum chemistry calculations at scale across clusters of computers or the cloud. Bring multi-node scaling to your favorite quantum chemistry program.
 - `ChemCloud` - A [web application](https://github.com/mtzgroup/chemcloud-server) and associated [Python client](https://github.com/mtzgroup/chemcloud-client) for exposing a BigChem cluster securely over the internet.
@@ -24,25 +22,25 @@ Inspired by [QCElemental](https://github.com/MolSSI/QCElemental). Built for cons
 ## Installation
 
 ```bash
-pip install qcio
+python -m pip install qcio
 ```
 
 ## Quickstart
 
-`qcio` is built around a simple mental model: `Input` objects are used to define inputs for a quantum chemistry program, and `Output` objects are used to capture the outputs from a quantum chemistry program.
+`qcio` is built around a simple mental model: `Input` objects define quantum chemistry calculations, and a `Results` object defines the results.
 
 All `qcio` objects can be serialized and saved to disk by calling `.save("filename.json")` and loaded from disk by calling `.open("filename.json")`. `qcio` supports `json`, `yaml`, and `toml` file formats. Binary data will be automatically base64 encoded and decoded when saving and loading.
 
 ### Input Objects
 
-#### ProgramInput - Core input object for a single QC program.
+#### CalcInput - Core input object for a single QC calculation.
 
 ```python
-from qcio import Structure, ProgramInput
+from qcio import Structure, CalcInput
 # xyz files or saved Structure objects can be opened from disk
 caffeine = Structure.open("caffeine.xyz")
 # Define the program input
-prog_input = ProgramInput(
+prog_input = CalcInput(
     structure=caffeine,
     calctype="energy",
     keywords={"purify": "no", "restricted": False},
@@ -57,7 +55,7 @@ prog_input.keywords["initial_guess"] = "wfn.dat"
 prog_input.save("input.json")
 
 # Open the input from disk
-prog_input = ProgramInput.open("input.json")
+prog_input = CalcInput.open("input.json")
 ```
 
 `Structure` objects can be opened from and saved as xyz files or saved to disk as `.json`, `.yaml`, or `.toml` formats by changing the extension of the file. For `.xyz` files precision can be controlled by passing the `precision` argument to the `save` method.
@@ -68,16 +66,16 @@ caffeine.save("caffeine2.json", precision=6)
 caffeine.save("caffeine.toml")
 ```
 
-#### DualProgramInput - Input object for a workflow that uses multiple QC programs.
+#### CompositeCalcInput - Input object for a workflow that uses multiple QC calculations.
 
-`DualProgramInput` objects can be used to power workflows that require multiple QC programs. For example, a geometry optimization workflow might use `geomeTRIC` to power the optimization and use `terachem` to compute the energies and gradients.
+`CompositeCalcInput` objects can be used to power workflows that require multiple calculations. For example, a geometry optimization workflow might use `geomeTRIC` to power the optimization and use `terachem` to compute the energies and gradients.
 
 ```python
-from qcio import Structure, DualProgramInput
+from qcio import Structure, CompositeCalcInput
 # xyz files or saved Structure objects can be opened from disk
 caffeine = Structure.open("caffeine.xyz")
 # Define the program input
-prog_input = DualProgramInput(
+prog_input = CompositeCalcInput(
     structure=caffeine,
     calctype="optimization",
     keywords={"maxiter": 250},
@@ -90,9 +88,9 @@ prog_input = DualProgramInput(
 )
 ```
 
-#### FileInput - Input object for a QC programs using native file formats.
+#### FileSpec - Input object for a calculation using native file formats.
 
-`qcio` also supports the native file formats of each QC program with a `FileInput` object. Assume you have a directory like this with your input files for `psi4`:
+`qcio` also supports the native file formats of each QC program with a `FileSpec` object. Assume you have a directory like this with your input files for `psi4`:
 
 ```
 psi4/
@@ -101,11 +99,11 @@ psi4/
     wfn.dat
 ```
 
-You can collect these native files and any associated command line arguments needed to specify a calculation into a `FileInput` object like this:
+You can collect these native files and any associated command line arguments needed to specify a calculation into a `FileSpec` object like this:
 
 ```python
-from qcio import FileInput
-psi4_input = FileInput.from_directory("psi4")
+from qcio import FileSpec
+psi4_input = FileSpec.from_directory("psi4")
 
 # All input files will be loaded into the `files` attribute
 psi4_input.files
@@ -120,37 +118,35 @@ psi4_input.save_files("psi4")
 
 #### Modifying Input Objects
 
-Objects are immutable by default so if you want to modify an object cast it to a dictionary, make the desired modification, and then instantiate a new object. This prevents accidentally modifying objects that may already be referenced in other calculations--perhaps as `.input_data` on an `Output` object.
+Objects are immutable by default so if you want to modify an object cast it to a dictionary, make the desired modification, and then instantiate a new object. This prevents accidentally modifying objects that may already be referenced in other calculations--perhaps as `.input_data` on a `Results` object.
 
 ```python
 # Cast to a dictionary and modify
 new_input_dict = prog_input.model_dumps()
 new_input_dict["model"]["method"] = "b3lyp"
 # Instantiate a new object
-new_prog_input = ProgramInput(**new_input_dict)
+new_prog_input = CalcInput(**new_input_dict)
 ```
 
-### Output Objects
+### Results
 
-#### ProgramOutput
-
-All computations result in a `ProgramOutput` object that encapsulates the core results, files, stdout, and additional details of the calculation. A `ProgramOutput` object has the following attributes:
+Calculation values are stored in a `Results` object. `Results` may contain parsed data, files, logs, and additional details of the calculation. A `Results` object has the following attributes:
 
 ```python
-output.input_data # Input data used by the QC program
+output.input_data # Input data used for the calculation
 output.success # Whether the calculation succeeded or failed
-output.results # All structured results from the calculation
-output.results.files # Any files returned by the calculation
-output.stdout # Stdout log from the calculation
-output.pstdout # Shortcut to print out the stdout in human readable format
+output.data # All structured data from the calculation
+output.data.files # Any files returned by the calculation
+output.logs # Logs from the calculation
+output.plogs # Shortcut to print the logs in human readable format
 output.provenance # Provenance information about the calculation
 output.extras # Any extra information not in the schema
 ```
 
-The `.results` attribute on a `ProgramOutput` is polymorphic and may be either `Files`, `SinglePointResults` or `OptimizationResults` depending on the type of calculation requested. Available attributes for each result type can be found by calling `dir()` on the object.
+The `.data` attribute on a `Results` is polymorphic and may be either `Files`, `SinglePointData`, `OptimizationData`, `ConformerSearchData`, or any other `DataType` depending on the calculation requested. Available attributes for each data type can be found by calling `dir()` on the object.
 
 ```python
-dir(output.results)
+dir(results.data)
 ```
 
 Results can be saved to disk in json, yaml, or toml format by calling `.save("filename.{json/yaml/toml}")` and loaded from disk by calling `.open("filename.{json/yaml/toml}")`.
@@ -162,59 +158,35 @@ Visualize all your results with a single line of code!
 First install the visualization module:
 
 ```sh
-pip install qcio[view]
+python -m pip install qcio[view]
 ```
 
 or if your shell requires `''` around arguments with brackets:
 
 ```sh
-pip install 'qcio[view]'
+python -m pip install 'qcio[view]'
 ```
 
-Then in a Jupyter notebook import the `qcio` view module and call `view.view(...)` passing it one or any number of `qcio` objects you want to visualizing including `Structure` objects or any `ProgramOutput` object. You may also pass an array of `titles` and/or `subtitles` to add additional information to the molecular structure display. If no titles are passed `qcio` with look for `Structure` identifiers such as a name or SMILES to label the `Structure`.
+Then in a Jupyter notebook import the `qcio` view module and call `view.view(...)` passing it one or any number of `qcio` objects you want to visualizing including `Structure` objects or any `Results` object. You may also pass an array of `titles` and/or `subtitles` to add additional information to the molecular structure display. If no titles are passed `qcio` with look for `Structure` identifiers such as a name or SMILES to label the `Structure`.
 
 ![Structure Viewer](https://public.coltonhicks.com/assets/qcio/structure_viewer.png)
 
-Seamless visualizations for `ProgramOutput` objects make results analysis easy!
+Seamless visualizations for `Results` objects make results analysis easy!
 
-![Optimization Viewer](https://public.coltonhicks.com/assets/qcio/optimization_viewer.png)
+![Optimization Viewer](./docs/assets/optimization_viewer.png)
 
 Single point calculations display their results in a table.
 
-![Single Point Viewer](https://public.coltonhicks.com/assets/qcio/single_point_viewer.png)
+![Single Point Viewer](./docs/assets/single_point_viewer.png)
 
 If you want to use the HTML generated by the viewer to build your own dashboards use the functions inside of `qcio.view.py` that begin with the word `generate_` to create HTML you can insert into any dashboard.
 
-## Constants and Periodic Table
+## Development
 
-Core physical constants are available in the `constants` module. The source of all values is documented and kept up-to-date with the latest NIST/CODATA2022 values.
+To get started with all development dependencies:
 
-```python
-from qcio import constants
-
-constants.BOHR_TO_ANGSTROM
-```
-
-Periodic Table is also available from the `constants` module.
-
-```python
-from qcio.constants import periodic_table as pt
-
-pt.He.symbol
-pt.He.number
-pt.He.name
-pt.Ht.mass
-pt.He.group
-pt.He.period
-pt.He.block
-pt.He.electron_confg
-
-group_6 = pt.group(6)
-period_3 = pt.period(3)
-
-# Check Data Source
-pt.data_source
-pt.data_url
+```sh
+uv sync --all-groups
 ```
 
 ## Support

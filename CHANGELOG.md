@@ -8,8 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Removed
 
-- All constants and periodic table data moved to `qcconst`.
-- All cheminformatics methods, including those that used `rdkit` and `openbabel` such as `rmsd` and `align`. Placed these algorithms into `qcinf` so that `qcio` can remain purely about data structures. All future algorithms will go into `qcinf`.
+- All constants and periodic table data moved to [qcconst](https://github.com/coltonbh/qcconst).
+- All cheminformatics methods, including those that used `rdkit` and `openbabel` such as `rmsd` and `align`. Placed these algorithms into [qcinf](https://github.com/coltonbh/qcinf) so that `qcio` can remain purely about data structures. All future algorithms will go into `qcinf`.
 
   - `Structure.from_smiles()` method in favor of functional API using the `qcinf` `smiles_to_structure` function.
 
@@ -41,6 +41,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 
 - Package dependency system changed from `poetry` to `uv` and build system from `poetry` to `hatchling`.
+- Renamed `ProgramOutput` -> `Results` to better match basic parlance ("The program produced these results"). [#90](https://github.com/coltonbh/qcio/pull/90)
+- Renamed `Results.results` (formerly `ProgramOutput.results`) attribute to `.data`. "The program produced this data." [#90](https://github.com/coltonbh/qcio/pull/90)
+- Renamed `Results.stdout` -> `Results.logs`. We are coalescing `stdout` and `stderr` logs anyways. Prefer using a common name scientists will understand. [#90](https://github.com/coltonbh/qcio/pull/90)
+- Renamed `SinglePointResults` -> `SinglePointData`. [#90](https://github.com/coltonbh/qcio/pull/90)
+- Renamed `OptimizationResults` -> `OptimizationData`. [#90](https://github.com/coltonbh/qcio/pull/90)
+- Renamed `ConformerSearchResults` -> `ConformerSearchData`. [#90](https://github.com/coltonbh/qcio/pull/90)
+- Added compatibility classes so old imports looking for these names still work but emit a `FutureWarning`. [#90](https://github.com/coltonbh/qcio/pull/90)
+- Renamed `QCIOModelBase` -> `QCIOBaseModel` to match `pydantic` semantics for `BaseModel`. [#90](https://github.com/coltonbh/qcio/pull/90)
+- Renamed `ProgramInput` -> `CalcSpec` and added a compatibility shim. [#90](https://github.com/coltonbh/qcio/pull/90)
+- Renamed `ProgramArgs` -> `CoreSpec` and added a compatibility shim. [#90](https://github.com/coltonbh/qcio/pull/90)
+- Renamed `ProgramArgsSub` -> `SubCalcSpec` and added a compatibility shim. [#90](https://github.com/coltonbh/qcio/pull/90)
+- Renamed `DualProgramInput` -> `CompositeCalcSpec` and added a compatibility shim. [#90](https://github.com/coltonbh/qcio/pull/90)
+- Renamed `FileInput` -> `FileSpec` and added a compatibility shim. [#90](https://github.com/coltonbh/qcio/pull/90)
+- Backwards compatibility shim updated from `Results.__init__` override to `@model_validator(mode="before")`. [#90](https://github.com/coltonbh/qcio/pull/90)
 
 ## [0.14.0] - 2025-04-01
 
@@ -273,7 +287,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   pt.He.group
   pt.He.period
   pt.He.block
-  pt.He.electron_confg
+  pt.He.electron_config
 
   group_6 = pt.group(6)
   period_3 = pt.period(3)

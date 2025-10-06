@@ -38,6 +38,7 @@
         "numthreads",
         "openbabel",
         "OUTOPTIONS",
+        "plogs",
         "pstdout",
         "ptraceback",
         "pubchem",

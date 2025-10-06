@@ -8,14 +8,14 @@ Design Decisions:
         want to use this HTML to create a custom view, they can do so. If they want to
         display the HTML in a Jupyter Notebook, they can call display(HTML(html_string))
         after importing `from IPython.display import HTML, display`.
-    - The basic layout for viewing results (all ProgramOutput objects) is a table of
+    - The basic layout for viewing results (all Results objects) is a table of
         basic parameters followed by a structure viewer and results table or plot.
-        DualProgramInputs add details for the subprogram.
+        CompositeCalcSpecs add details for the subprogram.
         ----------------------------------------------------------------------------
         | Structure      | Success | Calculation Type | Program | Model | Keywords |
         ----------------------------------------------------------------------------
         |                                    |                                     |
-        |      Structure Viewer (Optional)   |        Results Table or Plot        |
+        |      Structure Viewer (Optional)   |        Data Table or Plot        |
         |                                    |                                     |
         ----------------------------------------------------------------------------
 """
@@ -32,15 +32,15 @@ import numpy as np
 from qcconst import constants
 
 from qcio import (
-    ConformerSearchResults,
-    DualProgramInput,
+    CalcSpec,
+    CompositeCalcSpec,
+    ConformerSearchData,
+    Data,
     Files,
     LengthUnit,
-    OptimizationResults,
-    ProgramInput,
-    ProgramOutput,
+    OptimizationData,
     Results,
-    SinglePointResults,
+    SinglePointData,
     Structure,
 )
 
@@ -331,15 +331,15 @@ def generate_files_string(files: dict[str, Union[str, bytes]]) -> str:
     return generate_dictionary_string(viewer_dict)
 
 
-def generate_output_table(*prog_outputs: ProgramOutput) -> str:
+def generate_output_table(*results: Results) -> str:
     """
-    Generate an HTML table displaying the basic parameters for ProgramOutput objects.
+    Generate an HTML table displaying the basic parameters for Results objects.
 
     Args:
-        *prog_outputs: The ProgramOutput objects to display.
+        *results: The Results objects to display.
 
     Returns:
-        str: A string of HTML displaying the ProgramOutput objects in a table.
+        str: A string of HTML displaying the Results objects in a table.
     """
     styles = """
     <style>
@@ -378,10 +378,10 @@ def generate_output_table(*prog_outputs: ProgramOutput) -> str:
             <th>Model</th>
             <th>Keywords</th>
     """
-    if any(po.input_data.files for po in prog_outputs):
+    if any(res.input_data.files for res in results):
         table_header += "<th>Input Files</th>"
 
-    if any(isinstance(po.input_data, DualProgramInput) for po in prog_outputs):
+    if any(isinstance(res.input_data, CompositeCalcSpec) for res in results):
         table_header += """
             <th>Subprogram</th>
             <th>Subprogram Model</th>
@@ -390,10 +390,10 @@ def generate_output_table(*prog_outputs: ProgramOutput) -> str:
     table_header += "</tr>"
 
     table_rows = []
-    for po in prog_outputs:
+    for res in results:
         success_style = (
             'style="color: green; font-weight: bold;"'
-            if po.success
+            if res.success
             else 'style="color: red; font-weight: bold;"'
         )
         base_row = f"""
@@ -401,37 +401,37 @@ def generate_output_table(*prog_outputs: ProgramOutput) -> str:
             <td>{
             generate_dictionary_string(
                 {
-                    "charge": po.input_data.structure.charge,
-                    "multiplicity": po.input_data.structure.multiplicity,
-                    "name": po.input_data.structure.ids.name or "",
+                    "charge": res.input_data.structure.charge,
+                    "multiplicity": res.input_data.structure.multiplicity,
+                    "name": res.input_data.structure.ids.name or "",
                 }
             )
         }</td>
-            <td {success_style}>{po.success}</td>
+            <td {success_style}>{res.success}</td>
             <td> {
-            _format_time(po.provenance.wall_time)
-            if po.provenance.wall_time
+            _format_time(res.provenance.wall_time)
+            if res.provenance.wall_time
             else "No timing data"
         }</td>
-            <td>{po.input_data.calctype.name}</td>
-            <td>{f"{po.provenance.program} {po.provenance.program_version or ''}"}</td>
+            <td>{res.input_data.calctype.name}</td>
+            <td>{f"{res.provenance.program} {res.provenance.program_version or ''}"}</td>
             <td>{
             generate_dictionary_string(
-                po.input_data.model.model_dump(exclude=["extras"])
+                res.input_data.model.model_dump(exclude=["extras"])
             )
-            if po.input_data.model
+            if res.input_data.model
             else ""
         }</td>
-            <td>{generate_dictionary_string(po.input_data.keywords)}</td>
+            <td>{generate_dictionary_string(res.input_data.keywords)}</td>
         """
-        if po.input_data.files:
-            base_row += f"<td>{generate_files_string(po.input_data.files)}</td>"
+        if res.input_data.files:
+            base_row += f"<td>{generate_files_string(res.input_data.files)}</td>"
 
-        if isinstance(po.input_data, DualProgramInput):
+        if isinstance(res.input_data, CompositeCalcSpec):
             base_row += f"""
-            <td>{po.input_data.subprogram}</td>
-            <td>{po.input_data.subprogram_args.model}</td>
-            <td>{generate_dictionary_string(po.input_data.subprogram_args.keywords)}</td>
+            <td>{res.input_data.subprogram}</td>
+            <td>{res.input_data.subprogram_args.model}</td>
+            <td>{generate_dictionary_string(res.input_data.subprogram_args.keywords)}</td>
             """
         base_row += "</tr>"
         table_rows.append(base_row)
@@ -441,20 +441,20 @@ def generate_output_table(*prog_outputs: ProgramOutput) -> str:
 
 
 def generate_optimization_plot(
-    prog_output: ProgramOutput, figsize=(6.4, 4.8), grid=True
+    prog_output: Results, figsize=(6.4, 4.8), grid=True
 ) -> str:
     """
-    Generate a plot of the energy optimization by cycle for a single ProgramOutput.
+    Generate a plot of the energy optimization by cycle for a single Results.
 
     Args:
-        prog_output: The ProgramOutput to generate the plot for.
+        prog_output: The Results to generate the plot for.
         figsize: The size of the figure in inches.
         grid: Whether to display grid lines on the plot.
 
     Returns:
         str: A string of HTML displaying the plot as a png image encoded in base64.
     """
-    energies = prog_output.results.energies * constants.HARTREE_TO_KCAL_PER_MOL
+    energies = prog_output.data.energies * constants.HARTREE_TO_KCAL_PER_MOL
     baseline_energy = energies[0]
     relative_energies = energies - baseline_energy
     last_is_nan = np.isnan(relative_energies[-1])
@@ -549,19 +549,19 @@ def _format_time(seconds_float: float) -> str:
     return formatted_time
 
 
-def generate_results_table(results: Files) -> str:
+def generate_data_table(data: Files) -> str:
     """
     Generate an HTML table displaying the results.
 
     Args:
-        results: The Results object to display.
+        results: The Data object to display.
 
     Returns:
         str: A string of HTML displaying the results in a table.
     """
 
     rows = ""
-    for key, value in results.__dict__.items():
+    for key, value in data.__dict__.items():
         if _not_empty(value):
             if key != "files":
                 with _numpy_print_options(
@@ -571,9 +571,9 @@ def generate_results_table(results: Files) -> str:
                     rows += f"<tr><td>{key}</td><td>{value}</td></tr>"
 
     # Add the files to the bottom table
-    if _not_empty(results.files):
+    if _not_empty(data.files):
         rows += (
-            f"<tr><td>Files</td><td>{generate_files_string(results.files)}</td></tr>"
+            f"<tr><td>Files</td><td>{generate_files_string(data.files)}</td></tr>"
         )
 
     return f"""
@@ -610,7 +610,7 @@ def structures(
 
 
 def program_outputs(
-    *prog_outputs: ProgramOutput[Union[ProgramInput, DualProgramInput], Results],
+    *results: Results[Union[CalcSpec, CompositeCalcSpec], Data],
     animate: bool = True,
     struct_viewer: bool = True,
     conformer_rmsd_threshold: Optional[float] = None,
@@ -619,10 +619,10 @@ def program_outputs(
     **kwargs,
 ) -> None:
     """
-    Display one or many ProgramOutput objects.
+    Display one or many Results objects.
 
     Args:
-        *prog_outputs: The ProgramOutput objects to display.
+        *results: The Results objects to display.
         animate: Whether to animate the structure if it is an optimization.
         struct_viewer: Whether to display the structure viewer.
         conformer_rmsd_threshold: The threshold for RMSD to determine if conformers are
@@ -632,31 +632,31 @@ def program_outputs(
         **kwargs: Additional keyword arguments to pass to the viewer functions.
 
     Returns:
-        None. Displays the ProgramOutput objects in the Jupyter Notebook.
+        None. Displays the Results objects in the Jupyter Notebook.
     """
 
     width = kwargs.get("width", DEFAULT_WIDTH)
     height = kwargs.get("height", DEFAULT_HEIGHT)
 
-    for i, po in enumerate(prog_outputs):
+    for i, result in enumerate(results):
         final_html = []
-        final_html.append(generate_output_table(po))
+        final_html.append(generate_output_table(result))
 
-        if isinstance(po.results, ConformerSearchResults):
-            structures = [po.input_data.structure]
+        if isinstance(result.data, ConformerSearchData):
+            structures = [result.input_data.structure]
 
             if conformer_rmsd_threshold is not None:
                 keep_indices = filter_conformers_indices(
-                    po.results.conformers,
+                    result.data.conformers,
                     backend=conformer_rmsd_backend,
                     threshold=conformer_rmsd_threshold,
                     **(conformer_rmsd_kwargs or {}),
                 )
-                conformers = [po.results.conformers[i] for i in keep_indices]
-                energies_rel = po.results.conformer_energies_relative[keep_indices]
+                conformers = [result.data.conformers[i] for i in keep_indices]
+                energies_rel = result.data.conformer_energies_relative[keep_indices]
             else:
-                conformers = po.results.conformers
-                energies_rel = po.results.conformer_energies_relative
+                conformers = result.data.conformers
+                energies_rel = result.data.conformer_energies_relative
 
             structures += conformers
             titles_extra = ["Initial Structure"] + [
@@ -685,22 +685,22 @@ def program_outputs(
                     title_extra = ""
 
                 # Determine the Structure to use
-                if isinstance(po.results, OptimizationResults):
+                if isinstance(result.data, OptimizationData):
                     for_viewer: Union[Structure, list[Structure]]
                     if animate:
-                        for_viewer = po.results.structures
+                        for_viewer = result.data.structures
                     else:
-                        for_viewer = po.results.final_structure
+                        for_viewer = result.data.final_structure
                         title_extra += " (Final Structure)"
 
-                elif isinstance(po.results, SinglePointResults):
-                    for_viewer = po.input_data.structure
+                elif isinstance(result.data, SinglePointData):
+                    for_viewer = result.input_data.structure
 
-                elif isinstance(po.results, Files):
-                    for_viewer = po.input_data.structure
+                elif isinstance(result.data, Files):
+                    for_viewer = result.input_data.structure
                 else:
                     raise NotImplementedError(
-                        f"Viewing of {type(po.results)} is not yet implemented."
+                        f"Viewing of {type(result.data)} is not yet implemented."
                     )
 
                 structure_html = generate_structure_viewer_html(
@@ -709,13 +709,13 @@ def program_outputs(
                     **kwargs,
                 )
 
-            # Create results table or plot
-            if isinstance(po.results, OptimizationResults):
-                results_html = generate_optimization_plot(
-                    po, figsize=(width / 100, height / 100)
+            # Create data table or plot
+            if isinstance(result.data, OptimizationData):
+                data_html = generate_optimization_plot(
+                    result, figsize=(width / 100, height / 100)
                 )
             else:
-                results_html = generate_results_table(po.results)
+                data_html = generate_data_table(result.data)
 
             final_html.append(
                 f"""
@@ -729,7 +729,7 @@ def program_outputs(
                 </div>
                 <div style="width: {width}px; height: {height}px; text-align: center; 
                     margin-left: 20px; flex: 1; overflow: auto;">
-                    {results_html}
+                    {data_html}
                 </div>
             </div>
         </div>
@@ -740,7 +740,7 @@ def program_outputs(
 
 
 def view(
-    *objs: Union[ProgramOutput, Structure, list[Structure]],
+    *objs: Union[Results, Structure, list[Structure]],
     **kwargs,
 ) -> None:
     """
@@ -748,7 +748,7 @@ def view(
     need to use to view any qcio object.
 
     Args:
-        *objs: The ProgramOutput or Structure objects to view. May pass one or more
+        *objs: The Results or Structure objects to view. May pass one or more
             objects or one or more lists of Structure objects.
         **kwargs: Additional keyword arguments to pass to the viewer functions.
 
@@ -766,7 +766,7 @@ def view(
         if isinstance(obj, Structure) or isinstance(obj, list):
             structures(*objs, **kwargs)  # type: ignore
 
-        elif isinstance(obj, ProgramOutput):
+        elif isinstance(obj, Results):
             program_outputs(obj, **kwargs)
 
         else:

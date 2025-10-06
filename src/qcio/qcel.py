@@ -4,19 +4,19 @@ from typing import Any
 
 import numpy as np
 
-from qcio import ProgramInput, SinglePointResults, Wavefunction
+from qcio import CalcSpec, SinglePointData, Wavefunction
 
 # ---------------------------------------------------------------------------
 # Compatibility shim: NumPy 2.0 removed `np.core.defchararray`; everything
 # now lives under `np.char`.  qcelemental still imports from the old path.
 # ---------------------------------------------------------------------------
- # True on NumPy 2.0+
-if not hasattr(np.core, "defchararray"): # type: ignore
+# True on NumPy 2.0+
+if not hasattr(np.core, "defchararray"):  # type: ignore
     # simple one-line alias
-    np.core.defchararray = np.char # type: ignore 
+    np.core.defchararray = np.char  # type: ignore
 
 
-def to_qcel_input(prog_input: ProgramInput) -> dict[str, Any]:
+def to_qcel_input(prog_input: CalcSpec) -> dict[str, Any]:
     """Return the QCElemental v1 input schema representation of the input
     (AtomicInput dict).
 
@@ -51,7 +51,7 @@ def to_qcel_input(prog_input: ProgramInput) -> dict[str, Any]:
 
 def from_qcel_output_results(
     qcel_output: dict[str, Any],
-) -> SinglePointResults:
+) -> SinglePointData:
     """Create a SinglePointSuccessfulOutput or SinglePointFailedOutput from the
     QCElemental v1 output schema representation of the output (AtomicResult dict).
 
@@ -67,7 +67,7 @@ def from_qcel_output_results(
         "hessian": "return_hessian",
     }
     results = {}
-    for key in SinglePointResults.model_fields:
+    for key in SinglePointData.model_fields:
         if key in qcio_to_qcel:
             qcel_key = qcio_to_qcel[key]
         else:
@@ -88,4 +88,4 @@ def from_qcel_output_results(
         }
 
     results["extras"] = {"extras": {"NOTE": "Results computed using QCEngine"}}
-    return SinglePointResults(**results)
+    return SinglePointData(**results)
