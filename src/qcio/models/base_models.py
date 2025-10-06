@@ -5,7 +5,7 @@ from abc import ABC
 from base64 import b64decode, b64encode
 from enum import Enum
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Optional, Union
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
 import toml
@@ -66,7 +66,7 @@ class QCIOBaseModel(BaseModel, ABC):
     }
 
     @classmethod
-    def open(cls, filepath: Union[Path, str]) -> Self:
+    def open(cls, filepath: Path | str) -> Self:
         """Instantiate an object from data saved to disk.
 
         Args:
@@ -92,7 +92,7 @@ class QCIOBaseModel(BaseModel, ABC):
         return cls.model_validate_json(data)
 
     @classmethod
-    def open_multi(cls, filepath: Union[Path, str]) -> list[Self]:
+    def open_multi(cls, filepath: Path | str) -> list[Self]:
         """Instantiate a list of objects from data saved to disk.
 
         Args:
@@ -119,7 +119,7 @@ class QCIOBaseModel(BaseModel, ABC):
 
     def save(
         self,
-        filepath: Union[Path, str],
+        filepath: Path | str,
         exclude_none: bool = True,
         exclude_unset: bool = True,
         indent: int = 4,
@@ -227,7 +227,7 @@ class Files(QCIOBaseModel):
         files: A dict mapping filename to str or bytes data.
     """
 
-    files: dict[str, Union[str, bytes]] = {}
+    files: dict[str, str | bytes] = {}
 
     @field_validator("files")
     def _convert_base64_to_bytes(cls, value):
@@ -250,7 +250,7 @@ class Files(QCIOBaseModel):
         }
 
     def add_file(
-        self, filepath: Union[Path, str], relative_dir: Optional[Path] = None
+        self, filepath: Path | str, relative_dir: Path | None = None
     ) -> None:
         """Add a file to the object. The file will be added at to the `files` attribute
             with the filename as the key and the file data as the value.
@@ -270,7 +270,7 @@ class Files(QCIOBaseModel):
         filepath = Path(filepath)
         raw_bytes = filepath.read_bytes()
         try:
-            data: Union[str, bytes] = raw_bytes.decode("utf-8")  # str
+            data: str | bytes = raw_bytes.decode("utf-8")  # str
         except UnicodeDecodeError:
             data = raw_bytes  # bytes
 
@@ -288,7 +288,7 @@ class Files(QCIOBaseModel):
         self,
         directory: StrOrPath,
         recursive: bool = False,
-        exclude: Optional[list[str]] = None,
+        exclude: list[str] | None = None,
     ) -> None:
         """Add all files in a directory to the object.
 
@@ -355,12 +355,12 @@ class Provenance(QCIOBaseModel):
     """
 
     program: str
-    program_version: Optional[str] = None
-    scratch_dir: Optional[Path] = None
-    wall_time: Optional[float] = None
-    hostname: Optional[str] = None
-    hostcpus: Optional[int] = None
-    hostmem: Optional[int] = None
+    program_version: str | None = None
+    scratch_dir: Path | None = None
+    wall_time: float | None = None
+    hostname: str | None = None
+    hostcpus: int | None = None
+    hostmem: int | None = None
 
 
 class CalcType(str, Enum):
@@ -399,4 +399,4 @@ class Model(QCIOBaseModel):
     """
 
     method: str
-    basis: Optional[str] = None
+    basis: str | None = None

@@ -26,7 +26,7 @@ import io
 import math
 from contextlib import contextmanager
 from itertools import zip_longest
-from typing import Any, Optional, Union
+from typing import Any, Union
 
 import numpy as np
 from qcconst import constants
@@ -75,15 +75,15 @@ DEFAULT_HEIGHT: int = 450
 
 def generate_structure_viewer_html(
     *structs: Union["Structure", list["Structure"]],
-    width: Optional[int] = None,
-    height: Optional[int] = None,
-    titles: Optional[list[str]] = None,
-    subtitles: Optional[list[str]] = None,
-    titles_extra: Optional[list[str]] = None,
-    subtitles_extra: Optional[list[str]] = None,
-    distances: Optional[list[tuple[int, int]]] = None,
+    width: int | None = None,
+    height: int | None = None,
+    titles: list[str] | None = None,
+    subtitles: list[str] | None = None,
+    titles_extra: list[str] | None = None,
+    subtitles_extra: list[str] | None = None,
+    distances: list[tuple[int, int]] | None = None,
     length_unit: LengthUnit = LengthUnit.BOHR,
-    style: Optional[dict] = None,
+    style: dict | None = None,
     show_indices: bool = False,
     same_viewer: bool = False,
     view_2d: bool = False,
@@ -315,7 +315,7 @@ def generate_dictionary_string(dictionary: dict[str, Any]) -> str:
     return f"<table class='inner-table'>{rows}</table>"
 
 
-def generate_files_string(files: dict[str, Union[str, bytes]]) -> str:
+def generate_files_string(files: dict[str, str | bytes]) -> str:
     """
     Generate an HTML string displaying a dictionary of files substituting <str> or
     <bytes> for the actual file data
@@ -592,7 +592,7 @@ def generate_data_table(data: Files) -> str:
 
 
 def structures(
-    *structs: Union[Structure, list[Structure]],
+    *structs: Structure | list[Structure],
     **kwargs,
 ) -> None:
     """
@@ -610,12 +610,12 @@ def structures(
 
 
 def program_outputs(
-    *results: Results[Union[CalcSpec, CompositeCalcSpec], Data],
+    *results: Results[CalcSpec | CompositeCalcSpec, Data],
     animate: bool = True,
     struct_viewer: bool = True,
-    conformer_rmsd_threshold: Optional[float] = None,
+    conformer_rmsd_threshold: float | None = None,
     conformer_rmsd_backend: str = "qcinf",
-    conformer_rmsd_kwargs: Optional[dict] = None,
+    conformer_rmsd_kwargs: dict | None = None,
     **kwargs,
 ) -> None:
     """
@@ -686,7 +686,7 @@ def program_outputs(
 
                 # Determine the Structure to use
                 if isinstance(result.data, OptimizationData):
-                    for_viewer: Union[Structure, list[Structure]]
+                    for_viewer: Structure | list[Structure]
                     if animate:
                         for_viewer = result.data.structures
                     else:
@@ -740,7 +740,7 @@ def program_outputs(
 
 
 def view(
-    *objs: Union[Results, Structure, list[Structure]],
+    *objs: Results | Structure | list[Structure],
     **kwargs,
 ) -> None:
     """

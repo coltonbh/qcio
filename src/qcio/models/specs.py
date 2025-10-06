@@ -2,7 +2,7 @@
 
 import warnings
 from pathlib import Path
-from typing import Any, Optional, TypeVar, Union
+from typing import Any, TypeVar, Union
 
 from pydantic import BaseModel, field_serializer, model_validator
 from typing_extensions import Self
@@ -41,7 +41,7 @@ class FileSpec(Files):
     cmdline_args: list[str] = []
 
     @classmethod
-    def from_directory(cls, directory: Union[Path, str], **kwargs) -> Self:
+    def from_directory(cls, directory: Path | str, **kwargs) -> Self:
         """Create a new FileSpec and collect all files in the directory."""
         obj = cls(**kwargs)
         directory = Path(directory)
@@ -130,7 +130,7 @@ class SubCalcSpec(FileSpec, _KeywordsMixin):
             development and scratch space.
     """
 
-    model: Optional[Model] = None
+    model: Model | None = None
     subprogram: str
     subprogram_spec: CoreSpec
 
