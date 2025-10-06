@@ -378,10 +378,10 @@ def generate_output_table(*results: Results) -> str:
             <th>Model</th>
             <th>Keywords</th>
     """
-    if any(po.input_data.files for po in results):
+    if any(res.input_data.files for res in results):
         table_header += "<th>Input Files</th>"
 
-    if any(isinstance(po.input_data, CompositeCalcSpec) for po in results):
+    if any(isinstance(res.input_data, CompositeCalcSpec) for res in results):
         table_header += """
             <th>Subprogram</th>
             <th>Subprogram Model</th>
@@ -390,10 +390,10 @@ def generate_output_table(*results: Results) -> str:
     table_header += "</tr>"
 
     table_rows = []
-    for po in results:
+    for res in results:
         success_style = (
             'style="color: green; font-weight: bold;"'
-            if po.success
+            if res.success
             else 'style="color: red; font-weight: bold;"'
         )
         base_row = f"""
@@ -401,37 +401,37 @@ def generate_output_table(*results: Results) -> str:
             <td>{
             generate_dictionary_string(
                 {
-                    "charge": po.input_data.structure.charge,
-                    "multiplicity": po.input_data.structure.multiplicity,
-                    "name": po.input_data.structure.ids.name or "",
+                    "charge": res.input_data.structure.charge,
+                    "multiplicity": res.input_data.structure.multiplicity,
+                    "name": res.input_data.structure.ids.name or "",
                 }
             )
         }</td>
-            <td {success_style}>{po.success}</td>
+            <td {success_style}>{res.success}</td>
             <td> {
-            _format_time(po.provenance.wall_time)
-            if po.provenance.wall_time
+            _format_time(res.provenance.wall_time)
+            if res.provenance.wall_time
             else "No timing data"
         }</td>
-            <td>{po.input_data.calctype.name}</td>
-            <td>{f"{po.provenance.program} {po.provenance.program_version or ''}"}</td>
+            <td>{res.input_data.calctype.name}</td>
+            <td>{f"{res.provenance.program} {res.provenance.program_version or ''}"}</td>
             <td>{
             generate_dictionary_string(
-                po.input_data.model.model_dump(exclude=["extras"])
+                res.input_data.model.model_dump(exclude=["extras"])
             )
-            if po.input_data.model
+            if res.input_data.model
             else ""
         }</td>
-            <td>{generate_dictionary_string(po.input_data.keywords)}</td>
+            <td>{generate_dictionary_string(res.input_data.keywords)}</td>
         """
-        if po.input_data.files:
-            base_row += f"<td>{generate_files_string(po.input_data.files)}</td>"
+        if res.input_data.files:
+            base_row += f"<td>{generate_files_string(res.input_data.files)}</td>"
 
-        if isinstance(po.input_data, CompositeCalcSpec):
+        if isinstance(res.input_data, CompositeCalcSpec):
             base_row += f"""
-            <td>{po.input_data.subprogram}</td>
-            <td>{po.input_data.subprogram_args.model}</td>
-            <td>{generate_dictionary_string(po.input_data.subprogram_args.keywords)}</td>
+            <td>{res.input_data.subprogram}</td>
+            <td>{res.input_data.subprogram_args.model}</td>
+            <td>{generate_dictionary_string(res.input_data.subprogram_args.keywords)}</td>
             """
         base_row += "</tr>"
         table_rows.append(base_row)

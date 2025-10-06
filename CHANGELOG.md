@@ -53,7 +53,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Renamed `ProgramArgs` -> `CoreSpec` and added a compatibility shim. [#90](https://github.com/coltonbh/qcio/pull/90)
 - Renamed `ProgramArgsSub` -> `SubCalcSpec` and added a compatibility shim. [#90](https://github.com/coltonbh/qcio/pull/90)
 - Renamed `DualProgramInput` -> `CompositeCalcSpec` and added a compatibility shim. [#90](https://github.com/coltonbh/qcio/pull/90)
-- Renamed `FileInput` -> `FileSpec`. [#90](https://github.com/coltonbh/qcio/pull/90)
+- Renamed `FileInput` -> `FileSpec` and added a compatibility shim. [#90](https://github.com/coltonbh/qcio/pull/90)
 - Backwards compatibility shim updated from `Results.__init__` override to `@model_validator(mode="before")`. [#90](https://github.com/coltonbh/qcio/pull/90)
 
 ## [0.14.0] - 2025-04-01

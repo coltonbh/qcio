@@ -8,7 +8,7 @@ def test_optimization_result_properties(results):
 
     # Test properties
     assert opt_res.final_structure == results.input_data.structure
-    assert opt_res.energies == [results.results.energy]
+    assert opt_res.energies == [results.data.energy]
     assert opt_res.structures == [results.input_data.structure]
     # Test custom __repr_args__
     repr_args = opt_res.__repr_args__()

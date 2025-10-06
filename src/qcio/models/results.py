@@ -587,35 +587,46 @@ class Results(QCIOBaseModel, Generic[SpecType, DataType]):
 ### Backwards compatibility classes ###
 @deprecated_class("Results")
 class ProgramOutput(Results):
+    """This class is deprecated and will be removed in a future release. Please use
+    `Results` instead."""
+
     pass
 
 
 @deprecated_class("SinglePointData")
 class SinglePointResults(SinglePointData):
+    """This class is deprecated and will be removed in a future release. Please use
+    `SinglePointData` instead."""
+
     pass
 
 
 @deprecated_class("OptimizationData")
 class OptimizationResults(OptimizationData):
+    """This class is deprecated and will be removed in a future release. Please use
+    `OptimizationData` instead."""
+
     pass
 
 
 @deprecated_class("ConformerSearchData")
 class ConformerSearchResults(ConformerSearchData):
+    """This class is deprecated and will be removed in a future release. Please use
+    `ConformerSearchData` instead."""
+
     pass
 
 
-# StructuredResults = StructuredData
 ### End backwards compatibility classes ###
 
 
 # Register the concrete classes for serialization
 def _register_program_output_classes():
     """Required so that pickle can find the concrete classes for serialization."""
-    for input_type, results_type in product(get_args(Specs), get_args(Data)):
+    for spec_type, data_type in product(get_args(Specs), get_args(Data)):
         # TODO: Remove ProgramOutput when compatibility is no longer needed
-        for ClassType in [Results, Results]:
-            _class = ClassType[input_type, results_type]
+        for ClassType in [Results, ProgramOutput]:
+            _class = ClassType[spec_type, data_type]
             name = _class.__name__
             this_module = sys.modules[__name__]
             if name not in this_module.__dict__:

@@ -211,7 +211,7 @@ class CompositeCalcSpec(SubCalcSpec, CalcSpec):
         structure Structure: The structure to be used in the calculation.
         files Files: Files to be passed to the QC program.
         subprogram: The name of the subprogram to use.
-        subprogram_spec ProgramArgs: The ProgramArgs for the subprogram.
+        subprogram_spec CoreSpec: The CoreSpec for the subprogram.
         extras Dict[str, Any]: Additional information to bundle with the object. Use
             for schema development and scratch space.
 
@@ -226,7 +226,7 @@ class CompositeCalcSpec(SubCalcSpec, CalcSpec):
             structure = struct,
             keywords = {"maxiter": "250"},  # Optional
             subprogram = "orca",
-            subprogram_spec = ProgramArgs(
+            subprogram_spec = CoreSpec(
                 model = {"method": "wb97x-d3", "basis": "def2-SVP"},
                 keywords = {"convthre": "1e-6"},  # Optional
             )
@@ -253,7 +253,7 @@ class ProgramInput(CalcSpec):
 
 @deprecated_class("CoreSpec")
 class ProgramArgs(CoreSpec):
-    """Deprecated alias for CalcArgs.
+    """Deprecated alias for CoreSpec.
 
     This class is deprecated and will be removed in a future release. Please use
     `CoreSpec` instead.
