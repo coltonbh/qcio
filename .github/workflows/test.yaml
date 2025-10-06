@@ -29,10 +29,10 @@ jobs:
 
       # uv pip resolves & installs deps like pip (not an environment sync)
       - name: Install package + test deps (uv pip)
-        run: uv pip install --system --group dev
+        run: uv pip install --system --group dev .
 
       - name: Run tests
-        run: pytest --cov-report=term-missing --cov-report html:htmlcov --cov-config=pyproject.toml --cov=qcio --cov=tests .
+        run: python -m pytest --cov-report=term-missing --cov-report html:htmlcov --cov-config=pyproject.toml --cov=qcio --cov=tests .
 
       - name: Upload coverage HTML
         if: ${{ matrix.coverage == true }}
