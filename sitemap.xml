@@ -2,78 +2,74 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://qcio.coltonhicks.com/</loc>
-         <lastmod>2025-02-18</lastmod>
+         <lastmod>2025-10-06</lastmod>
     </url>
     <url>
          <loc>https://qcio.coltonhicks.com/why/</loc>
-         <lastmod>2025-02-18</lastmod>
+         <lastmod>2025-10-06</lastmod>
     </url>
     <url>
          <loc>https://qcio.coltonhicks.com/api/calctype/</loc>
-         <lastmod>2025-02-18</lastmod>
+         <lastmod>2025-10-06</lastmod>
     </url>
     <url>
-         <loc>https://qcio.coltonhicks.com/api/constants/</loc>
-         <lastmod>2025-02-18</lastmod>
+         <loc>https://qcio.coltonhicks.com/api/calculation_specification/</loc>
+         <lastmod>2025-10-06</lastmod>
     </url>
     <url>
          <loc>https://qcio.coltonhicks.com/api/files/</loc>
-         <lastmod>2025-02-18</lastmod>
-    </url>
-    <url>
-         <loc>https://qcio.coltonhicks.com/api/inputs/</loc>
-         <lastmod>2025-02-18</lastmod>
+         <lastmod>2025-10-06</lastmod>
     </url>
     <url>
          <loc>https://qcio.coltonhicks.com/api/lengthunit/</loc>
-         <lastmod>2025-02-18</lastmod>
+         <lastmod>2025-10-06</lastmod>
     </url>
     <url>
          <loc>https://qcio.coltonhicks.com/api/model/</loc>
-         <lastmod>2025-02-18</lastmod>
-    </url>
-    <url>
-         <loc>https://qcio.coltonhicks.com/api/outputs/</loc>
-         <lastmod>2025-02-18</lastmod>
+         <lastmod>2025-10-06</lastmod>
     </url>
     <url>
          <loc>https://qcio.coltonhicks.com/api/overview/</loc>
-         <lastmod>2025-02-18</lastmod>
+         <lastmod>2025-10-06</lastmod>
     </url>
     <url>
          <loc>https://qcio.coltonhicks.com/api/provenance/</loc>
-         <lastmod>2025-02-18</lastmod>
+         <lastmod>2025-10-06</lastmod>
     </url>
     <url>
-         <loc>https://qcio.coltonhicks.com/api/qciomodelbase/</loc>
-         <lastmod>2025-02-18</lastmod>
+         <loc>https://qcio.coltonhicks.com/api/qciobasemodel/</loc>
+         <lastmod>2025-10-06</lastmod>
+    </url>
+    <url>
+         <loc>https://qcio.coltonhicks.com/api/results/</loc>
+         <lastmod>2025-10-06</lastmod>
     </url>
     <url>
          <loc>https://qcio.coltonhicks.com/api/structure/</loc>
-         <lastmod>2025-02-18</lastmod>
+         <lastmod>2025-10-06</lastmod>
     </url>
     <url>
          <loc>https://qcio.coltonhicks.com/api/utils/</loc>
-         <lastmod>2025-02-18</lastmod>
+         <lastmod>2025-10-06</lastmod>
     </url>
     <url>
          <loc>https://qcio.coltonhicks.com/api/view/</loc>
-         <lastmod>2025-02-18</lastmod>
+         <lastmod>2025-10-06</lastmod>
     </url>
     <url>
          <loc>https://qcio.coltonhicks.com/visualizations/coreviews/</loc>
-         <lastmod>2025-02-18</lastmod>
+         <lastmod>2025-10-06</lastmod>
     </url>
     <url>
          <loc>https://qcio.coltonhicks.com/visualizations/overview/</loc>
-         <lastmod>2025-02-18</lastmod>
+         <lastmod>2025-10-06</lastmod>
     </url>
     <url>
-         <loc>https://qcio.coltonhicks.com/visualizations/programoutputs/</loc>
-         <lastmod>2025-02-18</lastmod>
+         <loc>https://qcio.coltonhicks.com/visualizations/results/</loc>
+         <lastmod>2025-10-06</lastmod>
     </url>
     <url>
          <loc>https://qcio.coltonhicks.com/visualizations/structure/</loc>
-         <lastmod>2025-02-18</lastmod>
+         <lastmod>2025-10-06</lastmod>
     </url>
 </urlset>
