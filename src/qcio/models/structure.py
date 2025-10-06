@@ -1,7 +1,7 @@
 import warnings
 from collections import Counter
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, ClassVar, Optional, Union
+from typing import TYPE_CHECKING, Any, ClassVar
 
 import numpy as np
 from pydantic import field_serializer, model_validator
@@ -48,20 +48,20 @@ class Identifiers(QCIOBaseModel):
             schema development and scratch space.
     """
 
-    name: Optional[str] = None
-    name_IUPAC: Optional[str] = None
-    smiles: Optional[str] = None
-    canonical_smiles: Optional[str] = None
-    canonical_smiles_program: Optional[str] = None
-    canonical_explicit_hydrogen_smiles: Optional[str] = None
-    canonical_isomeric_smiles: Optional[str] = None
-    canonical_isomeric_explicit_hydrogen_smiles: Optional[str] = None
-    canonical_isomeric_explicit_hydrogen_mapped_smiles: Optional[str] = None
-    inchi: Optional[str] = None
-    inchikey: Optional[str] = None
-    pubchem_cid: Optional[str] = None
-    pubchem_sid: Optional[str] = None
-    pubchem_conformerid: Optional[str] = None
+    name: str | None = None
+    name_IUPAC: str | None = None
+    smiles: str | None = None
+    canonical_smiles: str | None = None
+    canonical_smiles_program: str | None = None
+    canonical_explicit_hydrogen_smiles: str | None = None
+    canonical_isomeric_smiles: str | None = None
+    canonical_isomeric_explicit_hydrogen_smiles: str | None = None
+    canonical_isomeric_explicit_hydrogen_mapped_smiles: str | None = None
+    inchi: str | None = None
+    inchikey: str | None = None
+    pubchem_cid: str | None = None
+    pubchem_sid: str | None = None
+    pubchem_conformerid: str | None = None
 
 
 class Structure(QCIOBaseModel):
@@ -128,9 +128,9 @@ class Structure(QCIOBaseModel):
     @classmethod
     def open(
         cls,
-        filepath: Union[Path, str],
-        charge: Optional[int] = None,
-        multiplicity: Optional[int] = None,
+        filepath: Path | str,
+        charge: int | None = None,
+        multiplicity: int | None = None,
     ) -> Self:
         """Open a structure or structures from a file.
 
@@ -176,9 +176,9 @@ class Structure(QCIOBaseModel):
     @classmethod
     def open_multi(
         cls,
-        filepath: Union[Path, str],
-        charge: Optional[int] = None,
-        multiplicity: Optional[int] = None,
+        filepath: Path | str,
+        charge: int | None = None,
+        multiplicity: int | None = None,
     ) -> list["Structure"]:
         """Open a multi-structure file and return a list of Structure objects.
 
@@ -226,7 +226,7 @@ class Structure(QCIOBaseModel):
 
     def save(
         self,
-        filepath: Union[Path, str],
+        filepath: Path | str,
         exclude_none: bool = True,
         exclude_unset: bool = True,
         indent: int = 4,
@@ -274,8 +274,8 @@ class Structure(QCIOBaseModel):
         cls,
         xyz_str: str,
         *,
-        charge: Optional[int] = None,
-        multiplicity: Optional[int] = None,
+        charge: int | None = None,
+        multiplicity: int | None = None,
     ) -> Self:
         """Create a Structure from an XYZ file or string.
 
@@ -350,8 +350,8 @@ class Structure(QCIOBaseModel):
     def from_xyz_multi(
         cls,
         xyz_str: str,
-        charge: Optional[int] = None,
-        multiplicity: Optional[int] = None,
+        charge: int | None = None,
+        multiplicity: int | None = None,
     ) -> list["Structure"]:
         """Parse a multi-structure XYZ file into a list of Structure objects.
 

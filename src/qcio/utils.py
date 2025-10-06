@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import json
-from typing import Union
 
 import numpy as np
 from pydantic import BaseModel
@@ -28,7 +27,7 @@ water = Structure(
 
 
 def json_dumps(
-    obj: Union[BaseModel, list[BaseModel]],
+    obj: BaseModel | list[BaseModel],
     exclude_unset: bool = True,
     **model_dump_kwargs,
 ) -> str:

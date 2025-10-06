@@ -1,11 +1,11 @@
 from pathlib import Path
-from typing import Annotated, Union
+from typing import Annotated
 
 import numpy as np
 from pydantic import BeforeValidator, GetPydanticSchema, PlainSerializer, SkipValidation
 from pydantic_core import core_schema
 
-StrOrPath = Annotated[Union[str, Path], PlainSerializer(lambda x: str(x))]
+StrOrPath = Annotated[str | Path, PlainSerializer(lambda x: str(x))]
 
 # Create the annotated type for numpy array
 SerializableNDArray = Annotated[

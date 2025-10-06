@@ -353,7 +353,7 @@ class ConformerSearchData(Files):
         self,
         threshold: float = 1.0,
         **rmsd_kwargs,
-    ) -> tuple[list["Structure"], "SerializableNDArray"]:
+    ) -> tuple[list[Structure], SerializableNDArray]:
         """
         !!! warning "Moved since *qcio* 0.15.0"
             This convenience method has moved to

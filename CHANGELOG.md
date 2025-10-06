@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Removed
 
+- 🚨Python 3.9 support. Minimum supported version is now 3.10. [#91](https://github.com/coltonbh/qcio/pull/91)
 - All constants and periodic table data moved to [qcconst](https://github.com/coltonbh/qcconst).
 - All cheminformatics methods, including those that used `rdkit` and `openbabel` such as `rmsd` and `align`. Placed these algorithms into [qcinf](https://github.com/coltonbh/qcinf) so that `qcio` can remain purely about data structures. All future algorithms will go into `qcinf`.
 
