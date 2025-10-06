@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+## [0.15.0] - 2025-10-06
+
 ### Removed
 
 - 🚨Python 3.9 support. Minimum supported version is now 3.10. [#91](https://github.com/coltonbh/qcio/pull/91)
@@ -617,7 +619,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `SinglePointComputedProperties`
   - `Wavefunction`
 
-[unreleased]: https://github.com/coltonbh/qcio/compare/0.14.0...HEAD
+[unreleased]: https://github.com/coltonbh/qcio/compare/0.15.0...HEAD
+[0.15.0]: https://github.com/coltonbh/qcio/releases/tag/0.15.0
 [0.14.0]: https://github.com/coltonbh/qcio/releases/tag/0.14.0
 [0.13.1]: https://github.com/coltonbh/qcio/releases/tag/0.13.1
 [0.13.0]: https://github.com/coltonbh/qcio/releases/tag/0.13.0
