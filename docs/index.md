@@ -24,19 +24,19 @@ Elegant and intuitive data structures for quantum chemistry, featuring seamless 
 For a minimal installation:
 
 ```bash
-pip install qcio
+python -m pip install qcio
 ```
 
 To install all extra feature such as cheminformatics and visualization tools:
 
 ```sh
-pip install qcio[all]
+python -m pip install qcio[all]
 ```
 
 You may need to put `''` around the brackets in some terminals
 
 ```sh
-pip install 'qcio[all]'
+python -m pip install 'qcio[all]'
 ```
 
 ## Getting Started

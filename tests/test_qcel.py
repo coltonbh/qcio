@@ -7,30 +7,30 @@ from qcelemental.models import AtomicInput, AtomicResult
 from qcio.qcel import from_qcel_output_results, to_qcel_input
 
 
-def test_input_to_qcel(calc_input):
+def test_input_to_qcel(prog_input_factory):
     """Test that input converts to qcel input"""
-    ci_energy = calc_input("energy")
-    qcel_input_dict = to_qcel_input(ci_energy)
+    pi_energy = prog_input_factory("energy")
+    qcel_input_dict = to_qcel_input(pi_energy)
     qcel_atomic_input = AtomicInput(**qcel_input_dict)
 
-    assert qcel_atomic_input.molecule.symbols.tolist() == ci_energy.structure.symbols
+    assert qcel_atomic_input.molecule.symbols.tolist() == pi_energy.structure.symbols
     assert np.array_equal(
-        qcel_atomic_input.molecule.geometry, ci_energy.structure.geometry
+        qcel_atomic_input.molecule.geometry, pi_energy.structure.geometry
     )
-    assert qcel_atomic_input.molecule.molecular_charge == ci_energy.structure.charge
-    assert qcel_atomic_input.model.method == ci_energy.model.method
-    assert qcel_atomic_input.model.basis == ci_energy.model.basis
+    assert qcel_atomic_input.molecule.molecular_charge == pi_energy.structure.charge
+    assert qcel_atomic_input.model.method == pi_energy.model.method
+    assert qcel_atomic_input.model.basis == pi_energy.model.basis
     assert qcel_atomic_input.driver == "energy"
-    assert qcel_atomic_input.keywords == ci_energy.keywords
-    assert qcel_atomic_input.extras == ci_energy.extras
+    assert qcel_atomic_input.keywords == pi_energy.keywords
+    assert qcel_atomic_input.extras == pi_energy.extras
 
 
-def test_input_to_output_from_qcel_output_with_wfn(calc_input):
+def test_input_to_output_from_qcel_output_with_wfn(prog_input_factory):
     """Test that input converts to qcel input"""
-    ci_energy = calc_input("energy")
+    pi_energy = prog_input_factory("energy")
 
     # Check that the input converts to a qcel input
-    qcel_atomic_input = AtomicInput(**to_qcel_input(ci_energy))
+    qcel_atomic_input = AtomicInput(**to_qcel_input(pi_energy))
 
     qcel_atomic_output = AtomicResult(
         **{
@@ -66,9 +66,9 @@ def test_input_to_output_from_qcel_output_with_wfn(calc_input):
     assert results.calcinfo_natoms == qcel_atomic_output.properties.calcinfo_natom
 
 
-def test_input_to_output_from_qcel_output_no_wfn(calc_input):
+def test_input_to_output_from_qcel_output_no_wfn(prog_input_factory):
     """Test that input converts to qcel input"""
-    calc_input_energy = calc_input("energy")
+    calc_input_energy = prog_input_factory("energy")
     qcel_atomic_input = AtomicInput(**to_qcel_input(calc_input_energy))
 
     qcel_atomic_output = AtomicResult(

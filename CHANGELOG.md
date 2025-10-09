@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 
-- Restored the legacy input naming (`ProgramInput`, `ProgramArgs`, `ProgramArgsSub`, `DualProgramInput`, `FileInput`) and removed the temporary compatibility layer introduced in v0.15.0. The `specs.py` module is now `inputs.py`, and documentation/tests reflect the reverted terminology.
+- 🚨 Restored the legacy input naming (`ProgramInput`, `ProgramArgs`, `ProgramArgsSub`, `DualProgramInput`, `FileInput`) and removed the temporary compatibility layer introduced in v0.15.0. The `specs.py` module is now `inputs.py`, and documentation/tests reflect the reverted terminology.
 
 ## [0.15.0] - 2025-10-06
 

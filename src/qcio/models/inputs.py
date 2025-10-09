@@ -87,7 +87,7 @@ class _StructureKeywordsMixin(_KeywordsMixin):
 
 
 class ProgramArgs(FileInput, _KeywordsMixin):
-    """Core arguments for a calculation without a calctype or structure specification.
+    """Core arguments for a calculation without a calctype or structure.
 
     This class is used by `DualProgramInput` or multi-step calculations to
     specify `subprogram_args` or basic program arguments for a multistep algorithm in
@@ -148,7 +148,7 @@ class ProgramArgsSub(FileInput, _KeywordsMixin):
 
 
 class ProgramInput(ProgramArgs, _StructureKeywordsMixin):
-    """Specification for a quantum chemistry calculation. This is the most common input type.
+    """Core input for a quantum chemistry calculation. This is the most common input type.
 
     Attributes:
         calctype CalcType: The type of calculation to perform.

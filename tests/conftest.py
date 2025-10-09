@@ -37,23 +37,23 @@ def file_input():
 
 
 @pytest.fixture
-def input_data(request, file_input, calc_input, ccalc_input):
+def input_data(request, file_input, prog_input_factory, dprog_input_factory):
     """Input data fixture"""
     if request.param == "file_input":
         return file_input
     elif request.param == "calc_input":
-        return calc_input("energy")
+        return prog_input_factory("energy")
     elif request.param == "ccalc_input":  # DualProgramInput
-        return ccalc_input
+        return dprog_input_factory
     else:
         raise ValueError(f"Unknown input data type: {request.param}")
 
 
 @pytest.fixture
-def calc_input(water):
+def prog_input_factory(water):
     """Function that returns ProgramInput of calctype."""
 
-    def _create_calc_input(calctype):
+    def _create_prog_inp(calctype):
         return ProgramInput(
             structure=water,
             calctype=calctype,
@@ -67,14 +67,14 @@ def calc_input(water):
             },
         )
 
-    return _create_calc_input
+    return _create_prog_inp
 
 
 @pytest.fixture
-def ccalc_input(water):
+def dprog_input_factory(water):
     """Function that returns DualProgramInput of calctype."""
 
-    def _create_calc_input(calctype):
+    def _create_prog_inp(calctype):
         return DualProgramInput(
             structure=water,
             calctype=calctype,
@@ -87,7 +87,7 @@ def ccalc_input(water):
             subprogram_args=ProgramArgs(model={"method": "hf", "basis": "sto-3g"}),
         )
 
-    return _create_calc_input
+    return _create_prog_inp
 
 
 @pytest.fixture
@@ -111,9 +111,9 @@ def sp_data():
 
 
 @pytest.fixture
-def results(calc_input, sp_data):
+def results(prog_input_factory, sp_data):
     """Successful Results object"""
-    pi_energy = calc_input("energy")
+    pi_energy = prog_input_factory("energy")
     sp_data = sp_data(pi_energy.structure)
 
     return Results[ProgramInput, SinglePointData](
@@ -127,12 +127,12 @@ def results(calc_input, sp_data):
 
 
 @pytest.fixture
-def results_failure(calc_input, sp_data):
+def results_failure(prog_input_factory, sp_data):
     """Failed Results object"""
-    ci_energy = calc_input("energy")
+    pi_energy = prog_input_factory("energy")
 
     return Results[ProgramInput, Files](
-        input_data=ci_energy,
+        input_data=pi_energy,
         success=False,
         traceback="Traceback...",
         data=Files(),

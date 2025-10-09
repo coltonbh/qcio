@@ -3,9 +3,9 @@ from qcio.view import generate_optimization_plot
 
 
 def test_generate_optimization_plot_with_single_prog_output_failure(
-    calc_input, results_failure
+    prog_input_factory, results_failure
 ):
-    opt_input = calc_input("optimization")
+    opt_input = prog_input_factory("optimization")
 
     prog_output = Results[ProgramInput, OptimizationData](
         input_data=opt_input,
