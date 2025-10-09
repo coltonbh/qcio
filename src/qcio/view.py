@@ -10,7 +10,7 @@ Design Decisions:
         after importing `from IPython.display import HTML, display`.
     - The basic layout for viewing results (all Results objects) is a table of
         basic parameters followed by a structure viewer and results table or plot.
-        CompositeCalcSpecs add details for the subprogram.
+        DualProgramInputs add details for the subprogram.
         ----------------------------------------------------------------------------
         | Structure      | Success | Calculation Type | Program | Model | Keywords |
         ----------------------------------------------------------------------------
@@ -32,13 +32,13 @@ import numpy as np
 from qcconst import constants
 
 from qcio import (
-    CalcSpec,
-    CompositeCalcSpec,
     ConformerSearchData,
     Data,
+    DualProgramInput,
     Files,
     LengthUnit,
     OptimizationData,
+    ProgramInput,
     Results,
     SinglePointData,
     Structure,
@@ -381,7 +381,7 @@ def generate_output_table(*results: Results) -> str:
     if any(res.input_data.files for res in results):
         table_header += "<th>Input Files</th>"
 
-    if any(isinstance(res.input_data, CompositeCalcSpec) for res in results):
+    if any(isinstance(res.input_data, DualProgramInput) for res in results):
         table_header += """
             <th>Subprogram</th>
             <th>Subprogram Model</th>
@@ -427,7 +427,7 @@ def generate_output_table(*results: Results) -> str:
         if res.input_data.files:
             base_row += f"<td>{generate_files_string(res.input_data.files)}</td>"
 
-        if isinstance(res.input_data, CompositeCalcSpec):
+        if isinstance(res.input_data, DualProgramInput):
             base_row += f"""
             <td>{res.input_data.subprogram}</td>
             <td>{res.input_data.subprogram_args.model}</td>
@@ -610,7 +610,7 @@ def structures(
 
 
 def program_outputs(
-    *results: Results[CalcSpec | CompositeCalcSpec, Data],
+    *results: Results[ProgramInput | DualProgramInput, Data],
     animate: bool = True,
     struct_viewer: bool = True,
     conformer_rmsd_threshold: float | None = None,

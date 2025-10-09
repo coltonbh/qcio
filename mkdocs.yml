@@ -93,7 +93,8 @@ markdown_extensions:
   - markdown_include.include
 
 watch:
-  - src/qcio # Adjust this
+  - src/qcio
+  - docs
 
 nav:
   - Getting Started:
@@ -102,7 +103,7 @@ nav:
   - API Documentation:
       - Overview: api/overview.md
       - Structure: api/structure.md
-      - Calculation Specification: api/calculation_specification.md
+      - Inputs: api/inputs.md
       - Results: api/results.md
       - Utilities: api/utils.md
       - Visualizations:

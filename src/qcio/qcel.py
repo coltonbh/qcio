@@ -4,7 +4,7 @@ from typing import Any
 
 import numpy as np
 
-from qcio import CalcSpec, SinglePointData, Wavefunction
+from qcio import ProgramInput, SinglePointData, Wavefunction
 
 # ---------------------------------------------------------------------------
 # Compatibility shim: NumPy 2.0 removed `np.core.defchararray`; everything
@@ -16,7 +16,7 @@ if not hasattr(np.core, "defchararray"):  # type: ignore
     np.core.defchararray = np.char  # type: ignore
 
 
-def to_qcel_input(prog_input: CalcSpec) -> dict[str, Any]:
+def to_qcel_input(prog_input: ProgramInput) -> dict[str, Any]:
     """Return the QCElemental v1 input schema representation of the input
     (AtomicInput dict).
 

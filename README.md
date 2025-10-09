@@ -88,9 +88,9 @@ prog_input = CompositeCalcInput(
 )
 ```
 
-#### FileSpec - Input object for a calculation using native file formats.
+#### FileInput - Input object for a calculation using native file formats.
 
-`qcio` also supports the native file formats of each QC program with a `FileSpec` object. Assume you have a directory like this with your input files for `psi4`:
+`qcio` also supports the native file formats of each QC program with a `FileInput` object. Assume you have a directory like this with your input files for `psi4`:
 
 ```
 psi4/
@@ -99,11 +99,11 @@ psi4/
     wfn.dat
 ```
 
-You can collect these native files and any associated command line arguments needed to specify a calculation into a `FileSpec` object like this:
+You can collect these native files and any associated command line arguments needed to specify a calculation into a `FileInput` object like this:
 
 ```python
-from qcio import FileSpec
-psi4_input = FileSpec.from_directory("psi4")
+from qcio import FileInput
+psi4_input = FileInput.from_directory("psi4")
 
 # All input files will be loaded into the `files` attribute
 psi4_input.files

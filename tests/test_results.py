@@ -5,10 +5,10 @@ import pytest
 from pydantic import ValidationError
 
 from qcio import (
-    CalcSpec,
+    FileInput,
     Files,
-    FileSpec,
     OptimizationData,
+    ProgramInput,
     Provenance,
     Results,
     SinglePointData,
@@ -33,10 +33,10 @@ def test_hessian_converted_np_array():
     assert data.hessian.dtype == np.float64
 
 
-def test_single_point_casts_gradient_to_n_by_3(calc_input):
+def test_single_point_casts_gradient_to_n_by_3(prog_input_factory):
     """Test that SinglePointData casts gradient to n by 3"""
-    ci_gradient = calc_input("gradient")
-    n_atoms = len(ci_gradient.structure.symbols)
+    pi_gradient = prog_input_factory("gradient")
+    n_atoms = len(pi_gradient.structure.symbols)
     gradient = [float(i) for i in range(n_atoms * 3)]
     data = SinglePointData(gradient=gradient)
     assert data.gradient.shape == (n_atoms, 3)
@@ -44,9 +44,9 @@ def test_single_point_casts_gradient_to_n_by_3(calc_input):
     assert data.gradient.dtype == np.float64
 
 
-def test_single_point_success_casts_hessian_to_3n_by_3n(calc_input):
+def test_single_point_success_casts_hessian_to_3n_by_3n(prog_input_factory):
     """Test that SinglePointData casts hessian to 3n x 3n"""
-    pi_hessian = calc_input("hessian")
+    pi_hessian = prog_input_factory("hessian")
     n_atoms = len(pi_hessian.structure.symbols)
     hessian = [float(i) for i in range(n_atoms**2 * 3**2)]
     data = SinglePointData(hessian=hessian)
@@ -55,10 +55,10 @@ def test_single_point_success_casts_hessian_to_3n_by_3n(calc_input):
     assert data.hessian.dtype == np.float64
 
 
-def test_single_point_data_normal_modes_cartesian_shape(calc_input):
+def test_single_point_data_normal_modes_cartesian_shape(prog_input_factory):
     """Test that SinglePointData normal_modes_cartesian are n_modes x n_atoms x 3"""
-    ci_energy = calc_input("energy")
-    n_atoms = len(ci_energy.structure.symbols)
+    pi_energy = prog_input_factory("energy")
+    n_atoms = len(pi_energy.structure.symbols)
     n_atoms * 3
     data = SinglePointData(
         energy=-1.0,
@@ -100,10 +100,10 @@ def test_single_point_data_normal_modes_cartesian_shape(calc_input):
     assert data.normal_modes_cartesian.shape == (3, 3, 3)
 
 
-def test_return_result(calc_input):
+def test_return_result(prog_input_factory):
     """Test that return_result returns the requested result"""
     # TODO: Remove this test once I depreciate .return_result
-    calc_input_energy = calc_input("energy")
+    calc_input_energy = prog_input_factory("energy")
     energy = 1.0
     n_atoms = len(calc_input_energy.structure.symbols)
     gradient = np.arange(n_atoms * 3).reshape(n_atoms, 3)
@@ -122,12 +122,12 @@ def test_return_result(calc_input):
     assert results.return_result == energy
     assert results.return_result == results.data.energy
 
-    ci_gradient = calc_input("gradient")
-    results = Results(**{**results.model_dump(), **{"input_data": ci_gradient}})  # noqa: E501
+    pi_gradient = prog_input_factory("gradient")
+    results = Results(**{**results.model_dump(), **{"input_data": pi_gradient}})  # noqa: E501
     assert np.array_equal(results.return_result, gradient)
     assert np.array_equal(results.return_result, results.data.gradient)
 
-    pi_hessian = calc_input("hessian")
+    pi_hessian = prog_input_factory("hessian")
     results = Results(**{**results.model_dump(), **{"input_data": pi_hessian}})
 
     assert np.array_equal(results.return_result, hessian)
@@ -182,7 +182,7 @@ def test_correct_generic_instantiates_and_equality_checks_pass(results, tmp_path
     # Do not pass types
     wo_types = Results(**results_dict)
     # Pass types
-    w_types = Results[CalcSpec, SinglePointData](**results_dict)
+    w_types = Results[ProgramInput, SinglePointData](**results_dict)
 
     ## OptimizationResults
     results_dict["input_data"]["calctype"] = "optimization"
@@ -190,7 +190,7 @@ def test_correct_generic_instantiates_and_equality_checks_pass(results, tmp_path
     # Do not pass types
     wo_types_opt = Results(**results_dict)
     # Pass types
-    w_types_opt = Results[CalcSpec, OptimizationData](**results_dict)
+    w_types_opt = Results[ProgramInput, OptimizationData](**results_dict)
 
     # Serialize and Save
     wo_types.save(tmp_path / "out.json")
@@ -198,11 +198,11 @@ def test_correct_generic_instantiates_and_equality_checks_pass(results, tmp_path
 
     # Reopen with or without types
     wo_types_opened = Results.open(tmp_path / "out.json")
-    w_types_opened = Results[CalcSpec, SinglePointData].open(tmp_path / "out.json")
+    w_types_opened = Results[ProgramInput, SinglePointData].open(tmp_path / "out.json")
 
     # Reopen with or without types
     wo_types_opened_opt = Results.open(tmp_path / "opt.json")
-    w_types_opened_opt = Results[CalcSpec, OptimizationData].open(
+    w_types_opened_opt = Results[ProgramInput, OptimizationData].open(
         tmp_path / "opt.json"
     )
 
@@ -211,12 +211,12 @@ def test_correct_generic_instantiates_and_equality_checks_pass(results, tmp_path
     assert wo_types_opt == w_types_opt == wo_types_opened_opt == w_types_opened_opt
 
 
-def test_non_file_success_always_has_result(calc_input):
-    ci_energy = calc_input("energy")
+def test_non_file_success_always_has_result(prog_input_factory):
+    pi_energy = prog_input_factory("energy")
     with pytest.raises(ValidationError):
-        Results[CalcSpec, SinglePointData](
+        Results[ProgramInput, SinglePointData](
             success=True,
-            input_data=ci_energy,
+            input_data=pi_energy,
             logs="program standard out...",
             data=None,
             provenance={"program": "qcio-test-suite"},
@@ -229,7 +229,7 @@ def test_primary_result_must_be_present_on_success(results):
         po_dict["input_data"]["calctype"] = calctype
         po_dict["data"][calctype] = None
         with pytest.raises(ValidationError):
-            Results[CalcSpec, SinglePointData](**po_dict)
+            Results[ProgramInput, SinglePointData](**po_dict)
 
 
 @pytest.mark.parametrize(
@@ -239,17 +239,17 @@ def test_primary_result_must_be_present_on_success(results):
             "file_input",
             Files(),
             True,
-            FileSpec,
+            FileInput,
             Files,
-            id="FileSpec-Files-Success",
+            id="FileInput-Files-Success",
         ),
         pytest.param(
             "file_input",
             Files(),
             False,
-            FileSpec,
+            FileInput,
             Files,
-            id="FileSpec-Files-Failure",
+            id="FileInput-Files-Failure",
         ),
     ],
     indirect=["input_data"],
@@ -321,8 +321,8 @@ def test_pickle_serialization_of_program_output_parametrized(
 
 
 def test_pickle_serialization_of_program_output():
-    prog_output = Results[CalcSpec, SinglePointData](
-        input_data=CalcSpec(
+    prog_output = Results[ProgramInput, SinglePointData](
+        input_data=ProgramInput(
             structure=Structure(
                 symbols=["O", "H", "H"],
                 geometry=np.array([0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0, 1.0, 0.0]),
@@ -386,9 +386,9 @@ def test_ensure_result_present_on_single_point_data_validator():
         SinglePointData()
 
 
-def test_compatibility_layer_for_files_on_results(calc_input):
+def test_compatibility_layer_for_files_on_results(prog_input_factory):
     """Test that the compatibility layer for files on Results works"""
-    energy_input = calc_input("energy")
+    energy_input = prog_input_factory("energy")
     # Passing Files as a dictionary
     files = {"file1": "file1.txt", "file2": "file2.txt"}
 
@@ -407,9 +407,9 @@ def test_compatibility_layer_for_noresults_prog_outputs(test_data_dir):
     Results.model_validate_json((test_data_dir / "po_noresults.json").read_text())
 
 
-def test_compatibility_layer_for_results_on_program_output(calc_input):
+def test_compatibility_layer_for_results_on_program_output(prog_input_factory):
     """Test that the compatibility layer for files on Results works"""
-    energy_input = calc_input("energy")
+    energy_input = prog_input_factory("energy")
     # Passing Files as a dictionary
     files = {"file1": "file1.txt", "file2": "file2.txt"}
     results_dict = {
@@ -422,9 +422,9 @@ def test_compatibility_layer_for_results_on_program_output(calc_input):
     assert po.data.energy == -1.0
 
 
-def test_compatibility_layer_for_stdout_on_results(calc_input):
+def test_compatibility_layer_for_stdout_on_results(prog_input_factory):
     """Test that the compatibility layer for stdout on Results works"""
-    energy_input = calc_input("energy")
+    energy_input = prog_input_factory("energy")
     logs = "program standard out..."
     results_dict = {
         "input_data": energy_input,

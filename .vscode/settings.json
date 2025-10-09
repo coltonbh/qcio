@@ -39,6 +39,7 @@
         "openbabel",
         "OUTOPTIONS",
         "plogs",
+        "progi",
         "pstdout",
         "ptraceback",
         "pubchem",
