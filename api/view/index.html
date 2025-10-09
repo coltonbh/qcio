@@ -548,12 +548,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../calculation_specification/" class="md-nav__link">
+      <a href="../inputs/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Calculation Specification
+    Inputs
     
   </span>
   
@@ -1339,7 +1339,7 @@
     after importing <code>from IPython.display import HTML, display</code>.</li>
 <li>The basic layout for viewing results (all Results objects) is a table of
     basic parameters followed by a structure viewer and results table or plot.
-    CompositeCalcSpecs add details for the subprogram.
+    DualProgramInputs add details for the subprogram.
     ----------------------------------------------------------------------------
     | Structure      | Success | Calculation Type | Program | Model | Keywords |
     ----------------------------------------------------------------------------
@@ -1586,7 +1586,9 @@ objects or one or more lists of Structure objects.</p>
 
 <a href="#qcio.view.program_outputs" class="headerlink" title="Permanent link">&para;</a></h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span class="nf">program_outputs</span><span class="p">(</span>
-    <span class="o">*</span><span class="n">results</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" href="../results/#qcio.Results">Results</a></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" href="../calculation_specification/#qcio.CalcSpec">CalcSpec</a></span> <span class="o">|</span> <span class="n"><a class="autorefs autorefs-internal" href="../calculation_specification/#qcio.CompositeCalcSpec">CompositeCalcSpec</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-internal" href="../results/#qcio.Data">Data</a></span><span class="p">],</span>
+    <span class="o">*</span><span class="n">results</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" href="../results/#qcio.Results">Results</a></span><span class="p">[</span>
+        <span class="n"><a class="autorefs autorefs-internal" href="../inputs/#qcio.ProgramInput">ProgramInput</a></span> <span class="o">|</span> <span class="n"><a class="autorefs autorefs-internal" href="../inputs/#qcio.DualProgramInput">DualProgramInput</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-internal" href="../results/#qcio.Data">Data</a></span>
+    <span class="p">],</span>
     <span class="n">animate</span><span class="p">:</span> <span class="n"><span title="bool">bool</span></span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">struct_viewer</span><span class="p">:</span> <span class="n"><span title="bool">bool</span></span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">conformer_rmsd_threshold</span><span class="p">:</span> <span class="n"><span title="float">float</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1617,7 +1619,7 @@ objects or one or more lists of Structure objects.</p>
                 <code>*results</code>
             </td>
             <td>
-                  <code><a class="autorefs autorefs-internal" href="../results/#qcio.Results">Results</a>[<a class="autorefs autorefs-internal" href="../calculation_specification/#qcio.CalcSpec">CalcSpec</a> | <a class="autorefs autorefs-internal" href="../calculation_specification/#qcio.CompositeCalcSpec">CompositeCalcSpec</a>, <a class="autorefs autorefs-internal" href="../results/#qcio.Data">Data</a>]</code>
+                  <code><a class="autorefs autorefs-internal" href="../results/#qcio.Results">Results</a>[<a class="autorefs autorefs-internal" href="../inputs/#qcio.ProgramInput">ProgramInput</a> | <a class="autorefs autorefs-internal" href="../inputs/#qcio.DualProgramInput">DualProgramInput</a>, <a class="autorefs autorefs-internal" href="../results/#qcio.Data">Data</a>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -1866,7 +1868,7 @@ RMSD filtering function.</p>
 <span class="normal">737</span>
 <span class="normal">738</span>
 <span class="normal">739</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">program_outputs</span><span class="p">(</span>
-    <span class="o">*</span><span class="n">results</span><span class="p">:</span> <span class="n">Results</span><span class="p">[</span><span class="n">CalcSpec</span> <span class="o">|</span> <span class="n">CompositeCalcSpec</span><span class="p">,</span> <span class="n">Data</span><span class="p">],</span>
+    <span class="o">*</span><span class="n">results</span><span class="p">:</span> <span class="n">Results</span><span class="p">[</span><span class="n">ProgramInput</span> <span class="o">|</span> <span class="n">DualProgramInput</span><span class="p">,</span> <span class="n">Data</span><span class="p">],</span>
     <span class="n">animate</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">struct_viewer</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">conformer_rmsd_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -3111,7 +3113,7 @@ dictionary for AtomStyleSpec <a href="https://3dmol.org/doc/AtomStyleSpec.html">
     <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">input_data</span><span class="o">.</span><span class="n">files</span> <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">results</span><span class="p">):</span>
         <span class="n">table_header</span> <span class="o">+=</span> <span class="s2">&quot;&lt;th&gt;Input Files&lt;/th&gt;&quot;</span>
 
-    <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">input_data</span><span class="p">,</span> <span class="n">CompositeCalcSpec</span><span class="p">)</span> <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">results</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">input_data</span><span class="p">,</span> <span class="n">DualProgramInput</span><span class="p">)</span> <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">results</span><span class="p">):</span>
         <span class="n">table_header</span> <span class="o">+=</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">            &lt;th&gt;Subprogram&lt;/th&gt;</span>
 <span class="s2">            &lt;th&gt;Subprogram Model&lt;/th&gt;</span>
@@ -3157,7 +3159,7 @@ dictionary for AtomStyleSpec <a href="https://3dmol.org/doc/AtomStyleSpec.html">
         <span class="k">if</span> <span class="n">res</span><span class="o">.</span><span class="n">input_data</span><span class="o">.</span><span class="n">files</span><span class="p">:</span>
             <span class="n">base_row</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;&lt;td&gt;</span><span class="si">{</span><span class="n">generate_files_string</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">input_data</span><span class="o">.</span><span class="n">files</span><span class="p">)</span><span class="si">}</span><span class="s2">&lt;/td&gt;&quot;</span>
 
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">input_data</span><span class="p">,</span> <span class="n">CompositeCalcSpec</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">input_data</span><span class="p">,</span> <span class="n">DualProgramInput</span><span class="p">):</span>
             <span class="n">base_row</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">            &lt;td&gt;</span><span class="si">{</span><span class="n">res</span><span class="o">.</span><span class="n">input_data</span><span class="o">.</span><span class="n">subprogram</span><span class="si">}</span><span class="s2">&lt;/td&gt;</span>
 <span class="s2">            &lt;td&gt;</span><span class="si">{</span><span class="n">res</span><span class="o">.</span><span class="n">input_data</span><span class="o">.</span><span class="n">subprogram_args</span><span class="o">.</span><span class="n">model</span><span class="si">}</span><span class="s2">&lt;/td&gt;</span>

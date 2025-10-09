@@ -10,7 +10,7 @@
         <meta name="author" content="Colton Hicks">
       
       
-        <link rel="canonical" href="https://qcio.coltonhicks.com/api/calculation_specification/">
+        <link rel="canonical" href="https://qcio.coltonhicks.com/api/inputs/">
       
       
         <link rel="prev" href="../structure/">
@@ -24,7 +24,7 @@
     
     
       
-        <title>Calculation Specification - Quantum Chemistry I/O (QCIO)</title>
+        <title>Inputs - Quantum Chemistry I/O (QCIO)</title>
       
     
     
@@ -84,7 +84,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#qcio.Specs" class="md-skip">
+        <a href="#qcio.Inputs" class="md-skip">
           Skip to content
         </a>
       
@@ -118,7 +118,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Calculation Specification
+              Inputs
             
           </span>
         </div>
@@ -560,7 +560,7 @@
   
   
   <span class="md-ellipsis">
-    Calculation Specification
+    Inputs
     
   </span>
   
@@ -573,7 +573,7 @@
   
   
   <span class="md-ellipsis">
-    Calculation Specification
+    Inputs
     
   </span>
   
@@ -596,26 +596,26 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#qcio.Specs" class="md-nav__link">
+  <a href="#qcio.Inputs" class="md-nav__link">
     <span class="md-ellipsis">
-      <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;Specs
+      <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;Inputs
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#qcio.CalcSpec" class="md-nav__link">
+  <a href="#qcio.ProgramInput" class="md-nav__link">
     <span class="md-ellipsis">
-      <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;CalcSpec
+      <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;ProgramInput
     </span>
   </a>
   
-    <nav class="md-nav" aria-label=" CalcSpec">
+    <nav class="md-nav" aria-label=" ProgramInput">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#qcio.CalcSpec.add_file" class="md-nav__link">
+  <a href="#qcio.ProgramInput.add_file" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;add_file
     </span>
@@ -624,7 +624,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#qcio.CalcSpec.add_files" class="md-nav__link">
+  <a href="#qcio.ProgramInput.add_files" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;add_files
     </span>
@@ -633,7 +633,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#qcio.CalcSpec.save_files" class="md-nav__link">
+  <a href="#qcio.ProgramInput.save_files" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;save_files
     </span>
@@ -647,17 +647,17 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#qcio.CompositeCalcSpec" class="md-nav__link">
+  <a href="#qcio.DualProgramInput" class="md-nav__link">
     <span class="md-ellipsis">
-      <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;CompositeCalcSpec
+      <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;DualProgramInput
     </span>
   </a>
   
-    <nav class="md-nav" aria-label=" CompositeCalcSpec">
+    <nav class="md-nav" aria-label=" DualProgramInput">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#qcio.CompositeCalcSpec.add_file" class="md-nav__link">
+  <a href="#qcio.DualProgramInput.add_file" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;add_file
     </span>
@@ -666,7 +666,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#qcio.CompositeCalcSpec.add_files" class="md-nav__link">
+  <a href="#qcio.DualProgramInput.add_files" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;add_files
     </span>
@@ -675,7 +675,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#qcio.CompositeCalcSpec.save_files" class="md-nav__link">
+  <a href="#qcio.DualProgramInput.save_files" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;save_files
     </span>
@@ -689,17 +689,17 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#qcio.FileSpec" class="md-nav__link">
+  <a href="#qcio.FileInput" class="md-nav__link">
     <span class="md-ellipsis">
-      <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;FileSpec
+      <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;FileInput
     </span>
   </a>
   
-    <nav class="md-nav" aria-label=" FileSpec">
+    <nav class="md-nav" aria-label=" FileInput">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#qcio.FileSpec.add_file" class="md-nav__link">
+  <a href="#qcio.FileInput.add_file" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;add_file
     </span>
@@ -708,7 +708,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#qcio.FileSpec.add_files" class="md-nav__link">
+  <a href="#qcio.FileInput.add_files" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;add_files
     </span>
@@ -717,7 +717,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#qcio.FileSpec.save_files" class="md-nav__link">
+  <a href="#qcio.FileInput.save_files" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;save_files
     </span>
@@ -726,7 +726,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#qcio.FileSpec.from_directory" class="md-nav__link">
+  <a href="#qcio.FileInput.from_directory" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;from_directory
     </span>
@@ -740,17 +740,17 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#qcio.CoreSpec" class="md-nav__link">
+  <a href="#qcio.ProgramArgs" class="md-nav__link">
     <span class="md-ellipsis">
-      <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;CoreSpec
+      <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;ProgramArgs
     </span>
   </a>
   
-    <nav class="md-nav" aria-label=" CoreSpec">
+    <nav class="md-nav" aria-label=" ProgramArgs">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#qcio.CoreSpec.add_file" class="md-nav__link">
+  <a href="#qcio.ProgramArgs.add_file" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;add_file
     </span>
@@ -759,7 +759,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#qcio.CoreSpec.add_files" class="md-nav__link">
+  <a href="#qcio.ProgramArgs.add_files" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;add_files
     </span>
@@ -768,7 +768,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#qcio.CoreSpec.save_files" class="md-nav__link">
+  <a href="#qcio.ProgramArgs.save_files" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;save_files
     </span>
@@ -1303,26 +1303,26 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#qcio.Specs" class="md-nav__link">
+  <a href="#qcio.Inputs" class="md-nav__link">
     <span class="md-ellipsis">
-      <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;Specs
+      <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;Inputs
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#qcio.CalcSpec" class="md-nav__link">
+  <a href="#qcio.ProgramInput" class="md-nav__link">
     <span class="md-ellipsis">
-      <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;CalcSpec
+      <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;ProgramInput
     </span>
   </a>
   
-    <nav class="md-nav" aria-label=" CalcSpec">
+    <nav class="md-nav" aria-label=" ProgramInput">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#qcio.CalcSpec.add_file" class="md-nav__link">
+  <a href="#qcio.ProgramInput.add_file" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;add_file
     </span>
@@ -1331,7 +1331,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#qcio.CalcSpec.add_files" class="md-nav__link">
+  <a href="#qcio.ProgramInput.add_files" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;add_files
     </span>
@@ -1340,7 +1340,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#qcio.CalcSpec.save_files" class="md-nav__link">
+  <a href="#qcio.ProgramInput.save_files" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;save_files
     </span>
@@ -1354,17 +1354,17 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#qcio.CompositeCalcSpec" class="md-nav__link">
+  <a href="#qcio.DualProgramInput" class="md-nav__link">
     <span class="md-ellipsis">
-      <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;CompositeCalcSpec
+      <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;DualProgramInput
     </span>
   </a>
   
-    <nav class="md-nav" aria-label=" CompositeCalcSpec">
+    <nav class="md-nav" aria-label=" DualProgramInput">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#qcio.CompositeCalcSpec.add_file" class="md-nav__link">
+  <a href="#qcio.DualProgramInput.add_file" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;add_file
     </span>
@@ -1373,7 +1373,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#qcio.CompositeCalcSpec.add_files" class="md-nav__link">
+  <a href="#qcio.DualProgramInput.add_files" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;add_files
     </span>
@@ -1382,7 +1382,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#qcio.CompositeCalcSpec.save_files" class="md-nav__link">
+  <a href="#qcio.DualProgramInput.save_files" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;save_files
     </span>
@@ -1396,17 +1396,17 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#qcio.FileSpec" class="md-nav__link">
+  <a href="#qcio.FileInput" class="md-nav__link">
     <span class="md-ellipsis">
-      <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;FileSpec
+      <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;FileInput
     </span>
   </a>
   
-    <nav class="md-nav" aria-label=" FileSpec">
+    <nav class="md-nav" aria-label=" FileInput">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#qcio.FileSpec.add_file" class="md-nav__link">
+  <a href="#qcio.FileInput.add_file" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;add_file
     </span>
@@ -1415,7 +1415,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#qcio.FileSpec.add_files" class="md-nav__link">
+  <a href="#qcio.FileInput.add_files" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;add_files
     </span>
@@ -1424,7 +1424,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#qcio.FileSpec.save_files" class="md-nav__link">
+  <a href="#qcio.FileInput.save_files" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;save_files
     </span>
@@ -1433,7 +1433,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#qcio.FileSpec.from_directory" class="md-nav__link">
+  <a href="#qcio.FileInput.from_directory" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;from_directory
     </span>
@@ -1447,17 +1447,17 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#qcio.CoreSpec" class="md-nav__link">
+  <a href="#qcio.ProgramArgs" class="md-nav__link">
     <span class="md-ellipsis">
-      <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;CoreSpec
+      <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;ProgramArgs
     </span>
   </a>
   
-    <nav class="md-nav" aria-label=" CoreSpec">
+    <nav class="md-nav" aria-label=" ProgramArgs">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#qcio.CoreSpec.add_file" class="md-nav__link">
+  <a href="#qcio.ProgramArgs.add_file" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;add_file
     </span>
@@ -1466,7 +1466,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#qcio.CoreSpec.add_files" class="md-nav__link">
+  <a href="#qcio.ProgramArgs.add_files" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;add_files
     </span>
@@ -1475,7 +1475,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#qcio.CoreSpec.save_files" class="md-nav__link">
+  <a href="#qcio.ProgramArgs.save_files" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;save_files
     </span>
@@ -1507,27 +1507,27 @@
   
 
 
-  <h1>Calculation Specification</h1>
+  <h1>Inputs</h1>
 
-<p>Data structures for specifying quantum chemistry calculations. The most commonly used structure is a <code>CalcSpec</code> which defines a single calculation.</p>
-<p>A <code>CompositeCalcSpec</code> is used when two specifications are required for a calculation. For example, doing a geometry optimization with <code>geomeTRIC</code> while using a <code>subprogram</code> like <code>TeraChem</code> or <code>Psi4</code> to compute the gradients.</p>
-<p>A <code>FileSpec</code> is an escape hatch that allows you to run <em>any</em> calculation in any QC program (or any program for that matter), even if it isn't a supported <a href="../calctype/"><code>CalcType</code></a> in <code>qcio</code> yet. You can use a <code>FileSpec</code> to store the native input files (text and binary) for a QC program along with the relevant command line args. Using <a href="https://github.com/coltonbh/qcop">qcop</a> you can submit a <code>FileSpec</code> a QC program and all output files and <code>logs</code> produced by that program will be collected and returned in a user-friendly <code>Results</code> object. <code>FileSpec</code> allows you to continue to use <code>qcio</code> even for calculations that haven't yet been standardized.</p>
+<p>Data structures for specifying quantum chemistry calculations. The most commonly used structure is a <code>ProgramInput</code> which defines a single calculation.</p>
+<p>A <code>DualProgramInput</code> is used when two inputs are required for a calculation. For example, doing a geometry optimization with <code>geomeTRIC</code> while using a <code>subprogram</code> like <code>TeraChem</code> or <code>Psi4</code> to compute the gradients.</p>
+<p>A <code>FileInput</code> is an escape hatch that allows you to run <em>any</em> calculation in any QC program (or any program for that matter), even if it isn't a supported <a href="../calctype/"><code>CalcType</code></a> in <code>qcio</code> yet. You can use a <code>FileInput</code> to store the native input files (text and binary) for a QC program along with the relevant command line args. Using <a href="https://github.com/coltonbh/qcop">qcop</a> you can submit a <code>FileInput</code> a QC program and all output files and <code>logs</code> produced by that program will be collected and returned in a user-friendly <code>Results</code> object. <code>FileInput</code> allows you to continue to use <code>qcio</code> even for calculations that haven't yet been standardized.</p>
 
 
 <div class="doc doc-object doc-attribute">
 
 
 
-<h2 id="qcio.Specs" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">qcio.Specs</span>
+<h2 id="qcio.Inputs" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">qcio.Inputs</span>
 
 
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-module-attribute"><code>module-attribute</code></small>
   </span>
 
-<a href="#qcio.Specs" class="headerlink" title="Permanent link">&para;</a></h2>
-<div class="language-python doc-signature highlight"><pre><span></span><code><span class="n">Specs</span> <span class="o">=</span> <span class="n"><span title="typing.Union">Union</span></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" href="#qcio.FileSpec">FileSpec</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-internal" href="#qcio.CalcSpec">CalcSpec</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-internal" href="#qcio.CompositeCalcSpec">CompositeCalcSpec</a></span><span class="p">]</span>
+<a href="#qcio.Inputs" class="headerlink" title="Permanent link">&para;</a></h2>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span class="n">Inputs</span> <span class="o">=</span> <span class="n"><span title="typing.Union">Union</span></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" href="#qcio.FileInput">FileInput</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-internal" href="#qcio.ProgramInput">ProgramInput</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-internal" href="#qcio.DualProgramInput">DualProgramInput</a></span><span class="p">]</span>
 </code></pre></div>
 
     <div class="doc doc-contents first">
@@ -1540,18 +1540,18 @@
 
 
 
-<h2 id="qcio.CalcSpec" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">qcio.CalcSpec</span>
+<h2 id="qcio.ProgramInput" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">qcio.ProgramInput</span>
 
 
-<a href="#qcio.CalcSpec" class="headerlink" title="Permanent link">&para;</a></h2>
-<div class="language-python doc-signature highlight"><pre><span></span><code><span class="nf">CalcSpec</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">:</span> <span class="n"><span title="typing.Any">Any</span></span><span class="p">)</span>
+<a href="#qcio.ProgramInput" class="headerlink" title="Permanent link">&para;</a></h2>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span class="nf">ProgramInput</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">:</span> <span class="n"><span title="typing.Any">Any</span></span><span class="p">)</span>
 </code></pre></div>
 
     <div class="doc doc-contents first">
 
 
-        <p>Specification for a quantum chemistry calculation. This is the most common input type.</p>
+        <p>Core input for a quantum chemistry calculation. This is the most common input type.</p>
 
 
 <p><span class="doc-section-title">Attributes:</span></p>
@@ -1565,7 +1565,7 @@
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code><span title="qcio.CalcSpec.calctype">calctype</span></code></td>
+            <td><code><span title="qcio.ProgramInput.calctype">calctype</span></code></td>
             <td>
                   <code><a class="autorefs autorefs-internal" href="../calctype/#qcio.CalcType">CalcType</a></code>
             </td>
@@ -1576,7 +1576,7 @@
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code><span title="qcio.CalcSpec.model">model</span></code></td>
+            <td><code><span title="qcio.ProgramInput.model">model</span></code></td>
             <td>
                   <code><a class="autorefs autorefs-internal" href="../model/#qcio.Model">Model</a></code>
             </td>
@@ -1587,7 +1587,7 @@
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code><span title="qcio.CalcSpec.keywords">keywords</span></code></td>
+            <td><code><span title="qcio.ProgramInput.keywords">keywords</span></code></td>
             <td>
                   <code><span title="Dict">Dict</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>]</code>
             </td>
@@ -1599,7 +1599,7 @@ excluding model and calctype. Defaults to an empty dict.</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code><span title="qcio.CalcSpec.structure">structure</span></code></td>
+            <td><code><span title="qcio.ProgramInput.structure">structure</span></code></td>
             <td>
                   <code><a class="autorefs autorefs-internal" href="../structure/#qcio.Structure">Structure</a></code>
             </td>
@@ -1610,7 +1610,7 @@ excluding model and calctype. Defaults to an empty dict.</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code><span title="qcio.CalcSpec.files">files</span></code></td>
+            <td><code><span title="qcio.ProgramInput.files">files</span></code></td>
             <td>
                   <code><a class="autorefs autorefs-internal" href="../files/#qcio.Files">Files</a></code>
             </td>
@@ -1621,7 +1621,7 @@ excluding model and calctype. Defaults to an empty dict.</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code><span title="qcio.CalcSpec.extras">extras</span></code></td>
+            <td><code><span title="qcio.ProgramInput.extras">extras</span></code></td>
             <td>
                   <code><span title="Dict">Dict</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>]</code>
             </td>
@@ -1638,11 +1638,11 @@ for schema development and scratch space.</p>
 
 <details class="example" open>
   <summary>Example</summary>
-  <div class="language-python highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">qcio.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">CalcSpec</span><span class="p">,</span> <span class="n">Structure</span>
+  <div class="language-python highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">qcio.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProgramInput</span><span class="p">,</span> <span class="n">Structure</span>
 
 <span class="n">struct</span> <span class="o">=</span> <span class="n">Structure</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;path/to/structure.xyz&quot;</span><span class="p">)</span>
 
-<span class="n">prog_inp</span> <span class="o">=</span> <span class="n">CalcSpec</span><span class="p">(</span>
+<span class="n">prog_inp</span> <span class="o">=</span> <span class="n">ProgramInput</span><span class="p">(</span>
     <span class="n">calctype</span> <span class="o">=</span> <span class="s2">&quot;energy&quot;</span><span class="p">,</span>
     <span class="n">structure</span> <span class="o">=</span> <span class="n">struct</span><span class="p">,</span>
     <span class="n">model</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="s2">&quot;hf&quot;</span><span class="p">,</span> <span class="s2">&quot;basis&quot;</span><span class="p">:</span> <span class="s2">&quot;6-31G&quot;</span><span class="p">},</span>
@@ -1659,19 +1659,19 @@ for schema development and scratch space.</p>
 
 
                   <details class="quote">
-                    <summary>Source code in <code>src/qcio/models/specs.py</code></summary>
-                    <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">71</span>
+                    <summary>Source code in <code>src/qcio/models/inputs.py</code></summary>
+                    <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
 <span class="normal">72</span>
 <span class="normal">73</span>
 <span class="normal">74</span>
 <span class="normal">75</span>
-<span class="normal">76</span>
-<span class="normal">77</span>
-<span class="normal">78</span>
-<span class="normal">79</span>
-<span class="normal">80</span>
-<span class="normal">81</span>
-<span class="normal">82</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">data</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+<span class="normal">76</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">data</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Backwards compatibility for &#39;molecule&#39; attribute.&quot;&quot;&quot;</span>
 
     <span class="c1"># TODO: Remove in future versions.</span>
@@ -1702,11 +1702,11 @@ for schema development and scratch space.</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="qcio.CalcSpec.add_file" class="doc doc-heading">
+<h3 id="qcio.ProgramInput.add_file" class="doc doc-heading">
 <code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">add_file</span>
 
 
-<a href="#qcio.CalcSpec.add_file" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#qcio.ProgramInput.add_file" class="headerlink" title="Permanent link">&para;</a></h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span class="nf">add_file</span><span class="p">(</span>
     <span class="n">filepath</span><span class="p">:</span> <span class="n"><span title="pathlib.Path">Path</span></span> <span class="o">|</span> <span class="n"><span title="str">str</span></span><span class="p">,</span> <span class="n">relative_dir</span><span class="p">:</span> <span class="n"><span title="pathlib.Path">Path</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
@@ -1852,11 +1852,11 @@ adding files from a subdirectory.</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="qcio.CalcSpec.add_files" class="doc doc-heading">
+<h3 id="qcio.ProgramInput.add_files" class="doc doc-heading">
 <code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">add_files</span>
 
 
-<a href="#qcio.CalcSpec.add_files" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#qcio.ProgramInput.add_files" class="headerlink" title="Permanent link">&para;</a></h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span class="nf">add_files</span><span class="p">(</span>
     <span class="n">directory</span><span class="p">:</span> <span class="n"><span title="qcio.helper_types.StrOrPath">StrOrPath</span></span><span class="p">,</span>
     <span class="n">recursive</span><span class="p">:</span> <span class="n"><span title="bool">bool</span></span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -1988,11 +1988,11 @@ adding files from a subdirectory.</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="qcio.CalcSpec.save_files" class="doc doc-heading">
+<h3 id="qcio.ProgramInput.save_files" class="doc doc-heading">
 <code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">save_files</span>
 
 
-<a href="#qcio.CalcSpec.save_files" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#qcio.ProgramInput.save_files" class="headerlink" title="Permanent link">&para;</a></h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span class="nf">save_files</span><span class="p">(</span><span class="n">directory</span><span class="p">:</span> <span class="n"><span title="qcio.helper_types.StrOrPath">StrOrPath</span></span> <span class="o">=</span> <span class="n"><span title="pathlib.Path">Path</span></span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
 
@@ -2040,12 +2040,12 @@ adding files from a subdirectory.</p>
 
 
 
-<h2 id="qcio.CompositeCalcSpec" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">qcio.CompositeCalcSpec</span>
+<h2 id="qcio.DualProgramInput" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">qcio.DualProgramInput</span>
 
 
-<a href="#qcio.CompositeCalcSpec" class="headerlink" title="Permanent link">&para;</a></h2>
-<div class="language-python doc-signature highlight"><pre><span></span><code><span class="nf">CompositeCalcSpec</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">:</span> <span class="n"><span title="typing.Any">Any</span></span><span class="p">)</span>
+<a href="#qcio.DualProgramInput" class="headerlink" title="Permanent link">&para;</a></h2>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span class="nf">DualProgramInput</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">:</span> <span class="n"><span title="typing.Any">Any</span></span><span class="p">)</span>
 </code></pre></div>
 
     <div class="doc doc-contents first">
@@ -2065,7 +2065,7 @@ adding files from a subdirectory.</p>
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code><span title="qcio.CompositeCalcSpec.calctype">calctype</span></code></td>
+            <td><code><span title="qcio.DualProgramInput.calctype">calctype</span></code></td>
             <td>
                   <code><a class="autorefs autorefs-internal" href="../calctype/#qcio.CalcType">CalcType</a></code>
             </td>
@@ -2076,7 +2076,7 @@ adding files from a subdirectory.</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code><span title="qcio.CompositeCalcSpec.model">model</span></code></td>
+            <td><code><span title="qcio.DualProgramInput.model">model</span></code></td>
             <td>
                   <code><a class="autorefs autorefs-internal" href="../model/#qcio.Model">Model</a></code>
             </td>
@@ -2087,7 +2087,7 @@ adding files from a subdirectory.</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code><span title="qcio.CompositeCalcSpec.keywords">keywords</span></code></td>
+            <td><code><span title="qcio.DualProgramInput.keywords">keywords</span></code></td>
             <td>
                   <code><span title="Dict">Dict</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>]</code>
             </td>
@@ -2099,7 +2099,7 @@ excluding model and calctype. Defaults to an empty dict.</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code><span title="qcio.CompositeCalcSpec.structure">structure</span></code></td>
+            <td><code><span title="qcio.DualProgramInput.structure">structure</span></code></td>
             <td>
                   <code><a class="autorefs autorefs-internal" href="../structure/#qcio.Structure">Structure</a></code>
             </td>
@@ -2110,7 +2110,7 @@ excluding model and calctype. Defaults to an empty dict.</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code><span title="qcio.CompositeCalcSpec.files">files</span></code></td>
+            <td><code><span title="qcio.DualProgramInput.files">files</span></code></td>
             <td>
                   <code><a class="autorefs autorefs-internal" href="../files/#qcio.Files">Files</a></code>
             </td>
@@ -2121,7 +2121,7 @@ excluding model and calctype. Defaults to an empty dict.</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code><span title="qcio.CompositeCalcSpec.subprogram">subprogram</span></code></td>
+            <td><code><span title="qcio.DualProgramInput.subprogram">subprogram</span></code></td>
             <td>
                   <code><span title="str">str</span></code>
             </td>
@@ -2132,18 +2132,18 @@ excluding model and calctype. Defaults to an empty dict.</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code><span title="qcio.CompositeCalcSpec.subprogram_spec">subprogram_spec</span></code></td>
+            <td><code><span title="qcio.DualProgramInput.subprogram_args">subprogram_args</span></code></td>
             <td>
-                  <code><a class="autorefs autorefs-internal" href="#qcio.CoreSpec">CoreSpec</a></code>
+                  <code><a class="autorefs autorefs-internal" href="#qcio.ProgramArgs">ProgramArgs</a></code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>The CoreSpec for the subprogram.</p>
+                <p>The ProgramArgs for the subprogram.</p>
               </div>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code><span title="qcio.CompositeCalcSpec.extras">extras</span></code></td>
+            <td><code><span title="qcio.DualProgramInput.extras">extras</span></code></td>
             <td>
                   <code><span title="Dict">Dict</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>]</code>
             </td>
@@ -2160,16 +2160,16 @@ for schema development and scratch space.</p>
 
 <details class="example" open>
   <summary>Example</summary>
-  <div class="language-python highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">qcio.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">CompositeCalcSpec</span><span class="p">,</span> <span class="n">Structure</span>
+  <div class="language-python highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">qcio.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">DualProgramInput</span><span class="p">,</span> <span class="n">ProgramArgs</span><span class="p">,</span> <span class="n">Structure</span>
 
 <span class="n">struct</span> <span class="o">=</span> <span class="n">Structure</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;path/to/structure.xyz&quot;</span><span class="p">)</span>
 
-<span class="n">prog_inp</span> <span class="o">=</span> <span class="n">CompositeCalcSpec</span><span class="p">(</span>
+<span class="n">prog_inp</span> <span class="o">=</span> <span class="n">DualProgramInput</span><span class="p">(</span>
     <span class="n">calctype</span> <span class="o">=</span> <span class="s2">&quot;optimization&quot;</span><span class="p">,</span>
     <span class="n">structure</span> <span class="o">=</span> <span class="n">struct</span><span class="p">,</span>
     <span class="n">keywords</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;maxiter&quot;</span><span class="p">:</span> <span class="s2">&quot;250&quot;</span><span class="p">},</span>  <span class="c1"># Optional</span>
     <span class="n">subprogram</span> <span class="o">=</span> <span class="s2">&quot;orca&quot;</span><span class="p">,</span>
-    <span class="n">subprogram_spec</span> <span class="o">=</span> <span class="n">CoreSpec</span><span class="p">(</span>
+    <span class="n">subprogram_args</span> <span class="o">=</span> <span class="n">ProgramArgs</span><span class="p">(</span>
         <span class="n">model</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="s2">&quot;wb97x-d3&quot;</span><span class="p">,</span> <span class="s2">&quot;basis&quot;</span><span class="p">:</span> <span class="s2">&quot;def2-SVP&quot;</span><span class="p">},</span>
         <span class="n">keywords</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;convthre&quot;</span><span class="p">:</span> <span class="s2">&quot;1e-6&quot;</span><span class="p">},</span>  <span class="c1"># Optional</span>
     <span class="p">)</span>
@@ -2184,19 +2184,19 @@ for schema development and scratch space.</p>
 
 
                   <details class="quote">
-                    <summary>Source code in <code>src/qcio/models/specs.py</code></summary>
-                    <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">71</span>
+                    <summary>Source code in <code>src/qcio/models/inputs.py</code></summary>
+                    <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
 <span class="normal">72</span>
 <span class="normal">73</span>
 <span class="normal">74</span>
 <span class="normal">75</span>
-<span class="normal">76</span>
-<span class="normal">77</span>
-<span class="normal">78</span>
-<span class="normal">79</span>
-<span class="normal">80</span>
-<span class="normal">81</span>
-<span class="normal">82</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">data</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+<span class="normal">76</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">data</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Backwards compatibility for &#39;molecule&#39; attribute.&quot;&quot;&quot;</span>
 
     <span class="c1"># TODO: Remove in future versions.</span>
@@ -2227,11 +2227,11 @@ for schema development and scratch space.</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="qcio.CompositeCalcSpec.add_file" class="doc doc-heading">
+<h3 id="qcio.DualProgramInput.add_file" class="doc doc-heading">
 <code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">add_file</span>
 
 
-<a href="#qcio.CompositeCalcSpec.add_file" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#qcio.DualProgramInput.add_file" class="headerlink" title="Permanent link">&para;</a></h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span class="nf">add_file</span><span class="p">(</span>
     <span class="n">filepath</span><span class="p">:</span> <span class="n"><span title="pathlib.Path">Path</span></span> <span class="o">|</span> <span class="n"><span title="str">str</span></span><span class="p">,</span> <span class="n">relative_dir</span><span class="p">:</span> <span class="n"><span title="pathlib.Path">Path</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
@@ -2377,11 +2377,11 @@ adding files from a subdirectory.</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="qcio.CompositeCalcSpec.add_files" class="doc doc-heading">
+<h3 id="qcio.DualProgramInput.add_files" class="doc doc-heading">
 <code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">add_files</span>
 
 
-<a href="#qcio.CompositeCalcSpec.add_files" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#qcio.DualProgramInput.add_files" class="headerlink" title="Permanent link">&para;</a></h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span class="nf">add_files</span><span class="p">(</span>
     <span class="n">directory</span><span class="p">:</span> <span class="n"><span title="qcio.helper_types.StrOrPath">StrOrPath</span></span><span class="p">,</span>
     <span class="n">recursive</span><span class="p">:</span> <span class="n"><span title="bool">bool</span></span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -2513,11 +2513,11 @@ adding files from a subdirectory.</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="qcio.CompositeCalcSpec.save_files" class="doc doc-heading">
+<h3 id="qcio.DualProgramInput.save_files" class="doc doc-heading">
 <code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">save_files</span>
 
 
-<a href="#qcio.CompositeCalcSpec.save_files" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#qcio.DualProgramInput.save_files" class="headerlink" title="Permanent link">&para;</a></h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span class="nf">save_files</span><span class="p">(</span><span class="n">directory</span><span class="p">:</span> <span class="n"><span title="qcio.helper_types.StrOrPath">StrOrPath</span></span> <span class="o">=</span> <span class="n"><span title="pathlib.Path">Path</span></span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
 
@@ -2565,11 +2565,11 @@ adding files from a subdirectory.</p>
 
 
 
-<h2 id="qcio.FileSpec" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">qcio.FileSpec</span>
+<h2 id="qcio.FileInput" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">qcio.FileInput</span>
 
 
-<a href="#qcio.FileSpec" class="headerlink" title="Permanent link">&para;</a></h2>
+<a href="#qcio.FileInput" class="headerlink" title="Permanent link">&para;</a></h2>
 
 
     <div class="doc doc-contents first">
@@ -2589,7 +2589,7 @@ adding files from a subdirectory.</p>
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code><span title="qcio.FileSpec.files">files</span></code></td>
+            <td><code><span title="qcio.FileInput.files">files</span></code></td>
             <td>
                   <code><a class="autorefs autorefs-internal" href="../files/#qcio.Files">Files</a></code>
             </td>
@@ -2600,7 +2600,7 @@ adding files from a subdirectory.</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code><span title="qcio.FileSpec.cmdline_args">cmdline_args</span></code></td>
+            <td><code><span title="qcio.FileInput.cmdline_args">cmdline_args</span></code></td>
             <td>
                   <code><span title="list">list</span>[<span title="str">str</span>]</code>
             </td>
@@ -2611,7 +2611,7 @@ adding files from a subdirectory.</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code><span title="qcio.FileSpec.extras">extras</span></code></td>
+            <td><code><span title="qcio.FileInput.extras">extras</span></code></td>
             <td>
                   <code><span title="Dict">Dict</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>]</code>
             </td>
@@ -2649,11 +2649,11 @@ schema development and scratch space.</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="qcio.FileSpec.add_file" class="doc doc-heading">
+<h3 id="qcio.FileInput.add_file" class="doc doc-heading">
 <code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">add_file</span>
 
 
-<a href="#qcio.FileSpec.add_file" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#qcio.FileInput.add_file" class="headerlink" title="Permanent link">&para;</a></h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span class="nf">add_file</span><span class="p">(</span>
     <span class="n">filepath</span><span class="p">:</span> <span class="n"><span title="pathlib.Path">Path</span></span> <span class="o">|</span> <span class="n"><span title="str">str</span></span><span class="p">,</span> <span class="n">relative_dir</span><span class="p">:</span> <span class="n"><span title="pathlib.Path">Path</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
@@ -2799,11 +2799,11 @@ adding files from a subdirectory.</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="qcio.FileSpec.add_files" class="doc doc-heading">
+<h3 id="qcio.FileInput.add_files" class="doc doc-heading">
 <code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">add_files</span>
 
 
-<a href="#qcio.FileSpec.add_files" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#qcio.FileInput.add_files" class="headerlink" title="Permanent link">&para;</a></h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span class="nf">add_files</span><span class="p">(</span>
     <span class="n">directory</span><span class="p">:</span> <span class="n"><span title="qcio.helper_types.StrOrPath">StrOrPath</span></span><span class="p">,</span>
     <span class="n">recursive</span><span class="p">:</span> <span class="n"><span title="bool">bool</span></span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -2935,11 +2935,11 @@ adding files from a subdirectory.</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="qcio.FileSpec.save_files" class="doc doc-heading">
+<h3 id="qcio.FileInput.save_files" class="doc doc-heading">
 <code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">save_files</span>
 
 
-<a href="#qcio.FileSpec.save_files" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#qcio.FileInput.save_files" class="headerlink" title="Permanent link">&para;</a></h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span class="nf">save_files</span><span class="p">(</span><span class="n">directory</span><span class="p">:</span> <span class="n"><span title="qcio.helper_types.StrOrPath">StrOrPath</span></span> <span class="o">=</span> <span class="n"><span title="pathlib.Path">Path</span></span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
 
@@ -2978,7 +2978,7 @@ adding files from a subdirectory.</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="qcio.FileSpec.from_directory" class="doc doc-heading">
+<h3 id="qcio.FileInput.from_directory" class="doc doc-heading">
 <code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">from_directory</span>
 
 
@@ -2986,26 +2986,26 @@ adding files from a subdirectory.</p>
       <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
   </span>
 
-<a href="#qcio.FileSpec.from_directory" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#qcio.FileInput.from_directory" class="headerlink" title="Permanent link">&para;</a></h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span class="nf">from_directory</span><span class="p">(</span><span class="n">directory</span><span class="p">:</span> <span class="n"><span title="pathlib.Path">Path</span></span> <span class="o">|</span> <span class="n"><span title="str">str</span></span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="typing_extensions.Self">Self</span></span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
 
-        <p>Create a new FileSpec and collect all files in the directory.</p>
+        <p>Create a new FileInput and collect all files in the directory.</p>
 
 
             <details class="quote">
-              <summary>Source code in <code>src/qcio/models/specs.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">43</span>
-<span class="normal">44</span>
-<span class="normal">45</span>
-<span class="normal">46</span>
-<span class="normal">47</span>
-<span class="normal">48</span>
-<span class="normal">49</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+              <summary>Source code in <code>src/qcio/models/inputs.py</code></summary>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">from_directory</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">directory</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a new FileSpec and collect all files in the directory.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a new FileInput and collect all files in the directory.&quot;&quot;&quot;</span>
     <span class="n">obj</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="n">directory</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span>
     <span class="n">obj</span><span class="o">.</span><span class="n">add_files</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span>
@@ -3028,19 +3028,19 @@ adding files from a subdirectory.</p>
 
 
 
-<h2 id="qcio.CoreSpec" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">qcio.CoreSpec</span>
+<h2 id="qcio.ProgramArgs" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">qcio.ProgramArgs</span>
 
 
-<a href="#qcio.CoreSpec" class="headerlink" title="Permanent link">&para;</a></h2>
+<a href="#qcio.ProgramArgs" class="headerlink" title="Permanent link">&para;</a></h2>
 
 
     <div class="doc doc-contents first">
 
 
-        <p>Core arguments for a calculation without a calctype or structure specification.</p>
-<p>This class is used by <code>CompositeCalcSpec</code> or multi-step calculations to
-specify <code>subprogram_spec</code> or basic program arguments for a multistep algorithm in
+        <p>Core arguments for a calculation without a calctype or structure.</p>
+<p>This class is used by <code>DualProgramInput</code> or multi-step calculations to
+specify <code>subprogram_args</code> or basic program arguments for a multistep algorithm in
 BigChem. It is not intended to be used directly for single-step calculations since
 it lacks a <code>calctype</code> and <code>structure</code>.</p>
 
@@ -3056,7 +3056,7 @@ it lacks a <code>calctype</code> and <code>structure</code>.</p>
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code><span title="qcio.CoreSpec.model">model</span></code></td>
+            <td><code><span title="qcio.ProgramArgs.model">model</span></code></td>
             <td>
                   <code><a class="autorefs autorefs-internal" href="../model/#qcio.Model">Model</a></code>
             </td>
@@ -3067,7 +3067,7 @@ it lacks a <code>calctype</code> and <code>structure</code>.</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code><span title="qcio.CoreSpec.keywords">keywords</span></code></td>
+            <td><code><span title="qcio.ProgramArgs.keywords">keywords</span></code></td>
             <td>
                   <code><span title="Dict">Dict</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>]</code>
             </td>
@@ -3079,7 +3079,7 @@ excluding model and calctype. Defaults to an empty dict.</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code><span title="qcio.CoreSpec.files">files</span></code></td>
+            <td><code><span title="qcio.ProgramArgs.files">files</span></code></td>
             <td>
                   <code><a class="autorefs autorefs-internal" href="../files/#qcio.Files">Files</a></code>
             </td>
@@ -3090,7 +3090,7 @@ excluding model and calctype. Defaults to an empty dict.</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code><span title="qcio.CoreSpec.extras">extras</span></code></td>
+            <td><code><span title="qcio.ProgramArgs.extras">extras</span></code></td>
             <td>
                   <code><span title="Dict">Dict</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>]</code>
             </td>
@@ -3128,11 +3128,11 @@ for schema development and scratch space.</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="qcio.CoreSpec.add_file" class="doc doc-heading">
+<h3 id="qcio.ProgramArgs.add_file" class="doc doc-heading">
 <code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">add_file</span>
 
 
-<a href="#qcio.CoreSpec.add_file" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#qcio.ProgramArgs.add_file" class="headerlink" title="Permanent link">&para;</a></h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span class="nf">add_file</span><span class="p">(</span>
     <span class="n">filepath</span><span class="p">:</span> <span class="n"><span title="pathlib.Path">Path</span></span> <span class="o">|</span> <span class="n"><span title="str">str</span></span><span class="p">,</span> <span class="n">relative_dir</span><span class="p">:</span> <span class="n"><span title="pathlib.Path">Path</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
@@ -3278,11 +3278,11 @@ adding files from a subdirectory.</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="qcio.CoreSpec.add_files" class="doc doc-heading">
+<h3 id="qcio.ProgramArgs.add_files" class="doc doc-heading">
 <code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">add_files</span>
 
 
-<a href="#qcio.CoreSpec.add_files" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#qcio.ProgramArgs.add_files" class="headerlink" title="Permanent link">&para;</a></h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span class="nf">add_files</span><span class="p">(</span>
     <span class="n">directory</span><span class="p">:</span> <span class="n"><span title="qcio.helper_types.StrOrPath">StrOrPath</span></span><span class="p">,</span>
     <span class="n">recursive</span><span class="p">:</span> <span class="n"><span title="bool">bool</span></span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -3414,11 +3414,11 @@ adding files from a subdirectory.</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="qcio.CoreSpec.save_files" class="doc doc-heading">
+<h3 id="qcio.ProgramArgs.save_files" class="doc doc-heading">
 <code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">save_files</span>
 
 
-<a href="#qcio.CoreSpec.save_files" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#qcio.ProgramArgs.save_files" class="headerlink" title="Permanent link">&para;</a></h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span class="nf">save_files</span><span class="p">(</span><span class="n">directory</span><span class="p">:</span> <span class="n"><span title="qcio.helper_types.StrOrPath">StrOrPath</span></span> <span class="o">=</span> <span class="n"><span title="pathlib.Path">Path</span></span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
 

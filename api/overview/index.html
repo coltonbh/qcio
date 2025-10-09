@@ -601,12 +601,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../calculation_specification/" class="md-nav__link">
+      <a href="../inputs/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Calculation Specification
+    Inputs
     
   </span>
   
@@ -1163,7 +1163,7 @@
 <h2 id="qcio-operates-on-a-simple-mental-model">🧠 <code>qcio</code> operates on a simple mental model<a class="headerlink" href="#qcio-operates-on-a-simple-mental-model" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="../structure/"><code>Structure</code></a> objects represent a collection of atoms, a molecule, or any super molecular structure in 3D cartesian space.</li>
-<li><a href="../calculation_specification/"><code>Calculation Specification</code></a> objects define the parameters for a calculation.</li>
+<li><a href="../inputs/"><code>Input</code></a> objects define the parameters for a calculation.</li>
 <li><a href="../results/"><code>Results</code></a> objects store computed values and output files (collectively called <a href="../results/#qcio.Data"><code>Data</code></a>) from a calculation. <code>Results</code> also stores the exact input data (<code>.input_data</code>) used for a calculation, logs, relevant metadata, and <a href="../provenance/"><code>Provenance</code></a> information so you have full visibility into how every result was generated.</li>
 <li>Other objects, such as <a href="../structure/"><code>Identifiers</code></a>, <a href="../files/"><code>Files</code></a>, <a href="../provenance/"><code>Provenance</code></a>, and <a href="../model/"><code>Model</code></a> support these core data structures by organizing relevant information in a user-friendly way.</li>
 <li>💾 Saving your data to disk and re-opening it again later for analysis is as simple as calling <a href="./QCIOBaseModel.md#qcio.models.base_models.QCIOBaseModel.save"><code>my_obj.save(/path/to/file.json)</code></a> or <a href="./QCIOBaseModel.md#qcio.models.base_models.QCIOBaseModel.open"><code>MyModel.open(/path/to/file.json)</code></a>. These methods are not shown in the documentation for individual classes to avoid redundancy. Files can be saved as <code>.json</code>, <code>.yaml</code>, or <code>.toml</code>. <code>Structure</code> and <code>OptimizationResults</code> (which contains a list of <code>Structures</code>) may additionally be saved as <code>.xyz</code> files for compatibility with external program.</li>

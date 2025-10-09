@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://qcio.coltonhicks.com/api/results/">
       
       
-        <link rel="prev" href="../calculation_specification/">
+        <link rel="prev" href="../inputs/">
       
       
         <link rel="next" href="../utils/">
@@ -548,12 +548,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../calculation_specification/" class="md-nav__link">
+      <a href="../inputs/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Calculation Specification
+    Inputs
     
   </span>
   
@@ -1673,11 +1673,11 @@
           <tr class="doc-section-item">
             <td><code><span title="qcio.Results.input_data">input_data</span></code></td>
             <td>
-                  <code><span title="qcio.models.specs.SpecType">SpecType</span></code>
+                  <code><span title="qcio.models.inputs.InputType">InputType</span></code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>The input data for the calculation. Any of <code>qcio.Specs</code>.</p>
+                <p>The input data for the calculation. Any of <code>qcio.Inputs</code>.</p>
               </div>
             </td>
           </tr>
@@ -2174,9 +2174,9 @@ in units of e a0 (NOT Debye!).</p>
 
             <details class="quote">
               <summary>Source code in <code>src/qcio/models/results.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">162</span>
-<span class="normal">163</span>
-<span class="normal">164</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">return_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">calctype</span><span class="p">:</span> <span class="n">CalcType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span> <span class="o">|</span> <span class="n">SerializableNDArray</span><span class="p">:</span>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">return_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">calctype</span><span class="p">:</span> <span class="n">CalcType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span> <span class="o">|</span> <span class="n">SerializableNDArray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the primary result of the calculation.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">calctype</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
@@ -2258,7 +2258,7 @@ members: false</p>
           <tr class="doc-section-item">
             <td><code><span title="qcio.OptimizationData.trajectory">trajectory</span></code></td>
             <td>
-                  <code><span title="list">list</span>[<a class="autorefs autorefs-internal" href="#qcio.Results">Results</a>[<a class="autorefs autorefs-internal" href="../calculation_specification/#qcio.CalcSpec">CalcSpec</a>, <a class="autorefs autorefs-internal" href="#qcio.SinglePointData">SinglePointData</a>] | <a class="autorefs autorefs-internal" href="#qcio.Results">Results</a>[<a class="autorefs autorefs-internal" href="../calculation_specification/#qcio.CalcSpec">CalcSpec</a>, <a class="autorefs autorefs-internal" href="../files/#qcio.Files">Files</a>]]</code>
+                  <code><span title="list">list</span>[<a class="autorefs autorefs-internal" href="#qcio.Results">Results</a>[<a class="autorefs autorefs-internal" href="../inputs/#qcio.ProgramInput">ProgramInput</a>, <a class="autorefs autorefs-internal" href="#qcio.SinglePointData">SinglePointData</a>] | <a class="autorefs autorefs-internal" href="#qcio.Results">Results</a>[<a class="autorefs autorefs-internal" href="../inputs/#qcio.ProgramInput">ProgramInput</a>, <a class="autorefs autorefs-internal" href="../files/#qcio.Files">Files</a>]]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -2404,9 +2404,9 @@ members: false</p>
 
             <details class="quote">
               <summary>Source code in <code>src/qcio/models/results.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">238</span>
-<span class="normal">239</span>
-<span class="normal">240</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">return_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">calctype</span><span class="p">:</span> <span class="n">CalcType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Structure</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">return_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">calctype</span><span class="p">:</span> <span class="n">CalcType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Structure</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the primary result of the calculation.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">final_structure</span>
 </code></pre></div></td></tr></table></div>
@@ -2526,14 +2526,7 @@ multi-structure <code>xyz</code> file.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/qcio/models/results.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">257</span>
-<span class="normal">258</span>
-<span class="normal">259</span>
-<span class="normal">260</span>
-<span class="normal">261</span>
-<span class="normal">262</span>
-<span class="normal">263</span>
-<span class="normal">264</span>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">264</span>
 <span class="normal">265</span>
 <span class="normal">266</span>
 <span class="normal">267</span>
@@ -2552,7 +2545,14 @@ multi-structure <code>xyz</code> file.</p>
 <span class="normal">280</span>
 <span class="normal">281</span>
 <span class="normal">282</span>
-<span class="normal">283</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span>
+<span class="normal">283</span>
+<span class="normal">284</span>
+<span class="normal">285</span>
+<span class="normal">286</span>
+<span class="normal">287</span>
+<span class="normal">288</span>
+<span class="normal">289</span>
+<span class="normal">290</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">filepath</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">exclude_none</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
@@ -2603,11 +2603,11 @@ multi-structure <code>xyz</code> file.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/qcio/models/results.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">251</span>
-<span class="normal">252</span>
-<span class="normal">253</span>
-<span class="normal">254</span>
-<span class="normal">255</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">to_xyz</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">258</span>
+<span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span>
+<span class="normal">262</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">to_xyz</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the trajectory as an `xyz` string.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">to_multi_xyz</span><span class="p">(</span>
         <span class="n">prog_output</span><span class="o">.</span><span class="n">input_data</span><span class="o">.</span><span class="n">structure</span> <span class="k">for</span> <span class="n">prog_output</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">trajectory</span>
@@ -2806,14 +2806,7 @@ and this stub will be <strong>removed</strong> from <em>qcio</em> in a future re
 
             <details class="quote">
               <summary>Source code in <code>src/qcio/models/results.py</code></summary>
-              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">352</span>
-<span class="normal">353</span>
-<span class="normal">354</span>
-<span class="normal">355</span>
-<span class="normal">356</span>
-<span class="normal">357</span>
-<span class="normal">358</span>
-<span class="normal">359</span>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">359</span>
 <span class="normal">360</span>
 <span class="normal">361</span>
 <span class="normal">362</span>
@@ -2844,7 +2837,14 @@ and this stub will be <strong>removed</strong> from <em>qcio</em> in a future re
 <span class="normal">387</span>
 <span class="normal">388</span>
 <span class="normal">389</span>
-<span class="normal">390</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">conformers_filtered</span><span class="p">(</span>
+<span class="normal">390</span>
+<span class="normal">391</span>
+<span class="normal">392</span>
+<span class="normal">393</span>
+<span class="normal">394</span>
+<span class="normal">395</span>
+<span class="normal">396</span>
+<span class="normal">397</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">conformers_filtered</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
     <span class="o">**</span><span class="n">rmsd_kwargs</span><span class="p">,</span>
