@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+## [0.16.0] - 2025-10-09
+
 ### Changed
 
 - 🚨 Restored the legacy input naming (`ProgramInput`, `ProgramArgs`, `ProgramArgsSub`, `DualProgramInput`, `FileInput`) and removed the temporary compatibility layer introduced in v0.15.0. The `specs.py` module is now `inputs.py`, and documentation/tests reflect the reverted terminology.
@@ -623,7 +625,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `SinglePointComputedProperties`
   - `Wavefunction`
 
-[unreleased]: https://github.com/coltonbh/qcio/compare/0.15.0...HEAD
+[unreleased]: https://github.com/coltonbh/qcio/compare/0.16.0...HEAD
+[0.16.0]: https://github.com/coltonbh/qcio/releases/tag/0.16.0
 [0.15.0]: https://github.com/coltonbh/qcio/releases/tag/0.15.0
 [0.14.0]: https://github.com/coltonbh/qcio/releases/tag/0.14.0
 [0.13.1]: https://github.com/coltonbh/qcio/releases/tag/0.13.1
