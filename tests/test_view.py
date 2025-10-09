@@ -1,4 +1,4 @@
-from qcio import CalcSpec, OptimizationData, Results
+from qcio import OptimizationData, ProgramInput, Results
 from qcio.view import generate_optimization_plot
 
 
@@ -7,7 +7,7 @@ def test_generate_optimization_plot_with_single_prog_output_failure(
 ):
     opt_input = calc_input("optimization")
 
-    prog_output = Results[CalcSpec, OptimizationData](
+    prog_output = Results[ProgramInput, OptimizationData](
         input_data=opt_input,
         success=False,
         traceback="Traceback...",

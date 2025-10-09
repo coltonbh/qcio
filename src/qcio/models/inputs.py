@@ -9,26 +9,20 @@ from typing_extensions import Self
 
 from .base_models import CalcType, Files, Model
 from .structure import Structure
-from .utils import deprecated_class
 
 __all__ = [
-    "FileSpec",
-    "CalcSpec",
-    "CompositeCalcSpec",
-    "CoreSpec",
-    "Specs",
-    "SpecType",
-    "StructuredSpecs",
-    "SubCalcSpec",
+    "FileInput",
     "ProgramInput",
+    "DualProgramInput",
     "ProgramArgs",
     "ProgramArgsSub",
-    "DualProgramInput",
-    "FileInput",
+    "Inputs",
+    "InputType",
+    "StructuredInputs",
 ]
 
 
-class FileSpec(Files):
+class FileInput(Files):
     """File and command line argument inputs for a calculation.
 
     Attributes:
@@ -42,7 +36,7 @@ class FileSpec(Files):
 
     @classmethod
     def from_directory(cls, directory: Path | str, **kwargs) -> Self:
-        """Create a new FileSpec and collect all files in the directory."""
+        """Create a new FileInput and collect all files in the directory."""
         obj = cls(**kwargs)
         directory = Path(directory)
         obj.add_files(directory)
@@ -92,11 +86,11 @@ class _StructureKeywordsMixin(_KeywordsMixin):
         return self.structure
 
 
-class CoreSpec(FileSpec, _KeywordsMixin):
+class ProgramArgs(FileInput, _KeywordsMixin):
     """Core arguments for a calculation without a calctype or structure specification.
 
-    This class is used by `CompositeCalcSpec` or multi-step calculations to
-    specify `subprogram_spec` or basic program arguments for a multistep algorithm in
+    This class is used by `DualProgramInput` or multi-step calculations to
+    specify `subprogram_args` or basic program arguments for a multistep algorithm in
     BigChem. It is not intended to be used directly for single-step calculations since
     it lacks a `calctype` and `structure`.
 
@@ -113,7 +107,7 @@ class CoreSpec(FileSpec, _KeywordsMixin):
     model: Model
 
 
-class SubCalcSpec(FileSpec, _KeywordsMixin):
+class ProgramArgsSub(FileInput, _KeywordsMixin):
     """Generic arguments for a calculation that also calls a sub-calculation.
 
     This class is needed for multi-step calculations where the calctype and structure
@@ -125,14 +119,14 @@ class SubCalcSpec(FileSpec, _KeywordsMixin):
             calctype. Defaults to an empty dict.
         files: Files to be passed to the QC program.
         subprogram: The name of the subprogram to use.
-        subprogram_spec: The CoreSpec for the subprogram.
+        subprogram_args: The ProgramArgs for the subprogram.
         extras: Additional information to bundle with the object. Use for schema
             development and scratch space.
     """
 
     model: Model | None = None
     subprogram: str
-    subprogram_spec: CoreSpec
+    subprogram_args: ProgramArgs
 
     @model_validator(mode="before")
     @classmethod
@@ -141,29 +135,19 @@ class SubCalcSpec(FileSpec, _KeywordsMixin):
         if (
             isinstance(payload, dict)
             and "subprogram_args" in payload
-            and "subprogram_spec" not in payload
+            and "subprogram_args" not in payload
         ):
             payload = dict(payload)
-            payload["subprogram_spec"] = payload.pop("subprogram_args")
+            payload["subprogram_args"] = payload.pop("subprogram_args")
             warnings.warn(
-                "'subprogram_args' has been renamed to 'subprogram_spec' (CoreSpec).",
+                "'subprogram_args' has been renamed to 'subprogram_args' (ProgramArgs).",
                 FutureWarning,
                 stacklevel=2,
             )
         return payload
 
-    @property
-    def subprogram_args(self) -> CoreSpec:
-        """Backwards compatibility for 'subprogram_args' attribute."""
-        warnings.warn(
-            "'subprogram_args' has been renamed to 'subprogram_spec' (CoreSpec).",
-            FutureWarning,
-            stacklevel=2,
-        )
-        return self.subprogram_spec
 
-
-class CalcSpec(CoreSpec, _StructureKeywordsMixin):
+class ProgramInput(ProgramArgs, _StructureKeywordsMixin):
     """Specification for a quantum chemistry calculation. This is the most common input type.
 
     Attributes:
@@ -178,11 +162,11 @@ class CalcSpec(CoreSpec, _StructureKeywordsMixin):
 
     Example:
         ```python
-        from qcio.models import CalcSpec, Structure
+        from qcio.models import ProgramInput, Structure
 
         struct = Structure.open("path/to/structure.xyz")
 
-        prog_inp = CalcSpec(
+        prog_inp = ProgramInput(
             calctype = "energy",
             structure = struct,
             model = {"method": "hf", "basis": "6-31G"},
@@ -200,7 +184,7 @@ class CalcSpec(CoreSpec, _StructureKeywordsMixin):
         return calctype.value
 
 
-class CompositeCalcSpec(SubCalcSpec, CalcSpec):
+class DualProgramInput(ProgramArgsSub, ProgramInput):
     """Input for a two program calculation.
 
     Attributes:
@@ -211,22 +195,22 @@ class CompositeCalcSpec(SubCalcSpec, CalcSpec):
         structure Structure: The structure to be used in the calculation.
         files Files: Files to be passed to the QC program.
         subprogram: The name of the subprogram to use.
-        subprogram_spec CoreSpec: The CoreSpec for the subprogram.
+        subprogram_args ProgramArgs: The ProgramArgs for the subprogram.
         extras Dict[str, Any]: Additional information to bundle with the object. Use
             for schema development and scratch space.
 
     Example:
         ```python
-        from qcio.models import CompositeCalcSpec, Structure
+        from qcio.models import DualProgramInput, ProgramArgs, Structure
 
         struct = Structure.open("path/to/structure.xyz")
 
-        prog_inp = CompositeCalcSpec(
+        prog_inp = DualProgramInput(
             calctype = "optimization",
             structure = struct,
             keywords = {"maxiter": "250"},  # Optional
             subprogram = "orca",
-            subprogram_spec = CoreSpec(
+            subprogram_args = ProgramArgs(
                 model = {"method": "wb97x-d3", "basis": "def2-SVP"},
                 keywords = {"convthre": "1e-6"},  # Optional
             )
@@ -235,61 +219,6 @@ class CompositeCalcSpec(SubCalcSpec, CalcSpec):
     """
 
 
-Specs = Union[FileSpec, CalcSpec, CompositeCalcSpec]
-SpecType = TypeVar("SpecType", bound=Specs)
-StructuredSpecs = Union[CalcSpec, CompositeCalcSpec]
-
-
-@deprecated_class("CalcSpec")
-class ProgramInput(CalcSpec):
-    """Deprecated alias for CalcSpec.
-
-    This class is deprecated and will be removed in a future release. Please use
-    `CalcSpec` instead.
-    """
-
-    pass
-
-
-@deprecated_class("CoreSpec")
-class ProgramArgs(CoreSpec):
-    """Deprecated alias for CoreSpec.
-
-    This class is deprecated and will be removed in a future release. Please use
-    `CoreSpec` instead.
-    """
-
-    pass
-
-
-@deprecated_class("SubCalcSpec")
-class ProgramArgsSub(SubCalcSpec):
-    """Deprecated alias for SubCalcSpec.
-
-    This class is deprecated and will be removed in a future release. Please use
-    `SubCalcSpec` instead.
-    """
-
-    pass
-
-
-@deprecated_class("CompositeCalcSpec")
-class DualProgramInput(CompositeCalcSpec):
-    """Deprecated alias for CompositeCalcSpec.
-
-    This class is deprecated and will be removed in a future release. Please use
-    `CompositeCalcSpec` instead.
-    """
-
-    pass
-
-
-@deprecated_class("FileSpec")
-class FileInput(FileSpec):
-    """Deprecated alias for FileSpec.
-
-    This class is deprecated and will be removed in a future release. Please use
-    `FileSpec` instead.
-    """
-
-    pass
+Inputs = Union[FileInput, ProgramInput, DualProgramInput]
+InputType = TypeVar("InputType", bound=Inputs)
+StructuredInputs = Union[ProgramInput, DualProgramInput]

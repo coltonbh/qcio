@@ -1,13 +1,13 @@
-Data structures for specifying quantum chemistry calculations. The most commonly used structure is a `CalcSpec` which defines a single calculation.
+Data structures for specifying quantum chemistry calculations. The most commonly used structure is a `ProgramInput` which defines a single calculation.
 
-A `CompositeCalcSpec` is used when two specifications are required for a calculation. For example, doing a geometry optimization with `geomeTRIC` while using a `subprogram` like `TeraChem` or `Psi4` to compute the gradients.
+A `DualProgramInput` is used when two specifications are required for a calculation. For example, doing a geometry optimization with `geomeTRIC` while using a `subprogram` like `TeraChem` or `Psi4` to compute the gradients.
 
-A `FileSpec` is an escape hatch that allows you to run _any_ calculation in any QC program (or any program for that matter), even if it isn't a supported [`CalcType`](./calctype.md) in `qcio` yet. You can use a `FileSpec` to store the native input files (text and binary) for a QC program along with the relevant command line args. Using [qcop](https://github.com/coltonbh/qcop) you can submit a `FileSpec` a QC program and all output files and `logs` produced by that program will be collected and returned in a user-friendly `Results` object. `FileSpec` allows you to continue to use `qcio` even for calculations that haven't yet been standardized.
+A `FileInput` is an escape hatch that allows you to run _any_ calculation in any QC program (or any program for that matter), even if it isn't a supported [`CalcType`](./calctype.md) in `qcio` yet. You can use a `FileInput` to store the native input files (text and binary) for a QC program along with the relevant command line args. Using [qcop](https://github.com/coltonbh/qcop) you can submit a `FileInput` a QC program and all output files and `logs` produced by that program will be collected and returned in a user-friendly `Results` object. `FileInput` allows you to continue to use `qcio` even for calculations that haven't yet been standardized.
 
   
-::: qcio.Specs
+::: qcio.Inputs
 
-::: qcio.CalcSpec
+::: qcio.ProgramInput
     options:
         inherited_members: true
         members: 
@@ -15,7 +15,7 @@ A `FileSpec` is an escape hatch that allows you to run _any_ calculation in any 
             - add_files 
             - save_files
 
-::: qcio.CompositeCalcSpec
+::: qcio.DualProgramInput
     options:
         inherited_members: true
         members: 
@@ -23,7 +23,7 @@ A `FileSpec` is an escape hatch that allows you to run _any_ calculation in any 
             - add_files 
             - save_files 
 
-::: qcio.FileSpec
+::: qcio.FileInput
     options:
         inherited_members: true
         members: 
@@ -32,7 +32,7 @@ A `FileSpec` is an escape hatch that allows you to run _any_ calculation in any 
         - save_files 
         - from_directory
 
-::: qcio.CoreSpec
+::: qcio.ProgramArgs
     options:
         inherited_members: true
         members: 

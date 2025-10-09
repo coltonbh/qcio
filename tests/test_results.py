@@ -5,10 +5,10 @@ import pytest
 from pydantic import ValidationError
 
 from qcio import (
-    CalcSpec,
+    FileInput,
     Files,
-    FileSpec,
     OptimizationData,
+    ProgramInput,
     Provenance,
     Results,
     SinglePointData,
@@ -182,7 +182,7 @@ def test_correct_generic_instantiates_and_equality_checks_pass(results, tmp_path
     # Do not pass types
     wo_types = Results(**results_dict)
     # Pass types
-    w_types = Results[CalcSpec, SinglePointData](**results_dict)
+    w_types = Results[ProgramInput, SinglePointData](**results_dict)
 
     ## OptimizationResults
     results_dict["input_data"]["calctype"] = "optimization"
@@ -190,7 +190,7 @@ def test_correct_generic_instantiates_and_equality_checks_pass(results, tmp_path
     # Do not pass types
     wo_types_opt = Results(**results_dict)
     # Pass types
-    w_types_opt = Results[CalcSpec, OptimizationData](**results_dict)
+    w_types_opt = Results[ProgramInput, OptimizationData](**results_dict)
 
     # Serialize and Save
     wo_types.save(tmp_path / "out.json")
@@ -198,11 +198,11 @@ def test_correct_generic_instantiates_and_equality_checks_pass(results, tmp_path
 
     # Reopen with or without types
     wo_types_opened = Results.open(tmp_path / "out.json")
-    w_types_opened = Results[CalcSpec, SinglePointData].open(tmp_path / "out.json")
+    w_types_opened = Results[ProgramInput, SinglePointData].open(tmp_path / "out.json")
 
     # Reopen with or without types
     wo_types_opened_opt = Results.open(tmp_path / "opt.json")
-    w_types_opened_opt = Results[CalcSpec, OptimizationData].open(
+    w_types_opened_opt = Results[ProgramInput, OptimizationData].open(
         tmp_path / "opt.json"
     )
 
@@ -214,7 +214,7 @@ def test_correct_generic_instantiates_and_equality_checks_pass(results, tmp_path
 def test_non_file_success_always_has_result(calc_input):
     ci_energy = calc_input("energy")
     with pytest.raises(ValidationError):
-        Results[CalcSpec, SinglePointData](
+        Results[ProgramInput, SinglePointData](
             success=True,
             input_data=ci_energy,
             logs="program standard out...",
@@ -229,7 +229,7 @@ def test_primary_result_must_be_present_on_success(results):
         po_dict["input_data"]["calctype"] = calctype
         po_dict["data"][calctype] = None
         with pytest.raises(ValidationError):
-            Results[CalcSpec, SinglePointData](**po_dict)
+            Results[ProgramInput, SinglePointData](**po_dict)
 
 
 @pytest.mark.parametrize(
@@ -239,17 +239,17 @@ def test_primary_result_must_be_present_on_success(results):
             "file_input",
             Files(),
             True,
-            FileSpec,
+            FileInput,
             Files,
-            id="FileSpec-Files-Success",
+            id="FileInput-Files-Success",
         ),
         pytest.param(
             "file_input",
             Files(),
             False,
-            FileSpec,
+            FileInput,
             Files,
-            id="FileSpec-Files-Failure",
+            id="FileInput-Files-Failure",
         ),
     ],
     indirect=["input_data"],
@@ -321,8 +321,8 @@ def test_pickle_serialization_of_program_output_parametrized(
 
 
 def test_pickle_serialization_of_program_output():
-    prog_output = Results[CalcSpec, SinglePointData](
-        input_data=CalcSpec(
+    prog_output = Results[ProgramInput, SinglePointData](
+        input_data=ProgramInput(
             structure=Structure(
                 symbols=["O", "H", "H"],
                 geometry=np.array([0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0, 1.0, 0.0]),

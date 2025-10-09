@@ -22,7 +22,14 @@ from typing_extensions import Self
 from qcio.helper_types import SerializableNDArray
 
 from .base_models import CalcType, Files, Provenance, QCIOBaseModel
-from .specs import CalcSpec, FileSpec, Specs, SpecType
+from .inputs import (
+    FileInput,
+    Inputs,
+    ProgramInput,
+)
+from .inputs import (
+    InputType as ProgramInputType,
+)
 from .structure import Structure
 from .utils import deprecated_class, to_multi_xyz
 
@@ -192,7 +199,7 @@ class OptimizationData(Files, CalcInfoData):
     """
 
     trajectory: list[
-        (Results[CalcSpec, SinglePointData] | Results[CalcSpec, Files])
+        (Results[ProgramInput, SinglePointData] | Results[ProgramInput, Files])
     ] = []
 
     @property
@@ -396,11 +403,11 @@ Data = Union[Files, StructuredData]
 DataType = TypeVar("DataType", bound=Data)
 
 
-class Results(QCIOBaseModel, Generic[SpecType, DataType]):
+class Results(QCIOBaseModel, Generic[ProgramInputType, DataType]):
     """The core results object from a quantum chemistry calculation.
 
     Attributes:
-        input_data: The input data for the calculation. Any of `qcio.Specs`.
+        input_data: The input data for the calculation. Any of `qcio.Inputs`.
         success: Whether the calculation was successful.
         data: The data from the calculation. Contains parsed values and files.
             Any of `qcio.Data`.
@@ -413,7 +420,7 @@ class Results(QCIOBaseModel, Generic[SpecType, DataType]):
         ptraceback str: `@property` Print the traceback.
     """
 
-    input_data: SpecType
+    input_data: ProgramInputType
     success: Literal[True, False]
     data: DataType
     logs: str | None = None
@@ -502,11 +509,11 @@ class Results(QCIOBaseModel, Generic[SpecType, DataType]):
 
     @model_validator(mode="after")
     def _ensure_structured_results_on_success(self) -> Self:
-        """Ensure structured results are provided for successful, non FileSpecs."""
-        # Covers case of CalcSpec and CompositeCalcSpec
-        if self.success is True and isinstance(self.input_data, CalcSpec):
+        """Ensure structured results are provided for successful, non FileInputs."""
+        # Covers case of ProgramInput and DualProgramInput
+        if self.success is True and isinstance(self.input_data, ProgramInput):
             assert type(self.data) is not Files, (
-                "Structured results must be provided for successful, non FileSpec "
+                "Structured results must be provided for successful, non FileInput "
                 "calculations."
             )
 
@@ -580,7 +587,7 @@ class Results(QCIOBaseModel, Generic[SpecType, DataType]):
         )
         # For mypy
         assert self.data is not None, "No data exist on this Results object."
-        assert type(self.input_data) is not FileSpec, "FileSpecs have no data."
+        assert type(self.input_data) is not FileInput, "FileInputs have no data."
         return self.data.return_result(self.input_data.calctype)  # type: ignore
 
 
@@ -623,7 +630,7 @@ class ConformerSearchResults(ConformerSearchData):
 # Register the concrete classes for serialization
 def _register_program_output_classes():
     """Required so that pickle can find the concrete classes for serialization."""
-    for spec_type, data_type in product(get_args(Specs), get_args(Data)):
+    for spec_type, data_type in product(get_args(Inputs), get_args(Data)):
         # TODO: Remove ProgramOutput when compatibility is no longer needed
         for ClassType in [Results, ProgramOutput]:
             _class = ClassType[spec_type, data_type]
