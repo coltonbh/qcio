@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+### Added
+
+- `@field_validator` to `Structure.connectivity` to ensure no duplicate bonds. [#93](https://github.com/coltonbh/qcio/pull/93)
+- `Structure.adjacency_matrix` property that returns an adjacency matrix from the `.connectivity` information. [#93](https://github.com/coltonbh/qcio/pull/93)
+
 ## [0.16.0] - 2025-10-09
 
 ### Changed

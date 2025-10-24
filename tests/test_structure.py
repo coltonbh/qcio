@@ -74,6 +74,15 @@ def test_structure_model_dump_connectivity(water):
             assert isinstance(val, float)
 
 
+def test_structure_connectivity_duplicates_raise():
+    with pytest.raises(ValueError):
+        Structure(
+            symbols=["H", "O", "H"],
+            geometry=[[0.0, 0.0, 0.0], [0.0, 0.0, 1.0], [0.0, 1.0, 0.0]],
+            connectivity=[(0, 1, 1.0), (1, 0, 2.0)],
+        )
+
+
 def test_structure_capitalize():
     structure = Structure(symbols=["NA"], geometry=[[0, 0, 0]])
     assert structure.symbols == ["Na"]

@@ -4,7 +4,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Any, ClassVar
 
 import numpy as np
-from pydantic import field_serializer, model_validator
+from pydantic import field_serializer, field_validator, model_validator
 from qcconst import periodic_table as pt
 from qcconst.constants import BOHR_TO_ANGSTROM
 from typing_extensions import Self
@@ -269,6 +269,16 @@ class Structure(QCIOBaseModel):
         """Shortcut to access the identifiers."""
         return self.identifiers
 
+    @property
+    def adjacency_matrix(self) -> np.ndarray:
+        """Return adjacency matrix where entry [i, j] = bond order, symmetric."""
+        size = len(self.symbols)
+        adj = np.zeros((size, size), dtype=float)
+        for i, j, order in self.connectivity:
+            adj[i, j] = order
+            adj[j, i] = order
+        return adj
+
     @classmethod
     def from_xyz(
         cls,
@@ -498,9 +508,9 @@ class Structure(QCIOBaseModel):
         """
         # Ensure the identifier is valid
         for identifier in identifiers.keys():
-            assert hasattr(
-                self.identifiers, identifier
-            ), f"Invalid identifier: '{identifier}'"
+            assert hasattr(self.identifiers, identifier), (
+                f"Invalid identifier: '{identifier}'"
+            )
 
         new_identifiers = self.identifiers.model_copy(update=identifiers)
         object.__setattr__(self, "identifiers", new_identifiers)
@@ -522,6 +532,22 @@ class Structure(QCIOBaseModel):
             values["geometry"] = np.array(geometry).reshape(n_atoms, 3)
 
         return values
+
+    @field_validator("connectivity", mode="after")
+    @classmethod
+    def _validate_connectivity(
+        cls, connectivity: list[tuple[int, int, float]]
+    ) -> list[tuple[int, int, float]]:
+        """Coerce bonds use ascending atom indices and ensure no duplicates."""
+        seen = set()
+        for bond in connectivity:
+            pair = tuple(sorted(bond[:2]))
+            if pair in seen:
+                raise ValueError(
+                    f"Duplicate bond found in connectivity between atoms: {pair}"
+                )
+            seen.add(pair)
+        return connectivity
 
     @field_serializer("connectivity")
     def _serialize_connectivity(self, connectivity, _info) -> list[list[float]]:
