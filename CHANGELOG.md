@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+## [0.16.2] - 2025-11-19
+
+### Added
+
+- `Structure.adjacency_dict` property that generates an adjacency dictionary from the `.connectivity` attribute.
+
 ## [0.16.1] - 2025-10-27
 
 ### Added
@@ -632,7 +638,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `SinglePointComputedProperties`
   - `Wavefunction`
 
-[unreleased]: https://github.com/coltonbh/qcio/compare/0.16.1...HEAD
+[unreleased]: https://github.com/coltonbh/qcio/compare/0.16.2...HEAD
+[0.16.2]: https://github.com/coltonbh/qcio/releases/tag/0.16.2
 [0.16.1]: https://github.com/coltonbh/qcio/releases/tag/0.16.1
 [0.16.0]: https://github.com/coltonbh/qcio/releases/tag/0.16.0
 [0.15.0]: https://github.com/coltonbh/qcio/releases/tag/0.15.0

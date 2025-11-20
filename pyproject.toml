@@ -1,6 +1,6 @@
 [project]
 name = "qcio"
-version = "0.16.1"
+version = "0.16.2"
 description = "Beautiful and user friendly data structures for quantum chemistry."
 readme = "README.md"
 authors = [{ name = "Colton Hicks", email = "github@coltonhicks.com" }]
