@@ -1,5 +1,5 @@
 import warnings
-from collections import Counter
+from collections import Counter, defaultdict
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, ClassVar
 
@@ -278,6 +278,15 @@ class Structure(QCIOBaseModel):
             adj[i, j] = order
             adj[j, i] = order
         return adj
+
+    @property
+    def adjacency_dict(self) -> dict[int, list[int]]:
+        """Return adjacency dictionary where each key maps to a list of bonded atom indices."""
+        adjacency = defaultdict(list)
+        for i, j, _ in self.connectivity:
+            adjacency[i].append(j)
+            adjacency[j].append(i)
+        return adjacency
 
     @classmethod
     def from_xyz(

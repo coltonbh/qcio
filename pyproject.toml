@@ -70,7 +70,7 @@ dev = [
     "matplotlib>=3.0.0",
     "py3Dmol>=2.2.1",
     "pint>=0.24.4",
-    "qcinf>=0.2.1",
+    "qcinf[all]>=0.2.1",
 ]
 
 docs = [

@@ -64,6 +64,16 @@ def test_to_from_file_json(test_data_dir, tmp_path):
     assert caffeine_copy.charge == caffeine.charge
 
 
+def test_adjacency_matrix(water):
+    expected = np.array([[0, 1, 1], [1, 0, 0], [1, 0, 0]])
+    assert np.array_equal(expected, water.adjacency_matrix)
+
+
+def test_adjacency_dict(water):
+    expected = {0: [1, 2], 1: [0], 2: [0]}
+    assert expected == water.adjacency_dict
+
+
 def test_structure_model_dump_connectivity(water):
     # Test that connectivity is a list of lists of floats
     # Must cast all to the same type as toml cannot handle mixed types

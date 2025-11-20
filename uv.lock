@@ -2055,6 +2055,39 @@ wheels = [
 ]
 
 [[package]]
+name = "openbabel-wheel"
+version = "3.1.1.22"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/75/55/c916675c49beb64256bd108f4a797111cedca592c9be0c931014b8654806/openbabel-wheel-3.1.1.22.tar.gz", hash = "sha256:d12e07f8e2b2a8a9007b486087fdeb731cedb5b14129bf93ad3d2c5a72e54d08", size = 13246 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/77/b6/c57353f47f570c40c781dd837c102ad151fb8445bbba4042f264e211c728/openbabel_wheel-3.1.1.22-cp310-cp310-macosx_13_0_arm64.whl", hash = "sha256:9525c059960d85f9caa34c90ded3973f48cbd8a81e4b565cb4650dd09b463a50", size = 11514578 },
+    { url = "https://files.pythonhosted.org/packages/73/4c/029b7ff5c00f2f1af88483572750755ba591af1bcc1141269b1bc4fac8d7/openbabel_wheel-3.1.1.22-cp310-cp310-macosx_13_0_x86_64.whl", hash = "sha256:f24d5435acffa116403e9e814e4a9f7ec3d6802f004c0875ef17add153339cab", size = 12381656 },
+    { url = "https://files.pythonhosted.org/packages/43/31/12a51e4b7bec156c78e6afa2627776c58f44796e4aceede4daf0e5a8a91b/openbabel_wheel-3.1.1.22-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:57307fb65e9e3316f54b67d27d22b45a3d8b6907b1bee1fad13e213614fd552f", size = 15633461 },
+    { url = "https://files.pythonhosted.org/packages/94/f1/243a316d0e81d09f81ea91638b40d3b9f0d5561ae32778772806c74f8001/openbabel_wheel-3.1.1.22-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:57f4a0905068153794940f0574fe2c2040981a6b7f19b6637775bc94d2edc502", size = 16076330 },
+    { url = "https://files.pythonhosted.org/packages/df/99/0c6bc7a70fc5f17631b31b71a25bbb3d9ab2b71997545e6349ba3c3534f2/openbabel_wheel-3.1.1.22-cp310-cp310-win_amd64.whl", hash = "sha256:d8d4c920a9c3481379e2cb64ed7fa3cb0c4f91ff1c6b9f7cd559138c87efb889", size = 5094326 },
+    { url = "https://files.pythonhosted.org/packages/e0/de/be239b210500c0332007e18dd0a8ca4939d13f05433d453e3a0983defa70/openbabel_wheel-3.1.1.22-cp311-cp311-macosx_13_0_arm64.whl", hash = "sha256:2499af11947d3454439182a75516bc4008fe0ff22a24f16b3b964317004d5e86", size = 11514597 },
+    { url = "https://files.pythonhosted.org/packages/0d/cb/167d9bace82f82fa9231e562e723d489f5c07e789290e668b552874c69f8/openbabel_wheel-3.1.1.22-cp311-cp311-macosx_13_0_x86_64.whl", hash = "sha256:4beda0224caa906d1c2ed35652786da244757aaea361cdc0aef13e935c0149a7", size = 12381697 },
+    { url = "https://files.pythonhosted.org/packages/40/61/3f6f6e78c45d67453628596dff1640e8d56d58e6317ddace5c3be3d550f4/openbabel_wheel-3.1.1.22-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:1b33c21c987b3a22f7a4c812b8283edbe5ad6c6deae29e9568f1b16a8f5ad20b", size = 15633459 },
+    { url = "https://files.pythonhosted.org/packages/28/59/f7e7424da6a6ea81f987fac2093e440b8689f4e27929f92167f2a81fc01d/openbabel_wheel-3.1.1.22-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:d2ed691f3f5ac2cfebfaa0d9718acd58e41fcbc0e114735f518c92167f7c5e2f", size = 16076298 },
+    { url = "https://files.pythonhosted.org/packages/d5/27/c219228b4eb582ab11ac0ae2a8acd895e880a4f427e9bdf17d0e41783d91/openbabel_wheel-3.1.1.22-cp311-cp311-win_amd64.whl", hash = "sha256:1303272ecdcfcdfbe7648f2761aa6639c5a4ec3073b472f766d3d2567a44b523", size = 5095182 },
+    { url = "https://files.pythonhosted.org/packages/0e/91/df492446daefef9ba3c97e1555b1a7abb4ab9a21f00744689fec8e10d53e/openbabel_wheel-3.1.1.22-cp312-cp312-macosx_13_0_arm64.whl", hash = "sha256:48846ac5c8dff5589fd7834fbc1ee0d3a5d67ed544ef81b716db6932a27c34c2", size = 11517993 },
+    { url = "https://files.pythonhosted.org/packages/64/35/b5ccaa112d253fb9089db9c5390d066cab08b5401cd2ec59709937f0a746/openbabel_wheel-3.1.1.22-cp312-cp312-macosx_13_0_x86_64.whl", hash = "sha256:9189315a466da529e6422fa588163be230f0fcfb8d79e240fd9d8330fd2af8a6", size = 12390413 },
+    { url = "https://files.pythonhosted.org/packages/bc/ce/e9a9553a10ec6f0a3f1a3112cd00619bb77651779b59507ce1be4dcef2a1/openbabel_wheel-3.1.1.22-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:17588f6823a1a2bc361fbdfec167e8d30d4764176b0b63a3e3127efae71aed8f", size = 15632153 },
+    { url = "https://files.pythonhosted.org/packages/bc/79/a713470f17697b5ebee488929a88b2daaa3b20eb5be502d6c5cab9dbc4e2/openbabel_wheel-3.1.1.22-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:bcc3d01459489334e9acf68526db48be91ce88692c59192a0d0fb9f422f2bc9a", size = 16075937 },
+    { url = "https://files.pythonhosted.org/packages/21/f3/12a0e194e735cb0f3fc6122cfd39d63f05ab2426ee4083b7de1bc4ea1242/openbabel_wheel-3.1.1.22-cp312-cp312-win_amd64.whl", hash = "sha256:e369179c9edfd35b79faa252be0b28b7b8932aee80acfced1922595b67594dbd", size = 5095492 },
+    { url = "https://files.pythonhosted.org/packages/ef/c3/33947aadfba41478e04776d613c2f677bfe263e69653d406f13147b49373/openbabel_wheel-3.1.1.22-cp313-cp313-macosx_13_0_arm64.whl", hash = "sha256:1d442a81e2b39c9b1d24a3bea010ef779542056160b8a6d9e7184d72a34152d4", size = 11518042 },
+    { url = "https://files.pythonhosted.org/packages/ee/3c/287dd7f2233f83244314ed39968de0593140df052a350508318ce7caa13e/openbabel_wheel-3.1.1.22-cp313-cp313-macosx_13_0_x86_64.whl", hash = "sha256:537fa4e3a48e092eea3aeb3f5eb064330d38ac6e2d1db293b22d9832160c0f21", size = 12390390 },
+    { url = "https://files.pythonhosted.org/packages/44/3f/c72e325490393b463e5ae7446253aab140b5e5e407d97c7de064f341975e/openbabel_wheel-3.1.1.22-cp313-cp313-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:21d1ea864f987f93033720c3847f653f60e502cb07cbb8bcb4965da11a4976f5", size = 15632171 },
+    { url = "https://files.pythonhosted.org/packages/13/ea/5f81cd018bf60301fcca9e133d3a47b8caca14576266dcdc9b38f96c7879/openbabel_wheel-3.1.1.22-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:a9986f9f5c64f69b27c416fd38f551bb00da037fe66f69dc6b0d2ef10dfc9f40", size = 16075915 },
+    { url = "https://files.pythonhosted.org/packages/80/1d/8e88918fe6047d8eee9a53aa9b153bf9e098fc871cfd5c86a2a5b16e38a1/openbabel_wheel-3.1.1.22-cp313-cp313-win_amd64.whl", hash = "sha256:e98ccbc75c3fcfa225554e6def913e949aff1c6ac9bad178e47bc313ce16d596", size = 5094724 },
+    { url = "https://files.pythonhosted.org/packages/2c/7b/bdb2b375120e762681f2607b402c16f0d61cb7e96904f6237b9c17cf5000/openbabel_wheel-3.1.1.22-cp313-cp313t-macosx_13_0_arm64.whl", hash = "sha256:d74da8ad712f1313dab74b5cddd40895581324f16d3a9116e8f193c926df3242", size = 11534313 },
+    { url = "https://files.pythonhosted.org/packages/96/61/e8dbf08e562055ac4c7f9bf7afab4cd812eeae31a56fe17344388009873f/openbabel_wheel-3.1.1.22-cp313-cp313t-macosx_13_0_x86_64.whl", hash = "sha256:f2666af5edf3085b8b2daa64597842efa74e817c94d20f0bb9a065123b13de0d", size = 12414740 },
+    { url = "https://files.pythonhosted.org/packages/08/68/d8c305508547a25800c07913e13ed99f91d840206b562393210c9d488e96/openbabel_wheel-3.1.1.22-cp313-cp313t-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:336a8aa2f7a7fa6056a63c1d40d5c0e1e0d9bacae2c3d377468e9fab34e247a5", size = 15633699 },
+    { url = "https://files.pythonhosted.org/packages/4c/8b/8f4c902400ec1897afad8b27d7abf6b06ee0c00cfb73337016091a6d221b/openbabel_wheel-3.1.1.22-cp313-cp313t-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:23fada177808451a7d22f39f9e2e198c889d118ad4861b34d8fdbc1e987ad8b4", size = 16058611 },
+    { url = "https://files.pythonhosted.org/packages/de/35/3c9a03a69211d71e8a1be693a498553a9bc70f0c8eebd7cbbe7d5ae5c0f3/openbabel_wheel-3.1.1.22-cp313-cp313t-win_amd64.whl", hash = "sha256:28863c6b7e169f26d6d2d58c46ec6e51492f7a82712e22a2262b6255c0935417", size = 5183064 },
+]
+
+[[package]]
 name = "overrides"
 version = "7.7.0"
 source = { registry = "https://pypi.org/simple" }
@@ -2779,9 +2812,15 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/3d/35/9928adc3cbc94cc027a9d84b3c39d382eeddf36ba121d673daa6593667e2/qcinf-0.2.1-py3-none-any.whl", hash = "sha256:4968a4c0f50519fc4237742d2aa198dd0d4e18209a3b1f17fc5e1f6b923e6e60", size = 14669 },
 ]
 
+[package.optional-dependencies]
+all = [
+    { name = "openbabel-wheel" },
+    { name = "rdkit" },
+]
+
 [[package]]
 name = "qcio"
-version = "0.16.0"
+version = "0.16.1"
 source = { editable = "." }
 dependencies = [
     { name = "eval-type-backport" },
@@ -2824,7 +2863,7 @@ dev = [
     { name = "pytest" },
     { name = "pytest-cov" },
     { name = "qcelemental" },
-    { name = "qcinf" },
+    { name = "qcinf", extra = ["all"] },
     { name = "rdkit" },
     { name = "ruff" },
     { name = "types-pyyaml" },
@@ -2872,7 +2911,7 @@ dev = [
     { name = "pytest", specifier = ">=7.2.2" },
     { name = "pytest-cov", specifier = ">=4.0.0" },
     { name = "qcelemental", specifier = ">=0.26.0" },
-    { name = "qcinf", specifier = ">=0.2.1" },
+    { name = "qcinf", extras = ["all"], specifier = ">=0.2.1" },
     { name = "rdkit", specifier = ">=2022.9.5" },
     { name = "ruff", specifier = ">=0.10.1" },
     { name = "types-pyyaml", specifier = ">=6.0.12.10" },
