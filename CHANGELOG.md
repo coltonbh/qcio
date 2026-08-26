@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+## [0.18.1] - 2026-08-26
+
+### Changed
+
+- Updated GitHub references from `coltonbh` to `atomsforhumanity`.
+- Moved documentation from `qcdata.coltonhicks.com` to `qcdata.docs.atomsforhumanity.org.`
+
 ## [0.18.0] - 2026-07-15
 
 ### Changed
@@ -670,7 +677,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `SinglePointComputedProperties`
   - `Wavefunction`
 
-[unreleased]: https://github.com/atomsforhumanity/qcdata/compare/0.18.0...HEAD
+[unreleased]: https://github.com/atomsforhumanity/qcdata/compare/0.18.1...HEAD
+[0.18.1]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.18.1
 [0.18.0]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.18.0
 [0.17.2]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.17.2
 [0.17.1]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.17.1
