@@ -16,13 +16,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
-- `ProgramInput.structures` and `DualProgramInput.structures` for additional named structures required by calculations with multiple complete structure inputs, while keeping `.structure` as the required primary/start/reference structure. [#103](https://github.com/coltonbh/qcdata/pull/103) by [@coltonbh](https://github.com/coltonbh).
+- `ProgramInput.structures` and `DualProgramInput.structures` for additional named structures required by calculations with multiple complete structure inputs, while keeping `.structure` as the required primary/start/reference structure. [#103](https://github.com/atomsforhumanity/qcdata/pull/103) by [@coltonbh](https://github.com/coltonbh).
 
 ## [0.17.1] - 2026-04-21
 
 ### Added
 
-- `CalcType.scan` and `ScanData` [#102](https://github.com/coltonbh/qcdata/pull/102).
+- `CalcType.scan` and `ScanData` [#102](https://github.com/atomsforhumanity/qcdata/pull/102).
 
 ## [0.17.0] - 2026-03-26
 
@@ -49,8 +49,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
-- `@field_validator` to `Structure.connectivity` to ensure no duplicate bonds. [#93](https://github.com/coltonbh/qcdata/pull/93)
-- `Structure.adjacency_matrix` property that returns an adjacency matrix from the `.connectivity` information. [#93](https://github.com/coltonbh/qcdata/pull/93)
+- `@field_validator` to `Structure.connectivity` to ensure no duplicate bonds. [#93](https://github.com/atomsforhumanity/qcdata/pull/93)
+- `Structure.adjacency_matrix` property that returns an adjacency matrix from the `.connectivity` information. [#93](https://github.com/atomsforhumanity/qcdata/pull/93)
 
 ## [0.16.0] - 2025-10-09
 
@@ -62,9 +62,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Removed
 
-- 🚨Python 3.9 support. Minimum supported version is now 3.10. [#91](https://github.com/coltonbh/qcdata/pull/91)
-- All constants and periodic table data moved to [qcconst](https://github.com/coltonbh/qcconst).
-- All cheminformatics methods, including those that used `rdkit` and `openbabel` such as `rmsd` and `align`. Placed these algorithms into [qcinf](https://github.com/coltonbh/qcinf) so that `qcio` can remain purely about data structures. All future algorithms will go into `qcinf`.
+- 🚨Python 3.9 support. Minimum supported version is now 3.10. [#91](https://github.com/atomsforhumanity/qcdata/pull/91)
+- All constants and periodic table data moved to [qcconst](https://github.com/atomsforhumanity/qcconst).
+- All cheminformatics methods, including those that used `rdkit` and `openbabel` such as `rmsd` and `align`. Placed these algorithms into [qcinf](https://github.com/atomsforhumanity/qcinf) so that `qcio` can remain purely about data structures. All future algorithms will go into `qcinf`.
   - `Structure.from_smiles()` method in favor of functional API using the `qcinf` `smiles_to_structure` function.
 
     ```python
@@ -95,20 +95,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 
 - Package dependency system changed from `poetry` to `uv` and build system from `poetry` to `hatchling`.
-- Renamed `ProgramOutput` -> `Results` to better match basic parlance ("The program produced these results"). [#90](https://github.com/coltonbh/qcdata/pull/90)
-- Renamed `Results.results` (formerly `ProgramOutput.results`) attribute to `.data`. "The program produced this data." [#90](https://github.com/coltonbh/qcdata/pull/90)
-- Renamed `Results.stdout` -> `Results.logs`. We are coalescing `stdout` and `stderr` logs anyways. Prefer using a common name scientists will understand. [#90](https://github.com/coltonbh/qcdata/pull/90)
-- Renamed `SinglePointResults` -> `SinglePointData`. [#90](https://github.com/coltonbh/qcdata/pull/90)
-- Renamed `OptimizationResults` -> `OptimizationData`. [#90](https://github.com/coltonbh/qcdata/pull/90)
-- Renamed `ConformerSearchResults` -> `ConformerSearchData`. [#90](https://github.com/coltonbh/qcdata/pull/90)
-- Added compatibility classes so old imports looking for these names still work but emit a `FutureWarning`. [#90](https://github.com/coltonbh/qcdata/pull/90)
-- Renamed `QCIOModelBase` -> `QCIOBaseModel` to match `pydantic` semantics for `BaseModel`. [#90](https://github.com/coltonbh/qcdata/pull/90)
-- Renamed `ProgramInput` -> `CalcSpec` and added a compatibility shim. [#90](https://github.com/coltonbh/qcdata/pull/90)
-- Renamed `ProgramArgs` -> `CoreSpec` and added a compatibility shim. [#90](https://github.com/coltonbh/qcdata/pull/90)
-- Renamed `ProgramArgsSub` -> `SubCalcSpec` and added a compatibility shim. [#90](https://github.com/coltonbh/qcdata/pull/90)
-- Renamed `DualProgramInput` -> `CompositeCalcSpec` and added a compatibility shim. [#90](https://github.com/coltonbh/qcdata/pull/90)
-- Renamed `FileInput` -> `FileSpec` and added a compatibility shim. [#90](https://github.com/coltonbh/qcdata/pull/90)
-- Backwards compatibility shim updated from `Results.__init__` override to `@model_validator(mode="before")`. [#90](https://github.com/coltonbh/qcdata/pull/90)
+- Renamed `ProgramOutput` -> `Results` to better match basic parlance ("The program produced these results"). [#90](https://github.com/atomsforhumanity/qcdata/pull/90)
+- Renamed `Results.results` (formerly `ProgramOutput.results`) attribute to `.data`. "The program produced this data." [#90](https://github.com/atomsforhumanity/qcdata/pull/90)
+- Renamed `Results.stdout` -> `Results.logs`. We are coalescing `stdout` and `stderr` logs anyways. Prefer using a common name scientists will understand. [#90](https://github.com/atomsforhumanity/qcdata/pull/90)
+- Renamed `SinglePointResults` -> `SinglePointData`. [#90](https://github.com/atomsforhumanity/qcdata/pull/90)
+- Renamed `OptimizationResults` -> `OptimizationData`. [#90](https://github.com/atomsforhumanity/qcdata/pull/90)
+- Renamed `ConformerSearchResults` -> `ConformerSearchData`. [#90](https://github.com/atomsforhumanity/qcdata/pull/90)
+- Added compatibility classes so old imports looking for these names still work but emit a `FutureWarning`. [#90](https://github.com/atomsforhumanity/qcdata/pull/90)
+- Renamed `QCIOModelBase` -> `QCIOBaseModel` to match `pydantic` semantics for `BaseModel`. [#90](https://github.com/atomsforhumanity/qcdata/pull/90)
+- Renamed `ProgramInput` -> `CalcSpec` and added a compatibility shim. [#90](https://github.com/atomsforhumanity/qcdata/pull/90)
+- Renamed `ProgramArgs` -> `CoreSpec` and added a compatibility shim. [#90](https://github.com/atomsforhumanity/qcdata/pull/90)
+- Renamed `ProgramArgsSub` -> `SubCalcSpec` and added a compatibility shim. [#90](https://github.com/atomsforhumanity/qcdata/pull/90)
+- Renamed `DualProgramInput` -> `CompositeCalcSpec` and added a compatibility shim. [#90](https://github.com/atomsforhumanity/qcdata/pull/90)
+- Renamed `FileInput` -> `FileSpec` and added a compatibility shim. [#90](https://github.com/atomsforhumanity/qcdata/pull/90)
+- Backwards compatibility shim updated from `Results.__init__` override to `@model_validator(mode="before")`. [#90](https://github.com/atomsforhumanity/qcdata/pull/90)
 
 ## [0.14.0] - 2025-04-01
 
@@ -670,69 +670,69 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   - `SinglePointComputedProperties`
   - `Wavefunction`
 
-[unreleased]: https://github.com/coltonbh/qcdata/compare/0.18.0...HEAD
-[0.18.0]: https://github.com/coltonbh/qcdata/releases/tag/0.18.0
-[0.17.2]: https://github.com/coltonbh/qcdata/releases/tag/0.17.2
-[0.17.1]: https://github.com/coltonbh/qcdata/releases/tag/0.17.1
-[0.17.0]: https://github.com/coltonbh/qcdata/releases/tag/0.17.0
-[0.16.2]: https://github.com/coltonbh/qcdata/releases/tag/0.16.2
-[0.16.1]: https://github.com/coltonbh/qcdata/releases/tag/0.16.1
-[0.16.0]: https://github.com/coltonbh/qcdata/releases/tag/0.16.0
-[0.15.0]: https://github.com/coltonbh/qcdata/releases/tag/0.15.0
-[0.14.0]: https://github.com/coltonbh/qcdata/releases/tag/0.14.0
-[0.13.1]: https://github.com/coltonbh/qcdata/releases/tag/0.13.1
-[0.13.0]: https://github.com/coltonbh/qcdata/releases/tag/0.13.0
-[0.12.4]: https://github.com/coltonbh/qcdata/releases/tag/0.12.4
-[0.12.3]: https://github.com/coltonbh/qcdata/releases/tag/0.12.3
-[0.12.2]: https://github.com/coltonbh/qcdata/releases/tag/0.12.2
-[0.12.1]: https://github.com/coltonbh/qcdata/releases/tag/0.12.1
-[0.12.0]: https://github.com/coltonbh/qcdata/releases/tag/0.12.0
-[0.11.17]: https://github.com/coltonbh/qcdata/releases/tag/0.11.17
-[0.11.16]: https://github.com/coltonbh/qcdata/releases/tag/0.11.16
-[0.11.15]: https://github.com/coltonbh/qcdata/releases/tag/0.11.15
-[0.11.14]: https://github.com/coltonbh/qcdata/releases/tag/0.11.14
-[0.11.13]: https://github.com/coltonbh/qcdata/releases/tag/0.11.13
-[0.11.12]: https://github.com/coltonbh/qcdata/releases/tag/0.11.12
-[0.11.11]: https://github.com/coltonbh/qcdata/releases/tag/0.11.11
-[0.11.10]: https://github.com/coltonbh/qcdata/releases/tag/0.11.10
-[0.11.9]: https://github.com/coltonbh/qcdata/releases/tag/0.11.9
-[0.11.8]: https://github.com/coltonbh/qcdata/releases/tag/0.11.8
-[0.11.7]: https://github.com/coltonbh/qcdata/releases/tag/0.11.7
-[0.11.6]: https://github.com/coltonbh/qcdata/releases/tag/0.11.6
-[0.11.5]: https://github.com/coltonbh/qcdata/releases/tag/0.11.5
-[0.11.4]: https://github.com/coltonbh/qcdata/releases/tag/0.11.4
-[0.11.3]: https://github.com/coltonbh/qcdata/releases/tag/0.11.3
-[0.11.2]: https://github.com/coltonbh/qcdata/releases/tag/0.11.2
-[0.11.1]: https://github.com/coltonbh/qcdata/releases/tag/0.11.1
-[0.11.0]: https://github.com/coltonbh/qcdata/releases/tag/0.11.0
-[0.10.5]: https://github.com/coltonbh/qcdata/releases/tag/0.10.5
-[0.10.4]: https://github.com/coltonbh/qcdata/releases/tag/0.10.4
-[0.10.3]: https://github.com/coltonbh/qcdata/releases/tag/0.10.3
-[0.10.2]: https://github.com/coltonbh/qcdata/releases/tag/0.10.2
-[0.10.1]: https://github.com/coltonbh/qcdata/releases/tag/0.10.1
-[0.10.0]: https://github.com/coltonbh/qcdata/releases/tag/0.10.0
-[0.9.3]: https://github.com/coltonbh/qcdata/releases/tag/0.9.3
-[0.9.2]: https://github.com/coltonbh/qcdata/releases/tag/0.9.2
-[0.9.1]: https://github.com/coltonbh/qcdata/releases/tag/0.9.1
-[0.9.0]: https://github.com/coltonbh/qcdata/releases/tag/0.9.0
-[0.8.2]: https://github.com/coltonbh/qcdata/releases/tag/0.8.2
-[0.8.1]: https://github.com/coltonbh/qcdata/releases/tag/0.8.1
-[0.8.0]: https://github.com/coltonbh/qcdata/releases/tag/0.8.0
-[0.7.1]: https://github.com/coltonbh/qcdata/releases/tag/0.7.1
-[0.7.0]: https://github.com/coltonbh/qcdata/releases/tag/0.7.0
-[0.6.1]: https://github.com/coltonbh/qcdata/releases/tag/0.6.1
-[0.6.0]: https://github.com/coltonbh/qcdata/releases/tag/0.6.0
-[0.5.1]: https://github.com/coltonbh/qcdata/releases/tag/0.5.1
-[0.5.0]: https://github.com/coltonbh/qcdata/releases/tag/0.5.0
-[0.4.2]: https://github.com/coltonbh/qcdata/releases/tag/0.4.2
-[0.4.1]: https://github.com/coltonbh/qcdata/releases/tag/0.4.1
-[0.4.0]: https://github.com/coltonbh/qcdata/releases/tag/0.4.0
-[0.3.5]: https://github.com/coltonbh/qcdata/releases/tag/0.3.5
-[0.3.4]: https://github.com/coltonbh/qcdata/releases/tag/0.3.4
-[0.3.3]: https://github.com/coltonbh/qcdata/releases/tag/0.3.3
-[0.3.2]: https://github.com/coltonbh/qcdata/releases/tag/0.3.2
-[0.3.1]: https://github.com/coltonbh/qcdata/releases/tag/0.3.1
-[0.3.0]: https://github.com/coltonbh/qcdata/releases/tag/0.3.0
-[0.2.1]: https://github.com/coltonbh/qcdata/releases/tag/0.2.1
-[0.2.0]: https://github.com/coltonbh/qcdata/releases/tag/0.2.0
-[0.1.0]: https://github.com/coltonbh/qcdata/releases/tag/0.1.0
+[unreleased]: https://github.com/atomsforhumanity/qcdata/compare/0.18.0...HEAD
+[0.18.0]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.18.0
+[0.17.2]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.17.2
+[0.17.1]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.17.1
+[0.17.0]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.17.0
+[0.16.2]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.16.2
+[0.16.1]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.16.1
+[0.16.0]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.16.0
+[0.15.0]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.15.0
+[0.14.0]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.14.0
+[0.13.1]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.13.1
+[0.13.0]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.13.0
+[0.12.4]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.12.4
+[0.12.3]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.12.3
+[0.12.2]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.12.2
+[0.12.1]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.12.1
+[0.12.0]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.12.0
+[0.11.17]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.11.17
+[0.11.16]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.11.16
+[0.11.15]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.11.15
+[0.11.14]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.11.14
+[0.11.13]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.11.13
+[0.11.12]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.11.12
+[0.11.11]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.11.11
+[0.11.10]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.11.10
+[0.11.9]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.11.9
+[0.11.8]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.11.8
+[0.11.7]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.11.7
+[0.11.6]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.11.6
+[0.11.5]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.11.5
+[0.11.4]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.11.4
+[0.11.3]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.11.3
+[0.11.2]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.11.2
+[0.11.1]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.11.1
+[0.11.0]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.11.0
+[0.10.5]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.10.5
+[0.10.4]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.10.4
+[0.10.3]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.10.3
+[0.10.2]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.10.2
+[0.10.1]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.10.1
+[0.10.0]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.10.0
+[0.9.3]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.9.3
+[0.9.2]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.9.2
+[0.9.1]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.9.1
+[0.9.0]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.9.0
+[0.8.2]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.8.2
+[0.8.1]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.8.1
+[0.8.0]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.8.0
+[0.7.1]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.7.1
+[0.7.0]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.7.0
+[0.6.1]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.6.1
+[0.6.0]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.6.0
+[0.5.1]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.5.1
+[0.5.0]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.5.0
+[0.4.2]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.4.2
+[0.4.1]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.4.1
+[0.4.0]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.4.0
+[0.3.5]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.3.5
+[0.3.4]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.3.4
+[0.3.3]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.3.3
+[0.3.2]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.3.2
+[0.3.1]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.3.1
+[0.3.0]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.3.0
+[0.2.1]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.2.1
+[0.2.0]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.2.0
+[0.1.0]: https://github.com/atomsforhumanity/qcdata/releases/tag/0.1.0

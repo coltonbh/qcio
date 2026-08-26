@@ -1,5 +1,5 @@
 site_name: Quantum Chemistry Data (qcdata)
-site_url: https://qcdata.coltonhicks.com/
+site_url: https://qcdata.docs.atomsforhumanity.org/
 theme:
   name: material
   palette:
@@ -37,7 +37,7 @@ theme:
   icon:
     repo: fontawesome/brands/github-alt
 
-repo_url: https://github.com/coltonbh/qcdata
+repo_url: https://github.com/atomsforhumanity/qcdata
 edit_uri: edit/master/docs/
 site_author: Colton Hicks
 plugins:
@@ -122,4 +122,4 @@ nav:
       - Structure: visualizations/structure.ipynb
       - Results: visualizations/results.ipynb
       - Core Views: visualizations/coreviews.ipynb
-  - Changelog: https://github.com/coltonbh/qcdata/blob/master/CHANGELOG.md
+  - Changelog: https://github.com/atomsforhumanity/qcdata/blob/master/CHANGELOG.md
