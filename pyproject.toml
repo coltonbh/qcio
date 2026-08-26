@@ -31,12 +31,12 @@ classifiers = [
     "Topic :: Software Development :: Libraries",
 ]
 [project.urls]
-Homepage = "https://github.com/coltonbh/qcdata"
-Documentation = "https://qcdata.coltonhicks.com"
-Source = "https://github.com/coltonbh/qcdata"
-Changelog = "https://github.com/coltonbh/qcdata/blob/master/CHANGELOG.md"
-"Bug Tracker" = "https://github.com/coltonbh/qcdata/issues"
-repository = "https://github.com/coltonbh/qcdata"
+Homepage = "https://github.com/atomsforhumanity/qcdata"
+Documentation = "https://qcdata.docs.atomsforhumanity.org"
+Source = "https://github.com/atomsforhumanity/qcdata"
+Changelog = "https://github.com/atomsforhumanity/qcdata/blob/master/CHANGELOG.md"
+"Bug Tracker" = "https://github.com/atomsforhumanity/qcdata/issues"
+repository = "https://github.com/atomsforhumanity/qcdata"
 
 
 [project.optional-dependencies]

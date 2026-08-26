@@ -2919,7 +2919,7 @@ wheels = [
 
 [[package]]
 name = "qcdata"
-version = "0.17.2"
+version = "0.18.0"
 source = { editable = "." }
 dependencies = [
     { name = "eval-type-backport" },

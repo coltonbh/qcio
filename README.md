@@ -3,8 +3,8 @@
 [![image](https://img.shields.io/pypi/v/qcdata.svg)](https://pypi.python.org/pypi/qcdata)
 [![image](https://img.shields.io/pypi/l/qcdata.svg)](https://pypi.python.org/pypi/qcdata)
 [![image](https://img.shields.io/pypi/pyversions/qcdata.svg)](https://pypi.python.org/pypi/qcdata)
-[![Actions status](https://github.com/coltonbh/qcdata/workflows/Tests/badge.svg)](https://github.com/coltonbh/qcdata/actions)
-[![Actions status](https://github.com/coltonbh/qcdata/workflows/Basic%20Code%20Quality/badge.svg)](https://github.com/coltonbh/qcdata/actions)
+[![Actions status](https://github.com/atomsforhumanity/qcdata/workflows/Tests/badge.svg)](https://github.com/atomsforhumanity/qcdata/actions)
+[![Actions status](https://github.com/atomsforhumanity/qcdata/workflows/Basic%20Code%20Quality/badge.svg)](https://github.com/atomsforhumanity/qcdata/actions)
 
 Elegant and intuitive data structures for quantum chemistry, featuring seamless Jupyter Notebook visualizations.
 
@@ -12,11 +12,13 @@ Elegant and intuitive data structures for quantum chemistry, featuring seamless 
 
 ## The QC Suite of Programs
 
-- [qcconst](https://github.com/coltonbh/qcconst) - NIST/CODATA2022 core physical constants, conversion factors, and a periodic table with clear source information for every value.
-- [qcdata](https://github.com/coltonbh/qcdata) - Elegant and intuitive data structures for quantum chemistry, featuring seamless Jupyter Notebook visualizations. [Documentation](https://qcdata.coltonhicks.com)
- [qcinf](https://github.com/coltonbh/qcinf) - Cheminformatics algorithms and structure utilities such as `rmsd`, and alignment, using standardized [qcdata](https://qcdata.coltonhicks.com/) data structures.
-- [qccodec](https://github.com/coltonbh/qccodec) - A translation layer between quantum chemistry program inputs and outputs and structured `qcdata` objects.
-- [qcop](https://github.com/coltonbh/qcop) - A package for operating quantum chemistry programs using `qcdata` standardized data structures. Compatible with `TeraChem`, `psi4`, `QChem`, `NWChem`, `ORCA`, `Molpro`, `geomeTRIC` and many more.
+The QC Suite works in harmony to provide fast, structured, and interoperable quantum chemistry tools.
+
+- [qcconst](https://github.com/atomsforhumanity/qcconst) - Physical constants, conversion factors, and a periodic table with clear source information for every value.
+- [qcdata](https://github.com/atomsforhumanity/qcdata) - Elegant and intuitive data structures for quantum chemistry, featuring seamless Jupyter Notebook visualizations. [Documentation](https://qcdata.docs.atomsforhumanity.org)
+- [qcinf](https://github.com/atomsforhumanity/qcinf) - Cheminformatics algorithms and structure utilities using standardized [qcdata](https://qcdata.docs.atomsforhumanity.org/) data structures.
+- [qccodec](https://github.com/atomsforhumanity/qccodec) - A package for translating between standardized [qcdata](https://github.com/atomsforhumanity/qcdata) data structures and native QC program inputs and outputs.
+- [qccompute](https://github.com/atomsforhumanity/qccompute) - A package for operating quantum chemistry programs using standardized [qcdata](https://qcdata.docs.atomsforhumanity.org/) data structures. Compatible with `TeraChem`, `psi4`, `QChem`, `NWChem`, `ORCA`, `Molpro`, `geomeTRIC` and many more.
 - [BigChem](https://github.com/mtzgroup/bigchem) - A distributed application for running quantum chemistry calculations at scale across clusters of computers or the cloud. Bring multi-node scaling to your favorite quantum chemistry program.
 - `ChemCloud` - A [web application](https://github.com/mtzgroup/chemcloud-server) and associated [Python client](https://github.com/mtzgroup/chemcloud-client) for exposing a BigChem cluster securely over the internet.
 
@@ -192,4 +194,4 @@ uv sync --all-groups
 
 ## Support
 
-If you have any issues with `qcdata` or would like to request a feature, please open an [issue](https://github.com/coltonbh/qcdata/issues).
+If you have any issues with `qcdata` or would like to request a feature, please open an [issue](https://github.com/atomsforhumanity/qcdata/issues).
